@@ -1,0 +1,12 @@
+name: sablefish_2025
+title: sablefish_2025
+username: chantel.wetzel
+account: chantel.wetzel
+server: test-connect.fisheries.noaa.gov
+hostUrl: https://test-connect.fisheries.noaa.gov/__api__
+appId: 326
+bundleId: 1441
+url: https://test-connect.fisheries.noaa.gov/content/595eed59-7201-4cf2-bbd9-957602cbc54b/
+version: 1
+asMultiple: FALSE
+asStatic: TRUE

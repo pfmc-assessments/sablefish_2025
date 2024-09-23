@@ -1,0 +1,30 @@
+---
+title: "Materials to support the 2025 assessment for sablefish off the U.S. West Coast"
+format:
+  dashboard:
+    orientation: columns
+    theme:
+      - flatly
+#  nav-buttons:
+#    -icon: github
+#  href: https://github.com/pfmc-assessments/sablefish_2025
+---
+
+```{r}
+#| label: load-packages
+#| message: false
+library(tidyverse)
+library(gt)
+```
+
+# Overview
+
+Test text here.
+
+# Catch
+
+# Fishery Composition Data
+
+# Survey Composition Data
+
+# Biology
