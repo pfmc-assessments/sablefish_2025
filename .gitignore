@@ -1,0 +1,15 @@
+.Rproj.user
+.Rhistory
+_main.utf8.md
+_main.knit.md
+_main.md
+*.upb
+*.aux
+*.upa
+*.log
+
+models/
+data/
+presentations/
+scientific_papers/
+
