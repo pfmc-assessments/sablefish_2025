@@ -1,0 +1,57 @@
+Package: sablefish
+Title: Status of Sablefish as Reported to the Pacific Fisheries Management Council
+Version: 0.0.0.9005
+Authors@R: c(
+    person(
+      given = c("Chantel", "R."),
+      family = "Wetzel",
+      role = c("aut"),
+      email = "chantel.wetzel@noaa.gov",
+      comment = c(ORCID = "0000-0002-7573-8240")
+    )
+    )
+Description: Reproducible research and documentation of the status of sablefish
+    off of the west coast of the United States is stored in this repository.
+    All scripts to process the available data are publicly available but the
+    data are stored in a private location to maintain confidentiality. Please
+    contact the current package maintainer or post an issue on the [issues](
+    www.github.com/pfmc-assessments/sablefish_2025/issues) forum for this
+    repository.
+License: GPL (>= 3) + file LICENSE
+Suggests:
+    RODBC,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports: 
+    assertthat,
+    dplyr,
+    fs,
+    furrr,
+    future,
+    ggplot2,
+    ggridges,
+    here,
+    kableExtra,
+    nwfscDiag,
+    nwfscSurvey,
+    PacFIN.Utilities,
+    PEPtools,
+    purrr,
+    r4ss,
+    stringr,
+    tibble,
+    tidyr,
+    utils,
+    viridis
+Remotes: 
+    pfmc-assessments/nwfscSurvey,
+    pfmc-assessments/nwfscDiag,
+    pfmc-assessments/PacFIN.Utilities,
+    pfmc-assessments/PEPtools,
+    r4ss/r4ss
+Depends: 
+    R (>= 4.2)
+LazyData: true
