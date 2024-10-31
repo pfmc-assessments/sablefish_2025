@@ -9,7 +9,11 @@ _main.md
 *.log
 
 models/
-data/
+data-raw/ashop
+data-raw/discard
+data-raw/pacfin
+data-raw/survey
+data-exploration
 presentations/
 scientific_papers/
 
