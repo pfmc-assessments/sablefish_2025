@@ -1,6 +1,14 @@
 ## Sablefish 2025 
 
-Code and stock assessment documentation for the 2025 stock assessment of sablefish off the U.S. West Coast. Files posted should not be considered as finalized products. The stock assessment will be reviewed by a stock assessment review (STAR) panel in the summer of 2025. The finalized stock assessment document and file  will be posted to the [Pacific Fishery Management Council](https://www.pcouncil.org/) website in September of 2025. 
+Code and stock assessment documentation for the 2025 assessment of sablefish off the U.S. West Coast. Files posted should not be considered as finalized products. Below are key dates for the 2025 assessment:
+
+* Pre-assessment data workshop: March 18 or 19, 2025, with the specific date to be selected later
+* Final data deadline: April 21, 2025
+* STAR panel date: July 14-18, 2025 in Seattle, WA 
+
+The pre-assessment data workshop and the STAR panel will each provide virtual participation (workshop) and listening options (STAR Panel). Before the pre-assessment data workshop, materials for the pre-assessment data workshop will be posted [online](https://connect.fisheries.noaa.gov/sablefish-2025/) to facilitate participants' review and robust conversations during the workshop. The finalized stock assessment document and file  will be posted to the [Pacific Fishery Management Council](https://www.pcouncil.org/) website in the September 2025 Briefing Book. 
+
+Dr. Chantel Wetzel (chantel.wetzel@noaa.gov) at the Northwest Fishery Science Center is the lead assessor for the 2025 assessment. 
 
 ## Disclaimer
 
