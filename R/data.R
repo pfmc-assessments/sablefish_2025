@@ -1,9 +1,9 @@
-#' Commercial catch data
+#' Commercial landings data
 #'
 #' @name data
 #' @docType data
 #' @format ## `data_commercial_catch`
-#' Catches as reported in PacFIN; so, actually landings not catches:
+#' Landings as reported in PacFIN:
 #' \describe{
 #'   \item{year}{4 integers specifying the year}
 #'   \item{AGENCY_CODE}{}
