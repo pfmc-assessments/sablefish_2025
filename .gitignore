@@ -9,9 +9,11 @@ _main.md
 *.log
 
 models/
+data-raw/2023
 data-raw/ashop
 data-raw/discard
 data-raw/pacfin
+data-raw/recfin
 data-raw/survey
 data-exploration
 presentations/
