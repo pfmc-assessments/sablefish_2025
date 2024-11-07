@@ -2,7 +2,7 @@
 title: "Materials to support the 2025 assessment for sablefish off the U.S. West Coast"
 format:
   dashboard:
-    orientation: columns
+    orientation: rows
     theme:
       - flatly
 #  nav-buttons:
@@ -13,18 +13,38 @@ format:
 ```{r}
 #| label: load-packages
 #| message: false
+library(here)
+library(nwfscSurvey)
 library(tidyverse)
 library(gt)
+library(plotly)
+library(ggplot2)
 ```
 
 # Overview
 
-Test text here.
+Add text here
 
 # Catch
 
-# Fishery Composition Data
+Add text here
 
-# Survey Composition Data
+# Fishery Data
+
+Add text here
+
+## Landings
+
+Add text here
+
+## Discards
+
+## Composition Data
+
+# Survey Data
+
+## Relative Indices of Abundance
+
+## Composition Data
 
 # Biology
