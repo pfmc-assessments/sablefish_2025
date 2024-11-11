@@ -11,8 +11,9 @@ _main.md
 models/
 data-raw/2023
 data-raw/ashop
+data-raw/bds
 data-raw/discard
-data-raw/pacfin
+data-raw/landings
 data-raw/recfin
 data-raw/survey
 data-exploration
