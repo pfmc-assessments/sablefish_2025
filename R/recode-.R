@@ -48,16 +48,38 @@ recode_fleet_area <- function(x) {
     as.numeric()
 }
 
-recode_fleet_text <- function(x, case = FALSE) {
+recode_fleet_text_cw <- function(x, case = FALSE) {
   stopifnot(inherits(x, "numeric") || inherits(x, "integer"))
   out <- dplyr::case_when(
-    x == 1 ~ "fixed-gear fleet",
-    x == 2 ~ "trawl fleet",
-    x == 3 ~ "environmental survey",
+    x == 1 ~ "trawl fleet",
+    x == 2 ~ "hook-and-line fleet",
+    x == 3 ~ "pot fleet",
     x == 4 ~ "\\glsentryshort{s-tri}",
     x == 5 ~ "\\glsentryshort{s-aslope}",
     x == 6 ~ "\\glsentryshort{s-nslope}",
-    x == 7 ~ "\\glsentryshort{s-wcgbt}"
+    x == 7 ~ "\\glsentryshort{s-wcgbt}",
+    x == 8 ~ "environmental survey",
+  )
+  if (case == "title") {
+    out <- stringi::stri_trans_totitle(out)
+  }
+  return(out)
+}
+
+recode_fleet_text_area <- function(x, case = FALSE) {
+  stopifnot(inherits(x, "numeric") || inherits(x, "integer"))
+  out <- dplyr::case_when(
+    x == 1 ~ "trawl fleet north",
+    x == 2 ~ "hook-and-line fleet north",
+    x == 3 ~ "pot fleet north",
+    x == 4 ~ "trawl fleet south",
+    x == 5 ~ "hook-and-line fleet south",
+    x == 6 ~ "pot fleet south",
+    x == 7 ~ "\\glsentryshort{s-tri}",
+    x == 8 ~ "\\glsentryshort{s-aslope}",
+    x == 9 ~ "\\glsentryshort{s-nslope}",
+    x == 10 ~ "\\glsentryshort{s-wcgbt}",
+    x == 11 ~ "environmental survey",
   )
   if (case == "title") {
     out <- stringi::stri_trans_totitle(out)
