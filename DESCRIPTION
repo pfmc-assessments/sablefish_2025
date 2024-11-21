@@ -1,11 +1,11 @@
 Package: sablefish
 Title: Status of Sablefish as Reported to the Pacific Fisheries Management Council
-Version: 0.0.0.9005
+Version: 0.0.1
 Authors@R: c(
     person(
       given = c("Chantel", "R."),
       family = "Wetzel",
-      role = c("aut"),
+      role = c("aut", "cre"),
       email = "chantel.wetzel@noaa.gov",
       comment = c(ORCID = "0000-0002-7573-8240")
     )
