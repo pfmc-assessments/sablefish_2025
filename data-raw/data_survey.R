@@ -1,4 +1,4 @@
-#get_data_survey()
+get_data_survey()
 
 data_survey_catch <-
   fs::dir_ls(here::here("data-raw", "survey", "trawl"), regex = "catch_") |>

@@ -3,16 +3,17 @@
 \docType{data}
 \name{data}
 \alias{data}
-\title{Commercial catch data}
+\title{Commercial landings data}
 \format{
 \subsection{\code{data_commercial_catch}}{
 
-Catches as reported in PacFIN; so, actually landings not catches:
+Landings for all model years:
 \describe{
 \item{year}{4 integers specifying the year}
-\item{AGENCY_CODE}{}
-\item{PACFIN_GROUP_GEAR_CODE}{}
-\item{catch_mt}{Catch in mt}
+\item{state}{landing state}
+\item{area} {"north" and "south" of 36 degree N. lat.}
+\item{gear_group} {gear type hkl, pot, trawl}
+\item{catch_mt}{Landings in mt}
 }
 }
 
@@ -27,5 +28,5 @@ Survey biological samples
 }
 }
 \description{
-Commercial catch data
+Commercial landings data
 }
