@@ -3,6 +3,8 @@ library(tidyr)
 library(ggplot2)
 library(PEPtools)
 
+load(here::here("data", "data_commercial_catch.rda"))
+
 landings <- data_commercial_catch |>
   dplyr::mutate(
     gear_group = dplyr::case_when(
@@ -18,7 +20,7 @@ landings <- data_commercial_catch |>
 landings_2023 <- read.csv(
   here::here("data-raw", "2023", "model_landings_2023.csv")) |>
   dplyr::mutate(
-    assessment = as.character(assessment),
+    assessment = as.factor(assessment),
     gear = dplyr::case_when(
       gear %in% c("fixed") ~ "Fixed",
       TRUE ~ "Trawl")
@@ -29,7 +31,7 @@ landings_2023 <- read.csv(
 
 compare_landings <- landings |>
   dplyr::mutate(
-    assessment = "2025",
+    assessment = as.factor(2025),
     Gear = dplyr::case_when(
       Gear %in% c("HKL", "Pot") ~ "Fixed",
       TRUE ~ "Trawl")
@@ -40,6 +42,8 @@ compare_landings <- landings |>
   ) |>
   dplyr::bind_rows(landings_2023)
 ymax <- 1.05 * max(compare_landings[, "landings_mt"])
+
+aggregate(landings_mt~assessment, compare_landings[compare_landings$year < 2023, ], sum)
 
 ggplot(compare_landings, aes(x = year, y = landings_mt, group = assessment)) +
   geom_line(aes(linetype = assessment, color = assessment)) +
