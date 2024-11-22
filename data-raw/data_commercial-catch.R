@@ -183,7 +183,6 @@ california_1931 <- readxl::read_excel(
     cols = c(trawl, hkl, pot),
     names_to = "gear_group"
   )
-
 california_1969 <- readxl::read_excel(
   path = here::here("data-raw", "landings", "Sablefish CA commercial landings 1931-1980.xlsx"),
   sheet = "CA COMM. 1969-1977") |>
@@ -202,6 +201,26 @@ california_1969 <- readxl::read_excel(
   dplyr::summarise(
     catch_mt = sum(catch_mt)
   ) 
+# This is all landings trawl + fixed gears 1948-1968 that were caught in OR/WA waters
+# pot gear does not start until 1969
+# the percent of trawl between 1969:1971 is 68% - use this to allocate historical
+california_other_states <- readxl::read_excel(
+  path = here::here("data-raw", "landings", "Sablefish CA commercial landings 1931-1980 2024-11-21.xlsx"),
+  sheet = "RALSTON ET AL. OR+WA",
+  skip = 4)  |>
+  dplyr::mutate(
+    state = "CA",
+    area = "north",
+    trawl = 0.68 * Oregon + 0.68 * Washington,
+    pot = 0,
+    hkl = 0.32 * Oregon + 0.32 * Washington
+  ) |>
+  dplyr::select(-Oregon, -Washington) |>
+  tidyr::pivot_longer(
+    values_to = "catch_mt",
+    cols = c(trawl, hkl, pot),
+    names_to = "gear_group"
+  )
 california_1978 <- readxl::read_excel(
   path = here::here("data-raw", "landings", "Sablefish CA commercial landings 1931-1980.xlsx"),
   sheet = "CALCOM 1978-1980",
@@ -237,7 +256,7 @@ california_1978 <- readxl::read_excel(
     names_to = "gear_group"
   )
 california_historical <- dplyr::bind_rows(
-  california_1900, california_1931, california_1969, california_1978
+  california_1900, california_1931, california_1969, california_1978, california_other_states
 )
 
 # Washington Historical
