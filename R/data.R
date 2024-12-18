@@ -22,3 +22,6 @@ NULL
 # "data_survey_bio"
 #' @rdname
 # "data_survey_catch"
+#' Dataframe of estimated biological parameters from previous assessments
+#' @rdname
+# "data_historical_biology"
