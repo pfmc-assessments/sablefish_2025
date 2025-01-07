@@ -1,136 +1,288 @@
-year_analysis <- 2023
+pak::pkg_install("pfmc-assessments/nwfscSurvey@fix-comp")
+library(nwfscSurvey)
+area <- "coastwide"
 
-# Create data_commercial_discard_composition
-# Read in discard length data and combine with sample size information
-# For a sensitivity change year_analysis to 2021 to:
-# * numbers rather than weighted proportions
-# * N_unique_Trips rather than a calculated input sample size
-data_commercial_discard_length <- dplyr::full_join(
+# ==============================================================================
+# Create WCGOP data_commercial_discard_composition
+# ==============================================================================
+data_commercial_discard_composition <-
   # Length frequencies
   utils::read.csv(
-    fs::path("data-raw", "wcgop", "sablefish_lfs.csv")
-  ),
-  # Sample size
-  utils::read.csv(fs::path("data-raw", "wcgop", "sablefish_Nsamp.csv")),
-  by = c("Year", "Gear", "State")
-) |>
+    here::here("data-raw", "discard", "wcgop", area, "biological_discard_lengths.csv")
+  ) |>
+  # replace the fleet names with the fleet number
   dplyr::mutate(
-    Gear = dplyr::case_when(
-      Gear == "NONTRAWL" ~ 1,
-      Gear == "TRAWL" ~ 2,
+    fleet = dplyr::case_when(
+      fleet == "trawl-coastwide" ~ 1,
+      fleet == "hook-and-line-coastwide" ~ 2,
+      fleet == "pot-coastwide" ~ 3,
       TRUE ~ NA_integer_
     ),
-    # Specify levels so when making a wide data frame all levels are included
-    # even if there are zero observations
-    Lenbin = factor(Lenbin, levels = len_bins)
+    month = 7
   ) |>
-  dplyr::mutate(
-    Nsamp = N_unique_Trips,
-    prop = if (year_analysis == 2021) {
-      Prop.numbers
-    } else {
-      Prop.wghtd
-    }
-  ) |>
-  dplyr::select(Yr = Year, FltSvy = Gear, State, Lenbin, Nsamp, prop)
-stopifnot(!any(is.na(data_commercial_discard_length[["FltSvy"]])))
-stopifnot(length(unique(data_commercial_discard_length[["State"]])) == 1)
-# Go from long data to wide as it is formatted in Stock Synthesis
-data_commercial_discard_composition <- dplyr::full_join(
-  x = dplyr::select(data_commercial_discard_length, -State),
-  # Copy the data for females and males because information is repeated in
-  # Stock Synthesis with Gender = 0
-  y = tidyr::expand(
-    data_commercial_discard_length,
-    Yr, Seas = 1, FltSvy, Gender = 0, Lenbin, Part = 1, Sex = c("F", "M")
-  ),
-  by = c("Yr", "FltSvy", "Lenbin")
-) |>
-  tidyr::pivot_wider(
-    values_from = prop,
-    names_from = c(Sex, Lenbin),
-    names_sep = "",
-    names_sort = TRUE
-  ) |>
-  dplyr::relocate(Seas, .after = Yr) |>
-  dplyr::relocate(Nsamp, .after = Part) |>
-  dplyr::arrange(FltSvy, Part, Yr, Seas) |>
-  dplyr::filter(!is.na(Nsamp))
-
-# Create data_commercial_discard_weight
+  dplyr::rename(`#year` = year) |>
+  dplyr::arrange(fleet) |>
+  dplyr::rename_with(~gsub("X", "U-", .x), dplyr::starts_with("X"))
+    
+# ============================================================================== 
+# Create WCGOP data_commercial_discard_weight  
+# ==============================================================================
 data_commercial_discard_weight <- utils::read.csv(
-  fs::path("data-raw", "wcgop", "sablefish_AvgWt.csv"),
-  fileEncoding = "UTF-8-BOM"
-) |>
+  here::here("data-raw", "discard", "wcgop", area, "discard_mean_body_weights.csv")) |>
+  # replace the fleet names with the fleet number
   dplyr::mutate(
-    Seas = 1, # 2021 season was 7
-    Value = Wghtd.AVG_W * 0.453592, # convert lb to kg
-    Std_in = Wghtd.AVG_W.SD / Wghtd.AVG_W, # Std_in needs to be a CV
-    # Std_in = Wghtd.AVG_W.SD * 0.453592, # Maybe what was used in 2019
-    Fleet = dplyr::case_when(
-      Gear == "NONTRAWL" ~ 1,
-      Gear == "TRAWL" ~ 2,
+    fleet = dplyr::case_when(
+      fleet == "trawl-coastwide" ~ 1,
+      fleet == "hook-and-line-coastwide" ~ 2,
+      fleet == "pot-coastwide" ~ 3,
       TRUE ~ NA_integer_
     ),
-    Partition = 1, # discarded
-    Type = 2 # Mean weight, rather than 1 is length
+    month = 7,
+    obs = round(obs, 4),
+    cv = round(cv, 4)
   ) |>
-  dplyr::select(Year, Seas, Fleet, Partition, Type, Value, Std_in) |>
-  dplyr::arrange(Fleet, Partition, Year, Seas)
+  dplyr::rename(`#year` = year) |>
+  dplyr::arrange(fleet) 
 
-# Rate data
-data_commercial_discard_rates <- merge(
-  utils::read.csv(
-    fs::path(
-      "data-raw",
-      "wcgop",
-      "sablefish_cs_wcgop_discard_all_years_coastwide_2023-07-19.csv"
-    )
-  ) |>
-    dplyr::select(
-      year,
-      "CS_LBS" = ob_retained_mt,
-      "CS_RATIO" = ob_ratio,
-      gear
-    ),
-  utils::read.csv(
-    fs::path(
-      "data-raw",
-      "wcgop",
-      "sablefish_ncs_wcgop_discard_all_years_coastwide_2023-07-19.csv"
-    )
-  ) |>
-    dplyr::select(
-      year,
-      "NCS_LBS" = ob_retained_mt, # Median.Boot_RETAINED.MTS no longer exported
-      "NCS_RATIO" = ob_ratio,
-      NCS_SD = sd_boot_ratio,
-      gear
-    ),
-  by = c("gear", "year")
-) |>
+# ==============================================================================
+# Process the gemm data to get relative discarding practices by gear type
+# ==============================================================================
+gemm_data <- nwfscSurvey::pull_gemm(common_name = "sablefish") |>
+  dplyr::filter(!sector %in%  c("Research", 
+                               "Washington Recreational",
+                               "Oregon Recreational",
+                               "California Recreational")) |>
   dplyr::mutate(
-    gear = ifelse(grepl("t", gear, ignore.case = TRUE), 2, 1),
-    tot = CS_LBS + NCS_LBS
+    catch_shares = "non-catch-shares",
+    fleet = NA
+  )
+catch_shares <- c(
+  "At-Sea Hake CP",
+  "At-Sea Hake MSCV",
+  "CS - Bottom and Midwater Trawl",
+  "CS - Bottom Trawl",
+  "CS - Hook & Line",
+  "CS - Pot",
+  "CS EM - Bottom Trawl",
+  "CS EM - Pot",
+  "Midwater Hake",
+  "Midwater Hake EM",
+  "Midwater Rockfish",
+  "Midwater Rockfish EM"
+)
+gemm_data[which(gemm_data[, "sector"] %in% catch_shares & gemm_data[, "year"] >= 2011), "catch_shares"] <- "catch-shares"
+pot <- c(
+  "CS - Pot",
+  "CS EM - Pot",
+  "LE Sablefish - Pot",
+  "LE Fixed Gear DTL - Pot",
+  "OA Fixed Gear - Pot"
+)
+hkl <- c(
+  "Combined LE & OA CA Halibut",
+  "CS - Hook & Line",
+  "Directed P Halibut",
+  "Incidental",
+  "LE CA Halibut",
+  "LE Fixed Gear DTL - Hook & Line",
+  "LE Sablefish - Hook & Line",
+  "Nearshore",
+  "OA CA Halibut",
+  "OA Fixed Gear - Hook & Line"
+)
+trawl <- c(
+  "At-Sea Hake CP",
+  "At-Sea Hake MSCV",
+  "Midwater Hake",
+  "Midwater Hake EM",
+  "Shoreside Hake",
+  "Tribal At-Sea Hake",
+  "CS - Bottom and Midwater Trawl",
+  "CS - Bottom Trawl",
+  "CS EM - Bottom Trawl",
+  "Limited Entry Trawl",
+  "Midwater Rockfish",
+  "Midwater Rockfish EM",
+  "Pink Shrimp",
+  "Research",
+  "Tribal Shoreside"
+)
+gemm_data[which(gemm_data[, "sector"] %in% hkl), "fleet"] <- "hook-and-line"
+gemm_data[which(gemm_data[, "sector"] %in% trawl), "fleet"] <- "trawl"
+gemm_data[which(gemm_data[, "sector"] %in% pot), "fleet"] <- "pot"
+gemm_data[, "fleet"] <- apply(gemm_data[, c("catch_shares", "fleet")], 1, paste, collapse = "-")
+catch_totals <- gemm_data |>
+  dplyr::filter(year >= 2011) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    landed_mt_by_year = sum(total_landings_mt),
+    discard_mt_by_year = sum(total_discard_mt),
+    dead_discard_mt_by_year = sum(total_discard_with_mort_rates_applied_mt),
+    catch_by_year = sum(total_discard_with_mort_rates_applied_and_landings_mt),
   ) |>
-  dplyr::filter(year > 2019) |>
-  dplyr::group_by(year, gear) |>
+  dplyr::group_by(year, fleet) |>
   dplyr::summarise(
-    cs_prop = CS_LBS / tot,
-    ncs_prop = NCS_LBS / tot,
-    cs_propxrate  = cs_prop * CS_RATIO,
-    ncs_propxrate  = ncs_prop * NCS_RATIO,
-    Discard = cs_propxrate + ncs_propxrate,
-    Std_in = NCS_SD,
-    Seas = 1
+    discard_mt = sum(total_discard_mt),
+    dead_discard_mt = sum(total_discard_with_mort_rates_applied_mt),
+    landed_mt = sum(total_landings_mt),
+    catch = sum(total_discard_with_mort_rates_applied_and_landings_mt),
+    gemm_discard_rate = discard_mt / (landed_mt + discard_mt),
+    gemm_dead_discard_rate = dead_discard_mt / (landed_mt + dead_discard_mt),
+    prop_discard = discard_mt / unique(discard_mt_by_year),
+    prop_landed = landed_mt / unique(landed_mt_by_year),
+    prop_catch = catch / unique(catch_by_year)
   ) |>
-  dplyr::ungroup() |>
-  dplyr::select(year, Seas, gear, Discard, Std_in)
+  dplyr::ungroup()
+catch_totals$cs_fleet <- catch_totals$fleet
+catch_totals$catch_share <- TRUE
+catch_totals[grep("non-catch-shares", catch_totals$fleet), "catch_share"] <- FALSE
+catch_totals[grep("trawl", catch_totals$fleet), "fleet"] <- "trawl-coastwide"
+catch_totals[grep("hook-and-line", catch_totals$fleet), "fleet"] <- "hook-and-line-coastwide"
+catch_totals[grep("pot", catch_totals$fleet), "fleet"] <- "pot-coastwide"
+gemm_weights <- catch_totals |>
+  dplyr::group_by(year, fleet) |>
+  dplyr::mutate(
+    cs_weight = prop_discard / sum(prop_discard)
+  ) |>
+  tibble::as_tibble() |>
+  tidyr::complete(year, fleet, catch_share, fill = list(cs_weight = 0)) |>
+  dplyr::filter(catch_share == "TRUE") |>
+  dplyr::select(year, fleet, cs_weight) 
+
+# ==============================================================================
+# Weight the WCGOP discard rate data based on the GEMM data
+# ==============================================================================
+commercial_discard_rates_pre_2011 <- 
+  utils::read.csv(
+    here::here("data-raw", "discard", "wcgop", area, "discard_rates_noncatch_share.csv")
+  ) |>
+  dplyr::filter(year < 2011) |>
+  dplyr::mutate(
+    discard_rate = round(median_ratio, 4),
+    sd = round(dplyr::case_when(sd_ratio > 0.03 ~ sd_ratio, .default = 0.03), 3),
+  ) |>
+  dplyr::select(year, fleet, discard_rate, sd)
+cs_discard_rates <- 
+  utils::read.csv(
+    here::here("data-raw", "discard", "wcgop", area, "discard_rates_combined_catch_share.csv")
+  ) |> 
+  dplyr::filter(year >= 2011) |>
+  dplyr::mutate(sd_ratio = 0.03) |>
+  dplyr::rename(cs_rate = discard_rate, cs_sd = sd_ratio) |>
+  dplyr::select(year, fleet, cs_rate, cs_sd) 
+ncs_discard_rates <- 
+  utils::read.csv(
+    here::here("data-raw", "discard", "wcgop", area, "discard_rates_noncatch_share.csv")
+  ) |>
+  dplyr::filter(year >= 2011) |>
+  dplyr::rename(ncs_rate = median_ratio, ncs_sd = sd_ratio) |>
+  dplyr::select(year, fleet, ncs_rate, ncs_sd) 
+discard_rates_2011 <- dplyr::full_join(cs_discard_rates, ncs_discard_rates) |>
+  dplyr::mutate(
+    cs_rate = dplyr::coalesce(cs_rate, 0),
+    cs_sd = dplyr::coalesce(cs_sd, 0),
+    ncs_rate = dplyr::coalesce(ncs_rate, 0),
+    ncs_sd = dplyr::coalesce(ncs_sd, 0)) 
+
+wcgop_commercial_discard_rates <- dplyr::left_join(
+  discard_rates_2011, gemm_weights) |>
+  dplyr::mutate(
+    discard_rate = round(cs_rate * cs_weight + ncs_rate * (1 - cs_weight), 4),
+    sd = round(dplyr::case_when(ncs_sd > 0.03 ~ ncs_sd, .default = 0.03), 3)
+  ) |>
+  filter(!is.na(discard_rate)) |>
+  dplyr::select(year, fleet, discard_rate, sd) |>
+  dplyr::bind_rows(commercial_discard_rates_pre_2011) |>
+  dplyr::mutate(
+    month = 7,
+    fleet = dplyr::case_when(
+      fleet == "trawl-coastwide" ~ 1,
+      fleet == "hook-and-line-coastwide" ~ 2,
+      fleet == "pot-coastwide" ~ 3,
+      TRUE ~ NA_integer_
+    )
+  ) |>
+  dplyr::arrange(fleet, year) |>
+  dplyr::relocate(month, .before = fleet)
+
+# ==============================================================================
+# Pikitch discard rates from the 2019 assessment
+# ==============================================================================
+pikitch_trawl_discards <- data.frame(
+  year = 1985:1987,
+  month = 7,
+  fleet = 1,
+  discard_rate = c(0.3731,  0.3637, 0.3532),
+  sd = c(0.2577, 0.2368, 0.229)
+)
+data_commercial_discard_rates <- dplyr::bind_rows(
+  pikitch_trawl_discards,
+  wcgop_commercial_discard_rates
+)
+
+# ==============================================================================
+# ashop discard lengths 
+# ==============================================================================
+ashop_lengths <- readxl::read_excel(
+  path = here::here("data-raw", "ashop", "A-SHOP_Sablefish Lengths_102224.xlsx"),
+  sheet = "2019-2024") |>
+  dplyr::rename_with(
+    tolower
+  ) |>
+  tidyr::uncount(frequency) |>
+  dplyr::mutate(
+    sex = nwfscSurvey::codify_sex(sex),
+    common_name = "sablefish",
+    trawl_id = haul_join
+  ) |> as.data.frame()
+
+comps <- nwfscSurvey::get_raw_comps(
+  data = ashop_lengths,
+  comp_bins = seq(18, 90, 2),
+  comp_column_name = "length",
+  input_n_method = "stewart_hamel",
+  fleet = 1,
+  month = 7,
+  partition = 1
+)
+colnames(comps$unsexed) <- colnames(comps$sexed)
+
+ashop_lengths_early <- readxl::read_excel(
+  path = here::here("data-raw", "ashop", "A-SHOP_Sablefish_Lengths_1978-83_021319.xlsx"),
+  sheet = "Sheet1") |>
+  dplyr::rename_with(
+    tolower
+  ) |>
+  tidyr::uncount(frequency) |>
+  dplyr::mutate(
+    sex = nwfscSurvey::codify_sex(sex),
+    common_name = "sablefish",
+    trawl_id = haul_join,
+    length = size_group
+  ) |> as.data.frame()
+
+early_comps <- nwfscSurvey::get_raw_comps(
+  data = ashop_lengths_early,
+  comp_bins = seq(18, 90, 2),
+  comp_column_name = "length",
+  input_n_method = "stewart_hamel",
+  fleet = 1,
+  month = 7,
+  partition = 1
+)
+colnames(early_comps$unsexed) <- colnames(early_comps$sexed)
+data_ashop_discard_composition <- dplyr::bind_rows(
+  early_comps$sexed,
+  early_comps$unsexed,
+  comps$sexed, 
+  comps$unsexed
+)
 
 # Write the three objects to data-processed
 write_named_csvs(
   data_commercial_discard_composition,
   data_commercial_discard_weight,
   data_commercial_discard_rates,
+  data_ashop_discard_composition,
   dir = "data-processed"
 )
