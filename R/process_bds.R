@@ -18,7 +18,7 @@
 #' 
 #' @export
 process_bds_data <- function(
-  save_dir,
+  save_dir = here::here("data_raw", "bds"),
   bds_file,
   catch_file = "data_commercial_catch_expansions.csv",
   age_bins = age_bins,
@@ -27,8 +27,7 @@ process_bds_data <- function(
   species_code = "SABL",
   common_name = common_name) {
   # bds.pacfin
-  file_bds <- fs::dir_ls(here::here("data-raw", "bds"), regex = bds_file)
-  load(file_bds)
+  load(file.path(save_dir, bds_file))
   # pre-processed catch data by year, state, and geargroup
   file_catch <- here::here("data-processed",  catch_file)
   
@@ -74,9 +73,9 @@ process_bds_data <- function(
       valuename = "catch_mt"
     )
   
-  bds_cleaned <- cleanPacFIN(
+  bds_cleaned <- PacFIN.Utilities::cleanPacFIN(
     Pdata = bds.pacfin,
-    keep_gears = used_gears,
+    keep_gears = gears,
     CLEAN = TRUE,
     keep_age_method = good_age_method,
     keep_sample_type = good_samples,
@@ -89,16 +88,14 @@ process_bds_data <- function(
     dplyr::mutate(
       stratification = paste(state, geargroup, sep = ".")
     )
-  save(bds_cleaned, here::here("data-raw", "bds", 
-                               paste0("cleaned_", bds_file)))
+  save(bds_cleaned, file.path(save_dir, paste0("cleaned_", bds_file)))
   # TODO: 
   # 1. determine if any data filtering should be done to remove outliers by plotting
   # age and length comparisons.  The nwfscSurvey::est_growth function can help with this.
   # 2. evaluate whether the correct age methods are returned and whether they 
   # are appropriate.
   
-  
-  expanded_comps <- get_pacfin_expansions(
+  expanded_comps <- PacFIN.Utilities::get_pacfin_expansions(
     Pdata = bds_cleaned,
     Catch = catch_formatted,
     weight_length_estimates = weight_length_estimates,
@@ -106,34 +103,35 @@ process_bds_data <- function(
     maxExp = expansion,
     Exp_WA = TRUE,
     verbose = TRUE,
-    savedir = here::here("data-raw", "bds"))
+    savedir = save_dir
+  )
   
-  length_comps_long <- getComps(
+  length_comps_long <- PacFIN.Utilities::getComps(
     Pdata = dplyr::filter(expanded_comps, !is.na(lengthcm)),
     Comps = "LEN",
     weightid = "Final_Sample_Size_L"
   )
   
-  length_composition_data <- writeComps(
+  length_composition_data <- PacFIN.Utilities::writeComps(
     inComps = length_comps_long,
     fname = fs::path(
-      here::here("data-raw", "bds"),
+      save_dir,
       glue::glue("{species_code}_lcomps_{min(length_bins)}-{max(length_bins)}.csv")
     ),
     comp_bins = length_bins,
     verbose = TRUE
   ) 
   
-  age_comps_long <- getComps(
+  age_comps_long <- PacFIN.Utilities::getComps(
     Pdata =  dplyr::filter(expanded_comps, Age != -1),
     Comps = "AGE",
     weightid = "Final_Sample_Size_A"
   )
   
-  age_composition_data <- writeComps(
+  age_composition_data <- PacFIN.Utilities::writeComps(
     inComps = age_comps_long,
     fname = fs::path(
-      here::here("data-raw", "bds"),
+      save_dir,
       glue::glue("{species_code}_acomps_{min(age_bins)}-{max(age_bins)}.csv")
     ),
     comp_bins = age_bins,
