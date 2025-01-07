@@ -91,14 +91,26 @@ ggplot(landings |>
   scale_y_continuous(
     labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
   scale_fill_viridis_d(begin = 0.0, end = 0.5)
-ggsave(file = here::here("data-raw", "landings", "figures", "landings_by_gear_states_exclude_at_sea.png"),
+ggsave(file = here::here("data-raw", "landings", "figures", "landings_by_gear_states_exclude_at_sea_foreign.png"),
+       height = 7, width = 7)
+
+ggplot(landings, aes(x = year, y = catch_mt, fill = Gear)) +
+  geom_bar(stat = 'identity') +
+  theme_bw() +
+  facet_grid(state~., scales = "free_y") +
+  #facet_wrap("state", scales = "free_y") +
+  xlab("Year") + ylab("Catch (mt)") +
+  scale_y_continuous(
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  scale_fill_viridis_d(begin = 0.0, end = 0.5)
+ggsave(file = here::here("data-raw", "landings", "figures", "landings_by_gear_states.png"),
        height = 7, width = 7)
 
 #==================================================================
 # Process PacFIN with unique identifiers (e.g., catch share)
 #==================================================================
 raw_pacfin_catch <-
-  fs::dir_ls(here::here("data-raw", "landings"), regex = "PacFIN\\..+Comp") |>
+  fs::dir_ls(here::here("data-raw", "landings"), regex = "PacFIN\\..+Comp")[1] |>
   purrr::map_df(
     .f = function(x) {load(x); return(catch.pacfin)}
   ) |>
@@ -152,10 +164,9 @@ at_sea_catch <- readxl::read_excel(
   dplyr::rename(
     year = YEAR
   ) |>
-  dplyr::filter(year > 1980) |>
   dplyr::mutate(
     catch_share = dplyr::case_when(
-      year %in% 1981:2010 ~ "Non-catch Share", TRUE ~ "Catch Share")
+      year %in% 1950:2010 ~ "Non-catch Share", TRUE ~ "Catch Share")
   ) |>
   dplyr::group_by(year) |>
   dplyr::summarize(
@@ -226,7 +237,7 @@ gemm <- nwfscSurvey::pull_gemm(common_name = "sablefish") |>
   )
 
 landings_gemm_years <- landings |>
-  dplyr::filter(year < 2023 & year > 2001) |>
+  dplyr::filter(year > 2001 & year < 2024) |>
   dplyr::group_by(year) |>
   dplyr::summarize(
     landings_mt = sum(catch_mt), 
@@ -259,7 +270,7 @@ abline(h = 1, lty = 2, lwd = 2, col = "grey")
 #===============================================================================
 # Check catch for research and tribal
 #===============================================================================
-# research <- aggregate(catch_mt~ year + state, data = pacfin_catch[pacfin_catch$removal_type_code == "R", ], function(x) round(sum(x),1))
-# tribal <- aggregate(catch_mt~ year + state, data = pacfin_catch[pacfin_catch$fleet_code == "TI", ], function(x) round(sum(x),1))
+research <- aggregate(ROUND_WEIGHT_MTONS~ LANDING_YEAR, data = raw_pacfin_catch[raw_pacfin_catch$REMOVAL_TYPE_CODE == "R", ], function(x) round(sum(x),1))
+tribal <- aggregate(ROUND_WEIGHT_MTONS~ LANDING_YEAR, data = raw_pacfin_catch[raw_pacfin_catch$FLEET_CODE == "TI", ], function(x) round(sum(x),1))
 
 

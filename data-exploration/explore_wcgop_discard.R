@@ -160,3 +160,31 @@ nwfscSurvey::plot_comps(
   data = discard_lengths[discard_lengths$Fleet == "pot-north" & discard_lengths$sex == 0, ],
   add_save_name = "Pot_north"
 )
+
+#===============================================================================
+# Plot the weighted discard rates
+#===============================================================================
+
+discard_rates <- read.csv(here::here(
+  file.path("data-processed", "data_commercial_discard_rates.csv"))) |>
+  dplyr::mutate(
+    fleet = dplyr::case_match(fleet, 2 ~ "HKL",
+                              3 ~ "Pot",
+                              1 ~ "Trawl")
+  )
+
+aggregate(discard_rate~fleet, discard_rates[discard_rates$year >= 2011, ], mean)
+# fleet discard_rate
+#   HKL    0.1865833
+#   Pot    0.2140833
+# Trawl    0.0439500
+
+ggplot(discard_rates, aes(x = year, y = discard_rate)) +
+  geom_point() +
+  geom_line() + 
+  theme_bw() +
+  scale_color_viridis_d() +
+  ylab("Discard Rates") + xlab("Year") +
+  facet_grid("Fleet")
+ggsave(file = here::here("data-raw", "discard", "wcgop", "figures", "discard_rates_weighted_coastwide.png"),
+       height = 7, width = 7)
