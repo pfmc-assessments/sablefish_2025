@@ -16,7 +16,7 @@ port_lats <- pacfin_ports_withlatlong |>
   tibble::tibble()
 
 raw_pacfin_catch <-
-  fs::dir_ls(here::here("data-raw", "landings"), regex = "PacFIN\\..+Comp") |>
+  fs::dir_ls(here::here("data-raw", "landings"), regex = "PacFIN\\..+Comp")[1] |>
   purrr::map_df(
     .f = function(x) {load(x); return(catch.pacfin)}
   ) |>
@@ -60,17 +60,11 @@ at_sea_catch <- readxl::read_excel(
   dplyr::rename(
     year = YEAR
   ) |>
-  dplyr::filter(year > 1980) |>
-  #dplyr::mutate(
-  #  catch_share = dplyr::case_when(
-  #    year %in% 1981:2010 ~ "Non-catch Share", TRUE ~ "Catch Share")
-  #) |>
   dplyr::group_by(year) |>
   dplyr::summarize(
     state = "at-sea",
     area = "north",
     gear_group = "trawl",
-    #catch_share = unique(catch_share),
     catch_mt = 0.001 * sum(EXPANDED_SumOfEXTRAPOLATED_WEIGHT_KG)
   )
 
@@ -216,6 +210,7 @@ california_other_states <- readxl::read_excel(
     hkl = 0.32 * Oregon + 0.32 * Washington
   ) |>
   dplyr::select(-Oregon, -Washington) |>
+  dplyr::rename(year = Year) |>
   tidyr::pivot_longer(
     values_to = "catch_mt",
     cols = c(trawl, hkl, pot),
@@ -340,12 +335,6 @@ data_commercial_catch_cw <- all_catches |>
   dplyr::mutate(catch_se = 0.01, .after = catch_mt) |>
   dplyr::arrange(fleet)
 
-utils::write.csv(
-  data_commercial_catch_cw,
-  file = fs::path("data-processed", "data_commercial_catch_cw.csv"),
-  row.names = FALSE
-)
-
 data_commercial_catch_area <- all_catches |>
   dplyr::mutate(area_gear = paste0(area, "-", gear_group)) |>
   dplyr::group_by(year, area_gear) |>
@@ -362,17 +351,35 @@ data_commercial_catch_area <- all_catches |>
   dplyr::relocate(fleet, .after = seas) |>
   dplyr::arrange(fleet) 
 
-utils::write.csv(
-  data_commercial_catch_area,
-  file = fs::path("data-processed", "data_commercial_catch_area.csv"),
-  row.names = FALSE
-)
-
 data_commercial_catch <- all_catches |>
   dplyr::group_by(year, state, area, gear_group) |>
   dplyr::summarise(
     catch_mt = round(sum(catch_mt), digits = 4),
-  ) 
+  ) |>
+  dplyr::ungroup()
+
+data_commercial_catch_expansions <- data_commercial_catch |>
+  dplyr::filter(state %in% c("WA", "OR", "CA")) |>
+  dplyr::rename(geargroup = gear_group) |>
+  dplyr::mutate(
+    geargroup = dplyr::case_when(
+      geargroup == "hkl" ~ "HKL", 
+      geargroup == "pot" ~ "POT",
+      .default = "TWL"
+    )
+  ) |>
+  dplyr::group_by(year, state, geargroup) |>
+  dplyr::summarise(
+    catch_mt = sum(catch_mt)
+  ) |>
+  dplyr::ungroup() 
+
+write_named_csvs(
+  data_commercial_catch_cw,
+  data_commercial_catch_area,
+  data_commercial_catch_expansions,
+  dir = "data-processed"
+)
 
 usethis::use_data(
   data_commercial_catch,
