@@ -1,0 +1,53 @@
+## Data
+
+<!--- Provide temporal and spatial resolutions or sample size where appropriate for each of the subsections, below.--->
+
+### Stock ID
+
+<!-- Provide a detailed description of the stock, if appropriate, as well as quantitative studies or data behind the decision-making process. -->
+
+### Life History
+
+<!-- Describe the stock's growth, maturity, fecundity, natural mortality, meristics, etc. -->
+
+### Fishery-dependent data
+
+#### Landings
+
+Landings for `r spp` were composed various historical landings reconstructions, historical foreign fishery data, data extracted from Pacific Fisheries Information Network (PacFIN, extracted April, 21, 2025), and at-sea bycatch estimates (provided by Vanessa Tuttle, NWFSC). The landings used in this assessment are shown in Figure XX and Table XX. 
+
+For the state of California, commercial landings between 1900 and 1931 were calculated following the approach used in the 2011 and 2019 assessments for `r spp` where 1916 to 1931 landings estimates were available from published California Department of Fish and Game Bulletins back, 1908 to 1916 were based on Fisheries statistics of the U.S., published by the U.S. Fish Commission, and 1900 to 1907 landings were were extrapolated linearly to zero in 1900. For the period 1931-1968 relied on estimates from the recent reconstruction efforts by Southwest Fisheries Science Center and California Department of Fish and Game scientists [@ralston_documentation_2010]. This effort utilized newly available spatial information regarding groundfish landings back to 1931. This method is probably quite reliable for sablefish, since it was identified as a separate market category. Landings between 1969 to 1977 were based on California fish tickets with a ratio estimator approach and between 1978 to 1980 were pulled from CALCOM database [@pearson_reliability_2008]. Prior to 1969, gear type associated with landings were not available and were allocated between trawl and hook-and-line gear based upon the proportions starting in 1969 with no landings assumed to be based on pot gear since the landings with pot gear were negligible (e.g., less than 0.5 mt in 1969 and 1970) until 1971. The most recent historical landings from 1981 to 2024 were extracted from PacFIN.
+
+Oregon landings reconstructions begins in 1927 through 1986 [@karnowski_historical_2014]. -@low_sablefish_1976 provided total landings from 1915-1926. Prior to 1915 no statistics were available, so a linear extrapolation from the 10 mt estimate for 1915 to 0 mt in 1981 was applied. Again for Oregon the periods with substantial uncertainty in landings had trivial landings levels. Oregon landings from 1987 to 2024 were extracted from PacFIN. 
+
+Washington completed a historical landings reconstruction for this 2019 assessment of `r spp` which was used in this assessment. These landings represent the best available information. The following information sources were included in the reconstruction: 1890 to 1908 from U.S. Fish Commission bulletin, 1915 to 1952 from PMFC bulletin 3, appendix (page 130, using a conversion factor of 1.75 for dressed fish), 1953 to 1969 from the Washington Statistical bulletin, and 1970 to 1980 from Washington fish ticket database. Landings area assignments were based on Seattle market reports and Washington Statistical bulletins. Gear type was based on PMFC bulletin 3 (page 44, Table 2) and Washington Statistical bulletins. Landings between 1981 to 1990 were based upon Washington Department of Fish and Wildlife (WDFW) internal estimates due to large descrepancies between PacFIN and WDFW estimates. In 1981 and 1982 the estimates within PacFIN were much higher than those in WDFW database (e.g., PacFIN estimates were 636 and 1,777 mt greater than WDFW estimates), but estimates in WDFW database were greater than PacFIN between 1983 to 1990 (e.g., differences ranging between 21 mt to 171 mt by year). These landings estimates for `r spp` should be investigated to reconcile differences to improve future assessments of `r spp`. Washington landings between 1991 to 2024 were extracted from PacFIN.
+
+This assessment also included data on bycatch of `r spp` by the Pacific hake At-Sea fishery since 1978. These data were not included in the 2019 assessment of `r spp` but landings between 1990 to 2022 were included in the most recent update assessment in 2023. Across most years the bycatch of `r spp` in the Pacific hake at-Sea fishery is relatively low, particularly compared to the landings data from other groundfish sectors contained in PacFIN. However, there have been select years where the bycatch of `r spp` in this fishery has been higher than average. Bycatch was high between 1979 and 1982 ranging between 103 mt to 359 mt. In recent years, high bycatch in the Pacific hake at-sea fishery is likely driven by strong recruitment events with 153 mt and 117 mt of bycatch in 2017 and 2018, respectively, and 306 mt and 161 mt in 2022 and 2023. 
+
+Foreign catches are included in the landings estimates for commercial fleets and were very large in the late 1970s. This assessment assumed the same foreign landings reconstruction used in previous `r spp` asssessments based on the records in the historical annotated landings (HAL) database [@van_houten_lynde_historical_1986].
+
+#### Discards
+
+Data on discards of `r spp` are available from multiple sources. 
+
+A trawl discard study conducted in 1985 to 1987, referred to as the Pikitch study, organized by Ellen Pikitch resulted in discard rates and length observations for various groundfish species including `rs spp`  [@pikitch_evaluation_1988]. The northern and southern boundaries of the study were $48^\circ 42^\prime$ N. latitude and $48^\circ 42^\prime$ N. latitude respectively, which is primarily within the Columbia INPFC area, falling within Oregon/Washington waters [@pikitch_evaluation_1988; @rogers_numerical_1992]. Participation in the study was voluntary and included vessels using bottom, midwater, and shrimp trawl gears. Observers on commercial vessels collected the data, estimated the total weight of the catch by tow, and recorded the weight of species retained and discarded in the sample. Results of the Pikitch discard study were processed and provided by John Wallace (personal communication, Northwest Fishery Science Center, NWFSC, NOAA) in the form of ratios of discard weight to retained weight of `r spp` and sex-specific length frequencies. The observed discard length observations by year and sex for `r spp` from the Pikitch study were limited. In order to reduce the noise in these data sex-specific observations were combined based on the assumption that discarding of small fish was not sex-specific (there was no indication of this in the data).
+
+The final data for discard rates, meand body weight of discarded fish, and length observations is from the West Coast Groundfish Observer Program (WCGOP). This program is part of the NWFSC and has been recording discard observations starting in 2002. Since 2011, when the IFQ program was implemented, observer coverage rates increased to nearly 100 percent for all the limited entry trawl vessels in the program and discard rates declined compared to pre-2011 rates. Discard rates were obtained for both the IFQ catch-share (observed and electronic monitored vessels) and the non-catch share sector for `r spp`. A single discard rate was calculated by weighting discard rates based on the commercial discards by each sector and gear type based on estimates from the Groundfish Expanded Multi-year Mortality (GEMM) report. Coefficient of variations were calculated for the non-catch shares sector and pre-catch share years by bootstrapping vessels within ports because the observer program randomly chooses vessels within ports to be observed. Post trawl rationalization, all catch-share vessels have 100 percent observer coverage and discarding is assumed to be known.
+
+The discard rates across all data sources by fleet based on gear type are shown in Table XX and Figures XX - XX. The mean weights of discarded `r spp` from WCGCOP data are shown in Figures XX and XX. The discard length observations from the Pikitch study and WCGOP are shown in Figures XX and XX.
+
+#### Compositions
+
+### Fishery-independent data
+
+#### Indices and Standardization
+
+<!-- Describe both the fishery dependent and independent data. -->
+
+#### Composition Data
+
+<!-- Describe composition data related to age and length, including  aging error and reweighting. -->
+
+#### Environmental/Ecosystem Indicator Data
+
+<!-- Describe the environmental/ecosystem indicator data. If none are considered, include a blanket statement. -->
