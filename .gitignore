@@ -11,6 +11,7 @@ _main.md
 models/
 data-raw/2023
 data-raw/ashop
+data-raw/biology
 data-raw/bds
 data-raw/discard
 data-raw/landings
@@ -19,4 +20,5 @@ data-raw/survey
 data-raw/weight_at_age
 presentations/
 scientific_papers/
+report/sablefish_convert_output.csv
 
