@@ -18,7 +18,7 @@
 #' 
 #' @export
 process_bds_data <- function(
-  save_dir = here::here("data_raw", "bds"),
+  save_dir = here::here("data-raw", "bds"),
   bds_file,
   catch_file = "data_commercial_catch_expansions.csv",
   age_bins = age_bins,
@@ -68,7 +68,7 @@ process_bds_data <- function(
   )
   
   catch_formatted <- utils::read.csv(file_catch) |>
-    formatCatch(
+    PacFIN.Utilities::formatCatch(
       strat = c("state", "geargroup"),
       valuename = "catch_mt"
     )
@@ -88,15 +88,27 @@ process_bds_data <- function(
     dplyr::mutate(
       stratification = paste(state, geargroup, sep = ".")
     )
-  save(bds_cleaned, file.path(save_dir, paste0("cleaned_", bds_file)))
+  save(
+    bds_cleaned, 
+    file = file.path(save_dir, paste0("cleaned_", bds_file))
+  )
   # TODO: 
   # 1. determine if any data filtering should be done to remove outliers by plotting
   # age and length comparisons.  The nwfscSurvey::est_growth function can help with this.
   # 2. evaluate whether the correct age methods are returned and whether they 
   # are appropriate.
   
+  bds_modified <- bds_cleaned |>
+    # Set any length with an age to NA to avoid double use of data
+    # in the model via marginals.
+    dplyr::mutate(
+      lengthcm = dplyr::case_when(
+        !is.na(Age) ~ NA, is.na(Age) ~ lengthcm
+      )
+    )
+  
   expanded_comps <- PacFIN.Utilities::get_pacfin_expansions(
-    Pdata = bds_cleaned,
+    Pdata = bds_modified,
     Catch = catch_formatted,
     weight_length_estimates = weight_length_estimates,
     Units = "MT",
@@ -123,7 +135,7 @@ process_bds_data <- function(
   ) 
   
   age_comps_long <- PacFIN.Utilities::getComps(
-    Pdata =  dplyr::filter(expanded_comps, Age != -1),
+    Pdata =  dplyr::filter(expanded_comps, !is.na(Age)),
     Comps = "AGE",
     weightid = "Final_Sample_Size_A"
   )
