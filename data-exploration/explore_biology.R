@@ -1,5 +1,7 @@
 library(ggplot2)
 
+load(here::here("data", "data_survey_bio.rda"))
+
 data_survey_bio$afsc_slope$length_data$Age_years <- NA
 data_survey_bio$triennial$length_data$Age_years <- NA
 data_survey_bio$afsc_slope$age_data$Project <- paste0(data_survey_bio$afsc_slope$length_data$Project[1], "-Age")
@@ -22,15 +24,87 @@ survey_bio <- dplyr::bind_rows(
                              .default = "OR")
   )
 
-
-file_bds <- fs::dir_ls(here::here("data-raw", "bds"), regex = 
-                         "PacFIN.SABL.bds.11.Dec.2024")
-load(file_bds)
-bds_cleaned <- cleanPacFIN(
-  Pdata = bds.pacfin,
-  CLEAN = TRUE,
-  spp = "sablefish"
+#=====================================================================
+# Estimate growth
+#=====================================================================
+growth_cw <- nwfscSurvey::est_growth(
+  dat = survey_bio |> 
+    dplyr::filter(Sex != "U") |> dplyr::mutate(Age = Age_years),
+  return_df = FALSE
 )
+growth_wa <- nwfscSurvey::est_growth(
+  dat = survey_bio |> 
+    dplyr::filter(state == "WA", Sex != "U") |> dplyr::mutate(Age = Age_years),
+  return_df = FALSE
+)
+growth_or <- nwfscSurvey::est_growth(
+  dat = survey_bio |> 
+    dplyr::filter(state == "OR", Sex != "U") |> dplyr::mutate(Age = Age_years),
+  return_df = FALSE
+)
+growth_nca <- nwfscSurvey::est_growth(
+  dat = survey_bio |> 
+    dplyr::filter(Latitude_dd >= 36, Sex != "U") |> dplyr::mutate(Age = Age_years),
+  return_df = FALSE
+)
+
+growth <- dplyr::bind_rows(
+  growth_cw$female_growth,
+  growth_cw$male_growth,
+  growth_wa$female_growth,
+  growth_wa$male_growth,
+  growth_or$female_growth,
+  growth_or$male_growth,
+  growth_nca$female_growth,
+  growth_nca$male_growth,
+  growth_sca$female_growth,
+  growth_sca$male_growth
+)
+growth$sex <- rep(c("F", "M"), 5)
+growth$area <- c(rep("Coastwide", 2), rep("WA", 2), rep("OR", 2), rep("NCA", 2), rep("SCA", 2))
+
+utils::write.csv(
+  growth,
+  file = here::here("data-raw", "biology", "growth.csv"),
+  row.names = FALSE
+)
+
+#=====================================================================
+# Weight-length estiamtes
+#=====================================================================
+weight_length_estimates <- nwfscSurvey::estimate_weight_length(
+  survey_bio,
+  verbose = FALSE
+)
+weight_length_estimates_north <- nwfscSurvey::estimate_weight_length(
+  survey_bio |> dplyr::filter(Latitude_dd > 36.0),
+  verbose = FALSE
+)
+weight_length_estimates_south <- nwfscSurvey::estimate_weight_length(
+  survey_bio |> dplyr::filter(Latitude_dd <= 36.0),
+  verbose = FALSE
+)
+weight_length <- dplyr::bind_rows(
+  weight_length_estimates[1:2, ],
+  weight_length_estimates_north[1:2, ],
+  weight_length_estimates_south[1:2, ]
+) |> dplyr::mutate(
+  Sex = dplyr::case_when(sex == "female" ~ "F", .default = "M")
+)
+weight_length$area <- c(
+  rep("Coastwide", 2),
+  rep("North", 2),
+  rep("South", 2)
+)
+
+utils::write.csv(
+  weight_length_estimates,
+  file = here::here("data-raw", "biology", "weight_length_area.csv"),
+  row.names = FALSE
+)
+#==============================================================================
+# Plots
+#==============================================================================
 
 ggplot(survey_bio |> 
          dplyr::filter(!is.na(Length_cm),
@@ -57,95 +131,16 @@ ggplot(survey_bio |> dplyr::filter(!is.na(Age_years)),
         strip.text.x = element_text(size = 2)) + 
   facet_grid(Project~.)
 
-ggplot(bds_all, 
-       aes(x = lengthcm, color = state)) + 
-  geom_density(size = 2) + 
-  scale_color_viridis_d() + 
-  xlab("Length (cm)") + ylab("Density") + 
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
-        strip.text.x = element_text(size = 2)) +
-  facet_grid(geargroup~.)
-
-ggplot(bds_all, 
-       aes(x = Age, color = state)) + 
-  geom_density(size = 2) + 
-  xlim(c(0, 30)) + 
-  scale_color_viridis_d() + 
-  xlab("Age)") + ylab("Density") + 
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
-        strip.text.x = element_text(size = 2)) +
-  facet_grid(geargroup~.)
-
 ggplot(survey_bio |> 
          dplyr::filter(!is.na(Age_years), !is.na(Length_cm), Sex != "U"), 
        aes(x = Age_years, y = Length_cm, color = state)) + 
   geom_point() +  
   scale_color_viridis_d() + 
-  xlab("Age") + ylab("Density") + 
+  xlab("Age") + ylab("Length (cm)") + 
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         strip.text.x = element_text(size = 15)) + 
   facet_grid(Sex~.)
-
-growth_cw <- nwfscSurvey::est_growth(
-  dat = survey_bio |> 
-    dplyr::filter(Sex != "U") |> dplyr::mutate(Age = Age_years),
-  return_df = FALSE
-)
-growth_wa <- nwfscSurvey::est_growth(
-  dat = survey_bio |> 
-    dplyr::filter(state == "WA", Sex != "U") |> dplyr::mutate(Age = Age_years),
-  return_df = FALSE
-)
-growth_or <- nwfscSurvey::est_growth(
-  dat = survey_bio |> 
-    dplyr::filter(state == "OR", Sex != "U") |> dplyr::mutate(Age = Age_years),
-  return_df = FALSE
-)
-growth_nca <- nwfscSurvey::est_growth(
-  dat = survey_bio |> 
-    dplyr::filter(Latitude_dd >= 36, Sex != "U") |> dplyr::mutate(Age = Age_years),
-  return_df = FALSE
-)
-growth_sca <- nwfscSurvey::est_growth(
-  dat = survey_bio |> 
-    dplyr::filter(Latitude_dd < 36, Sex != "U") |> dplyr::mutate(Age = Age_years),
-  return_df = FALSE
-)
-
-growth <- dplyr::bind_rows(
-  growth_cw$female_growth,
-  growth_cw$male_growth,
-  growth_wa$female_growth,
-  growth_wa$male_growth,
-  growth_or$female_growth,
-  growth_or$male_growth,
-  growth_nca$female_growth,
-  growth_nca$male_growth,
-  growth_sca$female_growth,
-  growth_sca$male_growth
-)
-growth$sex <- rep(c("F", "M"), 5)
-growth$area <- c(rep("Coastwide", 2), rep("WA", 2), rep("OR", 2), rep("NCA", 2), rep("SCA", 2))
-
-utils::write.csv(
-  growth,
-  file = here::here("data-raw", "biology", "growth.csv"),
-  row.names = FALSE
-)
-
-
-weight_length_estimates <- nwfscSurvey::estimate_weight_length(
-  survey_bio,
-  verbose = FALSE
-)
-utils::write.csv(
-  weight_length_estimates,
-  file = here::here("data-raw", "biology", "weight_length.csv"),
-  row.names = FALSE
-)
 
 data_to_plot <- survey_bio |>
   dplyr::rename_with(
@@ -268,6 +263,60 @@ ggplot(lines_to_plot) +
  scale_color_viridis_d() + 
  theme(axis.text = element_text(size = 13),
        axis.title = element_text(size = 13))
+ggplot2::ggsave(
+  filename = here::here("data-raw", "biology", "length_age_area.png"),
+  height = 7, width = 7
+)
+
+#===============================================================================
+# Plot weight-at-length
+#===============================================================================
+data_to_plot <- survey_bio |>
+  dplyr::rename_with(
+    tolower
+  ) |>
+  dplyr::filter(
+    sex != "U",
+    !is.na(weight_kg),
+    !is.na(length_cm),
+    length_cm > 0
+  )
+
+xlims <- c(0, ceiling(max(data_to_plot[, "length_cm"])))
+ylims <- c(0, max(data_to_plot[, "weight_kg"]))
+weight_length$lmin <- 0
+weight_length$lmax <- xlims[2]
+
+lines_to_plot <- weight_length |>
+  dplyr::group_by(area, Sex) |>
+  dplyr::reframe(
+    length_cm = seq(0, 98, 1),
+    weight_kg = A * length_cm^B,
+    a = A,
+    b = B
+  )
+label <- lines_to_plot |>
+  dplyr::mutate(
+    max_y = quantile(weight_kg, 0.95),
+    multiplier = ifelse(Sex == "F", 1, 0.9)
+  ) |>
+  dplyr::group_by(area, Sex) |>
+  dplyr::summarize(
+    label = paste0("a = ", format(unique(a), digits = 3, scientific = TRUE), "; ", paste0("b = ", round(unique(b), 2))),
+    x = quantile(length_cm, 0.30),
+    y = unique(max_y) * unique(multiplier)
+  )
+ggplot2::ggplot(lines_to_plot) +
+  #ggplot2::geom_point(aes(x = length_cm, y = weight_kg, color = sex), alpha = 0.15, size = 1) +
+  ggplot2::ylab("Weight (kg)") +
+  ggplot2::xlab("Length (cm)") +
+  ggplot2::ylim(0, 9) + ggplot2::xlim(0, 90) +
+  ggplot2::geom_line(
+    ggplot2::aes(x = length_cm, y = weight_kg, color = area, linetype = Sex), linewidth = 1
+  ) +
+  scale_color_viridis_d() + 
+  theme(axis.text = element_text(size = 13),
+        axis.title = element_text(size = 13))
 ggplot2::ggsave(
   filename = here::here("data-raw", "biology", "length_age_area.png"),
   height = 7, width = 7
@@ -421,4 +470,45 @@ nwfscSurvey::plot_proportion(
 ggplot2::ggsave(
   filename = here::here("data-raw", "biology", "presence_absence_latitude.png"),
   height = 7, width = 7
+)
+
+
+
+
+#===============================================================================
+# Commercial Data
+#===============================================================================
+file_bds <- fs::dir_ls(here::here("data-raw", "bds"), regex = 
+                         "PacFIN.SABL.bds.11.Dec.2024")
+load(file_bds)
+bds_cleaned <- cleanPacFIN(
+  Pdata = bds.pacfin,
+  CLEAN = TRUE,
+  spp = "sablefish"
+)
+
+ggplot(bds_cleaned, 
+       aes(x = lengthcm, color = state)) + 
+  geom_density(size = 2) + 
+  scale_color_viridis_d() + 
+  xlab("Length (cm)") + ylab("Density") + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        strip.text.x = element_text(size = 2)) +
+  facet_grid(geargroup~.)
+
+ggplot(bds_cleanded, 
+       aes(x = Age, color = state)) + 
+  geom_density(size = 2) + 
+  xlim(c(0, 30)) + 
+  scale_color_viridis_d() + 
+  xlab("Age)") + ylab("Density") + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        strip.text.x = element_text(size = 2)) +
+  facet_grid(geargroup~.)
+growth_sca <- nwfscSurvey::est_growth(
+  dat = survey_bio |> 
+    dplyr::filter(Latitude_dd < 36, Sex != "U") |> dplyr::mutate(Age = Age_years),
+  return_df = FALSE
 )
