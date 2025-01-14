@@ -157,6 +157,16 @@ pacfin_catch <- raw_pacfin_catch |>
     catch_mt = sum(catch_mt)
   ) 
 
+# Pull in the GEMM since the at-sea catches includes both discards and landed fish
+gemm <- nwfscSurvey::pull_gemm(
+  common_name = "sablefish") 
+at_sea_discard <- gemm |>
+  dplyr::filter(sector %in% c("At-Sea Hake CP", "At-Sea Hake MSCV")) |>
+  dplyr::group_by(year) |>
+  dplyr::summarise(
+    landing_rate = sum(total_landings_mt) / sum(total_discard_and_landings_mt)
+  )
+
 # At-Sea Catches
 at_sea_catch <- readxl::read_excel(
   path = here::here("data-raw", "ashop", "A-SHOP_Sabefish Catch_summarized_1978-2023_102224.xlsx"),
@@ -164,18 +174,21 @@ at_sea_catch <- readxl::read_excel(
   dplyr::rename(
     year = YEAR
   ) |>
-  dplyr::mutate(
-    catch_share = dplyr::case_when(
-      year %in% 1950:2010 ~ "Non-catch Share", TRUE ~ "Catch Share")
-  ) |>
   dplyr::group_by(year) |>
   dplyr::summarize(
-    gear_group = "Trawl",
     state = "At-Sea",
     area = "North",
-    catch_share = unique(catch_share),
-    catch_mt = 0.001 * sum(EXPANDED_SumOfEXTRAPOLATED_WEIGHT_KG)
-  )
+    gear_group = "Trawl",
+    discard_and_landings_mt = 0.001 * sum(EXPANDED_SumOfEXTRAPOLATED_WEIGHT_KG)
+  ) |>
+  dplyr::left_join(at_sea_discard, by = c("year")) |>
+  dplyr::mutate(
+    catch_share = dplyr::case_when(
+      year %in% 1950:2010 ~ "Non-catch Share", TRUE ~ "Catch Share"),
+    landing_rate = dplyr::case_when(is.na(landing_rate) ~ 1, .default = landing_rate),
+    catch_mt = landing_rate * discard_and_landings_mt
+  ) |>
+  dplyr::select(-landing_rate, -discard_and_landings_mt)
 
 recent_landings <- dplyr::bind_rows(
   pacfin_catch,
@@ -195,9 +208,9 @@ ggsave(file = here::here("data-raw", "landings", "figures", "landings_by_catch_s
        height = 7, width = 7)
 
 #==================================================================
-# Pull gemm and compare the PacFIN landings
+# Compare the GEMM and PacFIN landings
 #==================================================================
-gemm <- nwfscSurvey::pull_gemm(common_name = "sablefish") |>
+gemm <- gemm |>
   dplyr::rename(
     landings_mt = total_landings_mt,
     catch_mt = total_discard_with_mort_rates_applied_and_landings_mt
@@ -258,19 +271,137 @@ ggplot(gemm_model, aes(x = year, y = landings_mt, group = Source)) +
 ggsave(file = here::here("data-raw", "landings", "figures", "landings_model_vs_gemm.png"),
        height = 7, width = 7)
 
-proportion <- data.frame(
-  year = sort(unique(gemm_model$year)),
-  prop = gemm_model[gemm_model$Source == "Model", "landings_mt"] /
-  gemm_model[gemm_model$Source == "GEMM", "landings_mt"])
-par(mfrow = c(1, 1))
-plot(proportion$year, proportion[, 2], type = "b", lwd = 2, ylim = c(0.85, 1.15),
-     ylab = "Model / GEMM Landings", xlab = "Year")
-abline(h = 1, lty = 2, lwd = 2, col = "grey")
+gemm_model_wide <- gemm_model |>
+  tidyr::pivot_wider(
+    names_from = Source,
+    values_from = landings_mt
+  ) |>
+  dplyr::mutate(
+    difference = Model - GEMM,
+    proportion = Model / GEMM
+  )
+
+ggplot(gemm_model_wide) +
+  geom_hline(yintercept = 1, color = 'grey') +
+  geom_line(aes(x = year, y = proportion)) +
+  geom_point(aes(x = year, y = proportion)) +
+  ylim(0.90, 1.10) +
+  xlab("Year") + ylab("Model / GEMM Landings")
+
+ggplot(gemm_model_wide, aes(x = year, y = difference)) +
+  geom_bar(stat = 'identity') +
+  xlab("Year") + ylab("Model - GEMM Landings")
+ggsave(file = here::here("data-raw", "landings", "figures", "landings_model_vs_gemm_difference.png"),
+       height = 7, width = 7)
+
+sector_2019 <- aggregate(
+  ROUND_WEIGHT_MTONS~ FOS_GROUNDFISH_SECTOR_CODE, 
+  data = raw_pacfin_catch[raw_pacfin_catch$LANDING_YEAR == 2019, ], function(x) round(sum(x),1))
+
+ggplot(raw_pacfin_catch |> dplyr::filter(LANDING_YEAR == 2019),
+       aes(y = FOS_GROUNDFISH_SECTOR_CODE, x = ROUND_WEIGHT_MTONS)) +
+  geom_bar(stat = 'identity') +
+  ylab("Sector") + xlab("2019 Landings (mt)")
+
+combine_gemm_sectors <- function(data){
+  data$sector[
+    data$sector %in% c("OA Fixed Gear - Pot", "OA Fixed Gear - Hook & Line")] <-
+    "OA Fixed Gear"
+  data$sector[data$sector == "Incidental"] <- "Other Fisheries + EFP"
+  data$sector[data$sector == "Tribal Shoreside"] <- "Tribal"
+  data$sector[
+    data$sector %in% c("CS - Bottom Trawl", "CS - Hook & Line",
+                       "CS - Pot", "CS - Bottom and Midwater Trawl")] <- "Catch Shares"
+  data$sector[
+    data$sector %in% c("CS EM - Bottom Trawl", 
+                       "CS EM - Pot")] <- "Catch Shares"
+  data$sector[
+    data$sector %in% c("Midwater Hake", 
+                       "Midwater Hake EM")] <- "Midwater Hake"
+  data$sector[
+    data$sector %in% c("LE Fixed Gear DTL - Hook & Line", 
+                       "LE Fixed Gear DTL - Pot")] <- "LE Fixed Gear DTL"
+  data$sector[
+    data$sector %in% c("LE Sablefish - Hook & Line", 
+                       "LE Sablefish - Pot")] <- "Limited Entry Sablefish"
+  data$sector[
+    data$sector %in% c("At-Sea Hake CP", 
+                       "At-Sea Hake MSCV")] <- "At-Sea Hake"
+  
+  combined_data <- data |>
+    dplyr::filter(!sector %in% 
+      c("Oregon Recreational", "California Recreational", "Washington Recreational")) |>
+    dplyr::group_by(year, sector) |>
+    dplyr::summarise(
+      total_landings_mt = sum(total_landings_mt)
+    )
+  return(combined_data)
+}
+# 2019
+# GEMM tribal = 454, PacFIN tribal = 519.4
+# 2003
+# GEMM research = 0, PacFIN research = 39.5
+# GEMM Incidental = 273, PacFIN other fisheries = 2.2
+# GEMM EFP = 0, PacFIN EFP = 118.7
+# 2004
+# GEMM EFP = 0, PacFIN EFP = 70.5
+# GEMM Incidental = 154, PacFIN other fisheries = 8.9
+
+gemm_by_sector <- combine_gemm_sectors(
+  data = nwfscSurvey::pull_gemm(common_name = "sablefish")) |>
+  dplyr::mutate(
+    source = "gemm",
+    total_landings_mt = round(total_landings_mt, 3)
+  )
+pacfin_sector_modified <- raw_pacfin_catch
+pacfin_sector_modified$FOS_GROUNDFISH_SECTOR_CODE[pacfin_sector_modified$FOS_GROUNDFISH_SECTOR_CODE %in% c("Catch Shares EM", "Catch Share")] <- "Catch Shares"
+pacfin_sector_modified$FOS_GROUNDFISH_SECTOR_CODE[pacfin_sector_modified$FOS_GROUNDFISH_SECTOR_CODE == "Midwater Hake EM"] <- "Midwater Hake"
+pacfin_sector_modified$FOS_GROUNDFISH_SECTOR_CODE[pacfin_sector_modified$FOS_GROUNDFISH_SECTOR_CODE == "Shoreside Hake Pre-CS"] <- "Shoreside Hake"
+pacfin_sector_modified$FOS_GROUNDFISH_SECTOR_CODE[
+  pacfin_sector_modified$FOS_GROUNDFISH_SECTOR_CODE %in% c("Other Fisheries", "EFP")] <- "Other Fisheries + EFP"
+
+pacfin_gemm <- pacfin_sector_modified |>
+  dplyr::filter(LANDING_YEAR >= 2002) |>
+  dplyr::group_by(LANDING_YEAR, FOS_GROUNDFISH_SECTOR_CODE) |>
+  dplyr::summarise(
+    source = "pacfin",
+    total_landings_mt = round(sum(ROUND_WEIGHT_MTONS), 3)
+  ) |>
+  dplyr::rename(
+    year = LANDING_YEAR, 
+    sector = FOS_GROUNDFISH_SECTOR_CODE
+  ) |>
+  dplyr::bind_rows(gemm_by_sector) |>
+  tidyr::pivot_wider(
+    names_from = source,
+    values_from = total_landings_mt,
+    values_fill = 0
+  ) |>
+  dplyr::mutate(
+    difference = round(pacfin - gemm, 3)
+  ) |> 
+  dplyr::filter(year != 2024, sector != "At-Sea Hake")
+
+for (y in 2002:2023){
+  xmin = plyr::round_any(1.05 * min(pacfin_gemm$difference), 100, floor)
+  xmax = plyr::round_any(1.05 * max(pacfin_gemm$difference), 100, ceiling)
+  ggplot(pacfin_gemm |> dplyr::filter(year == y),
+         aes(y = sector, x = difference)) +
+    geom_bar(stat = 'identity') +
+    xlim(xmin, xmax) + 
+    ylab("Sector") + xlab("PacFIN - GEMM Landings Difference") +
+    facet_wrap("year") 
+  ggsave(
+    filename = here::here(
+      "data-raw", "landings", "figures", "pacfin_gemm",
+      paste0("PacFIN_GEMM_Comparison_", y, ".png")),
+    height = 7,
+    width = 10)
+}
 
 #===============================================================================
 # Check catch for research and tribal
 #===============================================================================
 research <- aggregate(ROUND_WEIGHT_MTONS~ LANDING_YEAR, data = raw_pacfin_catch[raw_pacfin_catch$REMOVAL_TYPE_CODE == "R", ], function(x) round(sum(x),1))
 tribal <- aggregate(ROUND_WEIGHT_MTONS~ LANDING_YEAR, data = raw_pacfin_catch[raw_pacfin_catch$FLEET_CODE == "TI", ], function(x) round(sum(x),1))
-
 
