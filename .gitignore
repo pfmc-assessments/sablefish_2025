@@ -8,7 +8,7 @@ _main.md
 *.upa
 *.log
 
-models/
+model/
 data-raw/2023
 data-raw/ashop
 data-raw/biology
