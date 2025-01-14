@@ -53,6 +53,15 @@ pacfin_catch <- raw_pacfin_catch |>
     catch_mt = sum(catch_mt)
   ) 
 
+# Pull in the GEMM since the at-sea catches includes both discards and landed fish
+gemm <- nwfscSurvey::pull_gemm(
+  common_name = "sablefish") |>
+  dplyr::filter(sector %in% c("At-Sea Hake CP", "At-Sea Hake MSCV")) |>
+  dplyr::group_by(year) |>
+  dplyr::summarise(
+    landing_rate = sum(total_landings_mt) / sum(total_discard_and_landings_mt)
+  )
+
 # At-Sea Catches
 at_sea_catch <- readxl::read_excel(
   path = here::here("data-raw", "ashop", "A-SHOP_Sabefish Catch_summarized_1978-2023_102224.xlsx"),
@@ -65,8 +74,14 @@ at_sea_catch <- readxl::read_excel(
     state = "at-sea",
     area = "north",
     gear_group = "trawl",
-    catch_mt = 0.001 * sum(EXPANDED_SumOfEXTRAPOLATED_WEIGHT_KG)
-  )
+    discard_and_landings_mt = 0.001 * sum(EXPANDED_SumOfEXTRAPOLATED_WEIGHT_KG)
+  ) |>
+  dplyr::left_join(gemm, by = c("year")) |>
+  dplyr::mutate(
+    landing_rate = dplyr::case_when(is.na(landing_rate) ~ 1, .default = landing_rate),
+    catch_mt = landing_rate * discard_and_landings_mt
+  ) |>
+  dplyr::select(-landing_rate, -discard_and_landings_mt)
 
 # Oregon Historical
 oregon_pre_historical <- readxl::read_excel(
