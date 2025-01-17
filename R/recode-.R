@@ -1,10 +1,25 @@
-recode_Project <- function(x, gls = FALSE) {
+recode_project <- function(x, gls = FALSE) {
   out <- dplyr::case_match(
     .x = x,
-    "AFSC.Slope" ~ "aslope",
-    "NWFSC.Combo" ~ "wcgbt",
-    "NWFSC.Slope" ~ "nslope",
-    "Triennial" ~ "tri",
+    "AFSC/RACE Slope Survey" ~ "afscslope",
+    "Groundfish Slope and Shelf Combination Survey" ~ "wcgbt",
+    "Groundfish Slope Survey" ~ "nwfscslope",
+    "Groundfish Triennial Shelf Survey" ~ "triennial",
+    .default = NA_character_
+  )
+  if (gls) {
+    out <- glue::glue("\\glsentryshort{{s-{out}}}")
+  }
+  return(out)
+}
+
+recode_project_doc <- function(x, gls = FALSE) {
+  out <- dplyr::case_match(
+    .x = x,
+    "AFSC/RACE Slope Survey" ~ "AFSC Slope",
+    "Groundfish Slope and Shelf Combination Survey" ~ "WCGBT",
+    "Groundfish Slope Survey" ~ "NWFSC Slope",
+    "Groundfish Triennial Shelf Survey" ~ "Triennial",
     .default = NA_character_
   )
   if (gls) {
@@ -19,10 +34,10 @@ recode_fleet_cw <- function(x) {
     x %in% c("twl", "trawl") ~ "1",
     x %in% c("hkl") ~ "2",
     x %in% c("pot") ~ "3",
-    x %in% c("akshlf", "triennial", "tri") ~ "4",
-    x %in% c("akslp", "afsc.slope", "aslope", "ak slope") ~ "5",
-    x %in% c("nwslp", "nwfsc.slope", "nslope", "nwfsc slope") ~ "6",
-    x %in% c("nwcbo", "nwfsc.combo", "wcgbt", "wcgbts") ~ "7",
+    x %in% c("akshlf", "triennial", "tri", "groundfish triennial shelf survey") ~ "4",
+    x %in% c("akslp", "afsc.slope", "aslope", "ak slope", "afsc/race slope survey") ~ "5",
+    x %in% c("nwslp", "nwfsc.slope", "nslope", "nwfsc slope", "groundfish slope survey") ~ "6",
+    x %in% c("nwcbo", "nwfsc.combo", "wcgbt", "wcgbts", "groundfish slope and shelf combination survey") ~ "7",
     x %in% c("env", "env. index") ~ "8",
     TRUE ~ NA_character_
   ) |>
