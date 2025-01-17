@@ -98,6 +98,23 @@ process_bds_data <- function(
   # 2. evaluate whether the correct age methods are returned and whether they 
   # are appropriate.
   
+  samples <- bds_cleaned |>
+    dplyr::group_by(geargroup, year) |>
+    dplyr::summarise(
+      `N Lengthed` = sum(!is.na(lengthcm)),
+      `N Aged` = sum(!is.na(Age))
+    ) |>
+    dplyr::rename(
+      Year = year,
+      Gear = geargroup
+    )
+    as.data.frame()
+  utils::write.csv(
+    samples,
+    file = here::here(save_dir, paste0("data-fishery-bds-n.csv")),
+    row.names = FALSE
+  )
+  
   bds_modified <- bds_cleaned |>
     # Set any length with an age to NA to avoid double use of data
     # in the model via marginals.
