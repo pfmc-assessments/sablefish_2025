@@ -21,7 +21,9 @@ survey_bio <- dplyr::bind_rows(
   dplyr::mutate(
     state = dplyr::case_when(Latitude_dd >= 46.25 ~ "WA",
                              Latitude_dd < 42.0 ~ "CA",
-                             .default = "OR")
+                             .default = "OR"),
+    area = dplyr::case_when(Latitude_dd >= 36.0 ~ "N",
+                            .default = "S")
   )
 
 #=====================================================================
@@ -102,6 +104,39 @@ utils::write.csv(
   file = here::here("data-raw", "biology", "weight_length_area.csv"),
   row.names = FALSE
 )
+
+#=====================================================================
+# Weight-age estimates
+#=====================================================================
+ave_weight_age_area <- survey_bio |>
+  dplyr::filter(!is.na(Age_years), !is.na(Weight_kg), Sex != "U") |>
+  dplyr::group_by(Sex, Age_years, area) |>
+  dplyr::summarise(
+    n = dplyr::n(),
+    ave_weight = mean(Weight_kg)
+  )
+
+survey_bio |> 
+  dplyr::filter(!is.na(Age_years), !is.na(Weight_kg), Sex != "U") |>
+  dplyr::group_by(Project, area, Sex) |>
+  dplyr::summarise(n = dplyr::n())
+
+ggplot(ave_weight_age_area, aes(x = Age_years, y = ave_weight, color = area)) +
+  geom_point() +
+  facet_wrap(Sex ~.)
+
+ave_weight_age <- survey_bio |>
+  dplyr::filter(!is.na(Age_years), !is.na(Weight_kg), Sex != "U") |>
+  dplyr::group_by(Sex, Age_years) |>
+  dplyr::summarise(
+    n = dplyr::n(),
+    ave_weight = mean(Weight_kg)
+  )
+
+ggplot(ave_weight_age, aes(x = Age_years, y = ave_weight, color = Sex)) +
+  geom_point()
+
+
 #==============================================================================
 # Plots
 #==============================================================================
