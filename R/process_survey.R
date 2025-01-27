@@ -93,7 +93,7 @@ process_survey <- function(
   # file, well the first one does but not without also adding a title to the
   # saved figure which is undesirable. We could rename the figure after
   # using the function.
-  plot_index(
+  nwfscSurvey::plot_index(
     data = biomass,
     dir = fig_table_dir,
     add_save_name =  "wcgbt"
@@ -102,11 +102,11 @@ process_survey <- function(
   #============================================================================
   # Marginal length- and age-composition data
   #============================================================================
-  compositions <- get_expanded_comps(
+  compositions <- nwfscSurvey::get_expanded_comps(
     bio_data = bds_data,
     catch_data = catch_data,
     comp_bins = length_bins,
-    comp_column_name = "Length_cm",
+    comp_column_name = "length_cm",
     strata = strata,
     fleet = recode_fleet_cw(x = unique(bds_data$Project)),
     month = 7,
@@ -127,24 +127,24 @@ process_survey <- function(
     )
   }
   
-  plot_comps(
+  nwfscSurvey::plot_comps(
     data = compositions$sexed,
     add_save_name = survey_name,
     dir = fig_table_dir
   )
   if ("unsexed" %in% names(compositions)) {
-    plot_comps(
+    nwfscSurvey::plot_comps(
       data = compositions$unsexed,
       add_save_name = survey_name,
       dir = fig_table_dir
     )
   }
   
-  compositions <- get_expanded_comps(
+  compositions <- nwfscSurvey::get_expanded_comps(
     bio_data = bds_data,
     catch_data = catch_data,
     comp_bins = length_bins,
-    comp_column_name = "Age",
+    comp_column_name = "age",
     strata = strata,
     fleet = recode_fleet_cw(x = unique(bds_data$Project)),
     month = 7,
@@ -166,13 +166,13 @@ process_survey <- function(
     )
   }
   
-  plot_comps(
+  nwfscSurvey::plot_comps(
     data = compositions$sexed,
     add_save_name = survey_name,
     dir = fig_table_dir
   )
   if ("unsexed" %in% names(compositions)) {
-    plot_comps(
+    nwfscSurvey::plot_comps(
       data = compositions$unsexed,
       add_save_name = survey_name,
       dir = fig_table_dir
@@ -182,7 +182,7 @@ process_survey <- function(
   #=============================================================================
   # CAAL age composition data
   #=============================================================================
-  caal <- SurveyAgeAtLen.fn(
+  caal <- nwfscSurvey::SurveyAgeAtLen.fn(
     datAL = bds_data |>
       # Fix data so that small fish are included in the smallest Lbin_lo
       dplyr::mutate(Length_cm = ifelse(
@@ -211,14 +211,14 @@ process_survey <- function(
   # Data plots
   #=============================================================================
   if (survey_name == "wcgbt") {
-    PlotSexRatio.fn(
+    nwfscSurvey::PlotSexRatio.fn(
       dir = fig_table_dir,
       dat = bds_data,
       data.type = "age"
     ) 
   }
   
-  gg <- plot_proportion(
+  gg <- nwfscSurvey::plot_proportion(
     data = catch_data |>
       dplyr::mutate(
         new = factor(
@@ -243,7 +243,7 @@ process_survey <- function(
     plot = gg
   )
 
-  gg <- plot_proportion(
+  gg <- nwfscSurvey::plot_proportion(
     data = bds_data |>
       dplyr::mutate(Sex = nwfscSurvey::codify_sex(Sex)),
     column_factor = Sex,
@@ -262,7 +262,7 @@ process_survey <- function(
     plot = gg
   )
 
-  gg <- plot_proportion(
+  gg <- nwfscSurvey::plot_proportion(
     data = catch_data |> dplyr::mutate(new = factor(cpue_kg_km2 <= 0, levels = c(FALSE, TRUE), labels = c("Present", "Absent"))),
     column_factor = new,
     column_bin = Latitude_dd,
