@@ -56,6 +56,15 @@ ggplot(compare_landings, aes(x = year, y = landings_mt, group = assessment)) +
 ggsave(file = here::here("data-raw", "landings", "figures", "landings_comparison_2023.png"),
        height = 7, width = 7)
 
+compare_landings_wide <- tidyr::pivot_wider(
+  data = compare_landings,
+  names_from = assessment,
+  values_from = landings_mt
+  ) |>
+  dplyr::mutate(
+    difference = round(`2025` - `2023`, 1)
+  )
+
 #==================================================================
 # Exploratory plots of the PacFIN catches
 #==================================================================
