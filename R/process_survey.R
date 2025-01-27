@@ -39,11 +39,19 @@ process_survey <- function(
   ) {
   fs::dir_create(save_dir)
   fs::dir_create(fig_table_dir)
-
+  
+  survey_name <- recode_project(unique(catch_data$Project), gls = FALSE)
+  if (survey_name == "triennial") {
+    survey_name <- ifelse(
+      1980 %in% unique(catch_data[, "Year"]),
+      "triennial-early",
+      "triennial-late")
+  }
   #============================================================================
   # Number of positive tows and biological samples by year and project
   #============================================================================
-  samples <- dplyr::full_join(
+  if (survey_name %in% c("wcgbt", "nwfscslope")) {
+    samples <- dplyr::full_join(
       x = catch_data |>
         dplyr::group_by(Project, Year) |>
         dplyr::summarise(
@@ -67,9 +75,44 @@ process_survey <- function(
         Survey = "Project",
         `Positive Tows` = "Positive"
       ) |>
+      as.data.frame()    
+  } else {
+    samples <- dplyr::full_join(
+      x = catch_data |>
+        dplyr::group_by(Project, Year) |>
+        dplyr::summarise(
+          `N Tows` = dplyr::n(),
+          Positive = sum(total_catch_numbers > 0),
+          `Proportion Positive` = round(Positive/length(Year), 3)
+        ),
+      y = bds_data$length_data |>
+        dplyr::group_by(Project, Year) |>
+        dplyr::summarise(
+          `N Lengthed` = sum(!is.na(Length_cm)),
+          `N Aged` = 0
+        ),
+      by = c("Project", "Year")
+    ) |>
+      dplyr::ungroup() |>
+      dplyr::mutate(
+        Project = recode_project_doc(Project, gls = FALSE),
+      ) |>
+      dplyr::rename(
+        Survey = "Project",
+        `Positive Tows` = "Positive"
+      ) |>
+      as.data.frame() 
+    
+    ages_samples <- bds_data$age_data |>
+      dplyr::group_by(Year) |>
+      dplyr::summarise(
+        `N Aged` = sum(!is.na(Age))
+      ) |>
       as.data.frame()
+    find <- which(samples[, "Year"] %in% ages_samples[, "Year"])
+    samples[find, "N Aged"] <- ages_samples[, "N Aged"]
+  }
   
-  survey_name <- recode_project(unique(catch_data$Project), gls = FALSE)
   utils::write.csv(
     samples,
     file = here::here(save_dir, paste0("data-survey-", survey_name,"-n.csv")),
@@ -84,7 +127,7 @@ process_survey <- function(
     strata = strata
   )
   utils::write.csv(
-    biomass,
+    biomass$biomass,
     file = file.path(fig_table_dir, paste0("design-based-index-", survey_name, ".csv")),
     row.names = FALSE
   )
@@ -96,19 +139,25 @@ process_survey <- function(
   nwfscSurvey::plot_index(
     data = biomass,
     dir = fig_table_dir,
-    add_save_name =  "wcgbt"
+    add_save_name =  survey_name
   )
 
   #============================================================================
   # Marginal length- and age-composition data
   #============================================================================
+  if (survey_name %in% c("afscslope", "triennial-early", "triennial-late")) {
+    bds_length <- bds_data$length_data
+    bds_age <- bds_data$age_data
+  } else {
+    bds_length <- bds_age <- bds_data
+  }
   compositions <- nwfscSurvey::get_expanded_comps(
-    bio_data = bds_data,
+    bio_data = bds_length,
     catch_data = catch_data,
     comp_bins = length_bins,
     comp_column_name = "length_cm",
     strata = strata,
-    fleet = recode_fleet_cw(x = unique(bds_data$Project)),
+    fleet = recode_fleet_cw(x = unique(bds_length$Project)),
     month = 7,
     verbose = FALSE
   )
@@ -141,12 +190,12 @@ process_survey <- function(
   }
   
   compositions <- nwfscSurvey::get_expanded_comps(
-    bio_data = bds_data,
+    bio_data = bds_age,
     catch_data = catch_data,
     comp_bins = length_bins,
     comp_column_name = "age",
     strata = strata,
-    fleet = recode_fleet_cw(x = unique(bds_data$Project)),
+    fleet = recode_fleet_cw(x = unique(bds_age$Project)),
     month = 7,
     ageerr = 1,
     verbose = FALSE
@@ -183,7 +232,7 @@ process_survey <- function(
   # CAAL age composition data
   #=============================================================================
   caal <- nwfscSurvey::SurveyAgeAtLen.fn(
-    datAL = bds_data |>
+    datAL = bds_age |>
       # Fix data so that small fish are included in the smallest Lbin_lo
       dplyr::mutate(Length_cm = ifelse(
         test = Length_cm < len_bins[1],
@@ -193,7 +242,7 @@ process_survey <- function(
     strat.df = strata,
     lgthBins = length_bins,
     ageBins = age_bins,
-    fleet = recode_fleet_cw(x = unique(bds_data$Project)),
+    fleet = recode_fleet_cw(x = unique(bds_age$Project)),
     month = 7,
     ageerr = 1,
     partition = 0,
@@ -244,7 +293,7 @@ process_survey <- function(
   )
 
   gg <- nwfscSurvey::plot_proportion(
-    data = bds_data |>
+    data = bds_length |>
       dplyr::mutate(Sex = nwfscSurvey::codify_sex(Sex)),
     column_factor = Sex,
     column_bin = Depth_m,
