@@ -1,20 +1,28 @@
 ## Introduction
 
-Testing adding in an introduction for `r params$species`. There is currently no read of parameters for child documents.
+`r Spp` (ADD SCI NAME) are distributed in the northeastern Pacific Ocean from the southern tip of Baja California northward to the north-central Bering Sea and in the northwestern Pacific Ocean from Kamchatka southward to the northeastern coast of Japan [@hart_pacific_1973; @eschmeyer_field_1983]. U.S. West Coast `r spp` are modeled as a single stock. Thus, this stock assessment does not explicitly account for movement between offshore sea mounts [@shaw_movement_1997; @morita_sex_2012; @hanselman_move_2015], regions to the north of the U.S. west coast, or to the western Pacific [@fujioka_description_1988; @heifetz_movement_1991; @hanselman_move_2015].
 
-<!-- The intent is to keep this section to 2-3 pages and provide a high-level summary of the assessment findings. The intention is to provide enough information in this section so the audience does not need to reference previous documents. Please include the species scientific name at the first mention of its common name. -->
+While previous analyses suggests the existence of several stocks of `r spp` in the eastern Pacific Ocean that are largely delineated by management boundaries (-@shirripa_sablefish_2007; and earlier assessments), more recent genetic analyses found that `r spp` in the northeastern Pacific Ocean are a single panmictic population [@jasonowicz_love_2017]. Additional support for a panmictic population stems from tag recoveries that show `r spp` move between the regions currently used for management [@hanselman_move_2015; @sogard_patterns_2017]. Analyses of length-at-age data has found spatial variation in von Bertalanffy growth parameters across the northeastern Pacific Ocean [@mcdevitt_status_1987; @echave_interdecadal_2012; @head_maturity_2014; @gertseva_spatial_2017; @kapur_oceanographic_2020]. While geographic break points at approximately 
+(1) 36$^\circ$ N. Lat. between Point Conception and Monterey, California at the start of the southern California Bight and
+(2) 50$^\circ$ N. Lat.N where the North Pacific Current bifurcates
+suggest zones of growth variation, generally with increasing maximum body size and decreasing growth rates with increasing latitude, they do not indicate regions with separate populations.
 
+Smaller `r spp` are generally found in shallower waters, but the demographics appears to be fully mixed (adult and juvenile) near the shelf-slope break (i.e., 100-300 m). Beyond the shelf-slope break, the adult population is dominated by older individuals [@methot_assessment_1994] and younger fish become increasingly rare (see Section ADDD REF TO DATA SECTION). Fish in the deepest areas sampled tend to be the oldest individuals, but not the largest individuals, suggesting that age rather than size dictates depth distribution. However, the interaction between environmental conditions and seasonal movements that produce an increase in age with depth are largely unknown. The stock is distributed beyond the greatest depth sampled by any of the surveys and beyond the deepest commercial fishing areas. Research in these deeper habitats occupied by `r spp` is potentially difficult because they extend across the boundary of the exclusive economic zone and sea mounts and ridges around the Pacific. There are relatively fewer `r spp` in the Puget Sound and the Strait of Georgia than in coastal U.S. waters. Therefore, connectivity among these areas and the open coast is likely of less importance to this stock assessment than movement along the coast.
 
-### Management History
+### Life History
 
-<!---
-Briefly describe the management history of the stock and status. Please only touch on historical policies that would have impacted modeling decisions or would be critical knowledge about the species that might affect its population dynamics.
---->
 
 ### Fishery Descriptions
 
 <!---
 Short summary of fleet composition (i.e., boat types), gear types, species targeted, and fishing grounds (one paragraph).
+--->
+
+
+### Management History and Performance
+
+<!---
+Briefly describe the management history of the stock and status. Please only touch on historical policies that would have impacted modeling decisions or would be critical knowledge about the species that might affect its population dynamics.
 --->
 
 ### Ecosystem Considerations
@@ -23,3 +31,4 @@ Short summary of fleet composition (i.e., boat types), gear types, species targe
 If this section is not relevant, please ignore. However, the default will state, “Ecosystem considerations and/or climate indicators were not included in this assessment.”
 --->
 
+### Fisheries off Canada and Alaska

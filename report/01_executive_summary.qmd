@@ -1,12 +1,31 @@
 ## Executive Summary
 
-<!--- Where possible, the executive summary should paraphrase the shared content of the body of the report to minimize redundancy.--->
+### Stock Description
 
-### Assessment Model
+### Catches
 
-<!-- Include a short statement describing the assessment model used for the current management cycle and any data updates. -->
+### Data and Assessments
 
-### Reference Points, Stock Status, and Projections
+### Stock Output and Dynamics
 
-<!-- Short summary of reference points, stock status, and projections. When using `asar`, tables of reference points and projections will be automatically generated. -->
+### Recruitment
 
+### Exploitation Status
+
+### Ecosysystem Consideration
+
+### Reference Points
+
+### Management Performance
+
+
+### Evaluation of Scientific Uncertainty
+
+
+### Harvest Projections and Decision Tables
+
+
+
+### Unresolved Problems and Major Uncertainties
+
+### Research and Data Needs

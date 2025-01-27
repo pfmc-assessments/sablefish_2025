@@ -1,3 +1,13 @@
-### Tables 
+## Tables 
  
-Please refer to the `satf` package downloaded from remotes::install_github('nmfs-ost/satf') to add premade tables.
+```{r} 
+#| label: 'set-rda-dir-tbls'
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| include: false
+library(flextable)
+
+rda_dir <- 'C:/Assessments/2025/sablefish_2025/rda_files'
+``` 
+

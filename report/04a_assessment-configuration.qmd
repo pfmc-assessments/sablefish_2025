@@ -1,11 +1,30 @@
 ## Assessment
 
-### Current Modeling Approach
+### History of Modeling Approaches
 
-<!--- Include a short, general overview of the modeling platform, including the reference to the model paper or online reference. If using `asar`, a portion of this will be generated based on the stated model. Please include a short description of changes between the approach from the last assessment cycle to the current. --->
+### Most Recent STAR Panel Recommendations
+
+
+### Response to SSC Groundfish Subcommittee Recommendations
+
+
+### Bridging Analysis
+
 
 ### Configuration of the Base Model
 
 <!--- Describe the setup of the stock assessment model. --->
+
+### Model Parameters
+
+<!--- General model specifications: assessment program, model structure, area
+and fleet definitions, initial conditions. --->
+
+<!--- Fixed and estimated parameters --->
+
+#### Priors
+
+
+#### Data Weighting
 
 

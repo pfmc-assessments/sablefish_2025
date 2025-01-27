@@ -11,21 +11,21 @@ author:
   - name: 'Aaron M. Berger'
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
-        address: '2725 Montlake Boulevard East'
-        city: 'Seattle'
-        state: 'WA'
-        postal-code: '98112-2097'
-  - name: 'Cheryl Barnes'
-    affiliations: 
-      - name: 'Coastal Oregon Marine Experiment Station and Department of Fisheries, Wildlife, and Conservation Sciences, Oregon State University'
-        address: '2030 SE Marine Science Drive'
+        address: '2032 SE OSU Drive Building 955'
         city: 'Newport'
         state: 'OR'
-        postal-code: '97365'
-  - name: 'Joshua A. Zahner'
+        postal-code: '97365-2097'
+  - name: 'Cheryl Barnes'
     affiliations: 
-      - name: 'Department of Fisheries at Lena Point, College of Fisheries and Ocean Sciences, University of Alaska Fairbanks'
-        address: '17101 Point Lena Loop Rd'
+      - name: 'University of Oregon'
+        address: 'ADD'
+        city: 'Corvalis'
+        state: 'OR'
+        postal-code: 'ADD'
+  - name: 'Joshua A. Zahner'
+    affiliations:
+      - name: 'University of Alaska Fairbanks'
+        address: 'Department of Fisheries at Lena Point, College of Fisheries and Ocean Sciences, University of Alaska Fairbanks, 17101 Point Lena Loop Rd'
         city: 'Juneau'
         state: 'AK'
         postal-code: '99801'
@@ -75,6 +75,7 @@ bibliography:
 
 spp <- "sablefish"
 Spp <- "Sablefish"
+
 # load converted output from asar::convert_output() 
 output <- utils::read.csv('C:/Assessments/2025/sablefish_2025/report/sablefish_convert_output.csv') 
 # Call reference points and quantities below 
@@ -88,7 +89,7 @@ end_year <- (output |>
   dplyr::mutate(year = as.numeric(year)) |> 
   dplyr::summarize(max_val = max(year)) |> 
   dplyr::pull(max_val))-10
-# subset output to remove quantities that are fplit by factor 
+# subset output to remove quantities that are split by factor 
 output2 <- output |> 
   dplyr::filter(is.na(season), 
     is.na(fleet), 
@@ -168,7 +169,7 @@ R0 <- output |>
 
 Please cite this publication as: 
 
-Wetzel, C.R., A.M. Berger, C. Barnes, J.A. Zahner, N. Tolimieri. 2025. Status of the sablfefish stock off the U.S. West Coast in 2025. NOAA Fisheries Science Center, Seattle, WA. 
+Wetzel, C.R., A.M. Berger, C. Barnes, J.A. Zahner, N. Tolimieri. Status of the sablfefish stock off the U.S. West Coast in 2025.2025. Prepared by [COMMITTEE]. [XX] p.
 
  {{< pagebreak >}} 
 
@@ -237,35 +238,14 @@ cat(a, sep = '\n')
 ```
 
  {{< pagebreak >}} 
+ 
 
 ```{r, results='asis'}
-#| label: 'assessment-benchmarks'
+#| label: 'management'
 #| eval: true
 #| echo: false
 #| warning: false
-a <- knitr::knit_child('04d_assessment-benchmarks.qmd', quiet = TRUE)
-cat(a, sep = '\n')
-```
-
- {{< pagebreak >}} 
-
-```{r, results='asis'}
-#| label: 'assessment-projections'
-#| eval: true
-#| echo: false
-#| warning: false
-a <- knitr::knit_child('04e_assessment-projections.qmd', quiet = TRUE)
-cat(a, sep = '\n')
-```
-
- {{< pagebreak >}} 
-
-```{r, results='asis'}
-#| label: 'discussion'
-#| eval: true
-#| echo: false
-#| warning: false
-a <- knitr::knit_child('05_discussion.qmd', quiet = TRUE)
+a <- knitr::knit_child('05_management.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
 

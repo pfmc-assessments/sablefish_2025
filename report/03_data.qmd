@@ -2,13 +2,6 @@
 
 <!--- Provide temporal and spatial resolutions or sample size where appropriate for each of the subsections, below.--->
 
-### Stock ID
-
-<!-- Provide a detailed description of the stock, if appropriate, as well as quantitative studies or data behind the decision-making process. -->
-
-### Life History
-
-<!-- Describe the stock's growth, maturity, fecundity, natural mortality, meristics, etc. -->
 
 ### Fishery-dependent data
 
@@ -36,18 +29,48 @@ The final data for discard rates, meand body weight of discarded fish, and lengt
 
 The discard rates across all data sources by fleet based on gear type are shown in Table XX and Figures XX - XX. The mean weights of discarded `r spp` from WCGCOP data are shown in Figures XX and XX. The discard length observations from the Pikitch study and WCGOP are shown in Figures XX and XX.
 
-#### Compositions
+#### Composition Data
 
-### Fishery-independent data
+### Fishery-Independent Data
 
-#### Indices and Standardization
+Data from four research surveys have been used in this assessment to provide fishery-independent information about the abundance, distribution, and biological characteristics
+of `r spp`. The longest time series of fishery-independent data arises from the NWFSC
+West Coast Groundfish Bottom Trawl Survey (WCGBTS) which began in 2003. This survey
+samples the shelf and slope off the U.S. West Coast covering depths from 30--700 fathoms (55--1,280 meters) on an annual basis (excluding 2020 due to COVID-19). This assessment also
+used data from three additional fishery-independent surveys: NWFSC Slope Survey, Alaska Fisheries Science Center (AFSC) Slope Survey, and the AFSC/NWFSC West Coast
+Triennial Shelf Survey (Triennial Survey). The NWFSC Slope Survey was a cooperative survey using commercial fishing vessels which began in 1998 as a survey for deepwater species (Dover sole, longspine thornyhead, shortspine thornyhead, and sablefish) survey sampling depths between 183--1,280 meter and was expanded to other groundfish in 1999. The AFSC Slope Survey conducted tows on the U.S. West Coast slope area using the research vessel R/V Miller Freeman sampling subsets of the coastline starting in 1984, with full sampling coverage between 1997 - 2001 sampling depths from 183--1,2980 meters. The Triennial Survey began in 1980 and repeated every three years through 2004 covering depths from 55--500 meters.
+
+The indices from each fishery-independent source were standardized for comparison. Each
+index of abundance was rescaled relative its mean index value (i.e., each index centered
+around 1.0) shown in Figure XX.
+
+#### NWFSC West Coast Groundfish Bottom Trawl Survey
 
 <!-- Describe both the fishery dependent and independent data. -->
 
-#### Composition Data
+#### NWFSC Slope Survey
+
+#### AFSC Slope Survey
+
+#### AFSC/NWFSC West Coast Triennial Shelf Survey
 
 <!-- Describe composition data related to age and length, including  aging error and reweighting. -->
 
-#### Environmental/Ecosystem Indicator Data
+### Additional Data Considered
+
+### Biological Data
+
+#### Natural Mortality
+
+
+#### Growth/Weight-at-Age
+
+
+#### Maturity and Fecundity
+
+#### Ageing Precision and Bias
+
+
+### Environmental/Ecosystem Indicator Data
 
 <!-- Describe the environmental/ecosystem indicator data. If none are considered, include a blanket statement. -->
