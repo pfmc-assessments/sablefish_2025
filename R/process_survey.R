@@ -157,7 +157,7 @@ process_survey <- function(
     comp_bins = length_bins,
     comp_column_name = "length_cm",
     strata = strata,
-    #fleet = recode_fleet_cw(x = unique(bds_length$Project)),
+    fleet = recode_fleet_cw(x = unique(bds_length$Project)),
     month = 7,
     verbose = FALSE
   )
