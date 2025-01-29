@@ -1,3 +1,8 @@
+#' Recode utility functions to convert from character string to fleet numbers.
+#'
+#' 
+#' @param x String 
+#' @param gls Option to glue the recoded object. Default of FALSE 
 recode_project <- function(x, gls = FALSE) {
   out <- dplyr::case_match(
     .x = x,
