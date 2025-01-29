@@ -4,7 +4,32 @@
 \alias{process_survey}
 \title{Process survey data}
 \usage{
-process_survey()
+process_survey(
+  catch_data,
+  bds_data,
+  strata,
+  age_bins = age_bins,
+  length_bins = len_bins,
+  save_dir = "data-processed",
+  fig_table_dir = here::here("data-raw", "survey", "trawl")
+)
+}
+\arguments{
+\item{catch_data}{Survey catch data frame}
+
+\item{bds_data}{Survey bds data fram}
+
+\item{strata}{Survey specific stratification}
+
+\item{age_bins}{Age bins}
+
+\item{length_bins}{Length bins}
+
+\item{save_dir}{Directory to save processed data for the model. Default is
+"data-processed"}
+
+\item{fig_table_dir}{Directory to save figures and diagnostic tables.
+Default is \code{here::here("data-raw", "survey", "trawl")}}
 }
 \description{
 Process raw survey data into useable objects and save tables and figures
@@ -23,37 +48,6 @@ fish as two separate data frames. The marginal ages for the WCGBTS are
 not actually used in the model.
 \item Calculate the conditional-composition data, where these ages are
 conditional on a length bin.
-}
-}
-
-\section{To Do}{
-The following to do list is ordered by priority with the highest priority
-items listed first.
-\itemize{
-\item Create a sensitivity that changes the arguments passed to
-\code{\link[nwfscSurvey:SurveyLFs.fn]{nwfscSurvey::SurveyLFs.fn()}} of \code{sexRatioUnsexed = 0.50},
-\code{maxSizeUnsexed = 32}, and \code{sexRatioStage = 2}. Then use these marginal
-length compositions in the data file. Chantel suggested the following
-figure as well
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{nwfscSurvey::PlotFreqData.fn(
-  dir =  figure_dir,
-  dat = lf_sex_ratio,
-  main = "NWFSC Groundfish Bottom Trawl Survey",
-  ylim = c(0, max(len_bins)),
-  yaxs = "i",
-  ylab = "Length (cm)"
-)
-}\if{html}{\out{</div>}}
-\item There is a mix of saving things as wcgbts and NWFSC.Combo. Increase
-consistency.
-\item \code{\link[=PlotBio.fn]{PlotBio.fn()}} and \code{\link[=PlotBioStrata.fn]{PlotBioStrata.fn()}} do not allow you to change
-the name but this function could rename the output.
-\item The current functionality attempts to do many things for each survey
-included in \verb{data_survey_*} but this fails because the strata only works
-for the WCGBTS. So, in the end many outputs are limited to just this most
-recent survey. It would be nice to get the function to work for all
-surveys.
 }
 }
 

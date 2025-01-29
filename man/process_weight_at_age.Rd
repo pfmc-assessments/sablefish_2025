@@ -5,16 +5,20 @@
 \title{Create weight-at-age files for hake assessment}
 \usage{
 process_weight_at_age(
-  data_dir = here::here("data-processed"),
-  savedir = here::here("data-raw", "weight_at_age"),
-  max_age = 70,
-  years = 1995:2024,
+  dir = here::here(),
+  max_age = 30,
+  years = 1997:2024,
   n_avg_years = 5,
   n_forecast = 12,
   maturity = maturity_at_age
 )
 }
 \arguments{
+\item{dir}{The directory where the data is stored.
+It can either be relative or absolute because the working
+directory will not be changed. Instead, \code{dir} is
+used to import data and export results to.}
+
 \item{max_age}{The age of the plus group used for the stock assessment.
 This will correspond to the maximum age group in the data, not in the
 model because SS can model many ages when there is only information in
@@ -41,11 +45,6 @@ beyond the last year of empirical data.}
 length needs to be the same as the number of ages in the model, not the
 number of ages in the data. The default is to use the maturity ogive stored
 in the package.}
-
-\item{dir}{The directory where the data is stored.
-It can either be relative or absolute because the working
-directory will not be changed. Instead, \code{dir} is
-used to import data and export results to.}
 }
 \description{
 Create weight-at-age files for the hake stock assessment.
