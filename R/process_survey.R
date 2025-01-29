@@ -157,7 +157,7 @@ process_survey <- function(
     comp_bins = length_bins,
     comp_column_name = "length_cm",
     strata = strata,
-    fleet = recode_fleet_cw(x = unique(bds_length$Project)),
+    #fleet = recode_fleet_cw(x = unique(bds_length$Project)),
     month = 7,
     verbose = FALSE
   )
@@ -170,7 +170,7 @@ process_survey <- function(
   }
   if ("unsexed" %in% names(compositions)) {
     utils::write.csv(
-      compositions$sexed,
+      compositions$unsexed,
       file = file.path(save_dir, paste0("data-lengths-unsexed-", survey_name, ".csv")),
       row.names = FALSE
     )
@@ -209,7 +209,7 @@ process_survey <- function(
   }
   if ("unsexed" %in% names(compositions)) {
     utils::write.csv(
-      compositions$sexed,
+      compositions$unsexed,
       file = file.path(save_dir, paste0("data-ages-unsexed-", survey_name, ".csv")),
       row.names = FALSE
     )
