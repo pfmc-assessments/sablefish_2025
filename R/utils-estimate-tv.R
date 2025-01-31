@@ -28,10 +28,12 @@
 #' @return
 #' A data frame in long format with time-varying weight-at-age data.
 #' @author Kelli F. Johnson
-estimate_tv_weight_at_age <- function(max_age = 15, first_year = 1975) {
+estimate_tv_weight_at_age <- function(
+  max_age = 15, 
+  first_year = 1975) {
   weight_at_age_files <- fs::dir_ls(
-    regexp = "weight-at-age.csv",
-    here::here("data-tables")
+    regexp = "data_weight_at_age_survey",
+    here::here("data-processed")
   )
   
   # Load in data
@@ -41,15 +43,14 @@ estimate_tv_weight_at_age <- function(max_age = 15, first_year = 1975) {
     .id = "path"
   ) |>
     dplyr::mutate(
-      age = ifelse(Age_yrs > 15, 15, Age_yrs),
-      cohort = Year - age,
-      Sex = tidyr::replace_na(Sex, "U"),
-      fyear = as.factor(Year),
+      age = ifelse(age_years > max_age, max_age, age_years),
+      cohort = year - age,
+      sex = tidyr::replace_na(sex, "U"),
+      fyear = as.factor(year),
       fcohort = as.factor(cohort)
     ) |>
     dplyr::rename(
-      weight = Weight_kg,
-      sex = Sex
+      weight = weight_kg
     ) |>
     dplyr::rename_with(.fn = tolower) |>
     dplyr::filter(weight > 0)
@@ -65,11 +66,12 @@ estimate_tv_weight_at_age <- function(max_age = 15, first_year = 1975) {
     time = "year",
     control = sdmTMB::sdmTMBcontrol(newton_loops = 1)
   )
+
   # create prediction grid
   pred_grid <- expand.grid(
     year = unique(weight_at_age_data[["year"]]),
     sex = unique(weight_at_age_data[["sex"]]),
-    age = 0:15
+    age = 0:max_age
   ) |>
     dplyr::mutate(
       cohort = year - age
@@ -92,7 +94,7 @@ estimate_tv_weight_at_age <- function(max_age = 15, first_year = 1975) {
   
   # make EWAA
   # Where it is the average of all sexes.
-  ewaa <- dplyr::group_by(preds, year, age) |>
+  ewaa <- dplyr::group_by(preds, year, sex, age) |>
     dplyr::summarise(
       n = dplyr::n(),
       pred_weight = mean(exp(est))
@@ -100,7 +102,7 @@ estimate_tv_weight_at_age <- function(max_age = 15, first_year = 1975) {
     as.data.frame()
   
   ewaa_long <- ewaa |>
-    dplyr::select(year, age, pred_weight)
+    dplyr::select(year, sex, age, pred_weight)
   
   ewaa_wide <- tidyr::pivot_wider(
     ewaa_long,
@@ -112,17 +114,24 @@ estimate_tv_weight_at_age <- function(max_age = 15, first_year = 1975) {
   
   utils::write.csv(
     ewaa_long,
-    fs::path(here::here("data-tables"), "weight-at-age-ogives.csv"),
+    fs::path(here::here("data-processed"), "weight-at-age-ogives.csv"),
     row.names = FALSE
   )
   
   lines_of_weight_at_age_per_cohort <- ggplot2::ggplot(
-    preds[preds$sex == "F", ],
+    preds,
     ggplot2::aes(x = age, y = est_weight)
   ) +
     ggplot2::geom_line(ggplot2::aes(col = fcohort)) +
     ggplot2::theme(legend.position = "none") +
-    ggplot2::labs(subtitle = "female weight-at-age per cohort")
+    ggplot2::facet_grid(sex~.) +
+    ggplot2::ylab("Estimated Weight by Cohort") +
+    ggplot2::xlab("Age")
+  ggplot2::ggsave(
+    lines_of_weight_at_age_per_cohort,
+    width = 10, height = 7, units = "in",
+    filename = file.path(dir, "data-raw", "weight_at_age", "plots", "cohort_wt_at_age_estimate.png")
+  )
   
   return(ewaa_long)
 }
