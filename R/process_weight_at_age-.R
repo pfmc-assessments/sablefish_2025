@@ -316,15 +316,12 @@ process_weight_at_age <- function(
   withforecast_int <- dplyr::bind_rows(
     wtage_extended,
     wtage_extended |>
-      dplyr::filter(year %in% late) %>%
+      dplyr::filter(year %in% late) |>
       dplyr::group_by(Sex) |>
       dplyr::mutate(
         dplyr::across(.cols = dplyr::starts_with("a"), mean),
         year = max(year) + 1
-      ) #|>
-      #dplyr::filter(
-      #  rep(c(TRUE, FALSE), times = c(n_forecast, NROW(.) - n_forecast))
-      #)
+      )
   )
   withforecast <- dplyr::bind_rows(
     withforecast_int,
@@ -332,9 +329,9 @@ process_weight_at_age <- function(
     withforecast_int[withforecast_int$year == (max(year) + 1), ]
   )
   fore_year <- sort(rep(max(year) + 1:12, 2))
-  withforecast[withforecast$year == 2026, "year"] <- fore_rep
+  withforecast[withforecast$year == 2026, "year"] <- fore_year
   write_wtatage_file(
-    file = fs::path(dir, "data-processed", "wtatage_interploationss"),
+    file = fs::path(dir, "data-processed", "wtatage_interploations.ss"),
     data = as.data.frame(withforecast),
     maturity = maturity,
     n_fleet = n_fleet
