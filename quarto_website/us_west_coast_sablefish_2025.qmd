@@ -2,7 +2,7 @@
 title: "Information to support the 2025 assessment of sablefish off the U.S. West Coast"
 ---
 
-This website contains information about this year's benchmark assessment of sablefish off the U.S. West Coast. The stock assessment team is Chantel Wetzel (Northwest Fisheries Science Center \[NWFSC\], lead author, chantel.wetzel\@noaa.gov), Aaron Berger (NWFSC), Cheryl Barnes (Oregon State University), and Joshua Zahner (University of Alaska Fairbanks).
+This website contains information about this year's benchmark assessment of sablefish off the U.S. West Coast. The stock assessment team is Chantel Wetzel (Northwest Fisheries Science Center \[NWFSC\], lead author, chantel.wetzel\@noaa.gov), Aaron Berger (NWFSC), Cheryl Barnes (Oregon State University), Joshua Zahner (University of Alaska Fairbanks), and Nick Tolimieri (NWFSC).
 
 Sablefish of the U.S. West Coast are managed by the Pacific Fishery Management Council (PFMC). Sablefish are considered to be a single stock, with separate Annual Catch Limits (ACLs) set north and south of 36$\degree$ North Latitude. The most recent benchmark assessment for sablefish of the West Coast was conducted in [2019](https://www.pcouncil.org/documents/2019/10/status-of-the-sablefish-stock-in-u-s-waters-in-2019-october-22-2019.pdf/) with a partial update assessment being conducted in [2023](https://www.pcouncil.org/documents/2024/02/status-of-sablefish-anoplopoma-fimbria-along-the-u-s-west-coast-in-2023.pdf/).
 
@@ -12,7 +12,7 @@ Important dates and information:
 
 -   The final data deadline for the assessment is April 21, 2025. All data to be used in the assessment needs to be sent to Dr. Chantel Wetzel (chantel.wetzel\@noaa.gov) by this date.
 
--   The stock assessment review panel (STAR panel) will be held in Seattle, Washington the week of July 14th - 18th, 2025. Remote listening options will be available.
+-   The stock assessment review panel (STAR panel) will be held in Seattle, Washington the week of July 14th - 18th, 2025. Remote listening options will be available. Whitney Roberts is the representative from the PFMC Groundfish Management Team and Gerry Richter is the representative from the PFMC Groundfish Advisory Panel. 
 
 
 **Disclaimer: All data summaries and exploration presented here are preliminary and may not be indicative of the final data that will be incorporated in the 2025 assessment**
