@@ -21,6 +21,7 @@ data-raw/landings
 data-raw/recfin
 data-raw/survey
 data-raw/weight_at_age
+data-raw/maturity
 presentations/
 scientific_papers/
 report/sablefish_convert_output.csv
