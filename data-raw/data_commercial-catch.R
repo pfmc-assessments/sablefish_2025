@@ -30,11 +30,9 @@ pacfin_catch <- raw_pacfin_catch |>
     y = port_lats
   ) |>
   # Filter out 1981-86 for Oregon since we use the reconstruction
-  # Filter out 1981-1990 because there are large discrepancies between PacFIN
   # and WDFW records for those years, particularly 1981-82.
   dplyr::filter(
-    !(landing_year < 1987 & agency_code == "O"), 
-    !(landing_year < 1991 & agency_code == "W")
+    !(landing_year < 1987 & agency_code == "O")
   ) |>
   dplyr::mutate(
     catch_mt = round_weight_mtons,
@@ -271,11 +269,13 @@ california_historical <- dplyr::bind_rows(
 
 # Washington Historical
 # To-Do fill in early years with missing catches
+# WDFW sent replacement catches for 1970-1980 that should be used over the 
+# landings that are in this spreadsheet
 washington_historical <- readxl::read_excel(
   path = here::here("data-raw", "landings", "Washington_SablefishCatch_03042019.xlsx"),
   sheet = "1890-2018 filled") |>
   dplyr::rename(year = Year) |>
-  dplyr::filter(year < 1991) |>
+  dplyr::filter(year < 1970) |>
   tidyr::pivot_longer(!year, names_to = "gear_group", values_to = "catch_mt") |>
   dplyr::mutate(
     state = "WA",
@@ -283,6 +283,22 @@ washington_historical <- readxl::read_excel(
     gear_group = dplyr::case_match(gear_group, "HKL_mt" ~ "hkl", "Trawl_mt" ~ "trawl", "Pot_mt" ~ "pot")
   ) |>
   tidyr::replace_na(list(catch_mt = 0))
+
+# WDFW fish tickets for 1970-1980
+washington_1970 <- readxl::read_excel(
+  path = here::here("data-raw", "landings", "Sablefish_Commercial_Final_WaFT.xlsx"),
+  sheet = "Sablefish_P-Council") |>
+  dplyr::rename(year = BatchYear) |>
+  dplyr::filter(year < 1981) |>
+  dplyr::mutate(
+    state = "WA",
+    area = "north",
+    gear_group = dplyr::case_match(GearGrouop, "HKL" ~ "hkl", "TWL" ~ "trawl", "POT" ~ "pot")
+  ) |>
+  dplyr::group_by(year, state, area, gear_group) |>
+  dplyr::summarise(
+    catch_mt = sum(RoundPound) * 0.000453592
+  )
 
 # Foreign
 foreign <- readxl::read_excel(
@@ -325,6 +341,23 @@ foreign <- readxl::read_excel(
     names_to = "gear_group"
   )
 
+rec <-  readxl::read_excel(
+  path = here::here("data-raw", "landings", "CTE501-WASHINGTON-OREGON-CALIFORNIA-1990---2024.xlsx"),
+  sheet = "Detail",
+  skip = 21) |>
+  dplyr::rename(year = `RecFIN Year`) |>
+  dplyr::mutate(
+    state = dplyr::case_when(`State Name` == "OREGON" ~ "OR", 
+                             `State Name` == "WASHINGTON" ~ "WA",
+                             .default = "CA"),
+    area = "rec",
+    gear_group = "hkl"
+  ) |>
+  dplyr::group_by(year, state, area, gear_group) |>
+  dplyr::summarise(
+    catch_mt = sum(`Total Mortality MT`)
+  )
+
 #===============================================================================
 # Combine everything together
 #===============================================================================
@@ -332,7 +365,9 @@ all_catches <- dplyr::bind_rows(
   pacfin_catch,
   at_sea_catch,
   foreign, 
+  rec,
   washington_historical,
+  washington_1970,
   oregon_historical,
   california_historical) 
 
@@ -350,21 +385,21 @@ data_commercial_catch_cw <- all_catches |>
   dplyr::mutate(catch_se = 0.01, .after = catch_mt) |>
   dplyr::arrange(fleet)
 
-data_commercial_catch_area <- all_catches |>
-  dplyr::mutate(area_gear = paste0(area, "-", gear_group)) |>
-  dplyr::group_by(year, area_gear) |>
-  dplyr::summarise(
-    seas = 1,
-    catch_mt = round(sum(catch_mt), digits = 4),
-  ) |>
-  dplyr::mutate(
-    fleet = recode_fleet_area(area_gear),
-    .after = year
-  ) |>
-  dplyr::select(-area_gear) |>
-  dplyr::mutate(catch_se = 0.01, .after = catch_mt) |>
-  dplyr::relocate(fleet, .after = seas) |>
-  dplyr::arrange(fleet) 
+#data_commercial_catch_area <- all_catches |>
+#  dplyr::mutate(area_gear = paste0(area, "-", gear_group)) |>
+#  dplyr::group_by(year, area_gear) |>
+#  dplyr::summarise(
+#    seas = 1,
+#    catch_mt = round(sum(catch_mt), digits = 4),
+#  ) |>
+#  dplyr::mutate(
+#    fleet = recode_fleet_area(area_gear),
+#    .after = year
+#  ) |>
+#  dplyr::select(-area_gear) |>
+#  dplyr::mutate(catch_se = 0.01, .after = catch_mt) |>
+#  dplyr::relocate(fleet, .after = seas) |>
+#  dplyr::arrange(fleet) 
 
 data_commercial_catch <- all_catches |>
   dplyr::group_by(year, state, area, gear_group) |>
@@ -374,7 +409,7 @@ data_commercial_catch <- all_catches |>
   dplyr::ungroup()
 
 data_commercial_catch_expansions <- data_commercial_catch |>
-  dplyr::filter(state %in% c("WA", "OR", "CA")) |>
+  dplyr::filter(state %in% c("WA", "OR", "CA"), area != "rec") |>
   dplyr::rename(geargroup = gear_group) |>
   dplyr::mutate(
     geargroup = dplyr::case_when(
@@ -391,7 +426,7 @@ data_commercial_catch_expansions <- data_commercial_catch |>
 
 write_named_csvs(
   data_commercial_catch_cw,
-  data_commercial_catch_area,
+  #data_commercial_catch_area,
   data_commercial_catch_expansions,
   dir = "data-processed"
 )

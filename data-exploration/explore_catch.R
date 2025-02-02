@@ -78,7 +78,7 @@ ggplot(landings, aes(x = year, y = catch_mt, fill = Gear)) +
 ggsave(file = here::here("data-raw", "landings", "figures", "landings_by_gear_group.png"),
        height = 7, width = 7)
 
-ggplot(landings, aes(x = year, y = catch_mt, fill = Gear)) +
+ggplot(landings |> dplyr::filter(area != "rec"), aes(x = year, y = catch_mt, fill = Gear)) +
   geom_bar(stat = 'identity') +
   theme_bw() +
   facet_grid(area~., scales = "free_y") +
