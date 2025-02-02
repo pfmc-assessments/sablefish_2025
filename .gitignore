@@ -11,6 +11,7 @@ _main.md
 *.pdf
 
 model/
+quarto_website/rsconnect
 data-raw/2023
 data-raw/ageing_error
 data-raw/ashop
