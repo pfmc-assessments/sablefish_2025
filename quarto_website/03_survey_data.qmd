@@ -1,5 +1,26 @@
-## Relative Indices of Abundance
+### NWFSC West Coast Groundfish Bottom Trawl Survey
 
-## Survey Compositions
+The NWFSC West Coast Groundfish Bottom Trawl (WCGBT) survey is based on a random grid design; covering the coastal waters between 55 m and 1,280 m in depth sampling coastwide between U.S./Mexico and U.S./Canada border. Two vessels fish from north to south during each pass between late May and early October. The survey started in 2003 and has been conducted annually, except for 2020. 
 
-## 
+### Relative Indices of Abundance
+
+```{r}
+#| label: wcgbt-index
+#| echo: false
+#| fig-cap: "NWFSC West Coast Groundfish Bottom Trawl survey relative index of abundance (mt) for sablefish."
+
+knitr::include_graphics(
+  file.path("figures", "index_coastwide.png")
+)
+
+```
+
+
+### Survey Compositions
+
+
+### Other Trends in the Data
+
+## Other Survey Data
+
+

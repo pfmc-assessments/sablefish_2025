@@ -8,7 +8,7 @@ website:
 #    search: true
 #    left:
 #      - text: "Introduction"
-#        href: 01_intro.qmd
+#        href: us_west_coast_sablefish_2025.qmd
 #      - text: "Fishery Data"
 #        href: 02_fishery_data.qmd
 #      - text: "Fishery Independent Data"
