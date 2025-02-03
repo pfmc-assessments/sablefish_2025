@@ -2,6 +2,54 @@ library(dplyr)
 library(ggplot2)
 
 #===============================================================================
+# Plot the weighted discard rates
+#===============================================================================
+
+discard_rates <- read.csv(here::here(
+  file.path("data-processed", "data_commercial_discard_rates.csv"))) |>
+  dplyr::mutate(
+    Fleet = dplyr::case_match(fleet, 2 ~ "HKL",
+                              3 ~ "Pot",
+                              1 ~ "Trawl"),
+    lwr = qnorm(0.025, discard_rate, sd),
+    upr = qnorm(0.975, discard_rate, sd)
+  ) |>
+  dplyr::mutate(
+    lwr = dplyr::case_when(lwr < 0 ~ 0, .default = lwr),
+    year_offset = dplyr::case_when(fleet == 1 ~ year, fleet == 2 ~ year + 0.25, .default = year + 0.5)
+  ) 
+
+aggregate(discard_rate~fleet, discard_rates[discard_rates$year >= 2011, ], mean)
+# fleet discard_rate
+#   HKL    0.1865833
+#   Pot    0.2140833
+# Trawl    0.0439500
+
+ggplot(discard_rates |> dplyr::filter(year > 2000), aes(x = year, y = discard_rate)) +
+  geom_point() +
+  ggplot2::geom_errorbar(
+    ggplot2::aes(ymin = lwr, ymax = upr)) +
+  theme_bw() +
+  scale_color_viridis_d() +
+  ylab("Discard Rates") + xlab("Year") +
+  facet_grid("Fleet")
+ggsave(file = here::here("data-raw", "discard", "wcgop", "figures", 
+                         "wcgop_discard_rates_weighted_coastwide.png"),
+       height = 7, width = 7)
+
+ggplot(discard_rates |> dplyr::filter(year > 2000), 
+       aes(x = year_offset, y = discard_rate, color = Fleet)) +
+  geom_point() +
+  ggplot2::geom_errorbar(
+    ggplot2::aes(ymin = lwr, ymax = upr)) +
+  theme_bw() +
+  scale_color_viridis_d() +
+  ylab("Discard Rates") + xlab("Year") 
+ggsave(file = here::here("data-raw", "discard", "wcgop", "figures", 
+                         "wcgop_discard_rates_weighted_coastwide_one_panel.png"),
+       height = 7, width = 7)
+
+#===============================================================================
 # Look at the coastwide data
 #===============================================================================
 discard_rates_cs <- read.csv(here::here(
@@ -161,30 +209,4 @@ nwfscSurvey::plot_comps(
   add_save_name = "Pot_north"
 )
 
-#===============================================================================
-# Plot the weighted discard rates
-#===============================================================================
 
-discard_rates <- read.csv(here::here(
-  file.path("data-processed", "data_commercial_discard_rates.csv"))) |>
-  dplyr::mutate(
-    fleet = dplyr::case_match(fleet, 2 ~ "HKL",
-                              3 ~ "Pot",
-                              1 ~ "Trawl")
-  )
-
-aggregate(discard_rate~fleet, discard_rates[discard_rates$year >= 2011, ], mean)
-# fleet discard_rate
-#   HKL    0.1865833
-#   Pot    0.2140833
-# Trawl    0.0439500
-
-ggplot(discard_rates, aes(x = year, y = discard_rate)) +
-  geom_point() +
-  geom_line() + 
-  theme_bw() +
-  scale_color_viridis_d() +
-  ylab("Discard Rates") + xlab("Year") +
-  facet_grid("Fleet")
-ggsave(file = here::here("data-raw", "discard", "wcgop", "figures", "discard_rates_weighted_coastwide.png"),
-       height = 7, width = 7)

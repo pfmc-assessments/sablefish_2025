@@ -48,7 +48,8 @@ pacfin_catch <- raw_pacfin_catch |>
   )  |>
   dplyr::group_by(year, state, area, gear_group) |>
   dplyr::summarise(
-    catch_mt = sum(catch_mt)
+    catch_mt = sum(catch_mt),
+    vessel_n = length(unique(vessel_id))
   ) 
 
 # Pull in the GEMM since the at-sea catches includes both discards and landed fish

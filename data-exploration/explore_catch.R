@@ -71,18 +71,38 @@ compare_landings_wide <- tidyr::pivot_wider(
 ggplot(landings, aes(x = year, y = catch_mt, fill = Gear)) +
   geom_bar(stat = 'identity') +
   theme_bw() +
-  xlab("Year") + ylab("Catch (mt)") +
+  xlab("Year") + ylab("Landings (mt)") +
   scale_y_continuous(
     labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
   scale_fill_viridis_d(begin = 0.0, end = 0.5)
 ggsave(file = here::here("data-raw", "landings", "figures", "landings_by_gear_group.png"),
        height = 7, width = 7)
 
+ggplot(landings |> dplyr::filter(year >= 1981), aes(x = year, y = catch_mt, fill = Gear)) +
+  geom_bar(stat = 'identity') +
+  theme_bw() +
+  xlab("Year") + ylab("Landings (mt)") +
+  scale_y_continuous(
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  scale_fill_viridis_d(begin = 0.0, end = 0.5)
+ggsave(file = here::here("data-raw", "landings", "figures", "landings_by_gear_group_pacfin.png"),
+       height = 7, width = 7)
+
+ggplot(landings |> dplyr::filter(year >= 1981, state != "at-sea"), aes(x = year, y = catch_mt, fill = state)) +
+  geom_bar(stat = 'identity') +
+  theme_bw() +
+  xlab("Year") + ylab("Landings (mt)") +
+  scale_y_continuous(
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  scale_fill_viridis_d(begin = 0.5, end = 1)
+ggsave(file = here::here("data-raw", "landings", "figures", "landings_by_state_pacfin_no_atse.png"),
+       height = 7, width = 7)
+
 ggplot(landings |> dplyr::filter(area != "rec"), aes(x = year, y = catch_mt, fill = Gear)) +
   geom_bar(stat = 'identity') +
   theme_bw() +
   facet_grid(area~., scales = "free_y") +
-  xlab("Year") + ylab("Catch (mt)") +
+  xlab("Year") + ylab("Landings (mt)") +
   scale_y_continuous(
     labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
   scale_fill_viridis_d(begin = 0.0, end = 0.5)
@@ -96,7 +116,7 @@ ggplot(landings |>
   geom_bar(stat = 'identity') +
   theme_bw() +
   facet_grid(state~., scales = "free_y") +
-  xlab("Year") + ylab("Catch (mt)") +
+  xlab("Year") + ylab("Landings (mt)") +
   scale_y_continuous(
     labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
   scale_fill_viridis_d(begin = 0.0, end = 0.5)
@@ -108,7 +128,7 @@ ggplot(landings, aes(x = year, y = catch_mt, fill = Gear)) +
   theme_bw() +
   facet_grid(state~., scales = "free_y") +
   #facet_wrap("state", scales = "free_y") +
-  xlab("Year") + ylab("Catch (mt)") +
+  xlab("Year") + ylab("Landings (mt)") +
   scale_y_continuous(
     labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
   scale_fill_viridis_d(begin = 0.0, end = 0.5)
@@ -219,15 +239,13 @@ ggsave(file = here::here("data-raw", "landings", "figures", "landings_by_catch_s
 #==================================================================
 # Compare the GEMM and PacFIN landings
 #==================================================================
-gemm <- gemm |>
+gemm_data <- nwfscSurvey::pull_gemm(common_name = "sablefish")
+gemm <- gemm_data |>
   dplyr::rename(
     landings_mt = total_landings_mt,
     catch_mt = total_discard_with_mort_rates_applied_and_landings_mt
   ) |>
   dplyr::select(-cv, -species, -type) |>
-  dplyr::filter(!sector %in% c(
-    "California Recreational", "Oregon Recreational", "Washington Recreational"
-  )) |>
   dplyr::mutate(
     gear_group = dplyr::case_when(
       sector %in%
@@ -411,6 +429,117 @@ for (y in 2002:2023){
 #===============================================================================
 # Check catch for research and tribal
 #===============================================================================
-research <- aggregate(ROUND_WEIGHT_MTONS~ LANDING_YEAR, data = raw_pacfin_catch[raw_pacfin_catch$REMOVAL_TYPE_CODE == "R", ], function(x) round(sum(x),1))
-tribal <- aggregate(ROUND_WEIGHT_MTONS~ LANDING_YEAR, data = raw_pacfin_catch[raw_pacfin_catch$FLEET_CODE == "TI", ], function(x) round(sum(x),1))
+research <- raw_pacfin_catch |>
+  dplyr::filter(REMOVAL_TYPE_CODE == "R") |>
+  dplyr::group_by(LANDING_YEAR) |>
+  dplyr::summarise(
+    landings_mt = round(sum(ROUND_WEIGHT_MTONS), 2)
+  ) |>
+  dplyr::rename(year = LANDING_YEAR)
+
+tribal <- raw_pacfin_catch |>
+  dplyr::filter(FLEET_CODE == "TI") |>
+  dplyr::group_by(LANDING_YEAR) |>
+  dplyr::summarise(
+    landings_mt = round(sum(ROUND_WEIGHT_MTONS), 2)
+  ) |>
+  dplyr::rename(year = LANDING_YEAR)
+
+ggplot(tribal, aes(x = year, y = landings_mt)) +
+  geom_bar(stat = 'identity') +
+  theme_bw() +
+  xlab("Year") + ylab("Tribal Landings (mt)") +
+  scale_y_continuous(
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE))
+
+ggsave(file = here::here("data-raw", "landings", "figures", "tribal_landings.png"),
+       height = 7, width = 7)
+
+
+fleet_code_landings <- raw_pacfin_catch |>
+  dplyr::group_by(LANDING_YEAR, FLEET_CODE, AGENCY_CODE) |>
+  dplyr::summarise(
+    n = length(unique(VESSEL_ID)),
+    landings_mt = round(sum(ROUND_WEIGHT_MTONS), 2)
+  ) |>
+  dplyr::rename(year = LANDING_YEAR) |>
+  dplyr::filter(n >= 3)
+
+ggplot(fleet_code_landings , aes(x = year, y = landings_mt, fill = FLEET_CODE)) +
+  geom_bar(stat = 'identity') +
+  theme_bw() +
+  xlab("Year") + ylab("Landings (mt)") +
+  scale_fill_viridis_d() +
+  facet_grid(AGENCY_CODE~., scales = "free_y") +
+  scale_y_continuous(
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE))
+
+ggsave(file = here::here("data-raw", "landings", "figures", "landings_fleet_code_state.png"),
+       height = 7, width = 7)
+
+region_landings <- raw_pacfin_catch |>
+  dplyr::filter(!is.na(REGION_CODE)) |> #287 NAs
+  dplyr::group_by(LANDING_YEAR, REGION_CODE, AGENCY_CODE) |>
+  dplyr::summarise(
+    landings_mt = round(sum(ROUND_WEIGHT_MTONS), 2)
+  ) |>
+  dplyr::rename(year = LANDING_YEAR)
+
+ggplot(region_landings , aes(x = year, y = landings_mt, fill = REGION_CODE)) +
+  geom_bar(stat = 'identity') +
+  theme_bw() +
+  xlab("Year") + ylab("Landings (mt)") +
+  scale_fill_viridis_d() +
+  facet_grid(AGENCY_CODE~., scales = "free_y") +
+  scale_y_continuous(
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE))
+
+
+grade_landings <- raw_pacfin_catch |>
+  dplyr::group_by(LANDING_YEAR, GRADE_NAME, AGENCY_CODE) |>
+  dplyr::summarise(
+    landings_mt = round(sum(ROUND_WEIGHT_MTONS), 2)
+  ) |>
+  dplyr::rename(year = LANDING_YEAR)
+
+ggplot(grade_landings , aes(x = year, y = landings_mt, fill = GRADE_NAME)) +
+  geom_bar(stat = 'identity') +
+  theme_bw() +
+  xlab("Year") + ylab("Landings (mt)") +
+  scale_fill_viridis_d() +
+  #facet_grid(AGENCY_CODE~., scales = "free_y") +
+  scale_y_continuous(
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE))
+
+price_average <- raw_pacfin_catch |>
+  dplyr::mutate(
+    gear_group = dplyr::case_when(
+      PACFIN_GROUP_GEAR_CODE %in% c("TLS", "HKL") ~ "hkl",
+      PACFIN_GROUP_GEAR_CODE %in% c("POT") ~ "pot",
+      TRUE ~ "trawl"),
+  ) |>
+  dplyr::group_by(LANDING_YEAR, AGENCY_CODE, gear_group) |>
+  dplyr::summarise(
+    n = dplyr::n(),
+    ave_price = mean(PRICE_PER_POUND),
+    sd = sd(PRICE_PER_POUND),
+    landings_mt = round(sum(ROUND_WEIGHT_MTONS), 2)
+  ) |>
+  dplyr::rename(year = LANDING_YEAR) |>
+  dplyr::filter(n >= 3, !is.na(ave_price))
+
+check_ci <- raw_pacfin_catch |>
+  dplyr::mutate(
+    gear_group = dplyr::case_when(
+      PACFIN_GROUP_GEAR_CODE %in% c("TLS", "HKL") ~ "hkl",
+      PACFIN_GROUP_GEAR_CODE %in% c("POT") ~ "pot",
+      TRUE ~ "trawl"),
+  ) |>
+  dplyr::group_by(LANDING_YEAR, AGENCY_CODE, gear_group) |>
+  dplyr::summarise(
+    n = length(unique(VESSEL_ID)),
+    landings_mt = round(sum(ROUND_WEIGHT_MTONS), 2)
+  ) |>
+  dplyr::rename(year = LANDING_YEAR) |>
+  dplyr::filter(n >= 3)
 
