@@ -1,3 +1,4 @@
+
 ### NWFSC West Coast Groundfish Bottom Trawl Survey
 
 The NWFSC West Coast Groundfish Bottom Trawl (WCGBT) survey is based on a random grid design; covering the coastal waters between 55 m and 1,280 m in depth sampling coastwide between U.S./Mexico and U.S./Canada border. Two vessels fish from north to south during each pass between late May and early October. The survey started in 2003 and has been conducted annually, except for 2020. 
@@ -22,5 +23,9 @@ knitr::include_graphics(
 ### Other Trends in the Data
 
 ## Other Survey Data
+
+
+**Disclaimer: All data summaries and exploration presented here are preliminary and may not be indicative of the final data that will be incorporated in the 2025 assessment**
+
 
 

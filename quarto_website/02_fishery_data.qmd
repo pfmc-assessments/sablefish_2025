@@ -1,7 +1,250 @@
+
+
+```{r}
+#| label: load-data
+#| echo: false
+#| warning: false
+library(ggplot2)
+library(dplyr)
+library(gt)
+data_proc <- "C:/Assessments/2025/sablefish_2025/data-processed"
+data <- "C:/Assessments/2025/sablefish_2025/data"
+load(file.path(data, "data_commercial_catch.rda"))
+
+landings <- data_commercial_catch |>
+  dplyr::mutate(
+    gear_group = dplyr::case_when(
+      gear_group %in% c("hkl") ~ "HKL",
+      gear_group %in% c("pot") ~ "Pot",
+      TRUE ~ "Trawl")
+  ) |>
+  dplyr::rename(Gear = gear_group)
+
+discard_rates <- read.csv(
+  file.path(data_proc, "data_commercial_discard_rates.csv")) |>
+  dplyr::mutate(
+    Fleet = dplyr::case_match(fleet, 2 ~ "HKL",
+                              3 ~ "Pot",
+                              1 ~ "Trawl"),
+    lwr = qnorm(0.025, discard_rate, sd),
+    upr = qnorm(0.975, discard_rate, sd)
+  ) |>
+  dplyr::mutate(
+    lwr = dplyr::case_when(lwr < 0 ~ 0, .default = lwr),
+    year_offset = dplyr::case_when(fleet == 1 ~ year, fleet == 2 ~ year + 0.25, .default = year + 0.5)
+  ) 
+
+```
+
 ## Potential Model and Fleet Structure
+
+
 
 ## Landings Data
 
+Landings are broken out to three gear types: hook-and-line (HKL), pot, and trawl. The 2019 assessment for sablefish combined HKL and pot landings into a single fixed-gear fleet. For the 2025 assessment, we plan to separate out HKL and pot into two separate fleets, for initial modeling, to ensure that we can capture different selectivities and retention practices, if appropriate. Each gear-based fleet will be coastwide.
+
+The historical landings (pre-1981) for sablefish remain similar to the historical landings used in the most recent assessment (e.g., 2023). Landings for sablefish are based on data from state-specific historical reconstructions, historical foreign fleets (1966-1980), PacFIN, at-sea bycatch estimates (1978-2024), and recreational fishing (2001-2024). Across the last ten years, approximately 41%, 31%, and 28% of sablefish landings have been by HKL, trawl, and pot gear, respectively. 
+
+```{r}
+#| label: landings-recent
+#| echo: false
+#| warning: false
+#| fig-cap: "Coastwide landings (mt) of sablefish by gear since 1981. Note, the 2024 landings are incomplete."
+#| fig-cap-location: margin
+
+ggplot(landings |> dplyr::filter(year >= 1981), aes(x = year, y = catch_mt, fill = Gear)) +
+  geom_bar(stat = 'identity') +
+  theme_bw() +
+  xlab("Year") + ylab("Landings (mt)") +
+  scale_y_continuous(
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  scale_fill_viridis_d(begin = 0.0, end = 0.5)
+
+```
+
+```{r}
+#| label: landings-state
+#| echo: false
+#| warning: false
+#| fig-cap: "Sablefish landings (mt) by state. Note, this does not include that at-sea bycatch and the 2024 landings are incomplete."
+#| fig-cap-location: margin
+
+ggplot(landings |> 
+         filter(!state %in% c("at-sea"), year > 1980), 
+       aes(x = year, y = catch_mt, fill = state)) +
+  geom_bar(stat = 'identity') +
+  theme_bw() +
+  xlab("Year") + ylab("Landings (mt)") +
+  scale_y_continuous(
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  scale_fill_viridis_d(begin = 0.5, end = 1)
+
+```
+
+
+```{r}
+#| label: landings-table
+#| warning: false
+#| echo: false
+
+landings |>
+  dplyr::filter(year >= 2015) |>
+  dplyr::group_by(year, Gear) |>
+  dplyr::summarise(
+    mt = sum(catch_mt),
+  ) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    total = sum(mt)
+  ) |>
+  dplyr::select(year, Gear, mt, total) |>
+  tidyr::pivot_wider(
+    names_from = Gear,
+    values_from = mt
+  ) |>
+  dplyr::relocate(total, .after = Trawl) |>
+  dplyr::rename(
+    Year = year,
+    `HKL (mt)` = HKL,
+    `Pot (mt)` = Pot,
+    `Trawl (mt)` = Trawl,
+    `Total Landings (mt)` = total
+  ) |>
+  dplyr::ungroup() |>
+  gt() |>
+  tab_header(
+    title = "Coastwide landings (mt) by gear and total landings for the last ten years.  Note, the landings for 2024 are incomplete."
+  ) |>
+  fmt_number(
+    columns = 2:5,
+    decimals = 0
+  ) |>
+  cols_align(
+    align = "center"
+  ) |>
+  cols_width(
+    everything() ~ px(10)
+  ) |>
+  tab_options(
+    table.font.size = 20,
+    table.align = "right"
+  ) |>
+  tab_style(
+    style = list(
+      cell_text(style = "italic")
+    ),
+    locations = cells_body(
+      rows = Year > 2023
+    )
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "white"),
+      cell_text(color = "black")
+    ),
+    locations = cells_body(
+      columns = everything()
+    )
+  ) 
+
+```
+
+
+
 ## Discard Data
 
+Similar to previous assessments for sablefish, we plan on modeling selectivity (all fish caught by gear), retention (fish landed), and mortality for discarded fish. The model will assume that 50% discard mortality for fish caught by trawl gear and a 20% discard mortality for HKL and pot gear. Discarding is informed by data collected by the West Coast Groundfish Observer Program (WCGOP). Data are available starting from 2002 to 2023. WCGOP collects information on the size and amount of fish discarded. Starting in 2011, vessels in the catch share program have 100% observer coverage (or are observed via electronic monitoring). For non-catch share vessels, the proportion of total trips observed varies by sector.
+
+Average discarding rate by gear type are:
+
+- HKL gear range between `r round(min(discard_rates[which(discard_rates$Fleet == "HKL" & discard_rates$year < 2011), "discard_rate"]), 2)` to `r round(max(discard_rates[which(discard_rates$Fleet == "HKL" & discard_rates$year < 2011), "discard_rate"]), 2)` from 2002-2010 and `r round(min(discard_rates[which(discard_rates$Fleet == "HKL" & discard_rates$year >= 2011), "discard_rate"]), 2)` to `r round(max(discard_rates[which(discard_rates$Fleet == "HKL" & discard_rates$year >= 2011), "discard_rate"]), 2)` since 2011. 
+
+- Pot gear range between `r round(min(discard_rates[which(discard_rates$Fleet == "Pot" & discard_rates$year < 2011), "discard_rate"]), 2)` to `r round(max(discard_rates[which(discard_rates$Fleet == "Pot" & discard_rates$year < 2011), "discard_rate"]), 2)` from 2002-2010 and `r round(min(discard_rates[which(discard_rates$Fleet == "Pot" & discard_rates$year >= 2011), "discard_rate"]), 2)` to `r round(max(discard_rates[which(discard_rates$Fleet == "Pot" & discard_rates$year >= 2011), "discard_rate"]), 2)` since 2011. 
+
+- Trawl gear range between `r round(min(discard_rates[which(discard_rates$Fleet == "Trawl" & discard_rates$year < 2011 & discard_rates$year >= 2002), "discard_rate"]), 2)` to `r round(max(discard_rates[which(discard_rates$Fleet == "Trawl" & discard_rates$year < 2011 & discard_rates$year >= 2002), "discard_rate"]), 2)` from 2002-2010 and `r round(min(discard_rates[which(discard_rates$Fleet == "Trawl" & discard_rates$year >= 2011), "discard_rate"]), 2)` to `r round(max(discard_rates[which(discard_rates$Fleet == "Trawl" & discard_rates$year >= 2011), "discard_rate"]), 2)` since 2011. Observed discarding has been increasing annually since 2019.
+
+
+```{r}
+#| label: discard-rates
+#| echo: false
+#| warning: false
+#| fig-cap: "Coastwide discard rates by gear type based on West Coast Groundfish Observer data. For 2011 - 2023, discard rates were weighted by expanded yearly discard totals for catch share and non-catch share sectors using the Groundfish Expanded Multi-species Mortality report."
+#| fig-cap-location: margin
+
+ggplot(discard_rates |> dplyr::filter(year > 2000), aes(x = year, y = discard_rate)) +
+  geom_point() +
+  ggplot2::geom_errorbar(
+    ggplot2::aes(ymin = lwr, ymax = upr)) +
+  theme_bw() +
+  scale_color_viridis_d() +
+  ylab("Discard Rates") + xlab("Year") +
+  facet_grid("Fleet")
+
+```
+
+
+
+```{r}
+#| label: pikitch-discard-rates
+#| warning: false
+#| echo: false
+#| 
+
+discard_rates |>
+  dplyr::filter(year < 2000) |>
+  dplyr::select(year, discard_rate, sd) |>
+  dplyr::mutate(
+    Gear = "Trawl"
+  ) |>
+  dplyr::rename(
+    Year = year,
+    `Discard Rate` = discard_rate,
+    SD = sd
+  ) |>
+  dplyr::relocate(
+    Gear, .after = Year
+  ) |>
+  gt() |>
+  tab_header(
+    title = "Estimated trawl discard rates based on the Pikitch discard study."
+  ) |>
+  fmt_number(
+    columns = 2:3,
+    decimals = 2
+  ) |>
+  cols_align(
+    align = "center"
+  ) |>
+  #cols_width(
+  #  everything() ~ pct(25)
+  #) |>
+  tab_options(
+    table.font.size = 20,
+    table.align = "center"#,
+    #table.width = pct(50),
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "white"),
+      cell_text(color = "black")
+    ),
+    locations = cells_body(
+      columns = everything()
+    )
+  ) 
+
+```
+
+
+Questions about discarding: 
+
+ - What is behind the change in discarding observed for trawl gear starting in 2019?
+ 
+ - There are no discard information prior to 2022 for HKL and pot gears. What were the discarding practices prior to 2000 for fish caught by these gears?
+
+
 ## Fishery Compositions
+
+
+**Disclaimer: All data summaries and exploration presented here are preliminary and may not be indicative of the final data that will be incorporated in the 2025 assessment**
