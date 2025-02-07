@@ -3,7 +3,7 @@ library(ggplot2)
 library(PacFIN.Utilities)
 
 raw_pacfin_bds <-
-  fs::dir_ls(here::here("data-raw", "bds"), regex = "PacFIN\\..+bds") |>
+  fs::dir_ls(here::here("data-raw", "bds"), regex = "PacFIN\\..+bds")[2] |>
   purrr::map_df(
     .f = function(x) {load(x); return(bds.pacfin)}
   ) |>
@@ -14,8 +14,11 @@ raw_pacfin_bds <-
 
 bds <- cleanPacFIN(
   Pdata = raw_pacfin_bds,
+  keep_age_method = c("B", "BB", "U", ""),
+  keep_gears = gears,
   CLEAN = TRUE
 )
+
 
 # Investigate the number of samples removed by cleanPacFIN to ensure that we want
 # them removed
@@ -59,6 +62,32 @@ ggplot(bds |> filter(year > 2010),
   facet_wrap(facets = c("geargroup"))
 ggsave(filename = here::here("data", "pacfin", "length_by_gear.png"),
        width = 20, height = 10)
+
+ggplot(bds |> filter(year > 2010),
+       aes(y = Age, x = year, group = year)) +
+  geom_boxplot() +
+  facet_wrap(facets = c("geargroup"))
+ggsave(filename = here::here("data", "pacfin", "age_by_gear.png"),
+       width = 20, height = 10)
+
+ggplot(bds |> filter(year > 2010, !is.na(Age)),
+       aes(x = Age, fill = geargroup)) +
+  geom_density(alpha = 0.4) +
+  scale_color_viridis_c() +
+  theme_bw() 
+
+ggplot(bds |> filter(year > 2010, !is.na(Age)),
+       aes(x = length, fill = geargroup)) +
+  geom_density(alpha = 0.4) +
+  scale_color_viridis_c() +
+  theme_bw() 
+
+ggplot(bds |> filter(year <= 2010, !is.na(Age)),
+       aes(x = length, fill = geargroup)) +
+  geom_density(alpha = 0.4) +
+  scale_color_viridis_c() +
+  theme_bw() 
+
 
 bds[, "period"] <- "2011-2019"
 bds[which(bds$year < 2011), "period"] <- "1980-2010"

@@ -85,7 +85,7 @@ ggplot(landings |> dplyr::filter(year >= 1981), aes(x = year, y = catch_mt, fill
   scale_y_continuous(
     labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
   scale_fill_viridis_d(begin = 0.0, end = 0.5)
-ggsave(file = here::here("data-raw", "landings", "figures", "landings_by_gear_group_pacfin.png"),
+ggsave(file = here::here("data-raw", "landings", "figures", "landings_by_gear_group_1981.png"),
        height = 7, width = 7)
 
 ggplot(landings |> dplyr::filter(year >= 1981, state != "at-sea"), aes(x = year, y = catch_mt, fill = state)) +
