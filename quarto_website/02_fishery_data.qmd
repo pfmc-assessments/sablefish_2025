@@ -87,6 +87,8 @@ ggplot(landings |>
 #| label: landings-table
 #| warning: false
 #| echo: false
+#| tbl-cap: "Coastwide landings (mt) by gear and total landings for the last ten years.  Note, the landings for 2024 are incomplete."
+#| tbl-cap-location: margin
 
 landings |>
   dplyr::filter(year >= 2015) |>
@@ -123,9 +125,9 @@ landings |>
   cols_align(
     align = "center"
   ) |>
-  cols_width(
-    everything() ~ px(10)
-  ) |>
+  #cols_width(
+  #  everything() ~ px(10)
+  #) |>
   tab_options(
     table.font.size = 20,
     table.align = "right"
@@ -154,7 +156,7 @@ landings |>
 
 ## Discard Data
 
-Similar to previous assessments for sablefish, we plan on modeling selectivity (all fish caught by gear), retention (fish landed), and mortality for discarded fish. The model will assume that 50% discard mortality for fish caught by trawl gear and a 20% discard mortality for HKL and pot gear. Discarding is informed by data collected by the West Coast Groundfish Observer Program (WCGOP). Data are available starting from 2002 to 2023. WCGOP collects information on the size and amount of fish discarded. Starting in 2011, vessels in the catch share program have 100% observer coverage (or are observed via electronic monitoring). For non-catch share vessels, the proportion of total trips observed varies by sector.
+Similar to previous assessments for sablefish, we plan on modeling selectivity (all fish caught by gear), retention (fish landed), and mortality for discarded fish. The model will assume that 50% discard mortality for fish caught by trawl gear and a 20% discard mortality for HKL and pot gear. These discard mortality rates were included in the Groundfish Expanded Multi-year Mortality (GEMM) estimates produced by the Fisheries Observation Science (FOS) starting in 2019. Discarding is informed by data collected by the West Coast Groundfish Observer Program (WCGOP). Data are available starting from 2002 to 2023. WCGOP collects information on the size and amount of fish discarded. Starting in 2011, vessels in the catch share program have 100% observer coverage (or are observed via electronic monitoring). For non-catch share vessels, the proportion of total trips observed varies by sector.
 
 Average discarding rate by gear type are:
 
@@ -183,13 +185,14 @@ ggplot(discard_rates |> dplyr::filter(year > 2000), aes(x = year, y = discard_ra
 
 ```
 
-
+An additional discard study (referred to as the Pikitch study) was conducted in 1985-1987 on-board 40 groundfish trawl vessels operating out of Newport, Astoria, and Coos Bay, Oregon. The estimated discard rates based on this study are shown in the table below. 
 
 ```{r}
 #| label: pikitch-discard-rates
 #| warning: false
 #| echo: false
-#| 
+#| tbl-cap: "Estimated trawl discard rates based on the Pikitch discard study."
+#| tbl-cap-location: margin
 
 discard_rates |>
   dplyr::filter(year < 2000) |>
@@ -210,7 +213,7 @@ discard_rates |>
     title = "Estimated trawl discard rates based on the Pikitch discard study."
   ) |>
   fmt_number(
-    columns = 2:3,
+    columns = 3:4,
     decimals = 2
   ) |>
   cols_align(
@@ -236,15 +239,32 @@ discard_rates |>
 
 ```
 
+The Enhanced Data Collection Project (EDCP) conducted off Oregon for trawl vessels in 1997 collected discarding data from select vessels that estimated a discarding rate of 0.40. However, the discarding estimates from this study were found to not be representative of the fleet at large (Sampson, 2002). We currently do not plan to include the EDCP data due to concerns identified by Sampson (2002). Given that the EDCP discarding rate is similar to the rates found by the Pikitch study for trawl gear, excluding the EDCP data is likely to have little to no impact on the assessment.
 
-Questions about discarding: 
+Previous assessments have assumed there were changes in selectivity or retention for the following time periods:
 
- - What is behind the change in discarding observed for trawl gear starting in 2019?
+- Trawl gear:
+  - 1942-1946: full retention of age-1+ sablefish during WWII;
+  - 1982-2002: trip-limits induced discarding;
+  - 2003-2010: spatial closures (Rockfish Conservation Areas);
+  - 2011-2018: catch-share program; and
+  - 2019+: discard mortality rates begin to be applied in the GEMM.
+
+- HKL and Pot gears:
+  - 1942-1946: full retention of age-1+ sablefish during WWII;
+  - 1996-2002: trip-limits induced discarding;
+  - 2003-2010: spatial closures (Rockfish Conservation Areas);
+  - 2011-2018: catch-share program; and
+  - 2019+: discard mortality rates begin to be applied in the GEMM.
+
+Questions: 
+
+ - What is behind the change in discarding observed for trawl gear starting in 2019? 
  
- - There are no discard information prior to 2022 for HKL and pot gears. What were the discarding practices prior to 2000 for fish caught by these gears?
-
+ - Are the listed management changes listed above reasonable?  Are there other changes in the fishery that should be considered? 
 
 ## Fishery Compositions
 
+Add figures and text to show patterns in the fishery data
 
 **Disclaimer: All data summaries and exploration presented here are preliminary and may not be indicative of the final data that will be incorporated in the 2025 assessment**
