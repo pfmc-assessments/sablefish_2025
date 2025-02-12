@@ -107,11 +107,48 @@ process_bds_data <- function(
     dplyr::rename(
       Year = year,
       Gear = geargroup
-    )
+    ) |>
     as.data.frame()
   utils::write.csv(
     samples,
     file = here::here(save_dir, paste0("data-fishery-bds-n.csv")),
+    row.names = FALSE
+  )
+  
+  samples_by_gear_state <- bds_cleaned |>
+    dplyr::group_by(year, state, geargroup) |>
+    dplyr::summarise(
+      n_length = sum(!is.na(lengthcm)),
+      n_age = sum(!is.na(Age))
+    ) |>
+    tidyr::pivot_wider(
+      names_from = state,
+      values_from = c(n_length, n_age),
+      values_fill = 0
+    ) |>
+    dplyr::relocate(
+      n_length_WA,
+      .after = n_length_OR
+    ) |>
+    dplyr::relocate(
+      n_age_WA,
+      .after = n_age_OR
+    ) |>
+    dplyr::rename(
+      Year = year,
+      Gear = geargroup,
+      `N Lengthed (WA)` = n_length_WA,
+      `N Lengthed (OR)` = n_length_OR,
+      `N Lengthed (CA)` = n_length_CA,
+      `N Aged (WA)` = n_age_WA,
+      `N Aged (OR)` = n_age_OR,
+      `N Age (CA)` = n_age_CA,
+    ) |>
+    dplyr::arrange(Gear, Year)|>
+    as.data.frame()
+  utils::write.csv(
+    samples_by_gear_state,
+    file = here::here(save_dir, paste0("data-fishery-bds-n-state-gear.csv")),
     row.names = FALSE
   )
   
