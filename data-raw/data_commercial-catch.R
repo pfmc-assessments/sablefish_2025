@@ -52,6 +52,18 @@ pacfin_catch <- raw_pacfin_catch |>
     vessel_n = length(unique(vessel_id))
   ) 
 
+# Caution: there are a number of years(all pre-2000) in WA where only 
+# 1 vessel is observed landing sablefish with pot gear.  I would need
+# to check to see how many pot vessels were operating in this area
+# during that period to determine confidentiality.
+
+# Caution: there are a number of years where less than 3 vessels are
+# landing sablefish south of 36 using pot or trawl gear. CDFW applies
+# a tighter rule to data confidentiality, would need to ask for 
+# clarification to determine if these data were confidential.
+# years: 1984, 1985, 1991, 1995, 1998, 2009, 2010, 2018, 2022
+
+
 # Pull in the GEMM since the at-sea catches includes both discards and landed fish
 gemm <- nwfscSurvey::pull_gemm(
   common_name = "sablefish") |>
