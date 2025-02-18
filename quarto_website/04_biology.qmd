@@ -9,9 +9,101 @@ library(gt)
 project_dir <- "C:/Assessments/2025/sablefish_2025"
 data_proc <- file.path(project_dir, "data-processed")
 data <- file.path(project_dir , "data")
+data_raw <- file.path(project_dir , "data-raw")
+maturity_data <- readRDS(
+  file.path(data_raw, "maturity", "sablefish_maturity.rds")
+) |>
+  dplyr::mutate(
+    Area = dplyr::case_when(latitude >= 36 ~ "North", .default = "South")
+  )
+maturity_at_age <- readRDS(
+  file.path(data_raw, "maturity", "ogives_for_assessment.rds")
+)
 ```
 
+## Natural Mortality
+
 ## Maturity
+
+
+```{r}
+#| label: maturity-data
+#| echo: false
+#| fig-cap: "Add caption"
+#| fig-cap-location: margin
+
+ggplot(maturity_data, aes(x = age, y = functional_maturity)) +
+  geom_point() +
+  ylab("Functional Maturity") +
+  xlab("Age years") +
+  theme_bw() +
+  theme(strip.background = element_rect(fill = "white")) +
+  facet_wrap(Area ~ .)
+
+```
+
+
+
+
+```{r}
+#| label: maturity-samples
+#| warning: false
+#| echo: false
+#| tbl-cap: "Maturity samples by year and area."
+#| tbl-cap-location: margin
+
+maturity_data |>
+  dplyr::group_by(year, Area) |>
+  dplyr::summarise(
+    Samples = dplyr::n()
+  ) |>
+  tidyr::pivot_wider(
+    names_from = Area,
+    values_from = Samples,
+    names_prefix = "Samples-"
+  ) |>
+  dplyr::rename(Year = year) |>
+  dplyr::ungroup() |>
+  gt() |>
+  tab_header(
+    title = "Maturity samples by year and area."
+  ) |>
+  cols_align(
+    align = "center"
+  ) |>
+  tab_options(
+    table.font.size = 20,
+    table.align = "right"
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "white"),
+      cell_text(color = "black")
+    ),
+    locations = cells_body(
+      columns = everything()
+    )
+  ) 
+
+```
+
+```{r}
+#| label: maturity-ogive
+#| echo: false
+#| fig-cap: "Add caption"
+#| fig-cap-location: margin
+
+ggplot(maturity_at_age, aes(x = age, y = p, color = Model)) +
+  geom_line(linewidth = 1) +
+  ylab("Probability Mature") +
+  xlab("Age years") +
+  scale_colour_viridis_d() + 
+  theme_bw() +
+  theme(strip.background = element_rect(fill = "white"))
+
+```
+
+
 
 ## Growth
 

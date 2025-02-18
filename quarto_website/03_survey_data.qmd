@@ -6,6 +6,7 @@
 library(ggplot2)
 library(dplyr)
 library(gt)
+library(nwfscSurvey)
 
 # this needs to be fixed to use relative directories
 project_dir <- "C:/Assessments/2025/sablefish_2025"
@@ -16,7 +17,14 @@ data <- file.path(project_dir , "data")
 
 load(file.path(data, "data_survey_catch.rda"))
 load(file.path(data, "data_survey_bio.rda"))
-wcgbt_catch <- data_survey_catch$nwfsc_combo 
+wcgbt_catch <- data_survey_catch$nwfsc_combo |>
+  dplyr::mutate(
+    positive = dplyr::case_when(total_catch_numbers > 0 ~ 1, .default = 0),
+    state = dplyr::case_when(Latitude_dd > 46.25 ~ "WA", 
+                             Latitude_dd < 36.0 ~ "SCA", 
+                             Latitude_dd >= 36.0 & Latitude_dd < 42.0 ~ "NCA",
+                             .default = "OR"))
+
 wcgbt_bio <- data_survey_bio$nwfsc_combo
 
 wcgbt_area <- read.csv(file.path(index, "wcgbts", "delta_gamma", "index", "est_by_area.csv")) |>
@@ -67,7 +75,7 @@ nwfsc_slope <- read.csv(file.path(index, "nwfsc_slope", "delta_lognormal", "inde
 
 ```
 
-### NWFSC West Coast Groundfish Bottom Trawl Survey
+## NWFSC West Coast Groundfish Bottom Trawl Survey
 
 The NWFSC West Coast Groundfish Bottom Trawl (WCGBT) survey is based on a random grid design; covering the coastal waters between 55 meter and 1,280 meter in depth sampling coastwide between U.S./Mexico and U.S./Canada border. Two vessels fish from north to south during each pass between late May and early October. The survey started in 2003 and has been conducted annually, except for 2020. 
 
@@ -87,19 +95,116 @@ knitr::include_graphics(
 
 
 ```{r}
-#| label: wcgbt-index-by-area
+#| label: wcgbt-cpue
 #| echo: false
-#| fig-cap: "Proportion of sablefish biomass estimated north and south of 36 N. latitude based on the NWFSC WCGBT survey data."
+#| fig-cap: "NWFSC West Coast Groundfish Bottom Trawl survey median catch per unit effort (CPUE) kilogram per kilometer squared (kg/km2) for sablefish."
 #| fig-cap-location: margin
+#| warning: false
 
-ggplot(wcgbt_area, aes(x = year, y = prop, color = area, shape = area)) +
+cpue <- wcgbt_catch |>
+  group_by(Year, state) |>
+  summarise(
+    med_cpue = median(cpue_kg_km2)
+  )
+
+ggplot(cpue, aes(x = Year, y = med_cpue, color = state)) +
   geom_line(linewidth = 1.5) +
-  geom_point(size = 2) + 
   scale_color_viridis_d() +
-  ylim(c(0, 1)) + 
-  ylab("Proportion") + xlab("Year") +
+  ylab("Median CPUE kg/km2") +
   theme_bw()
 
+```
+
+
+```{r}
+#| label: wcgbt-index-by-area
+#| echo: false
+#| tbl-cap: "Estimated percentage of sablefish biomass estimated north and south of 36 N. latitude based on the NWFSC WCGBT survey data over the last five years."
+#| tbl-cap-location: margin
+
+wcgbt_area |>
+  filter(year >= 2019) |>
+  mutate(
+    Area = dplyr::case_when(area == "North of Monterey Bay" ~ "N. 36 Latitude",
+                            .default = "S. 36 Latitude")
+  ) |>
+  rename(
+    Year = year,
+    Proportion = prop) |>
+  select(Year, Area, Proportion) |>
+  tidyr::pivot_wider(
+    names_from = Area,
+    values_from = Proportion
+  ) |>
+  dplyr::ungroup() |>
+  gt() |>
+  tab_header(
+    title = "Estimated percentage of sablefish biomass estimated north and south of 36 N. latitude based on the NWFSC WCGBT survey data over the last five years."
+  ) |>
+  fmt_percent(
+    columns = 2:3,
+    decimals = 1
+  ) |>
+  cols_align(
+    align = "center"
+  ) |>
+  tab_options(
+    table.font.size = 20,
+    table.align = "right"
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "white"),
+      cell_text(color = "black")
+    ),
+    locations = cells_body(
+      columns = everything()
+    )
+  ) 
+
+```
+
+
+
+```{r}
+#| label: presence-by-lat
+#| echo: false
+#| fig-cap: "Proportion of tows where sablefish was present or absent across all years by latitude for the NWFSC West Coast Groundfish Bottom Trawl survey."
+#| fig-cap-location: margin
+
+nwfscSurvey::plot_proportion(
+    data = wcgbt_catch |> dplyr::mutate(new = factor(cpue_kg_km2 <= 0, levels = c(FALSE, TRUE), labels = c("Present", "Absent"))),
+    column_factor = new,
+    column_bin = Latitude_dd,
+    width = 1,
+    boundary = 0,
+    bar_width = "equal"
+  )
+
+```
+
+
+```{r}
+#| label: presence-by-depth
+#| echo: false
+#| fig-cap: "Proportion of tows where sablefish was present or absent across all years by depth for the NWFSC West Coast Groundfish Bottom Trawl survey."
+#| fig-cap-location: margin
+
+nwfscSurvey::plot_proportion(
+    data = wcgbt_catch |>
+      dplyr::mutate(
+        new = factor(
+          cpue_kg_km2 <= 0,
+          levels = c(FALSE, TRUE),
+          labels = c("Present", "Absent")
+        )
+      ),
+    column_factor = new,
+    column_bin = Depth_m,
+    width = 50,
+    boundary = 0,
+    bar_width = "equal" 
+  )
 ```
 
 
@@ -109,6 +214,11 @@ ggplot(wcgbt_area, aes(x = year, y = prop, color = area, shape = area)) +
 ### Other Trends in the Data
 
 ## Other Survey Data
+
+### Environmental Indices
+
+
+### Other Trawl Surveys
 
 The assessment will include relative indices of abundance and composition data from historical U.S. West Coast trawl surveys: the Triennial Shelf Survey, AFSC Slope Survey, and NWFSC Slope Survey.  
 
@@ -156,6 +266,9 @@ ggplot(index_data, aes(x = year, y = index, color = survey, shape = survey)) +
   ylab("Standardized Trends") + xlab("Year")
 
 ```
+
+
+## Trends Observed in Canada and Alaska
 
 
 **Disclaimer: All data summaries and exploration presented here are preliminary and may not be indicative of the final data that will be incorporated in the 2025 assessment**
