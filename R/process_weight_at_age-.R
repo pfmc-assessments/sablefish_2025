@@ -13,9 +13,6 @@ process_weight_at_age_survey <- function(savedir = getwd()) {
       dplyr::rename_with(
         tolower
       ) |>
-      dplyr::filter(
-        !is.na(age), !is.na(weight_kg), sex != "U"
-      ) |>
       dplyr::select(
         -legacy_performance_code
       )
@@ -27,17 +24,43 @@ process_weight_at_age_survey <- function(savedir = getwd()) {
     filter_data(data_survey_bio$triennial_early$age_data),
     filter_data(data_survey_bio$triennial_late$age_data)
   ) |>
-    dplyr::mutate(
-      state = dplyr::case_when(latitude_dd > 46.25 ~ "WA", latitude_dd < 42.0 ~ "CA", .default = "OR"),
-      sex = nwfscSurvey::codify_sex(sex)) |>
-    dplyr::select(project, year, state, sex, length_cm, age_years, weight_kg, date)  |>
-    dplyr::rename(source = project)
+  dplyr::filter(!is.na(age_years), !is.na(weight_kg)) |>
+  dplyr::mutate(
+    state = dplyr::case_when(latitude_dd > 46.25 ~ "WA", latitude_dd < 42.0 ~ "CA", .default = "OR"),
+    area = dplyr::case_when(latitude_dd > 36 ~ "north", .default = "south"),
+    sex = nwfscSurvey::codify_sex(sex),
+    wgt_len_ratio = weight_kg / length_cm,
+    outlier = dplyr::case_when(wgt_len_ratio > quantile(wgt_len_ratio, 0.995) ~ TRUE, .default = FALSE)
+  ) |>
+  dplyr::select(project, year, state, area, sex, length_cm, age_years, weight_kg, depth_m, date, wgt_len_ratio, outlier)  |>
+  dplyr::rename(source = project)
   
   # Save the data after combining with old data
-  file_path <- fs::path(savedir, "data-processed", "data_weight_at_age_survey.csv")
+  file_path <- fs::path(savedir, "data-processed")
   utils::write.csv(
     x = survey_data,
-    file = file_path,
+    file = fs::path(file_path, "data_weight_at_age_survey.csv"),
+    quote = FALSE,
+    row.names = FALSE
+  )
+  
+  samples_age_sex <- survey_data |>
+    dplyr::mutate(
+      age_modified = dplyr::case_when(age_years > 30 ~ 30, .default = age_years)
+    ) |>
+    dplyr::group_by(year, sex, age_modified) |>
+    dplyr::summarise(
+      n = dplyr::n()
+    ) |>
+    dplyr::arrange(age_modified) |>
+    tidyr::pivot_wider(
+      names_from = age_modified,
+      values_from = n,
+      values_fill = 0
+    )
+  utils::write.csv(
+    x = samples_age_sex,
+    file = fs::path(file_path, "wtatage-all-samplesize.csv"),
     quote = FALSE,
     row.names = FALSE
   )
