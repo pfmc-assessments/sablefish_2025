@@ -1,9 +1,10 @@
 library(ggplot2)
 
+# Maturity
 pop_max_age <- 70
 # Load in the maturity data
 maturity_data <- readRDS(
-  "C:/Assessments/2025/maturity-sablefish-2025/data/sablefish_maturity.rds") |>
+  here::here("data-raw", "maturity", "sablefish_maturity.rds")) |>
   dplyr::mutate(
     Area = dplyr::case_when(latitude >= 36 ~ "North", .default = "South")
   )
@@ -18,7 +19,7 @@ gg <- ggplot(maturity_data, aes(x = age, y = functional_maturity)) +
 ggsave(
   gg,
   width = 7, height = 7, units = "in",
-  filename = file.path(dir, "data-raw", "maturity",  "plots", "maturity_by_area.png")
+  filename = here::here("data-raw", "maturity",  "plots", "maturity_by_area.png")
 )
 
 samples <- maturity_data |>
@@ -50,7 +51,7 @@ gg <- ggplot(maturity_at_age, aes(x = age, y = p, color = Model)) +
 ggsave(
   gg,
   width = 7, height = 7, units = "in",
-  filename = file.path(dir, "data-raw", "maturity",  "plots", "maturity_ogive.png")
+  filename = here::here("data-raw", "maturity",  "plots", "maturity_ogive.png")
 )
 
 all_ages <- data.frame(age = 0:pop_max_age)
@@ -61,20 +62,42 @@ maturity <- all_ages |>
   dplyr::select(p) |>
   as.matrix()
 
+# Weight-at-age
+
 # Currently uses data from the WCGBT, Triennial, and AFSC Slope surveys
 survey_watage_data <- process_weight_at_age_survey(
   savedir = here::here())
 
-# Work horse function that estimates, plots, and writes weight-at-age files for SS3
-process_weight_at_age(
-  dir = here::here(),
-  max_age = 30,
-  years = 1997:2024,
-  n_avg_years = 5,
-  n_forecast = 12,
-  maturity = maturity
+wtatage <- estimate_tv_weight_at_age(
+  max_age = 30, 
+  first_year = 1975)
+
+format_wtatage <- pad_weight_at_age(
+  data = wtatage,
+  first_year = 1997,
+  n_forecast_years = 12,
+  n_years_used_for_forecast = 5,
+  year_global_average = -1892,
+  ages = 0:30)
+
+write_wtatage_file(
+  file = here::here("data-processed", "wtatage.ss"),
+  data = format_wtatage,
+  maturity = maturity,
+  max_age = 70,
+  n_fleet = 8
 )
 
-wt_by_cohort <- estimate_tv_weight_at_age(
-  max_age = 30, 
-  first_year = 1997)
+# Work horse function that estimates, plots, and writes weight-at-age files for SS3
+# process_weight_at_age(
+#   dir = here::here(),
+#   max_age = 30,
+#   years = 1997:2024,
+#   n_avg_years = 5,
+#   n_forecast = 12,
+#   maturity = maturity
+# )
+# 
+# wt_by_cohort <- estimate_tv_weight_at_age(
+#   max_age = 30, 
+#   first_year = 1997)# 
