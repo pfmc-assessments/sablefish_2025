@@ -161,20 +161,12 @@ process_survey <- function(
     month = 7,
     verbose = FALSE
   )
-  if ("sexed" %in% names(compositions)) {
-    utils::write.csv(
-      compositions$sexed,
-      file = file.path(save_dir, paste0("data-lengths-sexed-", survey_name, ".csv")),
-      row.names = FALSE
-    )
-  }
-  if ("unsexed" %in% names(compositions)) {
-    utils::write.csv(
-      compositions$unsexed,
-      file = file.path(save_dir, paste0("data-lengths-unsexed-", survey_name, ".csv")),
-      row.names = FALSE
-    )
-  }
+  comps_out <- bind_compositions(compositions)
+  utils::write.csv(
+    comps_out,
+    file = file.path(save_dir, paste0("data-survey-comps-lengths-", survey_name, ".csv")),
+    row.names = FALSE
+  )
   
   nwfscSurvey::plot_comps(
     data = compositions$sexed,
@@ -200,20 +192,12 @@ process_survey <- function(
     ageerr = 1,
     verbose = FALSE
   )
-  if ("sexed" %in% names(compositions)) {
-    utils::write.csv(
-      compositions$sexed,
-      file = file.path(save_dir, paste0("data-ages-sexed-", survey_name, ".csv")),
-      row.names = FALSE
-    )
-  }
-  if ("unsexed" %in% names(compositions)) {
-    utils::write.csv(
-      compositions$unsexed,
-      file = file.path(save_dir, paste0("data-ages-unsexed-", survey_name, ".csv")),
-      row.names = FALSE
-    )
-  }
+  comps_out <- bind_compositions(compositions)
+  utils::write.csv(
+    compositions$sexed,
+    file = file.path(save_dir, paste0("data-survey-comps-ages-", survey_name, ".csv")),
+    row.names = FALSE
+  )
   
   nwfscSurvey::plot_comps(
     data = compositions$sexed,
@@ -231,28 +215,22 @@ process_survey <- function(
   #=============================================================================
   # CAAL age composition data
   #=============================================================================
-  caal <- nwfscSurvey::SurveyAgeAtLen.fn(
-    datAL = bds_age |>
-      # Fix data so that small fish are included in the smallest Lbin_lo
-      dplyr::mutate(Length_cm = ifelse(
-        test = Length_cm < len_bins[1],
-        yes = len_bins[1],
-        no = Length_cm)),
-    datTows = catch_data,
-    strat.df = strata,
-    lgthBins = length_bins,
-    ageBins = age_bins,
+  caal <- nwfscSurvey::get_raw_caal(
+    data = bds_age,
+    length_column_name = "length_cm",
+    age_column_name = "age",
+    len_bins = length_bins,
+    age_bins = age_bins,
     fleet = recode_fleet_cw(x = unique(bds_age$Project)),
     month = 7,
     ageerr = 1,
     partition = 0,
     verbose = FALSE
   )
-  caal$unsexed <- cbind(caal$unsexed, caal$unsexed[, 10:ncol(caal$unsexed)])
   
   utils::write.csv(
-    bind_compositions(caal),
-    file = fs::path("data-processed", paste0("data-caal-", survey_name, ".csv")),
+    caal,
+    file = fs::path("data-processed", paste0("data-survey-comps-caal-", survey_name, ".csv")),
     row.names = FALSE
   )
 
