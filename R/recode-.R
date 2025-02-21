@@ -39,9 +39,9 @@ recode_fleet_cw <- function(x) {
     x %in% c("twl", "trawl") ~ "1",
     x %in% c("hkl") ~ "2",
     x %in% c("pot") ~ "3",
-    x %in% c("akshlf", "triennial", "tri", "groundfish triennial shelf survey") ~ "4",
-    x %in% c("akslp", "afsc.slope", "aslope", "ak slope", "afsc/race slope survey") ~ "5",
-    x %in% c("nwslp", "nwfsc.slope", "nslope", "nwfsc slope", "groundfish slope survey") ~ "6",
+    x %in% c("akshlf", "triennial", "triennial_early", "triennial_late", "tri", "groundfish triennial shelf survey") ~ "4",
+    x %in% c("akslp", "afsc.slope", "afsc_slope", "aslope", "ak slope", "afsc/race slope survey") ~ "5",
+    x %in% c("nwslp", "nwfsc.slope", "nwfsc_slope", "nslope", "nwfsc slope", "groundfish slope survey") ~ "6",
     x %in% c("nwcbo", "nwfsc.combo", "wcgbt", "wcgbts", "groundfish slope and shelf combination survey") ~ "7",
     x %in% c("env", "env. index") ~ "8",
     TRUE ~ NA_character_
