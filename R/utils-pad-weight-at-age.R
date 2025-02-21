@@ -9,6 +9,8 @@
 #'   weight-at-age information is stored in a column called `pred_weight`,
 #'   the four-digit year is in a column called `year`, and integer ages are
 #'   in a column called `age`.
+#' @param first_year First year to have year-specific weight-at-age based on the
+#'   data. Default for sablefish is 1997.
 #' @param n_forecast_years An integer specifying the number of forecast years
 #'   you want to extend the time series by.
 #' @param n_years_used_for_forecast An integer specifying the number of years
@@ -21,10 +23,10 @@
 #'   If there are no ages in the data to represent the older ages present in
 #'   vector, then the information for the oldest age will be repeated for any
 #'   given year.
-#' @author Kelli F. Johnson
+#' @author Kelli F. Johnson and Chantel Wetzel
 #' @return
-#' A data frame of weight-at-age information is returned that can immediately
-#' be passed to [r4ss::SS_writewtatage()].
+#' A data frame of weight-at-age information is returned that can formatted with
+#' the additional fleet options required for SS3 watage.ss.
 pad_weight_at_age <- function(
   data,
   first_year = 1997,
@@ -66,6 +68,30 @@ pad_weight_at_age <- function(
     to_add[["year"]] <- forecast_average[["year"]] + y
     forecast_df <- dplyr::bind_rows(forecast_df, to_add)
   }
+  average_2020 <- data |>
+    dplyr::filter(
+      year %in% 2019:2021
+    ) |>
+    dplyr::group_by(sex, age) |>
+    dplyr::reframe(
+      pred_weight = mean(pred_weight, na.rm = TRUE)
+    ) |>
+    dplyr::mutate(
+      year = 2020,
+      period = "annual") |>
+    dplyr::ungroup()
+  average_2002 <- data |>
+    dplyr::filter(
+      year %in% 2001:2003
+    ) |>
+    dplyr::group_by(sex, age) |>
+    dplyr::reframe(
+      pred_weight = mean(pred_weight, na.rm = TRUE)
+    ) |>
+    dplyr::mutate(
+      year = 2002,
+      period = "annual") |>
+    dplyr::ungroup()
   
   ave_weights <- dplyr::bind_rows(
     global_average,
@@ -86,7 +112,7 @@ pad_weight_at_age <- function(
   )
   
   years_to_keep <- c(year_global_average, first_year:max(forecast_df[["year"]]))
-  temp <- dplyr::bind_rows(data, global_average, forecast_df) |>
+  temp <- dplyr::bind_rows(data, global_average, average_2020, average_2002, forecast_df) |>
     dplyr::select(-period) |>
     dplyr::filter(year %in% years_to_keep) |>
     dplyr::ungroup() |>
@@ -119,18 +145,18 @@ pad_weight_at_age <- function(
   
   # TODO: 
   # 1. Decide how/when to remove unsexed fish
-  # 2. Deal with missing 2020 estimates
   
-  finish <- temp |>
-    dplyr::rename(yr = year) |>
+  fleet_wtatage <- temp |>
+    dplyr::filter(sex != "U") |>
     dplyr::mutate(
-      Seas = 1,
-      Sex = 1,
-      Bio_Pattern = 1,
-      BirthSeas = 1,
+      seas = 1,
+      sex = dplyr::case_when(sex == "F" ~ 1, .default = 2),
+      gp = 1,
+      bseas = 1,
       fleet = 1,
-      .after = "yr"
+      .after = "year"
     ) |>
     as.data.frame()
-  return(finish)
+  
+  return(fleet_wtatage)
 }
