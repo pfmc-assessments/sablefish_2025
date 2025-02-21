@@ -106,6 +106,12 @@ data_survey_indices <- dplyr::bind_rows(
   nwfsc_slope,
   wcgbt
 )   
+
+utils::write.csv(
+  data_survey_indices,
+  file = here::here("data-processed", "data-survey-indices.csv"),
+  row.names = FALSE
+)
   
 
 
