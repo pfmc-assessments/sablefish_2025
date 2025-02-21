@@ -1,10 +1,6 @@
 #' Process PacFIN bds data
 #'
-#' @param save_dir The path to the assessment package of interest. The default
-#'   uses [here::here()] to locate the appropriate directory but you can set it
-#'   to whatever directory you want as long as that directory contains
-#'   `data-raw`.
-#' @param bds_file File name of the PacFIN bds file to process. 
+#' @param bds_data Data file of th PacFIN bds data. 
 #' @param catch_file Name of the catch file to be used to expand biological data.
 #'   This file should be located within `data-processed` with the `here` package
 #'   used to find the file in the directory.
@@ -12,22 +8,17 @@
 #' @param length_bins  Numerical sequence of length bins to process length data.
 #' @param gears Gear types to group the data within.  This should align with 
 #'   PacFIN gear names.
-#' @param species_code String that is used to name the saved length and age 
-#'   composition files.
-#' @param common_name
+#' @param common_name Argument input for pacfintools::cleanPacFIN() that defines
+#'   the gear-area fleet structure (coastwide HKL, Pot, and TWL).
 #' 
 #' @export
 process_bds_data <- function(
-  save_dir = here::here("data-raw", "bds"),
-  bds_file,
+  bds_data,
   catch_file = "data_commercial_catch_expansions.csv",
   age_bins = age_bins,
   length_bins = len_bins,
   gears = gears,
-  species_code = "SABL",
   common_name = common_name) {
-  # bds.pacfin
-  load(file.path(save_dir, bds_file))
   # pre-processed catch data by year, state, and geargroup
   file_catch <- here::here("data-processed",  catch_file)
   
@@ -56,11 +47,8 @@ process_bds_data <- function(
   # 3. Determine if any age method types should be kept beyond the default of BB. 
   # Often S age methods are tossed, should we do that here?
   
-  # Pull survey data 
-  bds_survey <- nwfscSurvey::pull_bio(
-    common_name = common_name,
-    survey = "NWFSC.Combo"
-  )
+  # Load the survey data 
+  bds_survey <- data_survey_bio$nwfsc_combo
   # Estimate weight-length relationship by sex
   weight_length_estimates <- nwfscSurvey::estimate_weight_length(
     bds_survey,
@@ -73,8 +61,8 @@ process_bds_data <- function(
       valuename = "catch_mt"
     )
   
-  bds_cleaned <- PacFIN.Utilities::cleanPacFIN(
-    Pdata = bds.pacfin,
+  bds_cleaned <- cleanPacFIN(
+    Pdata = bds_data,
     keep_gears = gears,
     CLEAN = TRUE,
     keep_age_method = good_age_method,
@@ -82,21 +70,18 @@ process_bds_data <- function(
     keep_sample_method = good_methods,
     keep_length_type = good_lengths,
     keep_states = good_states,
-    spp = common_name,
-    savedir = save_dir
+    spp = common_name
   ) |>
     dplyr::mutate(
       stratification = paste(state, geargroup, sep = ".")
     )
-  save(
+  saveRDS(
     bds_cleaned, 
-    file = file.path(save_dir, paste0("cleaned_", bds_file))
+    file =  here::here("data-raw", "bds", paste0("cleaned_pacfin_bds.rds"))
   )
   # TODO: 
   # 1. determine if any data filtering should be done to remove outliers by plotting
   # age and length comparisons.  The nwfscSurvey::est_growth function can help with this.
-  # 2. evaluate whether the correct age methods are returned and whether they 
-  # are appropriate.
   
   samples <- bds_cleaned |>
     dplyr::group_by(geargroup, year) |>
@@ -111,16 +96,17 @@ process_bds_data <- function(
     as.data.frame()
   utils::write.csv(
     samples,
-    file = here::here(save_dir, paste0("data-fishery-bds-n.csv")),
+    file = here::here("data-processed", paste0("data-fishery-bds-n.csv")),
     row.names = FALSE
   )
   
-  samples_by_gear_state <- bds_cleaned |>
+  raw_samples_by_gear_state <- bds_cleaned |>
     dplyr::group_by(year, state, geargroup) |>
     dplyr::summarise(
       n_length = sum(!is.na(lengthcm)),
       n_age = sum(!is.na(Age))
-    ) |>
+    ) 
+  samples_by_gear_state <- raw_samples_by_gear_state |>
     tidyr::pivot_wider(
       names_from = state,
       values_from = c(n_length, n_age),
@@ -148,8 +134,33 @@ process_bds_data <- function(
     as.data.frame()
   utils::write.csv(
     samples_by_gear_state,
-    file = here::here(save_dir, paste0("data-fishery-bds-n-state-gear.csv")),
+    file = here::here("data-processed", paste0("data-fishery-bds-n-state-gear.csv")),
     row.names = FALSE
+  )
+  
+  gg1 <- ggplot2::ggplot(raw_samples_by_gear_state, 
+    ggplot2::aes(x = year, y = n_length, fill = state)) +
+    ggplot2::geom_bar(position="stack", stat="identity") +
+    ggplot2::theme_bw() +
+    ggplot2::ylab("# of Lengths") + ggplot2::xlab("Year") +
+    ggplot2::scale_fill_viridis_d() +
+    ggplot2::facet_grid(geargroup~.)
+  ggplot2::ggsave(
+    gg1, 
+    filename = here::here("data-raw", "bds", "plots", "bds_lengths_by_year_gear.png"),
+    height = 7, width = 7
+  )
+  gg2 <- ggplot2::ggplot(raw_samples_by_gear_state |> dplyr::filter(year > 1985), 
+    ggplot2::aes(x = year, y = n_age, fill = state)) +
+    ggplot2::geom_bar(stat="identity") +
+    ggplot2::theme_bw() +
+    ggplot2::ylab("# of Ages") + ggplot2::xlab("Year") +
+    ggplot2::scale_fill_viridis_d() +
+    ggplot2::facet_grid(geargroup~.)
+  ggplot2::ggsave(
+    gg2, 
+    filename = here::here("data-raw", "bds", "plots", "bds_ages_by_year_gear.png"),
+    height = 7, width = 7
   )
   
   bds_modified <- bds_cleaned |>
@@ -161,47 +172,63 @@ process_bds_data <- function(
       )
     )
   
-  expanded_comps <- PacFIN.Utilities::get_pacfin_expansions(
+  expanded_comps <- get_pacfin_expansions(
     Pdata = bds_modified,
     Catch = catch_formatted,
     weight_length_estimates = weight_length_estimates,
     Units = "MT",
     maxExp = expansion,
     Exp_WA = TRUE,
-    verbose = TRUE,
-    savedir = save_dir
+    verbose = FALSE
   )
   
-  length_comps_long <- PacFIN.Utilities::getComps(
-    Pdata = dplyr::filter(expanded_comps, !is.na(lengthcm)),
+  length_comps_long <- getComps(
+    Pdata = expanded_comps |> dplyr::filter(!is.na(lengthcm)),
     Comps = "LEN",
-    weightid = "Final_Sample_Size_L"
+    weightid = "Final_Sample_Size_L",
+    verbose = FALSE
   )
   
-  length_composition_data <- PacFIN.Utilities::writeComps(
+  length_composition_data <- writeComps(
     inComps = length_comps_long,
-    fname = fs::path(
-      save_dir,
-      glue::glue("{species_code}_lcomps_{min(length_bins)}-{max(length_bins)}.csv")
-    ),
+    column_with_input_n = "n_stewart",
     comp_bins = length_bins,
-    verbose = TRUE
-  ) 
+    verbose = FALSE
+  ) |>
+    dplyr::mutate(
+      fleet = recode_fleet_cw(fleet)
+    ) |>
+    dplyr::arrange(fleet)
   
-  age_comps_long <- PacFIN.Utilities::getComps(
+  age_comps_long <- getComps(
     Pdata =  dplyr::filter(expanded_comps, !is.na(Age)),
     Comps = "AGE",
     weightid = "Final_Sample_Size_A"
   )
   
-  age_composition_data <- PacFIN.Utilities::writeComps(
+  age_composition_data <- writeComps(
     inComps = age_comps_long,
-    fname = fs::path(
-      save_dir,
-      glue::glue("{species_code}_acomps_{min(age_bins)}-{max(age_bins)}.csv")
-    ),
     comp_bins = age_bins,
-    verbose = TRUE
+    column_with_input_n = "n_stewart",
+    verbose = FALSE
+  ) |>
+    dplyr::mutate(
+      fleet = recode_fleet_cw(fleet)
+    ) |>
+    dplyr::arrange(fleet)
+
+  utils::write.csv(
+    age_composition_data,
+    file = here::here("data-processed",
+        glue::glue("data-commercial-comps_age-{min(age_bins)}-{max(age_bins)}.csv")),
+    row.names = FALSE
+  )
+  
+  utils::write.csv(
+    length_composition_data,
+    file = here::here("data-processed",
+        glue::glue("data-commercial-comps-length-{min(length_bins)}-{max(length_bins)}.csv")),
+    row.names = FALSE
   )
 
 }
