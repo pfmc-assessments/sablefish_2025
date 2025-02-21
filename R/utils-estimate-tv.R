@@ -56,13 +56,23 @@ estimate_tv_weight_at_age <- function(
     dplyr::select(-path) |>
     dplyr::filter(weight > 0, outlier == FALSE)
 
+  remove <- which(weight_at_age_data$sex == "U" & weight_at_age_data$age != 0)
+  weight_at_age_data <- weight_at_age_data[-remove, ]
+  # Randomly assign unsexed age-0 fish to a M or F 50/50
+  set.seed(98105)
+  weight_at_age_data <- weight_at_age_data |>
+    dplyr::group_by(year) |>
+    dplyr::mutate(
+      sex = dplyr::case_when(
+        sex == "U" ~sample(rep(c("F", "M"), length = dplyr::n())), .default = sex),
+      sex = as.factor(sex)
+    )
   
   # TODO: 
   # 1. add area to the model
-  # 2. offset?
   fit <- sdmTMB::sdmTMB(
     data = weight_at_age_data,
-    formula = weight ~ 1 + s(age, by = sex) + (1|fcohort) + (1|fyear) + sex, # + area,
+    formula = weight ~ 1 + s(age, by = sex, k = 20) + (1|fcohort) + (1|fyear) + sex, # + area,
     family = sdmTMB::lognormal(link = "log"),
     spatial = "off",
     spatiotemporal = "off",
@@ -130,9 +140,6 @@ estimate_tv_weight_at_age <- function(
   # TODO: 
   # 1. Does area need to be added here or is taken care if it is available in the 
   # weighted in the prediction grid?
-  # 2. Determine if it makes sense to filter for unsexed of age-0 and to add
-  # these estimates to sexed fish. Or should this be dealt with later.
-  # Currently, there are 441 unsexed fish of age-0 (f age-0 398, m age-0 562).
   ewaa <- dplyr::group_by(preds, year, sex, age) |>
     dplyr::summarise(
       n = dplyr::n(),
