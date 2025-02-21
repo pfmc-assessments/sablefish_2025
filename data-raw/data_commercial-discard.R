@@ -1,4 +1,4 @@
-pak::pkg_install("pfmc-assessments/nwfscSurvey@fix-comp")
+
 library(nwfscSurvey)
 area <- "coastwide"
 

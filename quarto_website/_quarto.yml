@@ -3,24 +3,12 @@ project:
 
 website:
   title: "Sablefish 2025"
-#  navbar:
-#    background: primary
-#    search: true
-#    left:
-#      - text: "Introduction"
-#        href: 01_intro.qmd
-#      - text: "Fishery Data"
-#        href: 02_fishery_data.qmd
-#      - text: "Fishery Independent Data"
-#        href: 03_survey_data.qmd
-#      - text: "Biology"
-#        href: 04_biology.qmd
   sidebar: 
     style: "docked"
     search: true
     contents:
       - text: "Introduction"
-        href: 01_intro.qmd
+        href: 01_introduction.qmd
       - text: "Fishery Data"
         href: 02_fishery_data.qmd
       - text: "Fishery Independent Data"

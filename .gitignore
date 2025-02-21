@@ -7,8 +7,11 @@ _main.md
 *.aux
 *.upa
 *.log
+*.tex
+*.pdf
 
 model/
+quarto_website/rsconnect
 data-raw/2023
 data-raw/ageing_error
 data-raw/ashop
@@ -19,6 +22,7 @@ data-raw/landings
 data-raw/recfin
 data-raw/survey
 data-raw/weight_at_age
+data-raw/maturity
 presentations/
 scientific_papers/
 report/sablefish_convert_output.csv

@@ -1,5 +1,277 @@
-## Relative Indices of Abundance
 
-## Survey Compositions
+```{r}
+#| label: load-survey-data
+#| echo: false
+#| warning: false
+library(ggplot2)
+library(dplyr)
+library(gt)
+library(nwfscSurvey)
 
-## 
+# this needs to be fixed to use relative directories
+project_dir <- "C:/Assessments/2025/sablefish_2025"
+data_proc <- file.path(project_dir , "data-processed")
+index <- file.path(project_dir , "data-raw", "survey", "trawl", "indices")
+data <- file.path(project_dir , "data")
+
+
+load(file.path(data, "data_survey_catch.rda"))
+load(file.path(data, "data_survey_bio.rda"))
+wcgbt_catch <- data_survey_catch$nwfsc_combo |>
+  dplyr::mutate(
+    positive = dplyr::case_when(total_catch_numbers > 0 ~ 1, .default = 0),
+    state = dplyr::case_when(Latitude_dd > 46.25 ~ "WA", 
+                             Latitude_dd < 36.0 ~ "SCA", 
+                             Latitude_dd >= 36.0 & Latitude_dd < 42.0 ~ "NCA",
+                             .default = "OR"))
+
+wcgbt_bio <- data_survey_bio$nwfsc_combo
+
+wcgbt_area <- read.csv(file.path(index, "wcgbts", "delta_gamma", "index", "est_by_area.csv")) |>
+  dplyr::filter(area %in%  c("North of Monterey Bay", "South of Monterey Bay")) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    total_est = sum(est)
+  ) |>
+  dplyr::mutate(
+    prop = est / total_est
+  )
+
+wcgbt <- read.csv(file.path(index, "wcgbts", "delta_gamma", "index", "est_by_area.csv")) |>
+  dplyr::filter(area == "Coastwide") |>
+  dplyr::mutate(
+    ave_index = mean(est),
+    index = est / ave_index,
+    survey = "WCGBT"
+  )
+tri_early <- read.csv(file.path(index, "triennial_early", "delta_gamma", "index", "est_by_area.csv")) |>
+  dplyr::filter(area == "Coastwide") |>
+  dplyr::mutate(
+    ave_index = mean(est),
+    index = est / ave_index,
+    survey = "Triennial"
+  )
+tri_late <- read.csv(file.path(index, "triennial_late", "delta_lognormal", "index", "est_by_area.csv")) |>
+  dplyr::filter(area == "Coastwide") |>
+  dplyr::mutate(
+    ave_index = mean(est),
+    index = est / ave_index,
+    survey = "Triennial"
+  )
+afsc_slope <- read.csv(file.path(index, "afsc_slope", "tweedie", "index", "est_by_area.csv")) |>
+  dplyr::filter(area == "Coastwide") |>
+  dplyr::mutate(
+    ave_index = mean(est),
+    index = est / ave_index,
+    survey = "AFSC Slope"
+  )
+nwfsc_slope <- read.csv(file.path(index, "nwfsc_slope", "delta_lognormal", "index", "est_by_area.csv")) |>
+  dplyr::filter(area == "Coastwide") |>
+  dplyr::mutate(
+    ave_index = mean(est),
+    index = est / ave_index,
+    survey = "NWFSC Slope"
+  )
+
+```
+
+## NWFSC West Coast Groundfish Bottom Trawl Survey
+
+The NWFSC West Coast Groundfish Bottom Trawl (WCGBT) survey is based on a random grid design; covering the coastal waters between 55 meter and 1,280 meter in depth sampling coastwide between U.S./Mexico and U.S./Canada border. Two vessels fish from north to south during each pass between late May and early October. The survey started in 2003 and has been conducted annually, except for 2020. 
+
+### Relative Indices of Abundance
+
+```{r}
+#| label: wcgbt-index
+#| echo: false
+#| fig-cap: "NWFSC West Coast Groundfish Bottom Trawl survey relative index of abundance (mt) for sablefish."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "index_coastwide.png")
+)
+
+```
+
+
+```{r}
+#| label: wcgbt-cpue
+#| echo: false
+#| fig-cap: "NWFSC West Coast Groundfish Bottom Trawl survey median catch per unit effort (CPUE) kilogram per kilometer squared (kg/km2) for sablefish."
+#| fig-cap-location: margin
+#| warning: false
+
+cpue <- wcgbt_catch |>
+  group_by(Year, state) |>
+  summarise(
+    med_cpue = median(cpue_kg_km2)
+  )
+
+ggplot(cpue, aes(x = Year, y = med_cpue, color = state)) +
+  geom_line(linewidth = 1.5) +
+  scale_color_viridis_d() +
+  ylab("Median CPUE kg/km2") +
+  theme_bw()
+
+```
+
+
+```{r}
+#| label: wcgbt-index-by-area
+#| echo: false
+#| tbl-cap: "Estimated percentage of sablefish biomass estimated north and south of 36 N. latitude based on the NWFSC WCGBT survey data over the last five years."
+#| tbl-cap-location: margin
+
+wcgbt_area |>
+  filter(year >= 2019) |>
+  mutate(
+    Area = dplyr::case_when(area == "North of Monterey Bay" ~ "N. 36 Latitude",
+                            .default = "S. 36 Latitude")
+  ) |>
+  rename(
+    Year = year,
+    Proportion = prop) |>
+  select(Year, Area, Proportion) |>
+  tidyr::pivot_wider(
+    names_from = Area,
+    values_from = Proportion
+  ) |>
+  dplyr::ungroup() |>
+  gt() |>
+  tab_header(
+    title = "Estimated percentage of sablefish biomass estimated north and south of 36 N. latitude based on the NWFSC WCGBT survey data over the last five years."
+  ) |>
+  fmt_percent(
+    columns = 2:3,
+    decimals = 1
+  ) |>
+  cols_align(
+    align = "center"
+  ) |>
+  tab_options(
+    table.font.size = 20,
+    table.align = "right"
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "white"),
+      cell_text(color = "black")
+    ),
+    locations = cells_body(
+      columns = everything()
+    )
+  ) 
+
+```
+
+
+
+```{r}
+#| label: presence-by-lat
+#| echo: false
+#| fig-cap: "Proportion of tows where sablefish was present or absent across all years by latitude for the NWFSC West Coast Groundfish Bottom Trawl survey."
+#| fig-cap-location: margin
+
+nwfscSurvey::plot_proportion(
+    data = wcgbt_catch |> dplyr::mutate(new = factor(cpue_kg_km2 <= 0, levels = c(FALSE, TRUE), labels = c("Present", "Absent"))),
+    column_factor = new,
+    column_bin = Latitude_dd,
+    width = 1,
+    boundary = 0,
+    bar_width = "equal"
+  )
+
+```
+
+
+```{r}
+#| label: presence-by-depth
+#| echo: false
+#| fig-cap: "Proportion of tows where sablefish was present or absent across all years by depth for the NWFSC West Coast Groundfish Bottom Trawl survey."
+#| fig-cap-location: margin
+
+nwfscSurvey::plot_proportion(
+    data = wcgbt_catch |>
+      dplyr::mutate(
+        new = factor(
+          cpue_kg_km2 <= 0,
+          levels = c(FALSE, TRUE),
+          labels = c("Present", "Absent")
+        )
+      ),
+    column_factor = new,
+    column_bin = Depth_m,
+    width = 50,
+    boundary = 0,
+    bar_width = "equal" 
+  )
+```
+
+
+### Survey Compositions
+
+
+### Other Trends in the Data
+
+## Other Survey Data
+
+### Environmental Indices
+
+
+### Other Trawl Surveys
+
+The assessment will include relative indices of abundance and composition data from historical U.S. West Coast trawl surveys: the Triennial Shelf Survey, AFSC Slope Survey, and NWFSC Slope Survey.  
+
+Triennial Shelf Survey:
+
+- The survey operated on a tri-annual basis starting in 1980 and ending in 2004.
+- The survey sampled a depth range between 55-500 meters.
+- The southern sampling range changed over time, extending to range between Point Conception in California to the U.S./Canadian border starting in 1992.
+- The timing of sampling shifted to later in the summer months starting in 1995.
+
+AFSC Slope Survey:
+
+- The years of sampling used within West Coast groundfish assessments from this survey are 1997, 1999, 2000, and 2001.
+- The survey sampled between Point Conception in California to the U.S./Canadian border.
+- The survey sampled a depth range between 183-1,280 meters.
+
+NWFSC Slope Survey:
+
+- This survey operated annually between 1998 to 2002.
+- The survey sampled between Point Conception in California to the U.S./Canadian border between 1998-2001 extended the southern sampling range into the area south of Point Conception in 2002.
+- The survey sampled a depth range between 183-1,280 meters.
+
+
+```{r}
+#| label: stand-index-plot
+#| echo: false
+#| warning: false
+#| fig-cap: "add caption"
+#| fig-cap-location: margin
+
+index_data <- dplyr::bind_rows(
+  wcgbt, 
+  tri_early,
+  tri_late,
+  nwfsc_slope,
+  afsc_slope
+) 
+
+ggplot(index_data, aes(x = year, y = index, color = survey, shape = survey)) +
+  geom_point(size = 3) + 
+  geom_line(linewidth = 1.0) +
+  geom_hline(yintercept = 1, linetype="dashed", color = "black") +
+  scale_color_viridis_d(begin = 0, end = 0.9) +
+  theme_bw() + 
+  ylab("Standardized Trends") + xlab("Year")
+
+```
+
+
+## Trends Observed in Canada and Alaska
+
+
+**Disclaimer: All data summaries and exploration presented here are preliminary and may not be indicative of the final data that will be incorporated in the 2025 assessment**
+
+
+

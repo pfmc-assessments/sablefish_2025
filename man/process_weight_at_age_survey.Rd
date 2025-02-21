@@ -5,21 +5,13 @@
 \title{Get the weight-at-age data from the survey data.}
 \usage{
 process_weight_at_age_survey(savedir = getwd())
-
-process_weight_at_age_survey(savedir = getwd())
 }
 \arguments{
 \item{savedir}{A string specifying the path of interest.}
-
-\item{bds}{}
 }
 \description{
 Get the weight-at-age data from the survey data.
-
-Get the weight-at-age data from the fishery data.
 }
 \author{
 Kelli F. Johnson
-
-Chantel Wetzel
 }

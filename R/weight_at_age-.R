@@ -38,13 +38,14 @@ weight_at_age_wide <- function(
   
   dat_filtered <- dat |>
     dplyr::mutate(
+      Sex = dplyr::case_when(sex == "F" ~ 1, .default = 2),
       Fleet = 1,
       # I wonder if I should use the maximum population age b/c then the data would
       # be more correct, albeit more sparse in those bins, check the sample sizes
-      Age_yrs = ifelse(age_years <= max_age, age_years, 70)
+      Age_yrs = ifelse(age_years <= max_age, age_years, max_age)
     ) |>
     dplyr::filter(!is.na(weight_kg), !is.na(age_years)) |>
-    dplyr::group_by(year, Age_yrs, Fleet)
+    dplyr::group_by(year, Age_yrs, Sex, Fleet)
   
   if (value == "weight") {
     dat_grouped <- dat_filtered |>
@@ -68,7 +69,6 @@ weight_at_age_wide <- function(
   add_cols = data.frame(
     year = unique(dat_grouped[["year"]]),
     seas = 1,
-    sex = 1,
     GP = 1,
     bseas = 1
   )
@@ -81,9 +81,10 @@ weight_at_age_wide <- function(
     ) |>
     dplyr::relocate(a0, .before = a1) 
   
-  test <- dplyr::full_join(x = add_cols, y = weight_at_age, by = "year") |>
-    dplyr::rename("#Yr" = year)
-  return(weight_at_age)
+  weight_at_age_ordered <- dplyr::full_join(x = add_cols, y = weight_at_age, by = "year") |>
+    #dplyr::rename("#_year" = year) |>
+    dplyr::relocate(Sex, .before = "GP")
+  return(weight_at_age_ordered)
 }
 
 fill_wtage_matrix <- function(wtage, option = c("row", "age")) {
@@ -133,8 +134,8 @@ rich.colors.short <- function(n, alpha = 1) {
 
 # need to update the yrvec here because not an argument in makewtatagaeplots function
 makeimage <- function(
-  agevec = 0:70, 
-  yrvec = 1975:2024,
+  agevec, 
+  yrvec,
   mat, # matrix of values by age and year
   meanvec = NULL, # vector of mean value by age across years
   Ntext = FALSE, # switch to have text show sample size rather than value
@@ -158,20 +159,22 @@ makeimage <- function(
   }
   par(mar = margins)
   yrvec2 <- c(min(yrvec)-2, min(yrvec-1), yrvec)
-  mat2 <- cbind(meanvec, NA, mat)
+  mat2 <- cbind(t(meanvec), NA, mat)
+  mat2 <- as.matrix(mat2)
   if (Ntext) {
     Nsamp.mat2 <- cbind(Nsamp.meanvec, NA, Nsamp.mat)
   }
-  if (max(mat, na.rm = TRUE) < 4) { # assume weights
-    breaks <- seq(0, 4, length = 51)
+  if (max(mat, na.rm = TRUE) < 6) { # assume weights
+    breaks <- seq(0, 6, length = (length(agevec) + 1))
     digits <- 2 # round weights to 2 digits
   } else { # assume length
-    breaks <- seq(10, 80, length = 51)
+    breaks <- seq(10, 80, length = (length(agevec) + 1))
     digits <- 1 # round lengths to 1 digit
   }
   image(
-    x = 0:71, y = yrvec2, z = mat2, axes = FALSE, xlab = "Age", ylab = "Year",
-    col = rainbow(60)[1:50], main = main, breaks = breaks
+    x = agevec, y = yrvec2, z = mat2, 
+    axes = FALSE, xlab = "Age", ylab = "Year",
+    col = rainbow(length(agevec)), main = main, breaks = breaks
   )
   # add text
   zdataframe <- expand.grid(yr = yrvec2, age = agevec)
@@ -197,7 +200,7 @@ makeimage <- function(
     ztext <- zdataframe$Nsamp
     text(x = zdataframe$age, y = zdataframe$yr, label = ztext, font = zdataframe$font, cex = .7)
   }
-  interp <- zdataframe[is.na(zdataframe$interp) & zdataframe$yr != 1974, ]
+  interp <- zdataframe[is.na(zdataframe$interp) & zdataframe$yr != min(yrvec), ]
   if (dorect) {
     rect(interp$age - .5, interp$yr - .5,
          interp$age + .5, interp$yr + .5,
@@ -205,7 +208,7 @@ makeimage <- function(
     )
   }
   # finish plot
-  axis(1, at = 0:70, cex.axis = .7)
+  axis(1, at = agevec, cex.axis = .7)
   axis(2,
        at = c(min(yrvec)-1, yrvec),
        labels = c("mean", yrvec), las = 1, cex.axis = .7
@@ -214,9 +217,18 @@ makeimage <- function(
 
 dointerpSimple <- function(df, skipcols = 1:6) {
   cols <- setdiff(1:ncol(df), skipcols)
-  n <- nrow(df)
-  for (icol in cols) {
-    df[, icol] <- approx(x = 1:n, xout = 1:n, y = as.matrix(df[, icol]))$y
+  n_sex <- unique(df[, "Sex"])
+  n <- ifelse(length(n_sex) == 1, nrow(df), nrow(df) / 2)
+  # The approx function returns a list of points which linearly interpolate 
+  # given data points, or a function performing the linear (or constant) interpolation.
+  # Weight-at-age is interpolated across all years by age.
+  for (s in n_sex){
+    for (icol in cols) {
+      df[which(df$Sex == s), icol] <- approx(
+        x = 1:n, 
+        xout = 1:n, 
+        y = as.matrix(df[which(df$Sex == s), icol]))$y
+    }    
   }
   return(df)
 }
@@ -249,17 +261,18 @@ make_wtatage_plots <- function(
   plots = 1:6, 
   data, 
   counts, 
+  max_age,
   lengths = NULL,
   dir = getwd(), 
-  year = as.numeric(format(Sys.Date(), "%Y")), 
-  max_age = 70) {
+  year = as.numeric(format(Sys.Date(), "%Y"))) {
   # make plots
   # plot of all data with mean
   
   on.exit(grDevices::graphics.off())
+  sex_name <- ifelse(unique(data$Sex) == 1, "f", "m")
   data <- data[, !grepl("Note", colnames(data), ignore.case = TRUE)]
   agecols <- grep(paste0("^a", 0:max_age, collapse = "|"), colnames(data))
-  meanvec <- as.numeric(data[1, agecols])
+  meanvec <- data[1, agecols]
   mat <- t(as.matrix(data[-1, agecols]))
   wt1 <- dointerpSimple(data[-1, ])
   temp <- fill_wtage_matrix(wt1[, agecols])
@@ -272,25 +285,32 @@ make_wtatage_plots <- function(
   if (1 %in% plots) {
     fileplot <- file.path(
       dir,
-      paste0("empirical_wtatage_", year, "_alldata_1_nointerp.png")
+      paste0("empirical_wtatage_", sex_name, "_", year, "_alldata_1_nointerp.png")
     )
     grDevices::png(fileplot, width = 15, height = 9, units = "in", res = 400)
     makeimage(
-      mat = mat, meanvec = meanvec, main = "Mean weight at age (all data)",
-      yrvec = (year - ncol(mat) + 1):year
+      mat = mat, 
+      meanvec = meanvec, 
+      main = "Mean weight at age (all data)",
+      yrvec = (year - ncol(mat) + 1):year, #yr_to_plot,
+      agevec = 0:max_age
     )
     dev.off()
     # plot showing sample sizes
     fileplot <- file.path(
       dir,
-      paste0("empirical_wtatage_", year, "_alldata_1B_nointerp_numbers.png")
+      paste0("empirical_wtatage_", sex_name, "_", year, "_alldata_1B_nointerp_numbers.png")
     )
     grDevices::png(fileplot, width = 15, height = 9, units = "in", res = 400)
     makeimage(
-      mat = mat, meanvec = meanvec, Ntext = TRUE,
-      Nsamp.meanvec = Nsamp.meanvec, Nsamp.mat = Nsamp.mat,
+      mat = mat, 
+      meanvec = meanvec, 
+      Ntext = TRUE,
+      Nsamp.meanvec = Nsamp.meanvec, 
+      Nsamp.mat = Nsamp.mat,
       main = "Mean weight at age (colors) with sample sizes (numbers)",
-      yrvec = (year - ncol(mat) + 1):year
+      yrvec = (year - ncol(mat) + 1):year,
+      agevec = 0:max_age
     )
     dev.off()
   }
@@ -299,13 +319,15 @@ make_wtatage_plots <- function(
     mat1 <- t(as.matrix(wt1[, agecols]))
     fileplot <- file.path(
       dir,
-      paste0("empirical_wtatage_", year, "_alldata_2_interp.png")
+      paste0("empirical_wtatage_", sex_name, "_", year, "_alldata_2_interp.png")
     )
     grDevices::png(fileplot, width = 15, height = 9, units = "in", res = 400)
     makeimage(
-      mat = mat1, meanvec = meanvec,
+      mat = mat1, 
+      meanvec = meanvec,
       main = "Mean weight at age with interpolation (all data)",
-      yrvec = (year - ncol(mat1) + 1):year
+      yrvec = (year - ncol(mat1) + 1):year,
+      agevec = 0:max_age
     )
     dev.off()
   }
@@ -313,13 +335,15 @@ make_wtatage_plots <- function(
   if (3 %in% plots) {
     fileplot <- file.path(
       dir,
-      paste0("empirical_wtatage_", year, "_alldata_3_interp_extrap.png")
+      paste0("empirical_wtatage_", sex_name, "_", year, "_alldata_3_interp_extrap.png")
     )
     grDevices::png(fileplot, width = 15, height = 9, units = "in", res = 400)
     makeimage(
-      mat = mat2, meanvec = meanvec,
+      mat = mat2,
+      meanvec = meanvec,
       main = "Mean weight at age with interpolation & extrapolation (all data)",
-      yrvec = (year - ncol(mat2) + 1):year
+      yrvec = (year - ncol(mat2) + 1):year,
+      agevec = 0:max_age
     )
     dev.off()
   }
@@ -327,14 +351,18 @@ make_wtatage_plots <- function(
   if (4 %in% plots) {
     fileplot <- file.path(
       dir,
-      paste0("empirical_wtatage_", year, "_alldata_4_interp_extrap_shade.png")
+      paste0("empirical_wtatage_", sex_name, "_", year, "_alldata_4_interp_extrap_shade.png")
     )
     grDevices::png(fileplot, width = 20, height = 9, units = "in", res = 400)
     makeimage(
-      mat = mat2, interpmat = mat, dofont = FALSE, dorect = TRUE,
+      mat = mat2, 
+      interpmat = mat, 
+      dofont = FALSE, 
+      dorect = TRUE,
       meanvec = meanvec,
       main = "Mean weight at age with interpolation & extrapolation (all data)",
-      yrvec = (year - ncol(mat2) + 1):year
+      yrvec = (year - ncol(mat2) + 1):year,
+      agevec = 0:max_age
     )
     dev.off()
   }
@@ -342,14 +370,18 @@ make_wtatage_plots <- function(
   if (5 %in% plots) {
     fileplot <- file.path(
       dir,
-      paste0("empirical_wtatage_", year, "_alldata_5_interp_extrap_bold.png")
+      paste0("empirical_wtatage_", sex_name, "_", year, "_alldata_5_interp_extrap_bold.png")
     )
     grDevices::png(fileplot, width = 20, height = 9, units = "in", res = 400)
     makeimage(
-      mat = mat2, interpmat = mat, dofont = TRUE, dorect = FALSE,
+      mat = mat2, 
+      interpmat = mat, 
+      dofont = TRUE, 
+      dorect = FALSE,
       meanvec = meanvec,
       main = "Mean weight at age with interpolation & extrapolation (all data)",
-      yrvec = (year - ncol(mat2) + 1):year
+      yrvec = (year - ncol(mat2) + 1):year,
+      agevec = 0:max_age
     )
     dev.off()
   }
@@ -358,29 +390,35 @@ make_wtatage_plots <- function(
   if (6 %in% plots & !is.null(lengths)) {
     fileplot <- file.path(
       dir,
-      paste0("empirical_lenatage_", year, "_alldata_6_nointerp.png")
+      paste0("empirical_lenatage_", sex_name, "_", year, "_alldata_6_nointerp.png")
     )
     len.meanvec <- as.numeric(lengths[1, agecols])
     len.mat <- t(as.matrix(lengths[-1, agecols]))
     
     grDevices::png(fileplot, width = 20, height = 9, units = "in", res = 400)
     makeimage(
-      mat = len.mat, meanvec = len.meanvec,
+      mat = len.mat, 
+      meanvec = len.meanvec,
       main = "Mean length at age (all data, cm)",
-      yrvec = (year - ncol(len.mat) + 1):year
+      yrvec = (year - ncol(len.mat) + 1):year,
+      agevec = 0:max_age
     )
     dev.off()
     
     fileplot <- file.path(
       dir,
-      paste0("empirical_lenatage_", year, "_6B_nointerp_numbers.png")
+      paste0("empirical_lenatage_", sex_name, "_", year, "_6B_nointerp_numbers.png")
     )
     grDevices::png(fileplot, width = 20, height = 9, units = "in", res = 400)
     makeimage(
-      mat = len.mat, meanvec = len.meanvec, Ntext = TRUE,
-      Nsamp.meanvec = Nsamp.meanvec, Nsamp.mat = Nsamp.mat,
+      mat = len.mat, 
+      meanvec = len.meanvec, 
+      Ntext = TRUE,
+      Nsamp.meanvec = Nsamp.meanvec, 
+      Nsamp.mat = Nsamp.mat,
       main = "Mean length at age (colors) with sample sizes (numbers)",
-      yrvec = (year - ncol(len.mat) + 1):year
+      yrvec = (year - ncol(len.mat) + 1):year,
+      agevec = 0:max_age
     )
     dev.off()
   }
@@ -397,7 +435,8 @@ make_wtatage_plots <- function(
 write_wtatage_file <- function(
   file = paste0("wtatage_", format(Sys.time(), "%Y"), "created_", format(Sys.time(), "%d-%b-%Y_%H.%M"), ".ss"),
   data,
-  maturity) {
+  maturity,
+  n_fleet = 9) {
   # Ensure column name that matters is lowercase
   colnames(data)[grep("fleet", ignore.case = TRUE, colnames(data))] <- "fleet"
   
@@ -426,18 +465,17 @@ write_wtatage_file <- function(
   on.exit(close(zz), add = TRUE)
   sink(zz)
   
-  nrows_per_matrix <- nrow(data)
-  nrows_total <- 1 + 4 * nrows_per_matrix
-  
   header <- c(
-    "# empirical weight-at-age Stock Synthesis input file for hake",
+    "# empirical weight-at-age Stock Synthesis input file for sablefish",
     "# created by code in the R script: wtatage_calculations.R",
     paste("# creation date:", Sys.time()),
     "###################################################",
     "70 # Maximum age",
     "",
-    "#Maturity x Fecundity: Fleet = -2 (Values maturity unchanged from 2012 Stock Assessment)",
-    "#Maturity x Fecundity: Fleet = -2 (are maturity * wtatage)",
+    "# Fecundity: Fleet = -2 (are maturity * wtatage)",
+    "# Wt-at-Age Mid-Season: Fleet = -1",
+    "# Wt-at-Age Beginning-Season: Fleet = -0",
+    "# Wt-at-Age by Fleet: Fleet = 1+",
     ""
   )
   writeLines(header)
@@ -452,13 +490,13 @@ write_wtatage_file <- function(
   
   writeLines("#All matrices below use the same values, pooled across all data sources")
   
-  for (ifleet in -1:3) {
+  for (ifleet in -1:n_fleet) {
     data$fleet <- ifleet
     if (ifleet == -1) note <- "#Weight at age for population in middle of the year: Fleet = -1"
     if (ifleet == 0) note <- "#Weight at age for population at beginning of the year: Fleet = 0"
     if (ifleet > 0) {
       note <- glue::glue(
-        "#Weight at age for {ifelse(ifleet == 1, 'Fishery', 'Survey')}: Fleet = {ifleet}"
+        "#Weight at age for {ifelse(ifleet <= 3, 'Fishery', 'Survey')}: Fleet = {ifleet}"
       )
     }
     

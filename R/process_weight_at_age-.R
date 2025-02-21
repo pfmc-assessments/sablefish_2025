@@ -13,28 +13,54 @@ process_weight_at_age_survey <- function(savedir = getwd()) {
       dplyr::rename_with(
         tolower
       ) |>
-      dplyr::filter(
-        !is.na(age), !is.na(weight_kg)
+      dplyr::select(
+        -legacy_performance_code
       )
   }
   # There are no weights in the NWFSC Slope data
-  survey_data <- rbind(
-    filter_data(data_survey_bio$nwfsc_combo[[1]]),
+  survey_data <- dplyr::bind_rows(
+    filter_data(data_survey_bio$nwfsc_combo),
     filter_data(data_survey_bio$afsc_slope$age_data),
-    filter_data(data_survey_bio$triennial$age_data)
+    filter_data(data_survey_bio$triennial_early$age_data),
+    filter_data(data_survey_bio$triennial_late$age_data)
   ) |>
-    dplyr::mutate(
-      state = dplyr::case_when(latitude_dd > 46.25 ~ "WA", latitude_dd < 42.0 ~ "CA", .default = "OR"),
-      sex = nwfscSurvey::codify_sex(sex)) |>
-    dplyr::filter(sex != "U") |>
-    dplyr::select(project, year, state, sex, length_cm, age_years, weight_kg, date)  |>
-    dplyr::rename(source = project)
+  dplyr::filter(!is.na(age_years), !is.na(weight_kg)) |>
+  dplyr::mutate(
+    state = dplyr::case_when(latitude_dd > 46.25 ~ "WA", latitude_dd < 42.0 ~ "CA", .default = "OR"),
+    area = dplyr::case_when(latitude_dd > 36 ~ "north", .default = "south"),
+    sex = nwfscSurvey::codify_sex(sex),
+    wgt_len_ratio = weight_kg / length_cm,
+    outlier = dplyr::case_when(wgt_len_ratio > quantile(wgt_len_ratio, 0.995) ~ TRUE, .default = FALSE)
+  ) |>
+  dplyr::select(project, year, state, area, sex, length_cm, age_years, weight_kg, depth_m, date, wgt_len_ratio, outlier)  |>
+  dplyr::rename(source = project)
   
   # Save the data after combining with old data
-  file_path <- fs::path(savedir, "data-raw", "data_weight_at_age_survey.csv")
+  file_path <- fs::path(savedir, "data-processed")
   utils::write.csv(
     x = survey_data,
-    file = file_path,
+    file = fs::path(file_path, "data_weight_at_age_survey.csv"),
+    quote = FALSE,
+    row.names = FALSE
+  )
+  
+  samples_age_sex <- survey_data |>
+    dplyr::mutate(
+      age_modified = dplyr::case_when(age_years > 30 ~ 30, .default = age_years)
+    ) |>
+    dplyr::group_by(year, sex, age_modified) |>
+    dplyr::summarise(
+      n = dplyr::n()
+    ) |>
+    dplyr::arrange(age_modified) |>
+    tidyr::pivot_wider(
+      names_from = age_modified,
+      values_from = n,
+      values_fill = 0
+    )
+  utils::write.csv(
+    x = samples_age_sex,
+    file = fs::path(file_path, "wtatage-all-samplesize.csv"),
     quote = FALSE,
     row.names = FALSE
   )
@@ -49,7 +75,7 @@ process_weight_at_age_survey <- function(savedir = getwd()) {
 #' @export
 #' @author Chantel Wetzel
 #'
-process_weight_at_age_survey <- function(savedir = getwd()) {
+process_weight_at_age_fishery <- function(savedir = getwd()) {
   
   raw_bds <-
     fs::dir_ls(here::here("data-raw", "bds"), regex = "PacFIN\\..+bds") |>
@@ -124,29 +150,63 @@ process_weight_at_age_survey <- function(savedir = getwd()) {
 #'
 #' @export
 #' @author Chantel Wetzel and Ian G. Taylor
-#' @return 
 #'
 process_weight_at_age <- function(
-  data_dir = here::here("data-processed"),
-  savedir =  here::here("data-raw", "weight_at_age"),
-  max_age = 70,
-  years = 1995:2024,
+  dir = here::here(),
+  max_age = 30,
+  years = 1997:2024,
   n_avg_years = 5,
   n_forecast = 12,
+  n_fleet = 9,
   maturity = maturity_at_age) {
-  fs::dir_create(path = file.path(savedir, "plots"))
+  fs::dir_create(path = file.path(dir, "data-raw", "weight_at_age"))
+  fs::dir_create(path = file.path(dir, "data-raw", "weight_at_age", "plots"))
   files_weights <- fs::path(
     ext = "csv",
-    data_dir,
-    c("data_weight_at_age_survey", "data_weight_at_age_fishery")
+    dir,
+    "data-processed",
+    # Not using fishery data since all data comes from Oregon
+    #c("data_weight_at_age_survey", "data_weight_at_age_fishery")
+    "data_weight_at_age_survey"
   )
   data <- purrr::map_dfr(
     files_weights,
     .f = read.csv) |>
-    weight_at_age_outlier(filter = FALSE, drop = FALSE)
+    dplyr::mutate(
+      outlier = FALSE
+    ) 
+    #weight_at_age_outlier(filter = FALSE, drop = FALSE)
   
   late <- (max(years) - n_avg_years + 1):(max(years))
+
+  gg <- plot_weight_age(
+    data = data
+  ) +
+    ggplot2::facet_wrap(c("source","sex"), ncol = 2)
+  ggplot2::ggsave(
+    gg,
+    width = 10, height = 7, units = "in",
+    filename = file.path(dir, "data-raw", "weight_at_age", "plots", "weight_age_data_source.png")
+  )
+  # mean-weigth-at-age by survey
+  gg <- plot_weight_at_age(
+    data = dplyr::filter(data, age_years <= max_age, outlier == FALSE),
+    max_age = max_age
+  ) +
+    ggplot2::facet_wrap(c("source","sex"), ncol = 2)
+  ggplot2::ggsave(
+    gg,
+    width = 10, height = 7, units = "in",
+    filename = file.path(dir, "data-raw", "weight_at_age", "plots", "meanweightatage_all.png")
+  )
+  # Set the outliers
+  data <- data |>
+    dplyr::mutate(
+      wgt_len_ratio = weight_kg / length_cm,
+      outlier = dplyr::case_when(wgt_len_ratio > quantile(wgt_len_ratio, 0.995) ~ TRUE, .default = FALSE)
+    )
   
+  # mean-weight-at-age by year
   gg <- plot_weight_at_age(
     data = dplyr::filter(data, age_years <= max_age, outlier == FALSE),
     max_age = max_age
@@ -154,35 +214,36 @@ process_weight_at_age <- function(
   ggplot2::ggsave(
     gg,
     width = 7, height = 7, units = "in",
-    filename = file.path(savedir, "plots", "meanweightatage_source.png")
+    filename = file.path(dir, "data-raw", "weight_at_age",  "plots", "meanweightatage_sex.png")
   )
+  data_modified <- data |>
+    dplyr::filter(outlier == FALSE) |>
+    dplyr::mutate(
+      orig_year = year,
+      year = dplyr::case_when(
+        year < min(years) ~ min(years), .default = year
+      ),
+      orig_age = age_years,
+      age_years = dplyr::case_when(
+        age_years < max_age ~ age_years, .default = max_age
+      )
+    )
+  # mean-weight-at-age by year
   gg <- plot_weight_at_age(
-    data = dplyr::filter(data, age_years <= max_age, outlier == FALSE),
+    data = data_modified,
     max_age = max_age
-  ) +
-    ggplot2::facet_grid(source ~ .)
-  ggplot2::ggsave(gg,
-                  width = 7, height = 7, units = "in",
-                  filename = file.path(savedir, "plots", "meanweightatage_all.png")
   )
-  gg <- plot_weight_age(
-    data = data
-  ) +
-    ggplot2::facet_wrap("source")
-  ggplot2::ggsave(gg,
-                  width = 7, height = 7, units = "in",
-                  filename = file.path(savedir, "plots", "weightagedatasource.png")
+  ggplot2::ggsave(
+    gg,
+    width = 7, height = 7, units = "in",
+    filename = file.path(dir, "data-raw", "weight_at_age",  "plots", "meanweightatage_sex_years_age_trunc.png")
   )
-  gg <- plot_weight_age(
-    data = data |> dplyr::filter(source != "PacFIN")
-  ) 
-  ggplot2::ggsave(gg,
-                  width = 7, height = 7, units = "in",
-                  filename = file.path(savedir, "plots", "weightagedatastate.png")
-  )
+
   #### making input files for SS with the holes still present
-  filter_data <- dplyr::filter(data, !outlier)
-  wtage_all <- weight_at_age_wide(dat = filter_data)
+  filter_data <- data_modified
+  wtage_all <- weight_at_age_wide(
+    dat = filter_data,
+    max_age = max_age)
   wtage_all_mean <- dplyr::bind_rows(
     weight_at_age_wide(filter_data |> dplyr::mutate(year = -1892)),
     weight_at_age_wide(filter_data)
@@ -216,29 +277,50 @@ process_weight_at_age <- function(
       dplyr::mutate(dplyr::across(dplyr::everything(), ~tidyr::replace_na(.x, 0)))
   )
   utils::write.csv(
-    setNames(counts_all_mean, gsub("#", "", colnames(counts_all_mean))),
-    file.path(normalizePath(data_dir), "wtatage-all-samplesize.csv"),
+    setNames(counts_all_mean, gsub("#_", "", colnames(counts_all_mean))),
+    file.path(normalizePath(dir), "data-processed", "wtatage-all-samplesize.csv"),
+    row.names = FALSE
+  )
+  utils::write.csv(
+    setNames(lenage_all_mean, gsub("#_", "", colnames(lenage_all_mean))),
+    file.path(normalizePath(dir), "data-processed", "wtatage-all-lenage.csv"),
     row.names = FALSE
   )
   # new method does only linear interpolation within each age (only works with all data)
+  # fill in NA values
   wtageInterp1_All <- dointerpSimple(wtage_all)
   
   #### do 2nd interpolation (actually an extrapolation at the edges)
-  wtageInterp2_All <- fill_wtage_matrix(wtageInterp1_All)
+  # This fill_wtage_matrix fills in NA values with average of adjacent years
+  wtageInterp2_All <- fill_wtage_matrix(wtageInterp1_All)[, 1:ncol(wtageInterp1_All)]
   wtageInterp2_All$Note <- fill_wtage_matrix(wtage_all)$Note
   
   # write output combining all fleets closer to format used by SS3
-  wtage_all_mean$Note <- c(paste("# Mean from ", min(filter_data$year), "-", max(filter_data$year), sep = ""), wtageInterp2_All$Note)
-  wtageInterp2_All <- rbind(wtage_all_mean[1, ], wtageInterp2_All)
+  wtage_all_mean$Note <- c(
+    paste("# Mean from ", min(filter_data$year), "-", max(filter_data$year), sep = ""), 
+    paste("# Mean from ", min(filter_data$year), "-", max(filter_data$year), sep = ""),
+    wtageInterp2_All$Note
+  )
+  wtageInterp2_All <- rbind(wtage_all_mean[1:2, ], wtageInterp2_All)
   
   # matrices for plotting
   make_wtatage_plots(
-    plots = c(1:3, 6),
-    data = wtage_all_mean,
-    counts = counts_all_mean,
-    lengths = lenage_all_mean,
-    dir = file.path(savedir, "plots"),
-    year =  format(Sys.Date(), "%Y"),
+    plots = c(1:3),
+    data = wtage_all_mean |> dplyr::filter(Sex == 1),
+    counts = counts_all_mean |> dplyr::filter(Sex == 1),
+    lengths = lenage_all_mean |> dplyr::filter(Sex == 1),
+    dir = file.path(dir, "data-raw", "weight_at_age", "plots"),
+    year =  max(years),
+    max_age = max_age
+  )
+  
+  make_wtatage_plots(
+    plots = c(1:3),
+    data = wtage_all_mean |> dplyr::filter(Sex == 2),
+    counts = counts_all_mean |> dplyr::filter(Sex == 2),
+    lengths = lenage_all_mean |> dplyr::filter(Sex == 2),
+    dir = file.path(dir, "data-raw", "weight_at_age", "plots"),
+    year =  max(years),
     max_age = max_age
   )
   
@@ -249,31 +331,37 @@ process_weight_at_age <- function(
     rep(ncol(wtage_extended), times = sum(!(1:length(maturity) - 1) %in% 0:max_age))
   )]
   wtage_extended[, -grep("^[^a]|Note", colnames(wtage_extended))] <-
-    round(wtage_extended[, -grep("^[^a]|Note", colnames(wtage_extended))], 4)
+     round(wtage_extended[, -grep("^[^a]|Note", colnames(wtage_extended))], 4)
   colnames(wtage_extended)[grep("^a", colnames(wtage_extended))] <-
-    paste0("a", seq_along(maturity) - 1)
+     paste0("a", seq_along(maturity) - 1)
   
   ## Add forecast average
-  withforecast <- dplyr::bind_rows(
+  withforecast_int <- dplyr::bind_rows(
     wtage_extended,
     wtage_extended |>
-      dplyr::filter(year %in% late) %>%
+      dplyr::filter(year %in% late) |>
+      dplyr::group_by(Sex) |>
       dplyr::mutate(
         dplyr::across(.cols = dplyr::starts_with("a"), mean),
-        year = max(year) + 1 #:NROW(.)
-      ) #%>%
-      #dplyr::filter(
-      #  rep(c(TRUE, FALSE), times = c(n_forecast, NROW(.) - n_forecast))
-      #)
+        year = max(year) + 1
+      )
   )
+  withforecast <- dplyr::bind_rows(
+    withforecast_int,
+    withforecast_int[withforecast_int$year == (max(year) + 1), ],
+    withforecast_int[withforecast_int$year == (max(year) + 1), ]
+  )
+  fore_year <- sort(rep(max(year) + 1:12, 2))
+  withforecast[withforecast$year == 2026, "year"] <- fore_year
   write_wtatage_file(
-    file = fs::path(data_dir, "wtatage.ss"),
+    file = fs::path(dir, "data-processed", "wtatage_interploations.ss"),
     data = as.data.frame(withforecast),
-    maturity = maturity
+    maturity = maturity,
+    n_fleet = n_fleet
   )
   save(
     filter_data, wtage_all, wtage_all_mean, withforecast,
-    file = fs::path(savedir, "LWAdata.Rdata")
+    file = fs::path(dir, "data-raw", "weight_at_age", "LWAdata.Rdata")
   )
   
   return(withforecast)

@@ -170,7 +170,7 @@ process_survey <- function(
   }
   if ("unsexed" %in% names(compositions)) {
     utils::write.csv(
-      compositions$sexed,
+      compositions$unsexed,
       file = file.path(save_dir, paste0("data-lengths-unsexed-", survey_name, ".csv")),
       row.names = FALSE
     )
@@ -192,7 +192,7 @@ process_survey <- function(
   compositions <- nwfscSurvey::get_expanded_comps(
     bio_data = bds_age,
     catch_data = catch_data,
-    comp_bins = length_bins,
+    comp_bins = age_bins,
     comp_column_name = "age",
     strata = strata,
     fleet = recode_fleet_cw(x = unique(bds_age$Project)),
@@ -209,7 +209,7 @@ process_survey <- function(
   }
   if ("unsexed" %in% names(compositions)) {
     utils::write.csv(
-      compositions$sexed,
+      compositions$unsexed,
       file = file.path(save_dir, paste0("data-ages-unsexed-", survey_name, ".csv")),
       row.names = FALSE
     )
