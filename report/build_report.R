@@ -4,7 +4,7 @@ pak::pkg_install("nmfs-ost/satf")
 # Read in the output from an SS3 and create a csv file with estimates:
 # I have created the relative directory of the project where there is
 # folder called "model" where the SS3 model files are.  This directory
-# is passed to the function in the `outdir` and `savedir` arguements below:
+# is passed to the function in the `outdir` and `savedir` arguments below:
 asar::convert_output(
   output_file = "Report.sso", 
   outdir = here::here("model", "_bridging", "0_2023_model"),
