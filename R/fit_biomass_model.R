@@ -1,5 +1,7 @@
-
-
+#' Fit sdmTMB model to WCGBT data to be used to estimate biomass weighted
+#' weight-at-age estimates by are.
+#'
+#' @author Eric Ward and Chantel Wetzel
 fit_biomass_model <- function() {
   library(tidyverse) # 2.0.0
   library(nwfscSurvey)
