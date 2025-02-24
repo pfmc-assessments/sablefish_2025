@@ -1,6 +1,4 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 ## Sablefish 2025
 
 Code and stock assessment documentation for the 2025 assessment of
@@ -44,46 +42,35 @@ process and increase the ability to easily test code. Please follow the
 following guidelines for the placement of files.
 
 ``` bash
-├───.github
-│   └───workflows
 ├───data
 ├───data-raw
 ├───date-exploration
 ├───date-processed
-├───dashboard
+├───quarto_website
 ├───man
-│   └───figures
-│       └───README-
 ├───R
-└───tests
-    └───testthat
+└───report
 ```
 
 Where
 
-- data is for data in its final form that will be included in the
+- data contains rda file of processed data in its final form that will be included in the
   assessment or assessment document, only data in its non-confidential
-  form should  
-  be saved here;
+  form should be saved here;
 - data-raw is for data files and .R scripts used to transform these raw
-  files into something that is saved in data;
+  files into something that is saved in data or in data-processed; all data files
+  are saved within data-raw, but not saved to github. A list of the files are in
+  .gitignore: 2023, ageing_error, ahsop, biology, bds, discard, landings, maturity,
+  survey, weight_at_age. 
+- data-processed is for csv or other fully processed and formatted data that 
+  will be included in the assessment or assessment document, only data in its 
+  non-confidential form should be saved here;
 - data-exploration is for exploratory scripts;
-- dashboard contains files for the website;
-- man stores .Rd files and figures used in the documentation;
+- quarto_website contains files for the website;
+- man stores .Rd files and figures used in the documentation; and
 - R stores .R scripts that are loaded when building the package, this
-  means functions only; and
-- tests is for formal tests.
-
-### README
-
-Please render this file every time you change it, and thus, all commits
-that include README.Rmd should include associated changes in README.md.
-A pre-commit hook will stop you from just committing this file if you
-have not also updated and staged changes to README.md.
-
-``` r
-devtools::build_readme()
-```
+  means functions only. These scripts are either called within the assessment
+  document or .R scripts in the data-raw folder. 
 
 ## Disclaimer
 
