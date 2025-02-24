@@ -1,6 +1,19 @@
 library(tidyverse)
 library(ggplot2)
+library(ggridges)
+library(PEPtools)
 library(PacFIN.Utilities)
+
+port_lats <- pacfin_ports_withlatlong |>
+  dplyr::rename(
+    pacfin_port_code = pcid
+  ) |>
+  dplyr::select(
+    c(-name, -agencydesc, -agid)
+  ) |>
+  dplyr::distinct(pacfin_port_code, .keep_all = TRUE) |>
+  tibble::tibble()
+
 
 raw_pacfin_bds <-
   fs::dir_ls(here::here("data-raw", "bds"), regex = "PacFIN\\..+bds")[1] |>
@@ -106,6 +119,23 @@ bds <- cleanPacFIN(
     stratification = paste(state, geargroup, sep = ".")
   )
 
+bds <- bds %>% left_join(port_lats, by=c("PCID"="pacfin_port_code"))
+port_factor_levels <- bds %>% arrange(latitude) %>% pull(PACFIN_PORT_NAME) %>% unique
+bds <- bds %>% mutate(
+  port = factor(PACFIN_PORT_NAME, levels=port_factor_levels)
+)
+
+bds <- bds %>%
+  mutate(
+    region = case_when(
+      state == "WA" ~ "WA",
+      state == "OR" ~ "OR",
+      state == "CA" & latitude >= 36.0 ~ "N. CA",
+      state == "CA" & latitude < 36.0 ~ "S. CA"
+    ),
+    region = factor(region, levels = c("S. CA", "N. CA", "OR", "WA"))
+  )
+
 # Investigate the number of samples removed by cleanPacFIN to ensure that we want
 # them removed
 head(bds)
@@ -114,64 +144,71 @@ head(bds)
 
 # Explore the number of length and age samples available by gear and the grouped
 # gears (traw, pot, hkl)
+
+custom_theme <- theme_bw()+
+    theme(
+      axis.text = element_text(size=14),
+      axis.title = element_text(size=15),
+      legend.text = element_text(size=14),
+      legend.title = element_text(size=15),
+      legend.position = "bottom",
+      plot.margin = margin(10, 20, 10, 10),
+      panel.spacing = unit(20, "pt"),
+      strip.text = ggplot2::element_text(size=14),
+    )
+
+# Ridgeline length composition across geargroup by region
 bds %>%
-  group_by(state, geargroup) %>%
+  group_by(region, geargroup) %>%
   select(SEX, Age, lengthcm) %>%
-  mutate(state=factor(state)) %>%
+  mutate(region=factor(region)) %>%
 
   ggplot(aes(x=lengthcm, fill=geargroup))+
-    geom_histogram(position="identity", alpha=0.5)+
-    facet_wrap(~state)
-
-bds %>%
-  group_by(state, geargroup) %>%
-  select(SEX, Age, lengthcm) %>%
-  mutate(state=factor(state)) %>%
-
-  ggplot(aes(x=Age, fill=geargroup))+
-    geom_histogram(position="identity", alpha=0.5)+
-    facet_wrap(~state)
-
-bds |>
-  filter(year %in% c(2021, 2022), geargroup %in% c("TWL", "HKL", "POT")) |>
-  group_by(state, geargroup) |>
-  summarize(
-    n = n()
-  ) |>
-  mutate(
-    percent = round(n / sum(n), 2)
-  )
-
-bds |>
-  filter(year %in% c(2021, 2022), geargroup %in% c("TWL", "HKL", "POT")) |>
-  group_by(geargroup) |>
-  summarize(
-    n = n()
-  ) |>
-  mutate(
-    percent = round(n / sum(n), 2)
-  )
-
-ggplot(bds |> filter(year > 2010),
-    aes(y = lengthcm, x = year, group = year)) +
-  geom_boxplot() +
-  facet_wrap(facets = c("geargroup", "state"))
-ggsave(filename = here::here("data", "pacfin", "length_by_gear_state.png"),
+    ggridges::geom_density_ridges(aes(y=region), alpha=0.5, scale=1)+
+    labs(y="Region", x="Length (cm)", fill="Gear Type")+
+    scale_x_continuous(limits=c(0, 125), expand=c(0, 0))+
+    custom_theme
+ggsave(filename = here::here("data", "pacfin", "length_by_gear_region.png"),
        width = 20, height = 20)
 
+# Ridgeline age composition across geargroup by region
+bds %>%
+  group_by(region, geargroup) %>%
+  select(SEX, Age, lengthcm) %>%
+  mutate(region=factor(region)) %>%
+
+  ggplot(aes(x=Age, fill=geargroup))+
+    ggridges::geom_density_ridges(aes(y=region), alpha=0.5, scale=1)+
+    labs(y="Region", x="Age", fill="Gear Type")+
+    scale_x_continuous(limits=c(0, 125), expand=c(0, 0), breaks=seq(0, 125, 25))+
+    custom_theme
+ggsave(filename = here::here("data", "pacfin", "age_by_gear_region.png"),
+       width = 20, height = 20)
+
+# Violin lengthcompos since 2011 across geargroup by region
 ggplot(bds |> filter(year > 2010),
-       aes(y = lengthcm, x = year, group = year)) +
-  geom_boxplot() +
-  facet_wrap(facets = c("geargroup"))
-ggsave(filename = here::here("data", "pacfin", "length_by_gear.png"),
+    aes(y = lengthcm, x = year, group = interaction(geargroup, year), fill=geargroup)) +
+  geom_violin(draw_quantiles = c(0.50))+
+  scale_y_continuous(limits=c(0, 125), expand=c(0, 0), breaks=seq(0, 125, 25))+
+  labs(y="Length (cm)", x="Year", fill="Gear Type")+
+  facet_grid(geargroup ~ region)+
+  custom_theme+
+  theme(panel.spacing.x = unit(40, "pt"))
+ggsave(filename = here::here("data", "pacfin", "length_by_gear_region_time.png"),
+       width = 20, height = 20)
+
+# Violin lengthcompos since 2011 by geargroup
+ggplot(bds |> filter(year > 2010),
+       aes(y = lengthcm, x = year, group = year, fill=geargroup)) +
+  geom_violin(draw_quantiles = c(0.50))+
+  scale_y_continuous(limits=c(0, 125), expand=c(0, 0), breaks=seq(0, 125, 25))+
+  labs(y="Length (cm)", x="Year", fill="Gear Type")+
+  facet_wrap(facets = c("geargroup"))+
+  custom_theme+
+  theme(panel.spacing.x = unit(40, "pt"))
+ggsave(filename = here::here("data", "pacfin", "length_by_gear_time.png"),
        width = 20, height = 10)
 
-ggplot(bds |> filter(year > 2010),
-       aes(y = Age, x = year, group = year)) +
-  geom_boxplot() +
-  facet_wrap(facets = c("geargroup"))
-ggsave(filename = here::here("data", "pacfin", "age_by_gear.png"),
-       width = 20, height = 10)
 
 ggplot(bds |> filter(year > 2010, !is.na(Age)),
        aes(x = Age, fill = geargroup)) +
@@ -192,62 +229,98 @@ ggplot(bds |> filter(year <= 2010, !is.na(Age)),
   theme_bw() 
 
 
-bds[, "period"] <- "2011-2019"
-bds[which(bds$year < 2011), "period"] <- "1980-2010"
-bds[which(bds$year > 2019), "period"] <- "2020-2024"
+bds[, "period"] <- "2011-2018"
+bds[which(bds$year < 2010), "period"] <- "1980-2010"
+bds[which(bds$year > 2018), "period"] <- "2019-2024"
 
-bds %>% group_by(state, period, geargroup) %>%
+bds %>% group_by(region, period, geargroup) %>%
   summarise(
     mu = mean(lengthcm,na.rm=TRUE)
   ) %>%
-  arrange(geargroup, state, period) %>%
+  arrange(geargroup, region, period) %>%
   print(n=100)
 
+# Ridgeline length composition across geargroup by region and time period
 ggplot(bds |> filter(geargroup != "NET"),
-       aes(x = lengthcm, fill = geargroup, alpha = 0.25)) +
-  geom_density() +
-  facet_wrap(facets = c( "period", "state")) +
-  scale_fill_viridis_d()
-ggsave(filename = here::here("data", "pacfin", "length_by_gear_by_period_density.png"),
-       width = 10, height = 12)
+       aes(x = lengthcm, y=period, fill = geargroup, alpha = 0.25)) +
+  ggridges::geom_density_ridges(scale=0.9) +
+  scale_x_continuous(limits=c(0, 125), expand=c(0, 0), breaks=seq(0, 125, 25))+
+  labs(y="Time Period", x="Length (cm)", fill="Gear Type")+
+  guides(alpha="none")+
+  facet_wrap(~region, ncol=2) +
+  scale_fill_viridis_d()+
+  custom_theme+
+  theme(panel.spacing.x = unit(40, "pt"))
 
-ggplot(bds |> filter(geargroup != "NET"),
-       aes(x = Age, fill = geargroup, alpha = 0.25)) +
-  geom_density() +
-  facet_wrap(facets = c( "period", "state")) +
-  scale_fill_viridis_d()
-ggsave(filename = here::here("data", "pacfin", "age_by_gear_by_period_density.png"),
-       width = 10, height = 12)
+ggsave(filename = here::here("data", "pacfin", "length_by_gear_by_period_density.png"),
+       width = 10, height = 10)
+
 
 samples <- bds |>
   filter(year > 2010, !is.na(lengthcm)) |>
-  group_by(year, state, geargroup) |>
+  group_by(year, region, geargroup) |>
   summarize(
     n = n()
   )
 
+# Ridgeline length composition across geargroup by time period
 ggplot(bds |> filter(geargroup != "NET"),
-       aes(x = lengthcm, fill = geargroup, alpha = 0.25)) +
-  geom_density() +
-  facet_grid(period~.) +
-  scale_fill_viridis_d()
+       aes(x = lengthcm, y=period, fill = geargroup, alpha = 0.25)) +
+  ggridges::geom_density_ridges(scale=1) +
+  labs(y="Time Period", x="Length (cm)", fill="Gear Type")+
+  guides(alpha="none")+
+  # facet_wrap(~region, ncol=2) +
+  scale_fill_viridis_d()+
+  custom_theme+
+  theme(panel.spacing.x = unit(40, "pt"))
 ggsave(filename = here::here("data", "pacfin", "length_by_gear_by_period_density_simple.png"),
        width = 10, height = 12)
 
-ggplot(bds |> filter(geargroup != "NET"),
-       aes(x = Age, fill = geargroup, alpha = 0.25)) +
-  geom_density() +
-  facet_grid(period~.) +
-  scale_fill_viridis_d()
+# Barchart number samples geargroup by region
+bds %>% 
+  filter(geargroup %in% c("HKL", "POT", "TWL")) %>%
+  count(year, region, geargroup) %>%
 
-ggsave(filename = here::here("data", "pacfin", "Age_by_gear_by_period_density_simple.png"),
-       width = 10, height = 12)
-
-
-bds$count <- 1
-ggplot(bds |> filter(year > 2010, geargroup %in% c("HKL", "POT", "TWL")),
-       aes(x = year, y = count, fill = geargroup)) +
+ggplot(aes(x = year, y = n, fill = geargroup)) +
   geom_bar(stat = 'identity') +
-  facet_wrap(facets = c("state")) +
-  scale_fill_viridis_d()
+  facet_wrap(facets = c("region")) +
+  scale_fill_viridis_d()+
+  labs(y="Number of Samples", x="Year", fill="Gear Type")+
+  custom_theme
+ggsave(filename = here::here("data", "pacfin", "length_samples_by_gear_by_time.png"),
+       width = 10, height = 10)
 
+# Ridgeline length composition by port
+ggplot(bds, aes(x=lengthcm, y=port, fill=geargroup))+
+  geom_density_ridges(scale=1, alpha=0.50)+
+  scale_x_continuous(limits=c(0, 125))+
+  labs(y="Port", x="Length (cm)", fill="Gear Type")+
+  custom_theme
+ggsave(filename = here::here("data", "pacfin", "length_samples_by_gear_by_port.png"),
+       width = 10, height = 25)
+ 
+# Barchart proportion geargroup by port
+plot_prop_geargroup_port <- bds %>%
+  count(port, geargroup) %>%
+  group_by(port) %>%
+  mutate(prop=n/sum(n)) %>%
+
+  ggplot(aes(y=port, fill=geargroup)) +
+    geom_col(aes(x=prop))+
+    coord_cartesian(expand=0)+
+    labs(x="Proportion of Samples", y="Port", fill="Gear Type")
+
+# Barchart number samples geargroup by port
+plot_n_geargroup_port <- bds %>%
+  count(port, geargroup) %>%
+
+  ggplot(aes(y=port, fill=geargroup)) +
+    geom_col(aes(x=n))+
+    coord_cartesian(expand=0)+
+    labs(x="Number of Samples", y="Port", fill="Gear Type")
+
+library(patchwork)
+
+plot_n_geargroup_port + plot_prop_geargroup_port + plot_layout(guides="collect") & custom_theme
+ggsave(filename = here::here("data", "pacfin", "samples_by_gear_by_port.png"),
+       width = 10, height = 25)
