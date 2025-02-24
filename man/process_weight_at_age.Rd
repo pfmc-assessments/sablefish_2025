@@ -10,6 +10,7 @@ process_weight_at_age(
   years = 1997:2024,
   n_avg_years = 5,
   n_forecast = 12,
+  n_fleet = 9,
   maturity = maturity_at_age
 )
 }

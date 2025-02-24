@@ -8,10 +8,10 @@ make_wtatage_plots(
   plots = 1:6,
   data,
   counts,
+  max_age,
   lengths = NULL,
   dir = getwd(),
-  year = as.numeric(format(Sys.Date(), "\%Y")),
-  max_age = 70
+  year = as.numeric(format(Sys.Date(), "\%Y"))
 )
 }
 \arguments{
@@ -23,6 +23,9 @@ make_wtatage_plots(
 \item{counts}{A data frame of weight at age counts generated from
 \code{weight_at_age_wide(..., getmean = TRUE, value = "count")}.}
 
+\item{max_age}{The maximum age of fish modelled in the stock assessment, i.e.,
+what is the age at which all fish are grouped into a plus group.}
+
 \item{lengths}{A data frame of weight at length generated from
 \code{weight_at_age_wide(..., getmean = TRUE, value = "length")}.
 The default for this argument is \code{NULL}, and the function can be ran
@@ -33,9 +36,6 @@ is to save the plots in your current working directory.}
 
 \item{year}{A character value giving the current year that will be used in
 the file names for each plot.}
-
-\item{max_age}{The maximum age of fish modelled in the stock assessment, i.e.,
-what is the age at which all fish are grouped into a plus group.}
 }
 \description{
 todo: write a description for make_wtatage_plots
