@@ -431,11 +431,16 @@ make_wtatage_plots <- function(
 #' The file path can either be relative or absolute.
 #' @param data Weight at age matrix.
 #' @param maturity A vector of maturity at age.
+#' @param max_age A numeric value that is the maximum population age from the 
+#'   model to be printed at the top of the file.
+#' @param n_fleet A numeric that aligns with the total number of fleets in the 
+#'   model. 
 #'
 write_wtatage_file <- function(
   file = paste0("wtatage_", format(Sys.time(), "%Y"), "created_", format(Sys.time(), "%d-%b-%Y_%H.%M"), ".ss"),
   data,
   maturity,
+  max_age =  70, 
   n_fleet = 9) {
   # Ensure column name that matters is lowercase
   colnames(data)[grep("fleet", ignore.case = TRUE, colnames(data))] <- "fleet"
@@ -470,7 +475,7 @@ write_wtatage_file <- function(
     "# created by code in the R script: wtatage_calculations.R",
     paste("# creation date:", Sys.time()),
     "###################################################",
-    "70 # Maximum age",
+    paste(max_age, " # Maximum age"),
     "",
     "# Fecundity: Fleet = -2 (are maturity * wtatage)",
     "# Wt-at-Age Mid-Season: Fleet = -1",

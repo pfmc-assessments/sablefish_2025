@@ -51,7 +51,7 @@ tri_early <- read.csv(file.path(index, "triennial_early", "delta_gamma", "index"
     index = est / ave_index,
     survey = "Triennial"
   )
-tri_late <- read.csv(file.path(index, "triennial_late", "delta_lognormal", "index", "est_by_area.csv")) |>
+tri_late <- read.csv(file.path(index, "triennial_late", "delta_gamma", "index", "est_by_area.csv")) |>
   dplyr::filter(area == "Coastwide") |>
   dplyr::mutate(
     ave_index = mean(est),
@@ -240,32 +240,6 @@ NWFSC Slope Survey:
 - This survey operated annually between 1998 to 2002.
 - The survey sampled between Point Conception in California to the U.S./Canadian border between 1998-2001 extended the southern sampling range into the area south of Point Conception in 2002.
 - The survey sampled a depth range between 183-1,280 meters.
-
-
-```{r}
-#| label: stand-index-plot
-#| echo: false
-#| warning: false
-#| fig-cap: "add caption"
-#| fig-cap-location: margin
-
-index_data <- dplyr::bind_rows(
-  wcgbt, 
-  tri_early,
-  tri_late,
-  nwfsc_slope,
-  afsc_slope
-) 
-
-ggplot(index_data, aes(x = year, y = index, color = survey, shape = survey)) +
-  geom_point(size = 3) + 
-  geom_line(linewidth = 1.0) +
-  geom_hline(yintercept = 1, linetype="dashed", color = "black") +
-  scale_color_viridis_d(begin = 0, end = 0.9) +
-  theme_bw() + 
-  ylab("Standardized Trends") + xlab("Year")
-
-```
 
 
 ## Trends Observed in Canada and Alaska
