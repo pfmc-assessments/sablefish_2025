@@ -25,31 +25,13 @@ maturity_at_age <- readRDS(
 
 ## Maturity
 
-
-```{r}
-#| label: maturity-data
-#| echo: false
-#| fig-cap: "Add caption"
-#| fig-cap-location: margin
-
-ggplot(maturity_data, aes(x = age, y = functional_maturity)) +
-  geom_point() +
-  ylab("Functional Maturity") +
-  xlab("Age years") +
-  theme_bw() +
-  theme(strip.background = element_rect(fill = "white")) +
-  facet_wrap(Area ~ .)
-
-```
-
-
-
+New data and analysis has been conducted to develop improved maturity estimates for this assessment. A total of `r dim(maturity_data)[1]` sablefish maturity samples were collected during the annual NWFSC West Coast Groundfish Bottom trawl survey in 2010, 2015, 2018, 2021, and 2022 (see table below). 
 
 ```{r}
 #| label: maturity-samples
 #| warning: false
 #| echo: false
-#| tbl-cap: "Maturity samples by year and area."
+#| tbl-cap: "Maturity samples collected by the NWFSC West Coast Groundfish Bottom Trawl survey by year and area where north and south of 36 degress north latitude."
 #| tbl-cap-location: margin
 
 maturity_data |>
@@ -86,6 +68,28 @@ maturity_data |>
   ) 
 
 ```
+
+These samples were evaluated for functional maturity that classifies maturity with developing oocytes as mature or immature. The maturity-at-age or -length estimates were evaluated north and south of 36$\circ$ North latitude.     
+
+```{r}
+#| label: maturity-data
+#| echo: false
+#| fig-cap: "Samples by age that were determined to be mature and immature north and south of 36 degrees north latitude. Immature fish have a functional maturity of 0 and mature fish have a functional maturity of 1. Blue vertical dashed line at age 7."
+#| fig-cap-location: margin
+
+ggplot(maturity_data, aes(x = age, y = functional_maturity)) +
+  geom_point() +
+  ylab("Functional Maturity") +
+  geom_vline(xintercept = 7, color = "blue", linetype = 2) + 
+  xlab("Age years") +
+  theme_bw() +
+  theme(strip.background = element_rect(fill = "white")) +
+  facet_wrap(Area ~ .)
+
+```
+
+
+
 
 ```{r}
 #| label: maturity-ogive
