@@ -99,7 +99,7 @@ process_bds_data <- function(
     dplyr::mutate(
       area = dplyr::case_when(latitude > 36 ~ "North", is.na(latitude) ~ "Unknown", .default = "South")
     ) |>
-    dplyr::select(year, state, area, lengthcm, Age, SEX) |>
+    dplyr::select(year, state, geargroup, area, lengthcm, Age, SEX) |>
     dplyr::rename(
       length_cm = lengthcm,
       age_years = Age,
