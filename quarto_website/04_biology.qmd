@@ -54,8 +54,7 @@ maturity_data |>
     align = "center"
   ) |>
   tab_options(
-    table.font.size = 20,
-    table.align = "right"
+    table.font.size = 20
   ) |>
   tab_style(
     style = list(
@@ -69,7 +68,7 @@ maturity_data |>
 
 ```
 
-These samples were evaluated for functional maturity that classifies maturity with developing oocytes as mature or immature. The maturity-at-age or -length estimates were evaluated north and south of 36$\circ$ North latitude.     
+These samples were evaluated for functional maturity that classifies maturity with developing oocytes as mature or immature. The maturity-at-age or -length estimates were evaluated north and south of 36$^\circ$ North latitude. Of the samples processed, sablefish were identified to be mature as early as age `r min(maturity_data[which(maturity_data$Area == "North" & maturity_data$functional_maturity == 1), "age"])` and `r min(maturity_data[which(maturity_data$Area == "South" & maturity_data$functional_maturity == 1), "age"])` in the north and south, respectively.  Generally, across samples, sablefish matured at younger ages more frequently in the north compared to the south.   
 
 ```{r}
 #| label: maturity-data
@@ -88,13 +87,12 @@ ggplot(maturity_data, aes(x = age, y = functional_maturity)) +
 
 ```
 
-
-
+Maturity-at-age was estimated using a spatiotemporal model that explored the impacts of temperature, temporal changes in maturity, day of year, and location. Only sample location was determined to be significant in the model with the maturity curve right shifted (e.g., less probability of being mature at age) compared to fish in the north. A coastwide maturity curve was estimated by weighting the area specific curves using a biomass weighted prediction grid from the NWFSC West Coast Groundfish Bottom Trawl survey. 
 
 ```{r}
 #| label: maturity-ogive
 #| echo: false
-#| fig-cap: "Add caption"
+#| fig-cap: "Estimated maturity-at-age by area and the biomass weighted coastwide (Spatial) maturity curve."
 #| fig-cap-location: margin
 
 ggplot(maturity_at_age, aes(x = age, y = p, color = Model)) +
