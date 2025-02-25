@@ -79,9 +79,36 @@ process_bds_data <- function(
     bds_cleaned, 
     file =  here::here("data-raw", "bds", paste0("cleaned_pacfin_bds.rds"))
   )
-  # TODO: 
-  # 1. determine if any data filtering should be done to remove outliers by plotting
-  # age and length comparisons.  The nwfscSurvey::est_growth function can help with this.
+  
+  port_lats <- PEPtools::pacfin_ports_withlatlong |>
+    dplyr::rename(
+      pacfin_port_code = pcid
+    ) |>
+    dplyr::select(
+      c(-name, -agencydesc, -agid)
+    ) |>
+    dplyr::distinct(pacfin_port_code, .keep_all = TRUE) |>
+    tibble::tibble()
+  data_commercial_bds <- bds_cleaned |>
+    dplyr::mutate(
+      pacfin_port_code = dplyr::case_when(is.na(PACFIN_GROUP_PORT_CODE) ~ "UKN", .default = PACFIN_GROUP_PORT_CODE)
+    ) |>
+    dplyr::left_join(
+      y = port_lats
+    ) |>
+    dplyr::mutate(
+      area = dplyr::case_when(latitude > 36 ~ "North", is.na(latitude) ~ "Unknown", .default = "South")
+    ) |>
+    dplyr::select(year, state, area, lengthcm, Age, SEX) |>
+    dplyr::rename(
+      length_cm = lengthcm,
+      age_years = Age,
+      sex = SEX
+    ) 
+  usethis::use_data(
+    data_commercial_bds,
+    overwrite = TRUE
+  )
   
   samples <- bds_cleaned |>
     dplyr::group_by(geargroup, year) |>
