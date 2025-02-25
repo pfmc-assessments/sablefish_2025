@@ -12,7 +12,12 @@ survey_catch <-
 catch <- survey_catch[[1]] |>
   dplyr::mutate(
     positive = dplyr::case_when(total_catch_numbers > 0 ~ 1, .default = 0),
-    depth_bin = plyr::round_any(Depth_m, 50, floor)
+    depth_bin = plyr::round_any(Depth_m, 50, floor),
+    state = dplyr::case_when(Latitude_dd > 46.25 ~ "WA", 
+                             Latitude_dd < 36.0 ~ "SCA", 
+                             Latitude_dd >= 36.0 & Latitude_dd < 42.0 ~ "NCA",
+                             .default = "OR"),
+    area = dplyr::case_when(Latitude_dd > 36 ~ "North of 36", .default = "South of 36")
   )
 
 survey_bio <-
@@ -23,8 +28,11 @@ survey_bio <-
 bio <- survey_bio[[1]] |>
   dplyr::rename_with(tolower) |>
   dplyr::mutate(
-    state = dplyr::case_when(latitude_dd > 46.25 ~ "WA", latitude_dd < 42 ~ "CA", .default = "OR"),
-    area = dplyr::case_when(latitude_dd >= 36 ~ "north of 36", .default = "south of 36"),
+    state = dplyr::case_when(latitude_dd > 46.25 ~ "WA", 
+                             latitude_dd < 36.0 ~ "SCA", 
+                             latitude_dd >= 36.0 & latitude_dd < 42.0 ~ "NCA",
+                             .default = "OR"),
+    area = dplyr::case_when(latitude_dd >= 36 ~ "North of 36", .default = "South of 36"),
     length_bin = plyr::round_any(length_cm, 50, floor)
   )
 
@@ -109,6 +117,18 @@ ggplot(samples_by_depth, aes(x = depth_bin, y = ave_length, fill = state, linety
 #======================================================================
 # Plot a map with catch rates
 #======================================================================
+cpue <- catch |>
+  group_by(Year, state) |>
+  summarise(
+    med_cpue = median(cpue_kg_km2)
+  )
+ggplot(cpue, aes(x = Year, y = med_cpue, color = state)) +
+  geom_line(linewidth = 1.5) +
+  scale_color_viridis_d() +
+  ylab("Median CPUE kg/km2") +
+  theme_bw()
+
+
 PlotMap.fn(
   dir = here::here("data-raw", "survey", "trawl"),
   dat = survey_catch[[1]],

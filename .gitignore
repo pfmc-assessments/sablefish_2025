@@ -9,6 +9,10 @@ _main.md
 *.log
 *.tex
 *.pdf
+*.html
+*.css
+*.woff
+*.js
 
 model/
 quarto_website/rsconnect

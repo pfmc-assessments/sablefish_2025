@@ -80,24 +80,23 @@ pad_weight_at_age <- function(
       year = 2020,
       period = "annual") |>
     dplyr::ungroup()
-  average_2002 <- data |>
-    dplyr::filter(
-      year %in% 2001:2003
-    ) |>
-    dplyr::group_by(sex, age) |>
-    dplyr::reframe(
-      pred_weight = mean(pred_weight, na.rm = TRUE)
-    ) |>
-    dplyr::mutate(
-      year = 2002,
-      period = "annual") |>
-    dplyr::ungroup()
+  #average_2002 <- data |>
+  #  dplyr::filter(
+  #    year %in% 2001:2003
+  #  ) |>
+  #  dplyr::group_by(sex, age) |>
+  #  dplyr::reframe(
+  #    pred_weight = mean(pred_weight, na.rm = TRUE)
+  #  ) |>
+  #  dplyr::mutate(
+  #    year = 2002,
+  #    period = "annual") |>
+  #  dplyr::ungroup()
   
   ave_weights <- dplyr::bind_rows(
     global_average,
     forecast_average
-  ) |> 
-    dplyr::filter(sex != "U")
+  ) 
   
   gg <- ggplot(ave_weights, aes(x = age, y = pred_weight, color = period)) +
     geom_line(linewidth = 1.5) +
@@ -112,7 +111,7 @@ pad_weight_at_age <- function(
   )
   
   years_to_keep <- c(year_global_average, first_year:max(forecast_df[["year"]]))
-  temp <- dplyr::bind_rows(data, global_average, average_2020, average_2002, forecast_df) |>
+  temp <- dplyr::bind_rows(data, global_average, average_2020, forecast_df) |>
     dplyr::select(-period) |>
     dplyr::filter(year %in% years_to_keep) |>
     dplyr::ungroup() |>

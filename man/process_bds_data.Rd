@@ -5,23 +5,16 @@
 \title{Process PacFIN bds data}
 \usage{
 process_bds_data(
-  save_dir = here::here("data-raw", "bds"),
-  bds_file,
+  bds_data,
   catch_file = "data_commercial_catch_expansions.csv",
   age_bins = age_bins,
   length_bins = len_bins,
   gears = gears,
-  species_code = "SABL",
   common_name = common_name
 )
 }
 \arguments{
-\item{save_dir}{The path to the assessment package of interest. The default
-uses \code{\link[here:here]{here::here()}} to locate the appropriate directory but you can set it
-to whatever directory you want as long as that directory contains
-\code{data-raw}.}
-
-\item{bds_file}{File name of the PacFIN bds file to process.}
+\item{bds_data}{Data file of th PacFIN bds data.}
 
 \item{catch_file}{Name of the catch file to be used to expand biological data.
 This file should be located within \code{data-processed} with the \code{here} package
@@ -34,10 +27,8 @@ used to find the file in the directory.}
 \item{gears}{Gear types to group the data within.  This should align with
 PacFIN gear names.}
 
-\item{species_code}{String that is used to name the saved length and age
-composition files.}
-
-\item{common_name}{}
+\item{common_name}{Argument input for pacfintools::cleanPacFIN() that defines
+the gear-area fleet structure (coastwide HKL, Pot, and TWL).}
 }
 \description{
 Process PacFIN bds data

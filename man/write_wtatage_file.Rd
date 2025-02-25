@@ -8,7 +8,9 @@ write_wtatage_file(
   file = paste0("wtatage_", format(Sys.time(), "\%Y"), "created_", format(Sys.time(),
     "\%d-\%b-\%Y_\%H.\%M"), ".ss"),
   data,
-  maturity
+  maturity,
+  max_age = 70,
+  n_fleet = 9
 )
 }
 \arguments{
@@ -19,6 +21,12 @@ The file path can either be relative or absolute.}
 \item{data}{Weight at age matrix.}
 
 \item{maturity}{A vector of maturity at age.}
+
+\item{max_age}{A numeric value that is the maximum population age from the
+model to be printed at the top of the file.}
+
+\item{n_fleet}{A numeric that aligns with the total number of fleets in the
+model.}
 }
 \description{
 Write weight-at-age file

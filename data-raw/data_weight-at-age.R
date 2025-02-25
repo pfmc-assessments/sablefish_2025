@@ -62,19 +62,23 @@ maturity <- all_ages |>
   dplyr::select(p) |>
   as.matrix()
 
+#=======================================================================
 # Weight-at-age
-
+#=======================================================================
 # Currently uses data from the WCGBT, Triennial, and AFSC Slope surveys
 survey_watage_data <- process_weight_at_age_survey(
   savedir = here::here())
 
-wtatage <- estimate_tv_weight_at_age(
-  max_age = 30, 
-  first_year = 1975)
+# The below function uses output from fit_biomass_model() that fits
+# WCGBT data for a species distribution model that is then used to
+# create a prediction grid to biomass weight the weight-at-age model
+# estimates.
+wtatage <- estimate_tv_wtatage_weighted(
+  max_age = 30)
 
 format_wtatage <- pad_weight_at_age(
   data = wtatage,
-  first_year = 1997,
+  first_year = 2003,
   n_forecast_years = 12,
   n_years_used_for_forecast = 5,
   year_global_average = -1892,
@@ -88,6 +92,7 @@ write_wtatage_file(
   n_fleet = 8
 )
 
+# Old functions that calculate empirical weight-at-age
 # Work horse function that estimates, plots, and writes weight-at-age files for SS3
 # process_weight_at_age(
 #   dir = here::here(),
