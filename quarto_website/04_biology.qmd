@@ -113,6 +113,133 @@ ggplot(maturity_at_age, aes(x = age, y = p, color = Model)) +
 
 ## Growth
 
+```{r}
+#| label: load-growth-data
+#| echo: false
+#| warning: false
+library(ggplot2)
+library(dplyr)
+library(gt)
+
+load(file.path(data, "data_survey_bio.rda"))
+cols_to_keep <- c(
+  "Project",
+  "Year",
+  "Sex",
+  "Age_years", 
+  "Length_cm", 
+  "Weight_kg",
+  "Depth_m", 
+  "Latitude_dd"
+)
+
+survey_bio <- dplyr::bind_rows(
+  data_survey_bio$nwfsc_combo |> dplyr::select(dplyr::all_of(cols_to_keep)), 
+  data_survey_bio$nwfsc_slope |> dplyr::select(dplyr::all_of(cols_to_keep)),
+  data_survey_bio$afsc_slope$age_data |> dplyr::select(dplyr::all_of(cols_to_keep)),
+  data_survey_bio$triennial_early$age_data |> dplyr::select(dplyr::all_of(cols_to_keep)),
+  data_survey_bio$triennial_late$age_data |> dplyr::select(dplyr::all_of(cols_to_keep))
+) |>
+  dplyr::mutate(
+    state = dplyr::case_when(Latitude_dd > 46.25 ~ "WA", Latitude_dd < 42 ~ "CA", .default = "OR"),
+    area = dplyr::case_when(Latitude_dd > 36 ~ "North", .default = "South")
+  ) 
+
+growth_cw <- nwfscSurvey::est_growth(
+  dat = survey_bio |> 
+    dplyr::filter(Sex != "U") |> dplyr::mutate(Age = Age_years),
+  return_df = FALSE
+)
+
+growth_north <- nwfscSurvey::est_growth(
+  dat = survey_bio |> 
+    dplyr::filter(area == "North", Sex != "U") |> dplyr::mutate(Age = Age_years),
+  return_df = FALSE
+)
+growth_south <- nwfscSurvey::est_growth(
+  dat = survey_bio |> 
+    dplyr::filter(area == "South", Sex != "U") |> dplyr::mutate(Age = Age_years),
+  return_df = FALSE
+)
+
+growth <- dplyr::bind_rows(
+  growth_cw$female_growth,
+  growth_cw$male_growth,
+  growth_north$female_growth,
+  growth_north$male_growth,
+  growth_south$female_growth,
+  growth_south$male_growth
+)
+growth$sex <- rep(c("F", "M"), 3)
+growth$area <- c(rep("Coastwide", 2), rep("North", 2), rep("South", 2))
+```
+
+Sablefish have dimorphic growth with females reaching larger sizes compared to males. Length-at-age was estimated assuming von Bertenlaffy growth collected during various West Coast bottom trawl surveys (Triennial, NWFSC Slope, AFSC Slope, and NWFSC West Coast Groundfish Bottom Trawl survey). Additionally, fish north of 36$^\circ$ North latitude grow to larger sizes compared to fish in the south. Coastwide, sablefish reach an average maximum size around `r round(growth[which(growth$area == "Coastwide" & growth$sex == "F"), "Linf"], 0)` cm and `r round(growth[which(growth$area == "Coastwide" & growth$sex == "M"), "Linf"], 0)` cm for females and males, respectively. However, there is considerable variation in growth for sablefish where individual fish may grow to a larger or smaller maximum size.  
+
+```{r}
+#| label: plot-growth
+#| echo: false
+#| warning: false
+#| fig-cap: "Estimated length-at-age coastwide and by area for females (solid lines) and males (dashed lines) north and south of 36 degrees North latitude."
+#| fig-cap-location: margin
+
+data_to_plot <- survey_bio |>
+  dplyr::rename_with(
+    tolower
+  ) |>
+  dplyr::filter(
+    sex != "U",
+    !is.na(age_years),
+    age_years >= 0,
+    !is.na(length_cm),
+    length_cm > 0
+  )
+
+xlims <- c(0, ceiling(max(data_to_plot[, "age_years"])))
+ylims <- c(0, max(data_to_plot[, "length_cm"]))
+growth$amin <- 0
+growth$amax <- xlims[2]
+
+lines_to_plot <- growth |>
+  dplyr::group_by(area, sex) |>
+  dplyr::reframe(
+    k = K,
+    Linf = Linf,
+    L0 = L0,
+    age_years = seq(amin, amax, 1),
+    length_cm = Linf + (L0 - Linf) * exp(-k * age_years)
+  )
+label <- lines_to_plot |>
+  dplyr::mutate(
+    max_x = quantile(age_years, 0.60),
+    multiplier = ifelse(sex == "Female", 0.2, 0.1)
+  ) |>
+  dplyr::group_by(area, sex) |>
+  dplyr::summarize(
+    label = paste0(
+      "k = ", round(unique(k), 2), "; ",
+      paste0("Lmin = ", round(unique(L0), 1)), "; ",
+      paste0("Linf = ", round(unique(Linf), 1))
+    ),
+    x = unique(max_x),
+    y = unique(max(length_cm)) * unique(multiplier)
+  )
+
+ggplot(lines_to_plot) +
+ geom_line(aes(x = age_years, y = length_cm, color = area, linetype = sex), linewidth = 1) +
+ xlim(xlims[1], xlims[2]) +
+ ylim(24, 70) +
+ theme_bw() +
+ xlab("Age (yrs)") +
+ ylab("Length (cm)") +
+ scale_color_viridis_d() + 
+ theme(axis.text = element_text(size = 13),
+       axis.title = element_text(size = 13))
+
+```
+
+Previous assessments of sablefish have estimated time-invariant sex-specific growth within the assessment model. One of the recommendations from the 2019 Stock Assessment Review Panel was to explore using a time-varying annual weight-at-age approach in future assessments.  This approach utilizes tools to estimate the average weight of fish by sex and age, that is then fixed in the model. The advantage of this approach is that it can capture annual variations in growth without adding additional parameters within the model. This approach is used in the U.S./Canadian assessment of Pacific hake. This alternative approach for growth is discussed below.
+
 ## Weight-at-Age
 
 ## Stock Structure
