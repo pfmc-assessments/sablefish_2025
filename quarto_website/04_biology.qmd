@@ -21,7 +21,13 @@ maturity_at_age <- readRDS(
 )
 ```
 
+## General Approach to Biology
+
+Similar to many groundfish species, sablefish, have variable growth and maturity along the U.S. West Coast, generally having latitudinal changes in biology with fish maturing early, growing faster, and reaching larger sizes in northern latitudes compared to southern latitudes. We have carefully considered how best to capture trends in biology in a coastwide model. When present, trends in biology are discussed below along with our proposed approach to estimate single coastwide parameters, when appropriate.
+
 ## Natural Mortality
+
+Sablefish are a long-lived roundfish.  The maximum age observed varies by region. The reported maximum age for Alaska is 94 years, 113 years off Canada, and 102 years off the U.S. West Coast caught by the commercial fishery in 2006 landed in Washington. The 2011 and 2019 benchmark assessments for sablefish estimated sex-specific natural mortality with female being estimated have marginally higher natural mortality (0.076 yr$^{-yr}$) compared to males (0.062 yr$^{-yr}$) that approximately translate to a maximum age range between 70--87 years of age. This assessment will also attempt to estimate natural mortality within the assessment model. 
 
 ## Maturity
 
@@ -87,7 +93,7 @@ ggplot(maturity_data, aes(x = age, y = functional_maturity)) +
 
 ```
 
-Maturity-at-age was estimated using a spatiotemporal model that explored the impacts of temperature, temporal changes in maturity, day of year, and location. Only sample location was determined to be significant in the model with the maturity curve right shifted (e.g., less probability of being mature at age) compared to fish in the north. A coastwide maturity curve was estimated by weighting the area specific curves using a biomass weighted prediction grid from the NWFSC West Coast Groundfish Bottom Trawl survey. 
+Maturity-at-age was estimated using a spatiotemporal model that explored the impacts of temperature, temporal changes in maturity, day of year, and location. Only sample location was determined to be significant in the model with the maturity curve right shifted (e.g., less probability of being mature at age) compared to fish in the north. A coastwide maturity curve was estimated by weighting the area specific curves using a biomass weighted prediction grid from the NWFSC West Coast Groundfish Bottom Trawl survey. The assessment will be using the biomass weighted maturity curve (Spatial). 
 
 ```{r}
 #| label: maturity-ogive
@@ -104,8 +110,6 @@ ggplot(maturity_at_age, aes(x = age, y = p, color = Model)) +
   theme(strip.background = element_rect(fill = "white"))
 
 ```
-
-
 
 ## Growth
 
