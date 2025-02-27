@@ -81,15 +81,15 @@ format_wtatage <- pad_weight_at_age(
   first_year = 2003,
   n_forecast_years = 12,
   n_years_used_for_forecast = 5,
-  year_global_average = -1892,
+  year_global_average = -1890,
   ages = 0:30)
 
 write_wtatage_file(
-  file = here::here("data-processed", "wtatage.ss"),
+  file = here::here("data-processed", "wtatage_model_biomass_weighted.ss"),
   data = format_wtatage,
-  maturity = maturity,
-  max_age = 70,
-  n_fleet = 8
+  maturity = maturity[1:31],
+  max_age = 30,
+  n_fleet = 7
 )
 
 # Old functions that calculate empirical weight-at-age
