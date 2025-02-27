@@ -119,6 +119,8 @@ bds <- cleanPacFIN(
     stratification = paste(state, geargroup, sep = ".")
   )
 
+bds <- readRDS(file.path(here::here(), "data-raw", "bds", "cleaned_pacfin_bds.rds"))
+
 bds <- bds %>% left_join(port_lats, by=c("PCID"="pacfin_port_code"))
 port_factor_levels <- bds %>% arrange(latitude) %>% pull(PACFIN_PORT_NAME) %>% unique
 bds <- bds %>% mutate(
@@ -141,6 +143,11 @@ bds <- bds %>%
 head(bds)
 # Explore the length and age samples by port and year
 
+colnames(bds)
+bds <- bds[,c("year", "state", "region", "port", "geargroup", "lengthcm", "Age", "SEX")]
+
+data_commercial_bds_summ <- bds
+save(data_commercial_bds_summ, file=file.path(here::here(), "data", "data_commercial_bds_summ.rda"))
 
 # Explore the number of length and age samples available by gear and the grouped
 # gears (traw, pot, hkl)
@@ -217,13 +224,13 @@ ggplot(bds |> filter(year > 2010, !is.na(Age)),
   theme_bw() 
 
 ggplot(bds |> filter(year > 2010, !is.na(Age)),
-       aes(x = length, fill = geargroup)) +
+       aes(x = lengthcm, fill = geargroup)) +
   geom_density(alpha = 0.4) +
   scale_color_viridis_c() +
   theme_bw() 
 
 ggplot(bds |> filter(year <= 2010, !is.na(Age)),
-       aes(x = length, fill = geargroup)) +
+       aes(x = lengthcm, fill = geargroup)) +
   geom_density(alpha = 0.4) +
   scale_color_viridis_c() +
   theme_bw() 

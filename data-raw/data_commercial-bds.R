@@ -1,10 +1,11 @@
 library(dplyr)
 library(ggplot2)
+library(PacFIN.Utilities)
 #library(pacfintools)
-devtools::load_all("C:/Users/chantel.wetzel/Documents/github/PacFIN.Utilities")
+# devtools::load_all("C:/Users/chantel.wetzel/Documents/github/PacFIN.Utilities")
 
 raw_pacfin_bds <-
-  fs::dir_ls(here::here("data-raw", "bds"), regex = "PacFIN\\..+bds")[2] |>
+  fs::dir_ls(here::here("data-raw", "bds"), regex = "PacFIN\\..+bds")[1] |>
   purrr::map_df(
     .f = function(x) {load(x); return(bds.pacfin)}
   ) |>
