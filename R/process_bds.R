@@ -19,6 +19,10 @@ process_bds_data <- function(
   length_bins = len_bins,
   gears = gears,
   common_name = common_name) {
+  if (!file.exists(here::here("data-raw", "bds"))) {
+    dir.create(here::here("data-raw", "bds"))
+    dir.create(here::here("data-raw", "bds", "plots"))
+  }
   # pre-processed catch data by year, state, and geargroup
   file_catch <- here::here("data-processed",  catch_file)
   
@@ -82,22 +86,29 @@ process_bds_data <- function(
   
   port_lats <- PEPtools::pacfin_ports_withlatlong |>
     dplyr::rename(
-      pacfin_port_code = pcid
+      PCID = pcid
     ) |>
     dplyr::select(
       c(-name, -agencydesc, -agid)
     ) |>
-    dplyr::distinct(pacfin_port_code, .keep_all = TRUE) |>
+    dplyr::distinct(PCID, .keep_all = TRUE) |>
     tibble::tibble()
   data_commercial_bds <- bds_cleaned |>
     dplyr::mutate(
-      pacfin_port_code = dplyr::case_when(is.na(PACFIN_GROUP_PORT_CODE) ~ "UKN", .default = PACFIN_GROUP_PORT_CODE)
+      pacfin_port_code = dplyr::case_when(is.na(PCID) ~ "UKN", PCID == "XXX" ~ "UKN", .default = PCID)
     ) |>
     dplyr::left_join(
       y = port_lats
     ) |>
     dplyr::mutate(
-      area = dplyr::case_when(latitude > 36 ~ "North", is.na(latitude) ~ "Unknown", .default = "South")
+      area = dplyr::case_when(
+        latitude > 36 ~ "North", 
+        is.na(latitude) ~ "Unknown", 
+        .default = "South"),
+      area = dplyr::case_when(
+        area == "Unknown" & state %in% c("OR", "WA") ~ "North",
+        .default = area
+      )
     ) |>
     dplyr::select(year, state, geargroup, area, lengthcm, Age, SEX) |>
     dplyr::rename(
@@ -230,7 +241,8 @@ process_bds_data <- function(
   age_comps_long <- getComps(
     Pdata =  dplyr::filter(expanded_comps, !is.na(Age)),
     Comps = "AGE",
-    weightid = "Final_Sample_Size_A"
+    weightid = "Final_Sample_Size_A",
+    verbose = FALSE
   )
   
   age_composition_data <- writeComps(
