@@ -182,7 +182,22 @@ nwfscSurvey::plot_proportion(
 ### Survey Compositions
 
 
+
+```{r}
+#| label: wcgbt-juvenile-barplot
+#| echo: false
+#| fig-cap: "Size distributions of sablefish less than or equal to 35 cm for recent years observed by the NWFSC West Coast Groundfish Bottom Trawl survey."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "GF-sablefish-juvenile-size-1.png")
+)
+
+```
+
+
 ### Other Trends in the Data
+
 
 ```{r}
 #| label: juvenile-by-port
@@ -200,7 +215,7 @@ knitr::include_graphics(
 ```{r}
 #| label: adult-by-port
 #| echo: false
-#| fig-cap: "Index of the availability of sablefish biomass to ports alongl the West Coast. Portsare Bellingham Bay (BLL), Astoria (AST), Charleston (Coos Bay, COS), Brook-ings (BRK), Crescent City (CRS), Eureka (ERK), Fort Bragg (BRG) and MorroBay (MRO). Availablility was calculate based on a combination of locally availablebiomass and distance from port for the 75th quarntile of fishing trips in 2015 usingresults of the species distribution model above."
+#| fig-cap: "Index of the availability of sablefish biomass to ports alongl the West Coast. Ports are Bellingham Bay (BLL), Astoria (AST), Charleston (Coos Bay, COS), Brookings (BRK), Crescent City (CRS), Eureka (ERK), Fort Bragg (BRG) and Morro Bay (MRO). Availablility was calculate based on a combination of locally available biomass and distance from port for the 75th quarntile of fishing trips in 2015 using results from a species distribution model."
 #| fig-cap-location: margin
 
 knitr::include_graphics(
