@@ -66,7 +66,7 @@ process_bds_data <- function(
     )
   
   bds_cleaned <- cleanPacFIN(
-    Pdata = bds_data,
+    Pdata = bds_data |> dplyr::filter(SAMPLE_YEAR != 2025),
     keep_gears = gears,
     CLEAN = TRUE,
     keep_age_method = good_age_method,
