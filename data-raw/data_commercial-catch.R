@@ -16,7 +16,7 @@ port_lats <- pacfin_ports_withlatlong |>
   tibble::tibble()
 
 raw_pacfin_catch <-
-  fs::dir_ls(here::here("data-raw", "landings"), regex = "PacFIN\\..+Comp")[1] |>
+  fs::dir_ls(here::here("data-raw", "landings"), regex = "PacFIN\\..+Comp")[3] |>
   purrr::map_df(
     .f = function(x) {load(x); return(catch.pacfin)}
   ) |>
@@ -32,7 +32,7 @@ pacfin_catch <- raw_pacfin_catch |>
   # Filter out 1981-86 for Oregon since we use the reconstruction
   # and WDFW records for those years, particularly 1981-82.
   dplyr::filter(
-    !(landing_year < 1987 & agency_code == "O")
+    !(landing_year < 1987 & agency_code == "O"), landing_year != 2025
   ) |>
   dplyr::mutate(
     catch_mt = round_weight_mtons,
