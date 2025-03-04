@@ -37,7 +37,7 @@ Imports:
     kableExtra,
     nwfscDiag,
     nwfscSurvey,
-    PacFIN.Utilities,
+    pacfintools,
     PEPtools,
     purrr,
     r4ss,
@@ -49,7 +49,7 @@ Imports:
 Remotes: 
     pfmc-assessments/nwfscSurvey,
     pfmc-assessments/nwfscDiag,
-    pfmc-assessments/PacFIN.Utilities,
+    pfmc-assessments/pacfintools,
     pfmc-assessments/PEPtools,
     r4ss/r4ss
 Depends: 

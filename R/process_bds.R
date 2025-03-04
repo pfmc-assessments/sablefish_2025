@@ -60,7 +60,7 @@ process_bds_data <- function(
   )
   
   catch_formatted <- utils::read.csv(file_catch) |>
-    PacFIN.Utilities::formatCatch(
+    formatCatch(
       strat = c("state", "geargroup"),
       valuename = "catch_mt"
     )

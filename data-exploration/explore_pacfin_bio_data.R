@@ -2,7 +2,7 @@ library(tidyverse)
 library(ggplot2)
 library(ggridges)
 library(PEPtools)
-library(PacFIN.Utilities)
+library(pacfintools)
 
 port_lats <- pacfin_ports_withlatlong |>
   dplyr::rename(

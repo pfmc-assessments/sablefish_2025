@@ -83,7 +83,7 @@ process_weight_at_age_fishery <- function(savedir = getwd()) {
       .f = function(x) {load(x); return(bds.pacfin)}
     ) |>
     tibble::tibble() 
-  cleaned_bds <- PacFIN.Utilities::cleanPacFIN(
+  cleaned_bds <- pacfintools::cleanPacFIN(
     Pdata = raw_bds
   )
   
