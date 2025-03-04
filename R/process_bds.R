@@ -79,6 +79,7 @@ process_bds_data <- function(
     dplyr::mutate(
       stratification = paste(state, geargroup, sep = ".")
     )
+  
   saveRDS(
     bds_cleaned, 
     file =  here::here("data-raw", "bds", paste0("cleaned_pacfin_bds.rds"))
@@ -93,6 +94,7 @@ process_bds_data <- function(
     ) |>
     dplyr::distinct(PCID, .keep_all = TRUE) |>
     tibble::tibble()
+  
   data_commercial_bds <- bds_cleaned |>
     dplyr::mutate(
       pacfin_port_code = dplyr::case_when(is.na(PCID) ~ "UKN", PCID == "XXX" ~ "UKN", .default = PCID)

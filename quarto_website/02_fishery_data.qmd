@@ -6,7 +6,7 @@ library(ggplot2)
 library(dplyr)
 library(gt)
 # this needs to be fixed to use relative directories
-project_dir <- "C:/Assessments/2025/sablefish_2025"
+project_dir <- here::here()
 data_proc <- file.path(project_dir, "data-processed")
 data <- file.path(project_dir , "data")
 load(file.path(data, "data_commercial_catch.rda"))
@@ -281,6 +281,150 @@ Questions:
 
 ## Fishery Compositions
 
-Add figures and text to show patterns in the fishery data
+```{r}
+#| label: load-commercial-bds-data
+#| echo: false
+#| warning: false
+load(file.path(here::here(), "data", "data_commercial_bds.rda"))
+bds_data <- data_commercial_bds %>% as_tibble() %>%
+  mutate(
+    area = case_when(
+      state %in% c("WA", "OR") ~ state,
+      TRUE ~ paste(area, state)
+    ),
+    period = case_when(
+      year > 2018 ~ "2019-2024",
+      year < 2011 ~ "1980-2010",
+      TRUE ~ "2011-2018"
+    ),
+    area = factor(area, levels=c("South CA", "North CA", "OR", "WA"))
+  )
+```
+
+Length samples are generally available for all gear types across the three states. There has been a substantial decline in length sampling in California in recent years, and a total lack of length sampling of trawl catch in Southern California since 2012. Length sample availability in Oregon and Washington has remained stable since the 2010s.
+```{r}
+#| label: nsamples-length
+#| echo: false
+#| warning: false
+#| fig-cap: "Number of available length samples over time, grouped by gear type and state."
+#| fig-cap-location: margin
+
+bds_data %>% 
+  filter(geargroup %in% c("HKL", "POT", "TWL"), !is.na(length_cm)) %>%
+  count(year, area, geargroup) %>%
+
+  ggplot(aes(x = year, y = n, fill = geargroup)) +
+    geom_bar(stat = 'identity') +
+    facet_wrap(facets = c("area")) +
+    scale_fill_viridis_d()+
+    labs(y="Number of Length Samples", x="Year", fill="Gear Type", main="")+
+    theme_bw()
+```
+
+Age samples are generally available from Oregon and Washington state, but have not been available from Northern California since 2018 or from Southern California since 2003. 
+```{r}
+#| label: nsamples-age
+#| echo: false
+#| warning: false
+#| fig-cap: "Number of available length samples over time, grouped by gear type and state."
+#| fig-cap-location: margin
+
+bds_data %>% 
+  filter(geargroup %in% c("HKL", "POT", "TWL"), !is.na(age_years)) %>%
+  count(year, area, geargroup) %>%
+
+  ggplot(aes(x = year, y = n, fill = geargroup)) +
+    geom_bar(stat = 'identity') +
+    facet_wrap(facets = c("area")) +
+    scale_fill_viridis_d()+
+    labs(y="Number of Age Samples", x="Year", fill="Gear Type")+
+    theme_bw()
+```
+
+Commercial length compositions from trawl fisheries are similar across the coast. Meanwhile, length compositions from the hook-and-line and pot fisheries are skewed towards larger fish in Oregon and Washington as compared to California. Length compositions of hook-and-line and pot catch are often similar, though the pot fishery may catch slightly smaller fish.
+```{r}
+#| label: length-by-gear-region
+#| echo: false
+#| warning: false
+#| fig-cap: "Distribution of length samples by gear type and state."
+#| fig-cap-location: margin
+
+bds_data %>%
+  group_by(area, geargroup) %>%
+  select(sex, length_cm) %>%
+  mutate(area=factor(area)) %>%
+
+  ggplot(aes(x=length_cm, fill=geargroup))+
+    ggridges::geom_density_ridges(aes(y=area), alpha=0.5, scale=1)+
+    labs(y="Area", x="Length (cm)", fill="Gear")+
+    scale_x_continuous(limits=c(0, 125), expand=c(0, 0))+
+    scale_fill_viridis_d()+
+    theme_bw()
+```
+
+
+```{r}
+#| label: age-by-gear-region
+#| echo: false
+#| warning: false
+#| fig-cap: "Distribution of age samples by gear type and state."
+#| fig-cap-location: margin
+
+bds_data %>%
+  group_by(area, geargroup) %>%
+  select(sex, age_years) %>%
+  mutate(area=factor(area)) %>%
+
+  ggplot(aes(x=age_years, fill=geargroup))+
+    ggridges::geom_density_ridges(aes(y=area), alpha=0.5, scale=1)+
+    labs(y="Area", x="Age", fill="Gear")+
+    scale_x_continuous(limits=c(0, 125), expand=c(0, 0))+
+    scale_fill_viridis_d()+
+    theme_bw()
+```
+
+Length compositions within each state and by gear type have remained largely consistent over time (southern California for which there is a paucity available post-2011). 
+```{r}
+#| label: length-by-gear-region-period
+#| echo: false
+#| warning: false
+#| fig-cap: "Distribution of length samples by gear and region for three time periods. Time periods are generally reflective of known changes in either selectivity or retention."
+#| fig-cap-location: margin
+
+ggplot(bds_data,
+       aes(x = length_cm, y=period, fill = geargroup, alpha = 0.25)) +
+  ggridges::geom_density_ridges(scale=0.9) +
+  scale_x_continuous(limits=c(0, 125), expand=c(0, 0), breaks=seq(0, 125, 25))+
+  labs(y="Time Period", x="Length (cm)", fill="Gear Type")+
+  guides(alpha="none")+
+  facet_wrap(~area, ncol=2) +
+  scale_fill_viridis_d()+
+  theme_bw()+
+  theme(
+    panel.spacing.x = unit(30, "pt")
+  )
+```
+
+```{r}
+#| label: age-by-gear-region-period
+#| echo: false
+#| warning: false
+#| fig-cap: "Distribution of age samples by gear and region for three time periods. Time periods are generally reflective of known changes in either selectivity or retention."
+#| fig-cap-location: margin
+
+ggplot(bds_data,
+       aes(x = age_years, y=period, fill = geargroup, alpha = 0.25)) +
+  ggridges::geom_density_ridges(scale=0.9) +
+  scale_x_continuous(limits=c(0, 125), expand=c(0, 0), breaks=seq(0, 125, 25))+
+  labs(y="Time Period", x="Age", fill="Gear Type")+
+  guides(alpha="none")+
+  facet_wrap(~area, ncol=2) +
+  scale_fill_viridis_d()+
+  theme_bw()+
+  theme(
+    panel.spacing.x = unit(30, "pt")
+  )
+```
 
 **Disclaimer: All data summaries and exploration presented here are preliminary and may not be indicative of the final data that will be incorporated in the 2025 assessment**
+
