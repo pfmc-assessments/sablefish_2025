@@ -6,7 +6,8 @@ library(ggplot2)
 library(dplyr)
 library(gt)
 # this needs to be fixed to use relative directories
-project_dir <- here::here()
+# project_dir <- here::here()
+project_dir <- "C:/Assessments/2025/sablefish_2025"
 data_proc <- file.path(project_dir, "data-processed")
 data <- file.path(project_dir , "data")
 load(file.path(data, "data_commercial_catch.rda"))
@@ -285,8 +286,8 @@ Questions:
 #| label: load-commercial-bds-data
 #| echo: false
 #| warning: false
-load(file.path(here::here(), "data", "data_commercial_bds.rda"))
-bds_data <- data_commercial_bds %>% as_tibble() %>%
+load(file.path(data, "data_commercial_bds.rda"))
+bds_data <- data_commercial_bds |> as_tibble() |>
   mutate(
     area = case_when(
       state %in% c("WA", "OR") ~ state,
@@ -299,9 +300,11 @@ bds_data <- data_commercial_bds %>% as_tibble() %>%
     ),
     area = factor(area, levels=c("South CA", "North CA", "OR", "WA"))
   )
+  
 ```
 
-Length samples are generally available for all gear types across the three states. There has been a substantial decline in length sampling in California in recent years, and a total lack of length sampling of trawl catch in Southern California since 2012. Length sample availability in Oregon and Washington has remained stable since the 2010s.
+Length samples are generally available for all gear types across the three states. 
+
 ```{r}
 #| label: nsamples-length
 #| echo: false
@@ -309,9 +312,9 @@ Length samples are generally available for all gear types across the three state
 #| fig-cap: "Number of available length samples over time, grouped by gear type and state."
 #| fig-cap-location: margin
 
-bds_data %>% 
-  filter(geargroup %in% c("HKL", "POT", "TWL"), !is.na(length_cm)) %>%
-  count(year, area, geargroup) %>%
+bds_data |> 
+  filter(geargroup %in% c("HKL", "POT", "TWL"), !is.na(length_cm)) |>
+  count(year, area, geargroup) |>
 
   ggplot(aes(x = year, y = n, fill = geargroup)) +
     geom_bar(stat = 'identity') +
@@ -321,7 +324,8 @@ bds_data %>%
     theme_bw()
 ```
 
-Age samples are generally available from Oregon and Washington state, but have not been available from Northern California since 2018 or from Southern California since 2003. 
+
+
 ```{r}
 #| label: nsamples-age
 #| echo: false
@@ -329,9 +333,9 @@ Age samples are generally available from Oregon and Washington state, but have n
 #| fig-cap: "Number of available length samples over time, grouped by gear type and state."
 #| fig-cap-location: margin
 
-bds_data %>% 
-  filter(geargroup %in% c("HKL", "POT", "TWL"), !is.na(age_years)) %>%
-  count(year, area, geargroup) %>%
+bds_data |> 
+  filter(geargroup %in% c("HKL", "POT", "TWL"), !is.na(age_years)) |>
+  count(year, area, geargroup) |>
 
   ggplot(aes(x = year, y = n, fill = geargroup)) +
     geom_bar(stat = 'identity') +
@@ -349,10 +353,10 @@ Commercial length compositions from trawl fisheries are similar across the coast
 #| fig-cap: "Distribution of length samples by gear type and state."
 #| fig-cap-location: margin
 
-bds_data %>%
-  group_by(area, geargroup) %>%
-  select(sex, length_cm) %>%
-  mutate(area=factor(area)) %>%
+bds_data |>
+  group_by(area, geargroup) |>
+  select(sex, length_cm) |>
+  mutate(area=factor(area)) |>
 
   ggplot(aes(x=length_cm, fill=geargroup))+
     ggridges::geom_density_ridges(aes(y=area), alpha=0.5, scale=1)+
@@ -370,15 +374,15 @@ bds_data %>%
 #| fig-cap: "Distribution of age samples by gear type and state."
 #| fig-cap-location: margin
 
-bds_data %>%
-  group_by(area, geargroup) %>%
-  select(sex, age_years) %>%
-  mutate(area=factor(area)) %>%
+bds_data |>
+  group_by(area, geargroup) |>
+  select(sex, age_years) |>
+  mutate(area=factor(area)) |>
 
   ggplot(aes(x=age_years, fill=geargroup))+
     ggridges::geom_density_ridges(aes(y=area), alpha=0.5, scale=1)+
     labs(y="Area", x="Age", fill="Gear")+
-    scale_x_continuous(limits=c(0, 125), expand=c(0, 0))+
+    scale_x_continuous(limits=c(0, 50), expand=c(0, 0))+
     scale_fill_viridis_d()+
     theme_bw()
 ```

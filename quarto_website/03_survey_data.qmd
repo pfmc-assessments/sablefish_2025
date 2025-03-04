@@ -225,9 +225,6 @@ knitr::include_graphics(
 ```
 
 
-
-## Other Survey Data
-
 ### Environmental Indices
 
 

@@ -9,6 +9,8 @@ website:
     contents:
       - text: "Introduction"
         href: 01_introduction.qmd
+      - text: "Sablefish in the North Pacific"
+        href: 01_general_sablefish.qmd
       - text: "Fishery Data"
         href: 02_fishery_data.qmd
       - text: "Fishery Independent Data"
