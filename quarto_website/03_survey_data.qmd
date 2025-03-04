@@ -11,7 +11,6 @@ library(nwfscSurvey)
 # this needs to be fixed to use relative directories
 project_dir <- "C:/Assessments/2025/sablefish_2025"
 data_proc <- file.path(project_dir , "data-processed")
-index <- file.path(project_dir , "data-raw", "survey", "trawl", "indices")
 data <- file.path(project_dir , "data")
 
 
@@ -27,7 +26,7 @@ wcgbt_catch <- data_survey_catch$nwfsc_combo |>
 
 wcgbt_bio <- data_survey_bio$nwfsc_combo
 
-wcgbt_area <- read.csv(file.path(index, "wcgbts", "delta_gamma", "index", "est_by_area.csv")) |>
+wcgbt_area <- read.csv(here::here("figures", "est_by_area.csv")) |>
   dplyr::filter(area %in%  c("North of Monterey Bay", "South of Monterey Bay")) |>
   dplyr::group_by(year) |>
   dplyr::mutate(
@@ -37,40 +36,12 @@ wcgbt_area <- read.csv(file.path(index, "wcgbts", "delta_gamma", "index", "est_b
     prop = est / total_est
   )
 
-wcgbt <- read.csv(file.path(index, "wcgbts", "delta_gamma", "index", "est_by_area.csv")) |>
+wcgbt <- read.csv(here::here("figures", "est_by_area.csv")) |>
   dplyr::filter(area == "Coastwide") |>
   dplyr::mutate(
     ave_index = mean(est),
     index = est / ave_index,
     survey = "WCGBT"
-  )
-tri_early <- read.csv(file.path(index, "triennial_early", "delta_gamma", "index", "est_by_area.csv")) |>
-  dplyr::filter(area == "Coastwide") |>
-  dplyr::mutate(
-    ave_index = mean(est),
-    index = est / ave_index,
-    survey = "Triennial"
-  )
-tri_late <- read.csv(file.path(index, "triennial_late", "delta_gamma", "index", "est_by_area.csv")) |>
-  dplyr::filter(area == "Coastwide") |>
-  dplyr::mutate(
-    ave_index = mean(est),
-    index = est / ave_index,
-    survey = "Triennial"
-  )
-afsc_slope <- read.csv(file.path(index, "afsc_slope", "tweedie", "index", "est_by_area.csv")) |>
-  dplyr::filter(area == "Coastwide") |>
-  dplyr::mutate(
-    ave_index = mean(est),
-    index = est / ave_index,
-    survey = "AFSC Slope"
-  )
-nwfsc_slope <- read.csv(file.path(index, "nwfsc_slope", "delta_lognormal", "index", "est_by_area.csv")) |>
-  dplyr::filter(area == "Coastwide") |>
-  dplyr::mutate(
-    ave_index = mean(est),
-    index = est / ave_index,
-    survey = "NWFSC Slope"
   )
 
 ```
@@ -211,7 +182,49 @@ nwfscSurvey::plot_proportion(
 ### Survey Compositions
 
 
+
+```{r}
+#| label: wcgbt-juvenile-barplot
+#| echo: false
+#| fig-cap: "Size distributions of sablefish less than or equal to 35 cm for recent years observed by the NWFSC West Coast Groundfish Bottom Trawl survey."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "GF-sablefish-juvenile-size-1.png")
+)
+
+```
+
+
 ### Other Trends in the Data
+
+
+```{r}
+#| label: juvenile-by-port
+#| echo: false
+#| fig-cap: "Index of availability of juvenile sablefish (of 29 cm or less) to selected ports along the West Coast that fish heavily for Pacific hake. Availability was calculated within a 232 km radius. Annual values were scaled to 0-1 by dividing by the maximum observed biomass."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "GF-juv-sablefish-salmon-ports-1.png")
+)
+
+```
+
+
+```{r}
+#| label: adult-by-port
+#| echo: false
+#| fig-cap: "Index of the availability of sablefish biomass to ports alongl the West Coast. Ports are Bellingham Bay (BLL), Astoria (AST), Charleston (Coos Bay, COS), Brookings (BRK), Crescent City (CRS), Eureka (ERK), Fort Bragg (BRG) and Morro Bay (MRO). Availablility was calculate based on a combination of locally available biomass and distance from port for the 75th quarntile of fishing trips in 2015 using results from a species distribution model."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "sablefish-adults-avail-to-ports.png")
+)
+
+```
+
+
 
 ## Other Survey Data
 

@@ -23,6 +23,8 @@
 #'   If there are no ages in the data to represent the older ages present in
 #'   vector, then the information for the oldest age will be repeated for any
 #'   given year.
+#' @param max_age Interger to extend the weight-at-age to an age not included in 
+#'   the ages vector.
 #' @author Kelli F. Johnson and Chantel Wetzel
 #' @return
 #' A data frame of weight-at-age information is returned that can formatted with
@@ -33,7 +35,8 @@ pad_weight_at_age <- function(
   n_forecast_years = 5,
   n_years_used_for_forecast = 5,
   year_global_average = -1892,
-  ages = 0:30) {
+  ages = 0:30,
+  max_age = 70) {
   data <- dplyr::mutate(
     data,
     pred_weight = ifelse(is.infinite(pred_weight), NA, pred_weight),
@@ -104,6 +107,10 @@ pad_weight_at_age <- function(
     xlab("Age") + ylab("Average Weight (kg)") +
     scale_color_viridis_d() + 
     facet_grid(sex~.)
+  if (!file.exists(here::here("data-raw", "weight_at_age"))) {
+    file.create(here::here("data-raw", "weight_at_age"))
+    file.create(here::here("data-raw", "weight_at_age", "plots"))
+  }
   ggplot2::ggsave(
     gg,
     width = 10, height = 7, units = "in",
@@ -111,17 +118,29 @@ pad_weight_at_age <- function(
   )
   
   years_to_keep <- c(year_global_average, first_year:max(forecast_df[["year"]]))
-  temp <- dplyr::bind_rows(data, global_average, average_2020, forecast_df) |>
+  temp <- dplyr::bind_rows(data, global_average, average_2020, forecast_df) 
+  
+  # SS3 will fill in any missing additional ages with the final value, so no need
+  # to do this.
+  # extend_wtatage <- temp |>
+  #  dplyr::filter(age == max(age)) |>
+  #  dplyr::group_by(year, sex, period) |>
+  #  dplyr::reframe(
+  #    age = (unique(age) + 1):max_age,
+  #    pred_weight = pred_weight
+  #  )
+                    
+  wtatage <- temp |>
     dplyr::select(-period) |>
     dplyr::filter(year %in% years_to_keep) |>
     dplyr::ungroup() |>
-    tidyr::complete(
-      year = c(
-        years_to_keep,
-        max(data[["year"]]) + 1:n_forecast_years
-      ),
-      age = ages
-    ) |>
+    #tidyr::complete(
+    #  year = c(
+    #    years_to_keep,
+    #    max(data[["year"]]) + 1:n_forecast_years
+    #  ),
+    #  age = ages
+    #) |>
     tidyr::pivot_wider(
       id_cols = c(year, sex),
       names_from = age,
@@ -143,9 +162,9 @@ pad_weight_at_age <- function(
     #)
   
   # TODO: 
-  # 1. Decide how/when to remove unsexed fish
+  # 1. Extend the weight at age from the 30 to max age
   
-  fleet_wtatage <- temp |>
+  fleet_wtatage <- wtatage |>
     dplyr::filter(sex != "U") |>
     dplyr::mutate(
       seas = 1,
@@ -155,6 +174,8 @@ pad_weight_at_age <- function(
       fleet = 1,
       .after = "year"
     ) |>
+    dplyr::relocate(sex, .after = seas) |>
+    dplyr::arrange(year) |>
     as.data.frame()
   
   return(fleet_wtatage)

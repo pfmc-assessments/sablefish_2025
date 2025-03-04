@@ -9,15 +9,15 @@ library(gt)
 project_dir <- "C:/Assessments/2025/sablefish_2025"
 data_proc <- file.path(project_dir, "data-processed")
 data <- file.path(project_dir , "data")
-data_raw <- file.path(project_dir , "data-raw")
+
 maturity_data <- readRDS(
-  file.path(data_raw, "maturity", "sablefish_maturity.rds")
+  here::here("figures", "sablefish_maturity.rds")
 ) |>
   dplyr::mutate(
     Area = dplyr::case_when(latitude >= 36 ~ "North", .default = "South")
   )
 maturity_at_age <- readRDS(
-  file.path(data_raw, "maturity", "ogives_for_assessment.rds")
+  here::here("figures", "ogives_for_assessment.rds")
 )
 ```
 

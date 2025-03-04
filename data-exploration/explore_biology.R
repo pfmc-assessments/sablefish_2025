@@ -1,30 +1,28 @@
 library(ggplot2)
-
 load(here::here("data", "data_survey_bio.rda"))
 
-data_survey_bio$afsc_slope$length_data$Age_years <- NA
-data_survey_bio$triennial$length_data$Age_years <- NA
-data_survey_bio$afsc_slope$age_data$Project <- paste0(data_survey_bio$afsc_slope$length_data$Project[1], "-Age")
-data_survey_bio$triennial$age_data$Project <- paste0(data_survey_bio$triennial$length_data$Project[1], "-Age")
-
-cols_to_keep <- c("Year", "Project", "Depth_m", "Latitude_dd", "Longitude_dd", "Common_name",
-                  "Length_cm", "Age_years", "Weight_kg", "Sex", "Tow", "Vessel", "Date", "Pass")
+cols_to_keep <- c(
+  "Project",
+  "Year",
+  "Sex",
+  "Age_years", 
+  "Length_cm", 
+  "Weight_kg",
+  "Depth_m", 
+  "Latitude_dd"
+)
 
 survey_bio <- dplyr::bind_rows(
-  data_survey_bio$nwfsc_combo[, cols_to_keep],
-  data_survey_bio$nwfsc_slope[, cols_to_keep],
-  data_survey_bio$afsc_slope$length_data[, cols_to_keep],
-  data_survey_bio$afsc_slope$age_data[, cols_to_keep],
-  data_survey_bio$triennial$length_data[, cols_to_keep],
-  data_survey_bio$triennial$age_data[, cols_to_keep]
+  data_survey_bio$nwfsc_combo |> dplyr::select(dplyr::all_of(cols_to_keep)), 
+  data_survey_bio$nwfsc_slope |> dplyr::select(dplyr::all_of(cols_to_keep)),
+  data_survey_bio$afsc_slope$age_data |> dplyr::select(dplyr::all_of(cols_to_keep)),
+  data_survey_bio$triennial_early$age_data |> dplyr::select(dplyr::all_of(cols_to_keep)),
+  data_survey_bio$triennial_late$age_data |> dplyr::select(dplyr::all_of(cols_to_keep))
 ) |>
   dplyr::mutate(
-    state = dplyr::case_when(Latitude_dd >= 46.25 ~ "WA",
-                             Latitude_dd < 42.0 ~ "CA",
-                             .default = "OR"),
-    area = dplyr::case_when(Latitude_dd >= 36.0 ~ "N",
-                            .default = "S")
-  )
+    state = dplyr::case_when(Latitude_dd > 46.25 ~ "WA", Latitude_dd < 42 ~ "CA", .default = "OR"),
+    area = dplyr::case_when(Latitude_dd > 36 ~ "North", .default = "South")
+  ) 
 
 #=====================================================================
 # Estimate growth
@@ -34,36 +32,28 @@ growth_cw <- nwfscSurvey::est_growth(
     dplyr::filter(Sex != "U") |> dplyr::mutate(Age = Age_years),
   return_df = FALSE
 )
-growth_wa <- nwfscSurvey::est_growth(
+
+growth_north <- nwfscSurvey::est_growth(
   dat = survey_bio |> 
-    dplyr::filter(state == "WA", Sex != "U") |> dplyr::mutate(Age = Age_years),
+    dplyr::filter(area == "North", Sex != "U") |> dplyr::mutate(Age = Age_years),
   return_df = FALSE
 )
-growth_or <- nwfscSurvey::est_growth(
+growth_south <- nwfscSurvey::est_growth(
   dat = survey_bio |> 
-    dplyr::filter(state == "OR", Sex != "U") |> dplyr::mutate(Age = Age_years),
-  return_df = FALSE
-)
-growth_nca <- nwfscSurvey::est_growth(
-  dat = survey_bio |> 
-    dplyr::filter(Latitude_dd >= 36, Sex != "U") |> dplyr::mutate(Age = Age_years),
+    dplyr::filter(area == "South", Sex != "U") |> dplyr::mutate(Age = Age_years),
   return_df = FALSE
 )
 
 growth <- dplyr::bind_rows(
   growth_cw$female_growth,
   growth_cw$male_growth,
-  growth_wa$female_growth,
-  growth_wa$male_growth,
-  growth_or$female_growth,
-  growth_or$male_growth,
-  growth_nca$female_growth,
-  growth_nca$male_growth,
-  growth_sca$female_growth,
-  growth_sca$male_growth
+  growth_north$female_growth,
+  growth_north$male_growth,
+  growth_south$female_growth,
+  growth_south$male_growth
 )
-growth$sex <- rep(c("F", "M"), 5)
-growth$area <- c(rep("Coastwide", 2), rep("WA", 2), rep("OR", 2), rep("NCA", 2), rep("SCA", 2))
+growth$sex <- rep(c("F", "M"), 3)
+growth$area <- c(rep("Coastwide", 2), rep("North", 2), rep("South", 2))
 
 utils::write.csv(
   growth,
@@ -100,7 +90,7 @@ weight_length$area <- c(
 )
 
 utils::write.csv(
-  weight_length_estimates,
+  weight_length,
   file = here::here("data-raw", "biology", "weight_length_area.csv"),
   row.names = FALSE
 )
@@ -147,7 +137,7 @@ ggplot(survey_bio |>
                          c("Groundfish Triennial Shelf Survey-Age",
                            "AFSC/RACE Slope Survey-Age-Age")), 
        aes(x = Length_cm, color = state)) + 
-  geom_density(size = 2) + 
+  geom_density(linewidth = 2) + 
   scale_color_viridis_d() + 
   xlab("Length (cm)") + ylab("Density") + 
   theme(panel.grid.major = element_blank(), 
@@ -157,7 +147,7 @@ ggplot(survey_bio |>
 
 ggplot(survey_bio |> dplyr::filter(!is.na(Age_years)), 
        aes(x = Age_years, color = state)) + 
-  geom_density(size = 2) + 
+  geom_density(linewidth = 2) + 
   xlim(c(0, 30)) + 
   scale_color_viridis_d() + 
   xlab("Age") + ylab("Density") + 
