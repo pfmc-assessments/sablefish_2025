@@ -92,6 +92,12 @@ write_wtatage_file(
   n_fleet = 7
 )
 
+
+ggplot(wtatage |> dplyr::filter(year >= first_year), aes(x = age, y = year, z = pred_weight)) +
+  stat_summary_2d(geom = "tile") + #, fun = function(x) cut(mean(x), breaks = breaks, right = FALSE))  +
+  #xlim(0, 15) +
+  facet_grid(sex~.)
+
 # Old functions that calculate empirical weight-at-age
 # Work horse function that estimates, plots, and writes weight-at-age files for SS3
 # process_weight_at_age(
