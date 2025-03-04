@@ -254,7 +254,8 @@ process_bds_data <- function(
     verbose = FALSE
   ) |>
     dplyr::mutate(
-      fleet = recode_fleet_cw(fleet)
+      fleet = recode_fleet_cw(fleet),
+      ageerr = 1,
     ) |>
     dplyr::arrange(fleet)
 
