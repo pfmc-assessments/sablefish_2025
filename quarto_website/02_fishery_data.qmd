@@ -282,12 +282,15 @@ Questions:
 
 ## Fishery Compositions
 
+Below are summaries of the available commercial length and age samples and comparisons of the length and age distribution by year, gear, and area in Pacific Fisheries Information Network (PacFIN).  It is important to note the Cooperative Ageing Lab are still hard at work reading otoliths from the commercial fishery and the age data are incomplete as of March 5th, 2025. The ageing lab is planning to fishing ageing by the data deadline of April 21st, 2025.
+
 ```{r}
 #| label: load-commercial-bds-data
 #| echo: false
 #| warning: false
 load(file.path(data, "data_commercial_bds.rda"))
-bds_data <- data_commercial_bds |> as_tibble() |>
+bds_data <- data_commercial_bds |> 
+  as_tibble() |>
   mutate(
     area = case_when(
       state %in% c("WA", "OR") ~ state,
@@ -303,107 +306,106 @@ bds_data <- data_commercial_bds |> as_tibble() |>
   
 ```
 
-Length samples are generally available for all gear types across the three states. 
+Length samples are generally available for all gear types across the three states with limited samples beginning in 1967 in Washington, 1978 in California, and 1987 in Oregon. 
 
 ```{r}
 #| label: nsamples-length
 #| echo: false
 #| warning: false
-#| fig-cap: "Number of available length samples over time, grouped by gear type and state."
+#| fig-cap: "Number of available length samples over time, grouped by gear type (TWL = trawl, HKL = hook-and-line, POT = pot) and state."
 #| fig-cap-location: margin
 
 bds_data |> 
   filter(geargroup %in% c("HKL", "POT", "TWL"), !is.na(length_cm)) |>
   count(year, area, geargroup) |>
-
   ggplot(aes(x = year, y = n, fill = geargroup)) +
     geom_bar(stat = 'identity') +
     facet_wrap(facets = c("area")) +
-    scale_fill_viridis_d()+
-    labs(y="Number of Length Samples", x="Year", fill="Gear Type", main="")+
+    scale_fill_viridis_d() +
+    labs(y="Number of Length Samples", x="Year", fill="Gear Type", main="") +
     theme_bw()
 ```
 
-
+Age samples are generally available for all gear types across the three states, except for pot and hook-and-line gear in southern California.  Age data begin in 1986 for California and Washington and 1987 in Oregon.
 
 ```{r}
 #| label: nsamples-age
 #| echo: false
 #| warning: false
-#| fig-cap: "Number of available length samples over time, grouped by gear type and state."
+#| fig-cap: "Number of available ages over time, grouped by gear type (TWL = trawl, HKL = hook-and-line, POT = pot) and state. Note, this does not include unread otoliths."
 #| fig-cap-location: margin
 
 bds_data |> 
   filter(geargroup %in% c("HKL", "POT", "TWL"), !is.na(age_years)) |>
   count(year, area, geargroup) |>
-
   ggplot(aes(x = year, y = n, fill = geargroup)) +
     geom_bar(stat = 'identity') +
     facet_wrap(facets = c("area")) +
-    scale_fill_viridis_d()+
-    labs(y="Number of Age Samples", x="Year", fill="Gear Type")+
+    scale_fill_viridis_d() +
+    labs(y="Number of Age Samples", x="Year", fill="Gear Type") +
     theme_bw()
 ```
 
-Commercial length compositions from trawl fisheries are similar across the coast. Meanwhile, length compositions from the hook-and-line and pot fisheries are skewed towards larger fish in Oregon and Washington as compared to California. Length compositions of hook-and-line and pot catch are often similar, though the pot fishery may catch slightly smaller fish.
+Commercial length compositions from trawl fisheries are similar across the coast. Meanwhile, length compositions from the hook-and-line (HKL) and pot fisheries are skewed towards larger fish in Oregon and Washington as compared to California. Length compositions of hook-and-line and pot gear are often similar, though the pot fishery may a slightly reduced frequency of larger fish in Oregon.
+
 ```{r}
 #| label: length-by-gear-region
 #| echo: false
 #| warning: false
-#| fig-cap: "Distribution of length samples by gear type and state."
+#| fig-cap: "Distribution of length samples between 1967-2024 by gear type and state."
 #| fig-cap-location: margin
 
 bds_data |>
   group_by(area, geargroup) |>
-  select(sex, length_cm) |>
-  mutate(area=factor(area)) |>
-
-  ggplot(aes(x=length_cm, fill=geargroup))+
-    ggridges::geom_density_ridges(aes(y=area), alpha=0.5, scale=1)+
-    labs(y="Area", x="Length (cm)", fill="Gear")+
-    scale_x_continuous(limits=c(0, 125), expand=c(0, 0))+
-    scale_fill_viridis_d()+
+  mutate(area = factor(area)) |>
+  select(sex, length_cm, area, geargroup) |>
+  ggplot(aes(x = length_cm, fill = area)) +
+    ggridges::geom_density_ridges(aes(y=geargroup), alpha=0.5, scale=1) +
+    labs(y = "Gear", x = "Length (cm)", fill = "Area")+
+    scale_x_continuous(limits = c(18, 100), expand=c(0, 0)) +
+    scale_fill_viridis_d() +
     theme_bw()
 ```
 
+Commercial age compositions from trawl fisheries are generally similar across the coast, although there is a marginally lower frequency of older ages being selected in Washington. Similarly, there is a lower frequency of older ages being selected by pot gear in Washington compared to Oregon and Northern California. The distribution of ages caught by hook-and-line gear are generally similar across the coast. 
 
 ```{r}
 #| label: age-by-gear-region
 #| echo: false
 #| warning: false
-#| fig-cap: "Distribution of age samples by gear type and state."
+#| fig-cap: "Distribution of all age samples between 1986-2024 by gear type and state."
 #| fig-cap-location: margin
 
 bds_data |>
   group_by(area, geargroup) |>
-  select(sex, age_years) |>
-  mutate(area=factor(area)) |>
-
-  ggplot(aes(x=age_years, fill=geargroup))+
-    ggridges::geom_density_ridges(aes(y=area), alpha=0.5, scale=1)+
-    labs(y="Area", x="Age", fill="Gear")+
-    scale_x_continuous(limits=c(0, 50), expand=c(0, 0))+
+  mutate(area = factor(area)) |>
+  select(sex, age_years, area, geargroup) |>
+  ggplot(aes(x=age_years, fill = area))+
+    ggridges::geom_density_ridges(aes(y = geargroup), alpha=0.5, scale=1)+
+    labs(y ="Gear", x="Age (years)", fill = "Area")+
+    scale_x_continuous(limits = c(0, 50), expand = c(0, 0))+
     scale_fill_viridis_d()+
     theme_bw()
 ```
 
 Length compositions within each state and by gear type have remained largely consistent over time (southern California for which there is a paucity available post-2011). 
+
 ```{r}
 #| label: length-by-gear-region-period
 #| echo: false
 #| warning: false
-#| fig-cap: "Distribution of length samples by gear and region for three time periods. Time periods are generally reflective of known changes in either selectivity or retention."
+#| fig-cap: "Distribution of length samples by gear and region for three time periods. Time periods are generally reflective of potential changes in retention: 2011 implementation of the catch share program and 2019 mortality credits begun being applied to discards in the catch share program."
 #| fig-cap-location: margin
 
 ggplot(bds_data,
-       aes(x = length_cm, y=period, fill = geargroup, alpha = 0.25)) +
-  ggridges::geom_density_ridges(scale=0.9) +
-  scale_x_continuous(limits=c(0, 125), expand=c(0, 0), breaks=seq(0, 125, 25))+
-  labs(y="Time Period", x="Length (cm)", fill="Gear Type")+
-  guides(alpha="none")+
+       aes(x = length_cm, y = geargroup, fill = period, alpha = 0.25)) +
+  ggridges::geom_density_ridges(scale = 0.9) +
+  scale_x_continuous(limits = c(18, 100), expand=c(0, 0), breaks=seq(18, 100, 20)) +
+  labs(y = "Gear", x = "Length (cm)", fill = "Time Period") +
+  guides(alpha = "none") +
   facet_wrap(~area, ncol=2) +
-  scale_fill_viridis_d()+
-  theme_bw()+
+  scale_fill_viridis_d() +
+  theme_bw() +
   theme(
     panel.spacing.x = unit(30, "pt")
   )
@@ -413,14 +415,14 @@ ggplot(bds_data,
 #| label: age-by-gear-region-period
 #| echo: false
 #| warning: false
-#| fig-cap: "Distribution of age samples by gear and region for three time periods. Time periods are generally reflective of known changes in either selectivity or retention."
+#| fig-cap: "Distribution of age samples by gear and region for three time periods. Time periods are generally reflective of potential changes in retention: 2011 implementation of the catch share program and 2019 mortality credits begun being applied to discards in the catch share program."
 #| fig-cap-location: margin
 
 ggplot(bds_data,
-       aes(x = age_years, y=period, fill = geargroup, alpha = 0.25)) +
+       aes(x = age_years, y = geargroup, fill = period, alpha = 0.25)) +
   ggridges::geom_density_ridges(scale=0.9) +
-  scale_x_continuous(limits=c(0, 125), expand=c(0, 0), breaks=seq(0, 125, 25))+
-  labs(y="Time Period", x="Age", fill="Gear Type")+
+  scale_x_continuous(limits=c(0, 50), expand=c(0, 0), breaks=seq(0, 50, 10))+
+  labs(y = "Gear", x = "Age", fill = "Time Period")+
   guides(alpha="none")+
   facet_wrap(~area, ncol=2) +
   scale_fill_viridis_d()+

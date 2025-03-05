@@ -181,7 +181,10 @@ nwfscSurvey::plot_proportion(
 
 ### Survey Compositions
 
+TBD: Add figures for length and age observations
 
+
+In the last five years, there have been multiple years of strong recruitment observed for sablefish off the U.S. West Coast and across the North Pacific.  The 2023 assessment of sablefish estimated strong recruitment in both 2020 and 2021. In the latest data from the NWFSC West Coast Groundfish Bottom Trawl survey there are indications of potentially another above average recruitment in 2023. The below figure shows the size distribution of juvenile sablefish observed in the survey for recent years (i.e., this figure was originally included in the [2024-25 California Current Ecosystem Status Report](https://www.pcouncil.org/documents/2025/02/f-1-a-cciea-report-1-2024-2025-california-current-ecosystem-status-report.pdf/).  Age-0 sablefish are generally less than 30 cm. The large recruitment in 2021 is visible with the distribution of sablefish centered around 25 cm, with age-1 from the 2020 year-class being visible around 30+ cm.  In 2022 there were limited observation of likely age-0 sablefish (fish less than 30 cm), but there were large observations of 30+ cm fish which are likely age-1 fish from the 2021 year-class.  In 2023, there are number of observations of sablefish around 25 cm, similar to what was observed in 2021, but potentially slightly less than, indicating that there may also be a strong recruitment in 2023. 
 
 ```{r}
 #| label: wcgbt-juvenile-barplot
@@ -198,7 +201,7 @@ knitr::include_graphics(
 
 ### Other Trends in the Data
 
-
+The [2024-25 California Current Ecosystem Status Report](https://www.pcouncil.org/documents/2025/02/f-1-a-cciea-report-1-2024-2025-california-current-ecosystem-status-report.pdf/) also included the estimated distribution of juvenile sablefish around select port groups in the NWFSC West Coast Groundfish Bottom Trawl survey using a species distribution model. There are estimated relative index of juvenile sablefish across various port increase in years with known strong sablefish recruitment: 2008, 2013, 2020 (no survey this year), and 2021. In recent years the relative abundance of juvenile sablefish has been highest around Newport.  In contrast, the highest relative abundance of juvenile sablefish were estimated to be around San Francisco and Bodega Bay in 2008 and Astoria and Tillamook in 2016.
 ```{r}
 #| label: juvenile-by-port
 #| echo: false
@@ -211,11 +214,12 @@ knitr::include_graphics(
 
 ```
 
+Stronger recruitment in the north, in recent years, has lead to an increase in available biomass for fishers operating out of Astoria, but overall increases in sablefish biomass has head to general increases in available biomass across many ports.
 
 ```{r}
 #| label: adult-by-port
 #| echo: false
-#| fig-cap: "Index of the availability of sablefish biomass to ports alongl the West Coast. Ports are Bellingham Bay (BLL), Astoria (AST), Charleston (Coos Bay, COS), Brookings (BRK), Crescent City (CRS), Eureka (ERK), Fort Bragg (BRG) and Morro Bay (MRO). Availablility was calculate based on a combination of locally available biomass and distance from port for the 75th quarntile of fishing trips in 2015 using results from a species distribution model."
+#| fig-cap: "Index of the availability of sablefish biomass to ports along the West Coast. Ports are Bellingham Bay (BLL), Astoria (AST), Charleston (Coos Bay, COS), Brookings (BRK), Crescent City (CRS), Eureka (ERK), Fort Bragg (BRG) and Morro Bay (MRO). Availablility was calculate based on a combination of locally available biomass and distance from port for the 75th quartile of fishing trips in 2015 using results from a species distribution model."
 #| fig-cap-location: margin
 
 knitr::include_graphics(
@@ -226,6 +230,20 @@ knitr::include_graphics(
 
 
 ### Environmental Indices
+
+The 2019 assessment of sablefish included an environmental index to inform the estimation of annual recruitment.  This assessment will also include an environmental index to inform the estimation of recent recruitment. The environmental index in this assessment will be based on a model with oceangraphic predictors.The preliminary index is shown below. 
+
+```{r}
+#| label: glorys-index
+#| echo: false
+#| fig-cap: "Model fit to the data and model testing results. Black line is the model prediction ±1.0 standard error (dotted lines). While points are the recruitment deviations in log space from the stock assessment model. Yellow points are from jackknife analysis leaving out one year and refitting the model, and red points fit the best-fit model to 1993-2017 then predict 2018-2023."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "glorys-fit.png")
+)
+
+```
 
 
 ### Other Trawl Surveys
@@ -250,10 +268,6 @@ NWFSC Slope Survey:
 - This survey operated annually between 1998 to 2002.
 - The survey sampled between Point Conception in California to the U.S./Canadian border between 1998-2001 extended the southern sampling range into the area south of Point Conception in 2002.
 - The survey sampled a depth range between 183-1,280 meters.
-
-
-## Trends Observed in Canada and Alaska
-
 
 **Disclaimer: All data summaries and exploration presented here are preliminary and may not be indicative of the final data that will be incorporated in the 2025 assessment**
 
