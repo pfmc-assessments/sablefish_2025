@@ -35,8 +35,70 @@ knitr::include_graphics(
 
 At this time, the STAT team anticipates ignoring movement to (and from) British Columbia given the relatively low rates. The team may explore sensitivity models that increase natural mortality to account for estimates of net fish loss due to emigration. The work of Kapur et al. (2024) highlighted that the biggest potential risk for sablefish throughout their Eastern Pacific range was associated with localized depletion in isolated stock components in the southern U.S. West Coast area. 
 
-## Trends Observed in Canada and Alaska
+## Regional Trends -- Including Canada and Alaska
 
+Exploring regional trends in population dynamics can be a useful way to elicit patterns and gain insights, particularly for stocks such as sablefish that are connected over long distances spanning multiple management jurisdictions. Landings data, population dynamic trends, and stock status are compared between the most recent sablefish stock assessments for the U.S. West Coast (Johnson et al. 2023), British Columbia (DFO 2023), and Alaska (Goethel and Cheng 2024).
+
+Landings of sablefish between stock assessment areas has changed considerably over time, but generally all three areas saw a decline in catch during the 1990s to 2000s. There has been a slight uptick in catch in recent years, especially in Alaska and British Columbia. For comparison, catch in 2021 was nearly 22 kt in Alaska, 2.4 kt in British Columbia, and 5 kt along the U.S. West Coast.
+
+```{r}
+#| label: reg_landing
+#| echo: false
+#| fig-cap: "Landings of sablefish in Alaska, British Columbia, and along the U.S. West Coast from the most recent stock assessments. (Alaska and British Columbia data courtesy of Goethel and Cheng (2024) and DFO (2023), respectively)."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "reg_landing.png")
+)
+
+```
+
+Spawning biomass in Alaska and British Columbia have generally declined until the late 2010s, but are now increasing quite rapidly. The U.S. West Coast population generally declined from the 1970s to the early 2000s. The population was then relatively stable through the late 2010s, before increasing rapidly in recent years similar to Alaska and British Columbia. The current stock status (depletion) estimates are 67% of equilibrium biomass in Alaska in 2024, 54% in British Columbia (2022), and 63% for the U.S. West Coast area (2023).
+
+```{r}
+#| label: reg_ssb
+#| echo: false
+#| fig-cap: "Time series of sablefish spawning biomass estimates (with uncertainty intervals) in Alaska, British Columbia, and along the U.S. West Coast from the most recent stock assessments. (Alaska and British Columbia data courtesy of Goethel and Cheng (2024) and DFO (2023), respectively)."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "reg_ssb.png")
+)
+
+```
+
+In general, there are periods over time that coincide with above average recruitment across all three assessment areas. In particular, there has been several strong recruitment events in all three areas over the last 10 years. The three largest recruitment events (all scaled to age-0) over recent years were:
+
+-   Alaska: 2016, 2017, 2019
+-   British Columbia: 2015, 2016, 2017
+-   U.S. West Coast: 2016, 2020, 2021
+
+```{r}
+#| label: reg_rec
+#| echo: false
+#| fig-cap: "Time series of sablefish recruitment estimates (with uncertainty intervals) in Alaska, British Columbia, and along the U.S. West Coast from the most recent stock assessments. (Alaska and British Columbia data courtesy of Goethel and Cheng (2024) and DFO (2023), respectively)."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "reg_rec.png")
+)
+
+```
+
+Overall stock status (at the time of the last assessment) in all three regions can be generalized to indicate that overfishing is not occurring and the stocks are not overfished. Each region has been above fishing-based reference levels and below biomass-based reference levels at one point or another during the time series. However, recent strong recruitment events are now contributing to spawning stock biomass, which is driving the trend of increasing stock status measures over recent years in all three areas.
+
+
+```{r}
+#| label: reg_status
+#| echo: false
+#| fig-cap: "Time series of sablefish biomass-based and fishing-based estimates of status in Alaska, British Columbia, and along the U.S. West Coast from the most recent stock assessments. (Alaska and British Columbia data courtesy of Goethel and Cheng (2024) and DFO (2023), respectively)."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "reg_status.png")
+)
+
+```
 
 **Disclaimer: All data summaries and exploration presented here are preliminary and may not be indicative of the final data that will be incorporated in the 2025 assessment**
 
