@@ -8,8 +8,10 @@ library(dplyr)
 library(gt)
 library(nwfscSurvey)
 
+#!!!!!!  Revise to your specific directory when trying to build !!!!!
 # this needs to be fixed to use relative directories
 project_dir <- "C:/Assessments/2025/sablefish_2025"
+
 data_proc <- file.path(project_dir , "data-processed")
 data <- file.path(project_dir , "data")
 
