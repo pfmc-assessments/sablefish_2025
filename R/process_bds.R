@@ -37,7 +37,7 @@ process_bds_data <- function(
   # should be retained unless specified by a state agency.
   good_methods <- "R"
   # Keep commercial on-board (C), market (M), and blank samples based on SAMPLE_TYPE
-  good_samples <- c("", "M", "C")
+  good_samples <- c("", "M", "C", "S")
   # Keep data from all 3 states. This is the default.
   good_states <- c("WA", "OR", "CA")
   # Keep only break and burn (B, BB), unknown (U), and blank (") age reads based 
@@ -78,7 +78,7 @@ process_bds_data <- function(
   ) |>
     dplyr::mutate(
       stratification = paste(state, geargroup, sep = ".")
-    )
+    ) 
   
   saveRDS(
     bds_cleaned, 
