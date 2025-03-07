@@ -1,9 +1,9 @@
 
 ## Stock Structure
 
-The 2025 stock assessment will report the status of sablefish off the U.S. West Coast as a single population unit. In this regard, there are several sablefish management and population dynamic features that the STAT team has considered, and some that the team will continue to consider during the development of assessment models. Genetically speaking, the U.S. West Coast area for sablefish can be considered a sub-stock given the genetic similarity between populations spanning from Southern California to Western Alaska (Jasonowicz et al. 2017). The STAT team will continue to utilize the Pacific Fishery Management Council default coast-wide (U.S. West Coast) stock delineation for purposes of the 2025 stock assessment.
+The 2025 stock assessment will report the status of sablefish off the U.S. West Coast as a single population unit. In this regard, there are several sablefish management and population dynamic features that the STAT team has considered, and some that the team will continue to consider during the development of assessment models. Genetically speaking, the U.S. West Coast area for sablefish can be considered a sub-stock given the genetic similarity between populations spanning from Southern California to Western Alaska [(Jasonowicz et al., 2017)](https://cdnsciencepub.com/doi/full/10.1139/cjfas-2016-0012). The STAT team will continue to utilize the Pacific Fishery Management Council default coast-wide (U.S. West Coast) stock delineation for purposes of the 2025 stock assessment.
 
-Analyses investigating heterogeneity in sablefish biology and life history, both within the U.S. West Coast area and among neighboring Northeast Pacific sub-stock areas (British Columbia and Alaska), have indicated important population dynamic gradients across these areas. Patterns in sablefish growth are evident across their range, with southern areas generally having smaller maximum body size and intrinsic growth rates. Along the U.S. West Coast, a significant break-point in growth was detected at 36&deg;N latitude (Kapur et al. 2020).
+Analyses investigating heterogeneity in sablefish biology and life history, both within the U.S. West Coast area and among neighboring Northeast Pacific sub-stock areas (British Columbia and Alaska), have indicated important population dynamic gradients across these areas. Patterns in sablefish growth are evident across their range, with southern areas generally having smaller maximum body size and intrinsic growth rates. Along the U.S. West Coast, a significant break-point in growth was detected at 36&deg;N latitude [(Kapur et al., 2020)](https://www.sciencedirect.com/science/article/pii/S0165783619302693).
 
 ```{r}
 #| label: kapur_growth
@@ -19,7 +19,7 @@ knitr::include_graphics(
 
 Recruitment is widespread along the shelf-slope break. A single stock-recruitment function will be used to characterize sablefish productivity specific to the U.S. West Coast area. However, the rate at which females mature and become reproductively active can differ with latitude. Please refer to the Biology section for further details on both growth and maturity.
 
-Sablefish are well known to move considerable distances. Recent transboundary (Alaska, British Columbia, and U.S. West Coast) analyses of sablefish population dynamics indicated the presence of non-zero movement rates across different areal and stock definitions (Kapur et al., 2024). While movement estimates between the U.S. West Coast and British Columbia were similar (see the red circles), there remains a net difference due to immigration and emigration because of the difference in area-specific population size for which the rates apply.
+Sablefish are well known to move considerable distances. Recent transboundary (Alaska, British Columbia, and U.S. West Coast) analyses of sablefish population dynamics indicated the presence of non-zero movement rates across different areal and stock definitions [(Kapur et al., 2024)](https://cdnsciencepub.com/doi/10.1139/cjfas-2024-0008). While movement estimates between the U.S. West Coast and British Columbia were similar (see the red circles), there remains a net difference due to immigration and emigration because of the difference in area-specific population size for which the rates apply.
 
 ```{r}
 #| label: kapur_transb
@@ -37,9 +37,9 @@ At this time, the STAT team anticipates ignoring movement to (and from) British 
 
 ## Regional Trends -- Including Canada and Alaska
 
-Exploring regional trends in population dynamics can be a useful way to elicit patterns and gain insights, particularly for stocks such as sablefish that are connected over long distances spanning multiple management jurisdictions. Landings data, population dynamic trends, and stock status are compared between the most recent sablefish stock assessments for the U.S. West Coast (Johnson et al. 2023), British Columbia (DFO 2023), and Alaska (Goethel and Cheng 2024).
+Exploring regional trends in population dynamics can be a useful way to elicit patterns and gain insights, particularly for stocks such as sablefish that are connected over long distances spanning multiple management jurisdictions. Landings data, population dynamic trends, and stock status are compared between the most recent sablefish stock assessments for the U.S. West Coast [(Johnson et al., 2023)](https://www.pcouncil.org/documents/2024/02/status-of-sablefish-anoplopoma-fimbria-along-the-u-s-west-coast-in-2023.pdf/), British Columbia [(DFO, 2023)](https://waves-vagues.dfo-mpo.gc.ca/library-bibliotheque/41102587.pdf), and Alaska [(Goethel and Cheng, 2024)](https://www.npfmc.org/wp-content/PDFdocuments/SAFE/2024/Sablefish.pdf).
 
-Landings of sablefish between stock assessment areas has changed considerably over time, but generally all three areas saw a decline in catch during the 1990s to 2000s. There has been a slight uptick in catch in recent years, especially in Alaska and British Columbia. For comparison, catch in 2021 was nearly 22 kt in Alaska, 2.4 kt in British Columbia, and 5 kt along the U.S. West Coast.
+Landings of sablefish between stock assessment areas has changed considerably over time, but generally all three areas saw a decline in catch during the 1990s to 2000s. There has been a slight uptick in catch in recent years, especially in Alaska and British Columbia. For comparison, catch in 2021 was nearly 22 mt in Alaska, 2.4 mt in British Columbia, and 5 mt along the U.S. West Coast.
 
 ```{r}
 #| label: reg_landing
