@@ -149,3 +149,58 @@ ggsave(
   filename = here::here("data-raw", "bds", "plots", "CA_age_otolith_collections.png"),
   height = 12, width =  7
 )
+
+
+ca_catch <- data_commercial_catch |> 
+  dplyr::filter(state == "CA", area != "rec", year >= 1981) |>
+  dplyr::group_by(year) |>
+  dplyr::summarize(
+    catch = sum(catch_mt)
+  )
+relative_otoliths <- ca_otoliths |>
+  dplyr::group_by(Year) |>
+  dplyr::summarise(
+    n_oto = sum(count) 
+  ) |>
+  dplyr::rename(year = Year) 
+
+relative_samples <- data_commercial_bds |>
+  dplyr::filter(state == "CA", year >= 1981) |>
+  dplyr::group_by(year) |>
+  dplyr::summarize(
+    n_len = sum(!is.na(length_cm)),
+    n_age = sum(!is.na(age_years))
+  ) 
+
+all_ca_data <- dplyr::left_join(
+  ca_catch, relative_otoliths
+)
+all_ca_data <- dplyr::left_join(
+  all_ca_data, relative_samples
+)
+all_ca_data[is.na(all_ca_data)] <- 0
+all_ca_data$oto_rate <- all_ca_data$n_oto / (all_ca_data$catch / 100)
+all_ca_data$len_rate <- all_ca_data$n_len / (all_ca_data$catch / 100)
+all_ca_data$age_rate <- all_ca_data$n_age / (all_ca_data$catch / 100)
+
+ggplot(all_relative |> dplyr::filter(year >= 2001), aes(x = year, y = rel, color = data, shape = data)) +
+  geom_point(size = 2) + 
+  geom_line(linewidth = 1) +
+  scale_color_viridis_d() + 
+  ylab("Relative Catch/Samples") +
+  xlab("Year") +
+  theme_bw()
+
+gg_len <- ggplot(all_ca_data, aes(x = year, y = len_rate)) +
+  geom_line() +
+  geom_point()
+
+gg_age <- ggplot(all_ca_data, aes(x = year, y = age_rate)) +
+  geom_line() +
+  geom_point()
+
+gg_len <- ggplot(all_ca_data, aes(x = year, y = oto_rate)) +
+  geom_line() +
+  geom_point()
+
+  
