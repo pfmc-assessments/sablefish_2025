@@ -19,6 +19,23 @@ maturity_data <- readRDS(
 maturity_at_age <- readRDS(
   here::here("figures", "ogives_for_assessment.rds")
 )
+
+wtatage_model <- r4ss::SS_readwtatage(
+  file = file.path(data_proc, "wtatage_model_biomass_weighted.ss")) |>
+  dplyr::filter(fleet == 1) |>
+  dplyr::select(-seas, -bio_pattern, -birthseas) |>
+  tidyr::pivot_longer(
+    cols = 4:34,
+    names_to = "age",
+    values_to = "weight" 
+  ) |>
+  dplyr::filter(year < 2025, year > 2002) |>
+  dplyr::mutate(
+    sex = dplyr::case_when(sex == 1 ~ "Female", .default = "Male"),
+    age = as.numeric(age),
+    Year = as.factor(year)
+  )
+
 ```
 
 ## General Approach to Biology
@@ -242,5 +259,28 @@ Previous assessments of sablefish have estimated time-invariant sex-specific gro
 
 ## Weight-at-Age
 
+Previous assessments of sablefish estimated a constant sex-specific growth curve (length-at-age) within the assessment model informed by length and age data. The 2019 STAR panel noted that the raw data for sablefish seemed to show considerable growth variability across time that was inconsistent with constant growth by sex. The STAR panel recommend future assessments explore replacing the assumption of constant growth with a weight-at-age approach. Traditionally the assessment model converts the growth curve relationship between length-at-age and the weight-at-length into a weight-at-age for all model calculations. Inputting an externally estimated weight-at-age relationship circumvents the need for a growth curve within the assessment model. Additionally, this approach allows for the definition of annual weight-at-age which can account for changes in growth based upon oceanographic, competition of resources, etc.
 
+We have explored estimating weight-at-age by year, cohort, sex, and area where area is whether the sample was collected north or south of 36$^\circ$ N. latitude. Estimates were biomass weighted by area and combined for a coastwide weight-at-age by sex and year.     
 
+```{r}
+#| label: plot-tv-wtatage
+#| echo: false
+#| warning: false
+#| fig-cap: "Biomass weighted estimated weight-at-age by year and sex."
+#| fig-cap-location: margin
+
+ggplot() +
+  geom_line(data = wtatage_model, aes(x = age, y = weight, color = Year)) +
+  #geom_line(data = wtatage_growth, aes(x = age, y = weight), 
+  #          color = "black", linewidth = 1.5, linetype = 2) +
+  scale_color_viridis_d() +
+  xlab("Age (years)") + ylab("Weight (kg)") +
+  theme_bw() +
+  theme(
+    text = element_text(size = 15),
+    axis.text = element_text(size = 15)
+  ) +
+  facet_grid(sex~.)
+
+```
