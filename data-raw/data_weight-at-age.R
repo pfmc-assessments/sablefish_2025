@@ -98,17 +98,21 @@ ggplot(wtatage |> dplyr::filter(year >= first_year), aes(x = age, y = year, z = 
   #xlim(0, 15) +
   facet_grid(sex~.)
 
+
+#===============================================================================
 # Old functions that calculate empirical weight-at-age
 # Work horse function that estimates, plots, and writes weight-at-age files for SS3
-# process_weight_at_age(
-#   dir = here::here(),
-#   max_age = 30,
-#   years = 1997:2024,
-#   n_avg_years = 5,
-#   n_forecast = 12,
-#   maturity = maturity
-# )
-# 
+#===============================================================================
+
+process_weight_at_age(
+  dir = here::here(),
+  max_age = 30,
+  years = 1997:2024,
+  n_avg_years = 5,
+  n_forecast = 12,
+  maturity = maturity
+)
+ 
 # wt_by_cohort <- estimate_tv_weight_at_age(
 #   max_age = 30, 
 #   first_year = 1997)# 

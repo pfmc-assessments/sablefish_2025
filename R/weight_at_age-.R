@@ -164,7 +164,7 @@ makeimage <- function(
   if (Ntext) {
     Nsamp.mat2 <- cbind(Nsamp.meanvec, NA, Nsamp.mat)
   }
-  if (max(mat, na.rm = TRUE) < 6) { # assume weights
+  if (max(mat, na.rm = TRUE) < 8) { # assume weights
     breaks <- seq(0, 6, length = (length(agevec) + 1))
     digits <- 2 # round weights to 2 digits
   } else { # assume length

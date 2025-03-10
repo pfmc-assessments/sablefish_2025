@@ -169,13 +169,25 @@ process_weight_at_age <- function(
     #c("data_weight_at_age_survey", "data_weight_at_age_fishery")
     "data_weight_at_age_survey"
   )
-  data <- purrr::map_dfr(
+  all_data <- purrr::map_dfr(
     files_weights,
     .f = read.csv) |>
     dplyr::mutate(
       outlier = FALSE
-    ) 
-    #weight_at_age_outlier(filter = FALSE, drop = FALSE)
+    ) |>
+    dplyr::filter(weight_kg > 0, outlier == FALSE)
+  # Remove any unsexed fish that are greater than age 0
+  remove <- which(all_data$sex == "U" & all_data$age != 0)
+  sub_data <- all_data[-remove, ]
+  # Randomly assign unsexed age-0 fish to a M or F 50/50
+  set.seed(98105)
+  data <- sub_data |>
+    dplyr::group_by(year) |>
+    dplyr::mutate(
+      sex = dplyr::case_when(
+        sex == "U" ~ sample(rep(c("F", "M"), length = dplyr::n())), .default = sex),
+      sex = as.factor(sex)
+    )
   
   late <- (max(years) - n_avg_years + 1):(max(years))
 
@@ -199,16 +211,10 @@ process_weight_at_age <- function(
     width = 10, height = 7, units = "in",
     filename = file.path(dir, "data-raw", "weight_at_age", "plots", "meanweightatage_all.png")
   )
-  # Set the outliers
-  data <- data |>
-    dplyr::mutate(
-      wgt_len_ratio = weight_kg / length_cm,
-      outlier = dplyr::case_when(wgt_len_ratio > quantile(wgt_len_ratio, 0.995) ~ TRUE, .default = FALSE)
-    )
   
   # mean-weight-at-age by year
   gg <- plot_weight_at_age(
-    data = dplyr::filter(data, age_years <= max_age, outlier == FALSE),
+    data = dplyr::filter(data, age_years <= max_age),
     max_age = max_age
   )
   ggplot2::ggsave(
@@ -217,7 +223,6 @@ process_weight_at_age <- function(
     filename = file.path(dir, "data-raw", "weight_at_age",  "plots", "meanweightatage_sex.png")
   )
   data_modified <- data |>
-    dplyr::filter(outlier == FALSE) |>
     dplyr::mutate(
       orig_year = year,
       year = dplyr::case_when(
@@ -277,13 +282,13 @@ process_weight_at_age <- function(
       dplyr::mutate(dplyr::across(dplyr::everything(), ~tidyr::replace_na(.x, 0)))
   )
   utils::write.csv(
-    setNames(counts_all_mean, gsub("#_", "", colnames(counts_all_mean))),
-    file.path(normalizePath(dir), "data-processed", "wtatage-all-samplesize.csv"),
+    counts_all_mean,,
+    file = file.path(normalizePath(dir), "data-processed", "wtatage-all-samplesize.csv"),
     row.names = FALSE
   )
   utils::write.csv(
-    setNames(lenage_all_mean, gsub("#_", "", colnames(lenage_all_mean))),
-    file.path(normalizePath(dir), "data-processed", "wtatage-all-lenage.csv"),
+    lenage_all_mean,
+    file = file.path(normalizePath(dir), "data-processed", "wtatage-all-lenage.csv"),
     row.names = FALSE
   )
   # new method does only linear interpolation within each age (only works with all data)
@@ -324,7 +329,6 @@ process_weight_at_age <- function(
     max_age = max_age
   )
   
-  # adding ages 16-20 as repeats of age 15
   wtage_extended <- wtageInterp2_All[, -grep("Note", colnames(wtageInterp2_All))]
   wtage_extended <- wtage_extended[, c(
     1:ncol(wtage_extended),
@@ -348,10 +352,10 @@ process_weight_at_age <- function(
   )
   withforecast <- dplyr::bind_rows(
     withforecast_int,
-    withforecast_int[withforecast_int$year == (max(year) + 1), ],
-    withforecast_int[withforecast_int$year == (max(year) + 1), ]
+    withforecast_int[withforecast_int$year == (max(years) + 1), ],
+    withforecast_int[withforecast_int$year == (max(years) + 1), ]
   )
-  fore_year <- sort(rep(max(year) + 1:12, 2))
+  fore_year <- sort(rep(max(years) + 1:12, 2))
   withforecast[withforecast$year == 2026, "year"] <- fore_year
   write_wtatage_file(
     file = fs::path(dir, "data-processed", "wtatage_interploations.ss"),
