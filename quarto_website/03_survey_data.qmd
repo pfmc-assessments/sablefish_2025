@@ -50,9 +50,11 @@ wcgbt <- read.csv(here::here("figures", "est_by_area.csv")) |>
 
 ## NWFSC West Coast Groundfish Bottom Trawl Survey
 
-The NWFSC West Coast Groundfish Bottom Trawl (WCGBT) survey is based on a random grid design; covering the coastal waters between 55 meter and 1,280 meter in depth sampling coastwide between U.S./Mexico and U.S./Canada border. Two vessels fish from north to south during each pass between late May and early October. The survey started in 2003 and has been conducted annually, except for 2020. 
+The NWFSC West Coast Groundfish Bottom Trawl (WCGBT) survey is the longest running annual trawl survey off the the U.S. West Coast.  The WCGBT survey is based on a random grid design; covering the coastal waters between 55 meter and 1,280 meter in depth sampling coastwide between U.S./Mexico and U.S./Canada border. Two vessels fish from north to south during each pass between late May and early October. The survey started in 2003 and has been conducted annually, except for 2020. Sablefish are one of the most commonly caught species in the WCGBT survey.
 
 ### Relative Indices of Abundance
+
+A criticial data type produced by the WCGBT survey is a relative index of abundance that reflects potential changes across time in sablefish abundance. The index is estimated using a model that accounts for spatial and spatio-temporal effects. The index of abundance decreased between 2003-2009, then slight annual increases from 2010-2018, and then finally a steep increase from 2019-2022, and has remained relatively stable in the last few years of the survey.
 
 ```{r}
 #| label: wcgbt-index
@@ -66,6 +68,7 @@ knitr::include_graphics(
 
 ```
 
+The raw catch-per-unit-effort (CPUE) observed in the WCGBT survey data has a similar trend as the modeled index of abundance. The median CPUE by area reflects that the sharp increases in observations of sablefish in the survey is consistent in Washington, Oregon, and California north of 36 $^\circ$ N. latitude, but similar increases in CPUE has not been observed in southern California. 
 
 ```{r}
 #| label: wcgbt-cpue
@@ -88,6 +91,7 @@ ggplot(cpue, aes(x = Year, y = med_cpue, color = state)) +
 
 ```
 
+The model estimated biomass by areas north and south of 36 $^\circ$ N. latitude also reflects an increasing proportion of biomass in the northern area over the last 5 years.
 
 ```{r}
 #| label: wcgbt-index-by-area
@@ -137,7 +141,7 @@ wcgbt_area |>
 
 ```
 
-
+The proportion of tows where sablfish are observed north of 36$^\circ$ N. latitude range between 60-80% and between 25-45% south of 36$^\circ$ N. latitude.
 
 ```{r}
 #| label: presence-by-lat
@@ -156,6 +160,7 @@ nwfscSurvey::plot_proportion(
 
 ```
 
+The survey samples waters between 55-1,280 meters (30-700 fathoms). Sablefish are observed across all depths sampled with the shallowest depths having the lowest proportion of tows observing sablefish of 25-50% in waters shallower than 150 meters with the proportion of positive tows increasing with depth and peaking at greater than 95% positive between 950-1,050 meters.  
 
 ```{r}
 #| label: presence-by-depth

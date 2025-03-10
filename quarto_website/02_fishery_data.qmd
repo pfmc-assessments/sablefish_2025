@@ -62,7 +62,7 @@ For the 2025 assessment, we plan to have three coastwide fleets separated by the
 
 ## Landings Data
 
-The historical landings (pre-1981) for sablefish remain similar to the historical landings used in the most recent assessment (e.g., 2023). Landings for sablefish are based on data from state-specific historical reconstructions, historical foreign fleets (1966-1980), PacFIN, at-sea bycatch estimates (1978-2024), and recreational fishing (2001-2024). 
+The historical landings (pre-1981) for sablefish remain similar to the historical landings used in the previous assessment (e.g., 2023) of sablefish. Landings for sablefish are based on data from state-specific historical reconstructions, historical foreign fleets (1966-1980), PacFIN, at-sea bycatch estimates (1978-2024), and recreational fishing (2001-2024). 
 
 ```{r}
 #| label: landings-recent
@@ -81,7 +81,7 @@ ggplot(landings |> dplyr::filter(year >= 1981), aes(x = year, y = catch_mt, fill
 
 ```
 
-Sablefish are caught coastwide. Since 2011, the total percentage of sablefish being landing with state ports are `r landings_by_state[1, "prop"]`% in California, `r landings_by_state[2, "prop"]`% in Oregon, and `r landings_by_state[3, "prop"]`% in Washington.  Additionally, since 2011, the total percentage of sablefish being landing by gear are `r landings_by_gear[1, "prop"]`% by HKL, `r landings_by_gear[2, "prop"]`% by pot, and `r landings_by_gear[3, "prop"]`% by trawl.
+Sablefish are caught coastwide. Since 2011, the total percentage of sablefish being landing with state ports are `r landings_by_state[1, "prop"]`% in California, `r landings_by_state[2, "prop"]`% in Oregon, and `r landings_by_state[3, "prop"]`% in Washington.  Additionally, since 2011, the total percentage of sablefish being landing by gear are `r landings_by_gear[1, "prop"]`% by HKL, `r landings_by_gear[3, "prop"]`% by trawl, and `r landings_by_gear[2, "prop"]`% by pot.
 
 ```{r}
 #| label: landings-state
@@ -102,7 +102,7 @@ ggplot(landings |>
 
 ```
 
-Across the last ten years, approximately 41%, 31%, and 28% of sablefish landings have been by HKL, trawl, and pot gear, respectively.
+Across the last ten years, approximately 41%, 31%, and 28% of sablefish landings have been by HKL, trawl, and pot gear, respectively. Landings have remained relatively stable across the last ten years ranging between roughly 4,900 mt to 6,200 mt, excluding 2020.
 
 ```{r}
 #| label: landings-table
@@ -175,7 +175,7 @@ landings |>
 
 ## Discard Data
 
-Similar to previous assessments for sablefish, we plan on modeling selectivity (all fish caught by gear), retention (fish landed), and mortality for discarded fish. The model will assume that 50% discard mortality for fish caught by trawl gear and a 20% discard mortality for HKL and pot gear. These discard mortality rates were included in the Groundfish Expanded Multi-year Mortality (GEMM) estimates produced by the Fisheries Observation Science (FOS) starting in 2019. Discarding is informed by data collected by the West Coast Groundfish Observer Program (WCGOP). Data are available starting from 2002 to 2023. WCGOP collects information on the size and amount of fish discarded. Starting in 2011, vessels in the catch share program have 100% observer coverage (or are observed via electronic monitoring). For non-catch share vessels, the proportion of total trips observed varies by sector.
+Similar to previous assessments for sablefish, we plan on modeling selectivity (all fish caught by gear), retention (fish landed), and mortality for discarded fish. The model will assume a 50% discard mortality for fish caught by trawl gear and a 20% discard mortality for HKL and pot gear. These discard mortality rates were included in the Groundfish Expanded Multi-year Mortality (GEMM) estimates produced by the Fisheries Observation Science (FOS) starting in 2019. Discarding is informed by data collected by the West Coast Groundfish Observer Program (WCGOP). WCGOP data are available starting in 2002 through 2023. WCGOP collects information on the size and amount of fish discarded. In 2011, the Individual Fishing Quota (IFQ, also common referred to as catch-shares) program began and participating vessels are required to have 100% observer coverage (or are observed via electronic monitoring). For non-IFQ fisheries, the proportion of total trips observed varies by sector. 
 
 Average discarding rate by gear type are:
 
@@ -278,11 +278,15 @@ Questions:
 
 -   What is behind the change in discarding observed for trawl gear starting in 2019?
 
--   Are the listed management changes listed above reasonable? Are there other changes in the fishery that should be considered?
+-   Are the listed management changes listed above reasonable? 
+
+-   Are there other changes in the fishery that should be considered?
 
 ## Fishery Compositions
 
-Below are summaries of the available commercial length and age samples and comparisons of the length and age distribution by year, gear, and area in Pacific Fisheries Information Network (PacFIN).  It is important to note the Cooperative Ageing Lab are still hard at work reading otoliths from the commercial fishery and the age data are incomplete as of March 5th, 2025. The ageing lab is planning to fishing ageing by the data deadline of April 21st, 2025.
+Below are summaries of the available commercial length and age samples and comparisons of the length and age distribution by year, gear, and area in Pacific Fisheries Information Network (PacFIN).  It is important to note the Cooperative Ageing Lab are still hard at work reading otoliths from the commercial fishery and the age data are incomplete as of March 5th, 2025. The ageing lab is planning to finish ageing by the data deadline of April 21st, 2025.
+
+Previous assessments of sablefish have parameterized selectivity to be age-based to capture age-based movement.  This assessment will also explore age-based selectivity for the fishery. However, both length and age composition data from the fishery is presented below for completeness and to understand variable patterns in the data by size and age.
 
 ```{r}
 #| label: load-commercial-bds-data
@@ -391,10 +395,12 @@ bds_data |>
   ggplot(aes(x=age_years, fill = area))+
     ggridges::geom_density_ridges(aes(y = geargroup), alpha=0.5, scale=1)+
     labs(y ="Gear", x="Age (years)", fill = "Area")+
-    scale_x_continuous(limits = c(0, 50), expand = c(0, 0))+
+    scale_x_continuous(limits = c(0, 30), expand = c(0, 0))+
     scale_fill_viridis_d()+
     theme_bw()
 ```
+
+Composition data is presented below broken out into three time periods: 1980-2010, 2011-2018, and 2019-2024. The assessment will explore retention and selectivity differences during the 1980-2010 period to capture changes in trip limits (1982 and 1997) and the implementation of Rockfish Conservation Areas (2002), but those periods are not explicitly broken out here for simplicity. 
 
 Length compositions within each state and by gear type have remained largely consistent over time (southern California for which there is a paucity available post-2011). 
 
@@ -419,17 +425,19 @@ ggplot(bds_data,
   )
 ```
 
+
+
 ```{r}
 #| label: age-by-gear-region-period
 #| echo: false
 #| warning: false
-#| fig-cap: "Distribution of age samples by gear and region for three time periods. Time periods are generally reflective of potential changes in retention: 2011 implementation of the catch share program and 2019 mortality credits begun being applied to discards in select fishery sectors. Note the ageing lab is currently working to read otoliths collected in California since 2019."
+#| fig-cap: "Distribution of age samples by gear and region for three time periods. Time periods are generally reflective of potential changes in retention: 2011 implementation of the catch share program and 2019 mortality credits begun being applied to discards in select fishery sectors. Note the ageing lab is currently working to read otoliths collected in California in the 2019-2024 time period."
 #| fig-cap-location: margin
 
 ggplot(bds_data,
        aes(x = age_years, y = geargroup, fill = period, alpha = 0.25)) +
   ggridges::geom_density_ridges(scale=0.9) +
-  scale_x_continuous(limits=c(0, 50), expand=c(0, 0), breaks=seq(0, 50, 10))+
+  scale_x_continuous(limits = c(0, 30), expand = c(0, 0), breaks = seq(0, 50, 10))+
   labs(y = "Gear", x = "Age", fill = "Time Period")+
   guides(alpha="none")+
   facet_wrap(~area, ncol=2) +
