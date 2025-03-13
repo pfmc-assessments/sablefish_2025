@@ -10,7 +10,8 @@ pad_weight_at_age(
   n_forecast_years = 5,
   n_years_used_for_forecast = 5,
   year_global_average = -1892,
-  ages = 0:30
+  ages = 0:30,
+  max_age = 70
 )
 }
 \arguments{
@@ -37,6 +38,9 @@ row.}
 If there are no ages in the data to represent the older ages present in
 vector, then the information for the oldest age will be repeated for any
 given year.}
+
+\item{max_age}{Interger to extend the weight-at-age to an age not included in
+the ages vector.}
 }
 \value{
 A data frame of weight-at-age information is returned that can formatted with

@@ -63,12 +63,9 @@ maturity <- all_ages |>
   as.matrix()
 
 #=======================================================================
-# Weight-at-age
+# Time-varying weight-at-age
 #=======================================================================
 # Currently uses data from the WCGBT, Triennial, and AFSC Slope surveys
-survey_watage_data <- process_weight_at_age_survey(
-  savedir = here::here())
-
 # The below function uses output from fit_biomass_model() that fits
 # WCGBT data for a species distribution model that is then used to
 # create a prediction grid to biomass weight the weight-at-age model
@@ -93,13 +90,47 @@ write_wtatage_file(
 )
 
 
-ggplot(wtatage |> dplyr::filter(year >= first_year), aes(x = age, y = year, z = pred_weight)) +
+ggplot(format_wtatage |> dplyr::filter(year >= first_year), aes(x = age, y = year, z = pred_weight)) +
   stat_summary_2d(geom = "tile") + #, fun = function(x) cut(mean(x), breaks = breaks, right = FALSE))  +
   #xlim(0, 15) +
   facet_grid(sex~.)
 
 
+#=======================================================================
+# Weight-at-age
+#=======================================================================
+
+wtatage <- estimate_weight_at_age(
+  max_age = 30)
+
+format_wtatage <- wtatage |>
+  tidyr::pivot_wider(
+    id_cols = c(year, sex),
+    names_from = age,
+    values_from = pred_weight
+  ) |>
+  dplyr::mutate(
+    seas = 1,
+    sex = dplyr::case_when(sex == "F" ~ 1, .default = 2),
+    gp = 1,
+    bseas = 1,
+    fleet = 1,
+    .after = "year"
+  ) |>
+  dplyr::relocate(sex, .after = seas) |>
+  as.data.frame()
+
+write_wtatage_file(
+  file = here::here("data-processed", "wtatage_model_static.ss"),
+  data = format_wtatage,
+  maturity = maturity[1:31],
+  max_age = 30,
+  n_fleet = 7
+)
+
+
 #===============================================================================
+# Empirical weight-at-age 
 # Old functions that calculate empirical weight-at-age
 # Work horse function that estimates, plots, and writes weight-at-age files for SS3
 #===============================================================================
