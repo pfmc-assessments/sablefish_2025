@@ -164,7 +164,7 @@ process_survey <- function(
   comps_out <- bind_compositions(compositions)
   utils::write.csv(
     comps_out,
-    file = file.path(save_dir, paste0("data-survey-comps-lengths-", survey_name, ".csv")),
+    file = here::here(save_dir, paste0("data-survey-comps-lengths-", survey_name, ".csv")),
     row.names = FALSE
   )
   
@@ -182,6 +182,25 @@ process_survey <- function(
   }
   
   compositions <- nwfscSurvey::get_expanded_comps(
+    bio_data = bds_length |> dplyr::mutate(Sex = "U"),
+    catch_data = catch_data,
+    comp_bins = length_bins,
+    comp_column_name = "length_cm",
+    two_sex_comps = FALSE,
+    strata = strata,
+    fleet = recode_fleet_cw(x = unique(bds_length$Project)),
+    month = 7,
+    verbose = FALSE
+  )
+  utils::write.csv(
+    compositions$unsexed,
+    file = here::here(save_dir, paste0("data-survey-comps-lengths-", survey_name, "-unsexed.csv")),
+    row.names = FALSE
+  )
+  
+  # Marginal ages
+  
+  compositions <- nwfscSurvey::get_expanded_comps(
     bio_data = bds_age,
     catch_data = catch_data,
     comp_bins = age_bins,
@@ -194,8 +213,8 @@ process_survey <- function(
   )
   comps_out <- bind_compositions(compositions)
   utils::write.csv(
-    compositions$sexed,
-    file = file.path(save_dir, paste0("data-survey-comps-ages-", survey_name, ".csv")),
+    comps_out,
+    file = here::here(save_dir, paste0("data-survey-comps-ages-", survey_name, ".csv")),
     row.names = FALSE
   )
   
@@ -211,6 +230,24 @@ process_survey <- function(
       dir = fig_table_dir
     )
   }
+  
+  compositions <- nwfscSurvey::get_expanded_comps(
+    bio_data = bds_age |> dplyr::mutate(Sex = "U"),
+    catch_data = catch_data,
+    comp_bins = age_bins,
+    comp_column_name = "age",
+    two_sex_comps = FALSE,
+    strata = strata,
+    fleet = recode_fleet_cw(x = unique(bds_age$Project)),
+    month = 7,
+    ageerr = 1,
+    verbose = FALSE
+  )
+  utils::write.csv(
+    compositions$unsexed,
+    file = here::here(save_dir, paste0("data-survey-comps-ages-", survey_name, "-unsexed.csv")),
+    row.names = FALSE
+  )
   
   #=============================================================================
   # CAAL age composition data
