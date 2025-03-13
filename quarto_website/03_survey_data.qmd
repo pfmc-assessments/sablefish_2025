@@ -276,6 +276,7 @@ knitr::include_graphics(
 
 ```
 
+The proportion by age across years for estimated strong recruitment years can be variable from one year to the next. For example, the 2020 cohort that was first observed in 2021 was a large proportion of the observations of aged fish. In 2022, the proportion of observed age-2 fish decreased relative to the age-1 proportion in 2021, but the proportion of age-3 fish observed in 2023 increased relative to the proportion of age-2 fish in 2022. The variability in observations of year-classes across year can result in highly uncertain initial estimates of recruitment size that require additional years of data for the model to reliably estimate the year-class size.
 
 ```{r}
 #| label: suvey-age-comp
