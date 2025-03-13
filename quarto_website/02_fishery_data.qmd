@@ -64,6 +64,26 @@ For the 2025 assessment, we plan to have three coastwide fleets separated by the
 
 The historical landings (pre-1981) for sablefish remain similar to the historical landings used in the previous assessment (e.g., 2023) of sablefish. Landings for sablefish are based on data from state-specific historical reconstructions, historical foreign fleets (1966-1980), PacFIN, at-sea bycatch estimates (1978-2024), and recreational fishing (2001-2024). 
 
+
+```{r}
+#| label: landings-all-years
+#| echo: false
+#| warning: false
+#| fig-cap: "Coastwide landings (mt) of sablefish by gear. Note, the 2024 landings are incomplete."
+#| fig-cap-location: margin
+
+ggplot(landings, aes(x = year, y = catch_mt, fill = Gear)) +
+  geom_bar(stat = 'identity') +
+  theme_bw() +
+  xlab("Year") + ylab("Landings (mt)") +
+  scale_y_continuous(
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  scale_fill_viridis_d(begin = 0.0, end = 0.5)
+
+```
+
+
+
 ```{r}
 #| label: landings-recent
 #| echo: false
@@ -392,9 +412,9 @@ bds_data |>
   group_by(area, geargroup) |>
   mutate(area = factor(area)) |>
   select(sex, age_years, area, geargroup) |>
-  ggplot(aes(x=age_years, fill = area))+
-    ggridges::geom_density_ridges(aes(y = geargroup), alpha=0.5, scale=1)+
-    labs(y ="Gear", x="Age (years)", fill = "Area")+
+  ggplot(aes(x = age_years, fill = area))+
+    ggridges::geom_density_ridges(aes(y = geargroup), alpha = 0.5, scale = 1)+
+    labs(y = "Gear", x = "Age (years)", fill = "Area")+
     scale_x_continuous(limits = c(0, 30), expand = c(0, 0))+
     scale_fill_viridis_d()+
     theme_bw()

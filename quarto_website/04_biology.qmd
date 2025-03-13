@@ -44,7 +44,14 @@ Similar to many groundfish species, sablefish, have variable growth and maturity
 
 ## Natural Mortality
 
-Sablefish are a long-lived roundfish.  The maximum age observed varies by region. The reported maximum age for Alaska is 94 years, 113 years off Canada, and 102 years off the U.S. West Coast caught by the commercial fishery in 2006 landed in Washington. The 2011 and 2019 benchmark assessments for sablefish estimated sex-specific natural mortality with female being estimated have marginally higher natural mortality (0.076 yr$^{-yr}$) compared to males (0.062 yr$^{-yr}$) that approximately translate to a maximum age range between 70--87 years of age. This assessment will also attempt to estimate natural mortality within the assessment model. 
+Sablefish are a long-lived roundfish.  The maximum age observed varies by region. The reported maximum age for Alaska is 94 years, 113 years off Canada, and 102 years off the U.S. West Coast.  The maximum age observation off the West Coast was caught by the commercial fishery in 2006 and landed in Washington. The oldest aged sablefish by sex off the West Coast both arise from the fishery with an observation of 102 year old female and 98 year old male.
+
+The 2011 and 2019 benchmark assessments for sablefish estimated sex-specific natural mortality within the model.  The 2019 assessment estimated a marginally higher natural mortality (0.076 yr$^{-yr}$) for females compared to males (0.067 yr$^{-yr}$), which approximately translates to a maximum age range between 71--80 years of age. This assessment will also attempt to estimate natural mortality within the assessment model. 
+
+As sablefish age, both male and females move to deeper waters which likely reduces the availability of older fish to the fishery to some extent (i.e., although the oldest aged fish were sampled from the fishery). Age data off the West Coast start in 1983 with limited samples from the fishery and the Triennial Shelf Survey. However, these early data likely arise from the shelf area and may not have fully representative samples. Examining data from the surveys that sampled out to 1,280 meters (NWFSC WCGBT, NWFSC Slope, and AFSC Slope Surveys), the upper range of observed ages from these data sources by sex are:
+
+- Females: 65 (22 observations of this age or higher) to a maximum observed age of 88 years; and
+- Males: 70 (18 observations of this age or higher) to a maximum observed age of 91 years.
 
 ## Maturity
 
@@ -271,7 +278,7 @@ We have explored estimating weight-at-age by year, cohort, sex, and area where a
 #| fig-cap-location: margin
 
 ggplot() +
-  geom_line(data = wtatage_model, aes(x = age, y = weight, color = Year)) +
+  geom_line(data = wtatage_model, aes(x = age, y = weight, color = Year), linewidth = 1.2) +
   #geom_line(data = wtatage_growth, aes(x = age, y = weight), 
   #          color = "black", linewidth = 1.5, linetype = 2) +
   scale_color_viridis_d() +

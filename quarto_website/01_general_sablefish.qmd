@@ -17,7 +17,7 @@ knitr::include_graphics(
 
 ```
 
-Recruitment is widespread along the shelf-slope break. A single stock-recruitment function will be used to characterize sablefish productivity specific to the U.S. West Coast area. However, the rate at which females mature and become reproductively active can differ with latitude. Please refer to the Biology section for further details on both growth and maturity.
+Recruitment is widespread along the shelf-slope break. A single stock-recruitment function will be used to characterize sablefish productivity specific to the U.S. West Coast area. However, the rate at which females mature and become reproductively active can differ with latitude. Please refer to the [Biology](https://connect.fisheries.noaa.gov/us_west_coast_sablefish_2025/04_biology.html) section for further details on both growth and maturity.
 
 Sablefish are well known to move considerable distances. Recent transboundary (Alaska, British Columbia, and U.S. West Coast) analyses of sablefish population dynamics indicated the presence of non-zero movement rates across different areal and stock definitions [(Kapur et al., 2024)](https://cdnsciencepub.com/doi/10.1139/cjfas-2024-0008). While movement estimates between the U.S. West Coast and British Columbia were similar (see the red circles), there remains a net difference due to immigration and emigration because of the difference in area-specific population size for which the rates apply.
 
@@ -85,7 +85,7 @@ knitr::include_graphics(
 
 ```
 
-Overall stock status (at the time of the last assessment) in all three regions can be generalized to indicate that overfishing is not occurring and the stocks are not overfished. Each region has been above fishing-based reference levels and below biomass-based reference levels at one point or another during the time series. However, recent strong recruitment events are now contributing to spawning stock biomass, which is driving the trend of increasing stock status measures over recent years in all three areas.
+Overall stock status (at the time of the last assessment) in all three regions can be generalized to indicate that overfishing is not occurring and the stocks are not overfished. Each region has been above fishing-based reference levels and below biomass-based reference levels at one point or another during the time series. However, recent strong recruitment events are now contributing to spawning biomass, which is driving the trend of increasing stock status measures over recent years in all three areas.
 
 
 ```{r}

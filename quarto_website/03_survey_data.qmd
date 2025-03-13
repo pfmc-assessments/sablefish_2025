@@ -15,7 +15,6 @@ project_dir <- "C:/Assessments/2025/sablefish_2025"
 data_proc <- file.path(project_dir , "data-processed")
 data <- file.path(project_dir , "data")
 
-
 load(file.path(data, "data_survey_catch.rda"))
 load(file.path(data, "data_survey_bio.rda"))
 wcgbt_catch <- data_survey_catch$nwfsc_combo |>
@@ -45,6 +44,26 @@ wcgbt <- read.csv(here::here("figures", "est_by_area.csv")) |>
     index = est / ave_index,
     survey = "WCGBT"
   )
+
+age_comps <- read.csv(file.path(data_proc, "data-survey-comps-ages-wcgbt.csv")) |>
+  dplyr::select(-month, -fleet, -partition, -ageerr, -Lbin_lo, -Lbin_hi, -input_n) |>
+  tidyr::pivot_longer(
+    cols = 3:104,
+    names_to = "age",
+    values_to = "prop"
+  ) |>
+  dplyr::mutate(
+    sex_chara = as.factor(substring(age, first = 1, last = 1)),
+    sex_chara = dplyr::case_when(sex == 0 ~ "u", .default = sex_chara),
+    sex_chara = as.factor(sex_chara),
+    sex_type = dplyr::case_when(sex_chara == "u" ~ "u", .default = "b"),
+    age_number = as.numeric(substring(age, first = 2, last = 3)),
+    prop = round(prop / 100, 3)
+  ) |>
+  dplyr::select(-sex, -age) |>
+  dplyr::rename(
+    sex = sex_chara,
+    age = age_number) 
 
 ```
 
@@ -188,19 +207,84 @@ nwfscSurvey::plot_proportion(
 
 ### Survey Compositions
 
-TBD: Add figures for length and age observations
-
-
-In the last five years, there have been multiple years of strong recruitment observed for sablefish off the U.S. West Coast and across the North Pacific.  The 2023 assessment of sablefish estimated strong recruitment in both 2020 and 2021. In the latest data from the NWFSC West Coast Groundfish Bottom Trawl survey there are indications of potentially another above average recruitment in 2023. The below figure shows the size distribution of juvenile sablefish observed in the survey for recent years (i.e., this figure was originally included in the [2024-25 California Current Ecosystem Status Report](https://www.pcouncil.org/documents/2025/02/f-1-a-cciea-report-1-2024-2025-california-current-ecosystem-status-report.pdf/).  Age-0 sablefish are generally less than 30 cm. The large recruitment in 2021 is visible with the distribution of sablefish centered around 25 cm, with age-1 from the 2020 year-class being visible around 30+ cm.  In 2022 there were limited observation of likely age-0 sablefish (fish less than 30 cm), but there were large observations of 30+ cm fish which are likely age-1 fish from the 2021 year-class.  In 2023, there are number of observations of sablefish around 25 cm, similar to what was observed in 2021, but potentially slightly less than, indicating that there may also be a strong recruitment in 2023. 
+By year the NWFSC West Coast Groundfish Bottom Trawl survey observes a slightly higher proportion of males compared to females.  
 
 ```{r}
-#| label: wcgbt-juvenile-barplot
+#| label: prop-by-sex
 #| echo: false
-#| fig-cap: "Size distributions of sablefish less than or equal to 35 cm for recent years observed by the NWFSC West Coast Groundfish Bottom Trawl survey."
+#| fig-cap: "Proportion of all NWFSC West Coast Groundfish Bottom Trawl survey tows that sampled sablefish between 2003 and 2024 (gold line). Sex-specific proportions of tows positive for sablefish are also shown for each year."
 #| fig-cap-location: margin
 
 knitr::include_graphics(
-  file.path("figures", "GF-sablefish-juvenile-size-1.png")
+  file.path("figures", "proportion_by_sex.png")
+)
+
+```
+
+Sablefish exhibit ontogenetic movement where fish move from shallow to deeper water as they grow and age. Across the coast, there is little evidence of segregation across all ages or sizes (e.g., young vs. old or small vs. large), with one notable exception in central California, around San Francisco, there observed population across depths is composed primarily of younger/smaller individuals across depths. However, there may be movement patterns of new cohorts that could be linked to areas of strong recruitment which are discussed further below.
+
+```{r}
+#| label: map-length-age
+#| echo: false
+#| fig-cap: "Sampling locations for sablefish collected by the NWFSC West Coast Groundfish Bottom Trawl survey between 2003 and 2024. Standard lengths (rounded down to the nearest cm) are shown on the left and age estimates (yr) are shown on the right. Lighter colors represent smaller or younger individuals and darker colors represent larger or older individuals. Latitudinal and inshore-offshore patterns were similar for males and females, thus sexes were combined."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "map-age-length.png")
+)
+
+```
+
+
+
+```{r}
+#| label: depth-length-age
+#| echo: false
+#| fig-cap: "Length (top; cm) and age (bottom; yr) compositions for sablefish collected by the NWFSC West Coast Groundfish Bottom Trawl Survey between 2003 and 2024 by sex and depth (m). Lighter colors represent smaller or younger individuals and darker colors represent larger or older individuals."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "length_age_compositions.png")
+)
+
+```
+
+
+```{r}
+#| label: map-length-age-percentile
+#| echo: false
+#| fig-cap: "Percentiles for sablefish collected by the NWFSC West Coast Groundfish Bottom Trawl survey between 2003 and 2024. Left: standard lengths (rounded down to the nearest cm). Right: age estimates (yr) are shown. Latitudinal patterns were similar for males and females, thus sexes were combined."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "Fig5.png")
+)
+
+```
+
+Patterns of strong recruitments are visible in both the length and age composition data. For example, in 2008 there is mode of small fish observed around 25 cm that can be seen moving through the population in 2009 and 2010.  The strongest recruitment in recent years estimated in the 2023 assessment in descending order were 2020, 2021, 2016, 2008, and 2013.
+
+```{r}
+#| label: survey-length-comps
+#| echo: false
+#| fig-cap: "Proportion of lengths observed each year across sexes by the NWFSC West Coast Groundfish Bottom Trawl survey."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "length_proportion.png")
+)
+
+```
+
+
+```{r}
+#| label: suvey-age-comp
+#| echo: false
+#| fig-cap: "Proportion of ages observed each year across sexes by the NWFSC West Coast Groundfish Bottom Trawl survey. Observed ages of 15 and higher were summed into a plus group of age 15."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "age_proportion.png")
 )
 
 ```
@@ -208,7 +292,7 @@ knitr::include_graphics(
 
 ### Other Trends in the Data
 
-The [2024-25 California Current Ecosystem Status Report](https://www.pcouncil.org/documents/2025/02/f-1-a-cciea-report-1-2024-2025-california-current-ecosystem-status-report.pdf/) also included the estimated distribution of juvenile sablefish around select port groups in the NWFSC West Coast Groundfish Bottom Trawl survey using a species distribution model. There are estimated relative index of juvenile sablefish across various port increase in years with known strong sablefish recruitment: 2008, 2013, 2020 (no survey this year), and 2021. In recent years the relative abundance of juvenile sablefish has been highest around Newport.  In contrast, the highest relative abundance of juvenile sablefish were estimated to be around San Francisco and Bodega Bay in 2008 and Astoria and Tillamook in 2016.
+The [2024-25 California Current Ecosystem Status Report](https://www.pcouncil.org/documents/2025/02/f-1-a-cciea-report-1-2024-2025-california-current-ecosystem-status-report.pdf/) also included the estimated distribution of juvenile sablefish around select port groups in the NWFSC West Coast Groundfish Bottom Trawl survey using a species distribution model. There are estimated increases in the relative index of juvenile sablefish across various port groups associated with known strong sablefish recruitment: 2008, 2013, 2020 (no survey that year), and 2021. In recent years the relative abundance of juvenile sablefish has been highest around Newport.  In contrast, the highest relative abundance of juvenile sablefish were estimated to be around San Francisco and Bodega Bay in 2008 and Astoria and Tillamook in 2016.
 ```{r}
 #| label: juvenile-by-port
 #| echo: false
@@ -221,7 +305,7 @@ knitr::include_graphics(
 
 ```
 
-Stronger recruitment in the north, in recent years, has lead to an increase in available biomass for fishers operating out of Astoria, but overall increases in sablefish biomass has head to general increases in available biomass across many ports.
+Stronger recruitment in the north, in recent years, has led to an increase in available biomass for fishers operating out of Astoria, but overall increases in sablefish biomass has led to general increases in available biomass across many ports.
 
 ```{r}
 #| label: adult-by-port
@@ -238,7 +322,7 @@ knitr::include_graphics(
 
 ### Environmental Indices
 
-The 2019 assessment of sablefish included an environmental index to inform the estimation of annual recruitment.  This assessment will also include an environmental index to inform the estimation of recent recruitment. The environmental index in this assessment will be based on a model with oceangraphic predictors.The preliminary index is shown below. 
+The 2019 assessment of sablefish included an environmental index to inform the estimation of annual recruitment.  This assessment will also include an environmental index to inform the estimation of recent recruitment. The environmental index in this assessment will be based on a model with oceanographic predictors.The preliminary index is shown below. 
 
 ```{r}
 #| label: glorys-index
