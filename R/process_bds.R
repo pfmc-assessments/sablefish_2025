@@ -42,7 +42,9 @@ process_bds_data <- function(
   good_states <- c("WA", "OR", "CA")
   # Keep only break and burn (B, BB), unknown (U), and blank (") age reads based 
   # on AGE_METHOD. This decision should be species-specific.
-  good_age_method <- c("B", "BB", "U", "")
+  # The CAP lab generally has done nearly all sablefish aging, and they seem to 
+  # be doing surface reading intermittently, so these by default have been kept.
+  good_age_method <- c("B", "BB", "S", "M", "U", "")
   # TODO: evaluate all available age methods types. 
   # 1. What is the prevalence of each? state? years?
   # 2. There are a large number ages with blank (or NA) age method primarily in 
@@ -65,7 +67,7 @@ process_bds_data <- function(
       valuename = "catch_mt"
     )
   
-  bds_cleaned <- cleanPacFIN(
+  bds_cleaned <- pacfintools::cleanPacFIN(
     Pdata = bds_data |> dplyr::filter(SAMPLE_YEAR != 2025),
     keep_gears = gears,
     CLEAN = TRUE,
