@@ -198,7 +198,30 @@ growth$sex <- rep(c("F", "M"), 3)
 growth$area <- c(rep("Coastwide", 2), rep("North", 2), rep("South", 2))
 ```
 
-Sablefish have dimorphic growth with females reaching larger sizes compared to males. Length-at-age was estimated assuming von Bertenlaffy growth collected during various West Coast bottom trawl surveys (Triennial, NWFSC Slope, AFSC Slope, and NWFSC West Coast Groundfish Bottom Trawl survey). Additionally, fish north of 36$^\circ$ North latitude grow to larger sizes compared to fish in the south. Coastwide, sablefish reach an average maximum size around `r round(growth[which(growth$area == "Coastwide" & growth$sex == "F"), "Linf"], 0)` cm and `r round(growth[which(growth$area == "Coastwide" & growth$sex == "M"), "Linf"], 0)` cm for females and males, respectively. However, there is considerable variation in growth for sablefish where individual fish may grow to a larger or smaller maximum size.  
+Sablefish have dimorphic growth with females reaching larger sizes compared to males.  
+
+```{r}
+#| label: plot-growth-data
+#| echo: false
+#| warning: false
+#| fig-cap: "Estimated length-at-age coastwide and by area for females (solid lines) and males (dashed lines) north and south of 36 degrees North latitude."
+#| fig-cap-location: margin
+
+ggplot(data = survey_bio, aes(x = Age_years, y = Length_cm, color = Sex)) +
+  geom_point()  +
+ xlim(0, 95) +
+ ylim(0, 90) +
+ theme_bw() +
+ xlab("Age (yrs)") +
+ ylab("Length (cm)") +
+ scale_color_viridis_d() + 
+ theme(axis.text = element_text(size = 13),
+       axis.title = element_text(size = 13)) +
+ facet_grid(area~.)
+
+```
+
+Length-at-age was estimated assuming von Bertenlaffy growth collected during various West Coast bottom trawl surveys (Triennial, NWFSC Slope, AFSC Slope, and NWFSC West Coast Groundfish Bottom Trawl survey). Additionally, fish north of 36$^\circ$ North latitude grow to larger sizes compared to fish in the south. Coastwide, sablefish reach an average maximum size around `r round(growth[which(growth$area == "Coastwide" & growth$sex == "F"), "Linf"], 0)` cm and `r round(growth[which(growth$area == "Coastwide" & growth$sex == "M"), "Linf"], 0)` cm for females and males, respectively. However, there is considerable variation in growth for sablefish where individual fish may grow to a larger or smaller maximum size.
 
 ```{r}
 #| label: plot-growth
@@ -249,7 +272,7 @@ label <- lines_to_plot |>
     y = unique(max(length_cm)) * unique(multiplier)
   )
 
-ggplot(lines_to_plot) +
+ggplot(lines_to_plot) + 
  geom_line(aes(x = age_years, y = length_cm, color = area, linetype = sex), linewidth = 1) +
  xlim(xlims[1], xlims[2]) +
  ylim(24, 70) +
@@ -259,6 +282,18 @@ ggplot(lines_to_plot) +
  scale_color_viridis_d() + 
  theme(axis.text = element_text(size = 13),
        axis.title = element_text(size = 13))
+
+```
+
+```{r}
+#| label: growth-continous
+#| echo: false
+#| fig-cap: "Predicted length-at-age for sablefish collected by the NWFSC West Coast Groundfish Bottom Trawl survey between 2003 and 2024. The darker color represents females and the lighter color represents males. Latitudinal variation in sex-specific von Bertalanffy growth parameters is also shown (t0: length at age 0, k: growth coefficient, L∞: asymptotic length). Dashed horizontal lines denote biogeographic or political boundaries along the U.S. West Coast (~34.5°N separates southern and northern California, 42°N is the California-Oregon border, and 46°N is the Oregon-Washington border)."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "Fig4.png")
+)
 
 ```
 
@@ -278,9 +313,7 @@ We have explored estimating weight-at-age by year, cohort, sex, and area where a
 #| fig-cap-location: margin
 
 ggplot() +
-  geom_line(data = wtatage_model, aes(x = age, y = weight, color = Year), linewidth = 1.2) +
-  #geom_line(data = wtatage_growth, aes(x = age, y = weight), 
-  #          color = "black", linewidth = 1.5, linetype = 2) +
+  geom_line(data = wtatage_model, aes(x = age, y = weight, color = Year), linewidth = 1.0) +
   scale_color_viridis_d() +
   xlab("Age (years)") + ylab("Weight (kg)") +
   theme_bw() +
