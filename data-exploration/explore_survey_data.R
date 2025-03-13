@@ -297,3 +297,117 @@ ggplot2::ggsave(
   height = 13,
   plot = gg
 )
+#=================================================================================
+#
+#===============================================================================
+age_comps <- read.csv(here::here("data-processed", "data-survey-comps-ages-wcgbt-unsexed.csv")) |>
+  dplyr::select(-month, -fleet, -partition, -ageerr, -Lbin_lo, -Lbin_hi, -input_n) |>
+  tidyr::pivot_longer(
+    cols = 3:53,
+    names_to = "age",
+    values_to = "prop"
+  ) |>
+  dplyr::mutate(
+    sex_chara = as.factor(substring(age, first = 1, last = 1)),
+    sex_chara = dplyr::case_when(sex == 0 ~ "u", .default = sex_chara),
+    sex_chara = as.factor(sex_chara),
+    sex_type = dplyr::case_when(sex_chara == "u" ~ "u", .default = "b"),
+    age_number = as.numeric(substring(age, first = 2, last = 3)), 
+    prop = round(prop / 100, 3)
+  ) |>
+  dplyr::select(-sex, -age) |>
+  dplyr::rename(
+    sex = sex_chara,
+    age = age_number) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    prop_to_add = dplyr::case_when(age >= 15 ~ prop, .default = 0),
+    plus_group = dplyr::case_when(age >=15 ~ sum(prop_to_add), .default = 0),
+    prop = dplyr::case_when(age == 15 ~ plus_group, .default = prop)
+  )
+
+
+gg <- ggplot(age_comps |> dplyr::filter(age < 16) |>dplyr::mutate(age = as.factor(age)), aes(x = age, y = prop, fill = age)) +
+  geom_bar(stat = "identity") +
+  scale_fill_viridis_d() +
+  facet_wrap("year", ncol = 2) +
+  geom_text(aes(label = year),
+            x = 10,
+            y = 0.4,
+            size = 6) +
+  scale_y_continuous(limits = c(0, 0.60), breaks = seq(0, 0.50, by = 0.25)) +
+  theme(strip.background = element_blank(),
+        panel.background = element_rect(fill = "white"),
+        panel.spacing = unit(0, "cm"),
+        strip.text.x = element_blank(),
+        plot.margin = margin(12, 12, 6, 12),
+        text = element_text(size = 18),
+        panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
+        axis.text = element_text(size = 18),
+        legend.position = "none") +
+  ylab("Proportion") +
+  xlab("Age")
+ggplot2::ggsave(
+  gg,
+  filename = here::here(
+    "quarto_website",
+    "figures",
+    "age_proportion.png"
+  ),
+  width = 10, 
+  height = 10
+)
+
+
+length_comps <- read.csv(here::here("data-processed", "data-survey-comps-lengths-wcgbt-unsexed.csv")) |>
+  dplyr::select(-month, -fleet, -partition, -input_n) |>
+  tidyr::pivot_longer(
+    cols = 3:39,
+    names_to = "length",
+    values_to = "prop"
+  ) |>
+  dplyr::mutate(
+    sex_chara = as.factor(substring(length, first = 1, last = 1)),
+    sex_chara = dplyr::case_when(sex == 0 ~ "u", .default = sex_chara),
+    sex_chara = as.factor(sex_chara),
+    sex_type = dplyr::case_when(sex_chara == "u" ~ "u", .default = "b"),
+    length_bin = as.numeric(substring(length, first = 2, last = 3)), 
+    prop = round(prop / 100, 3)
+  ) |>
+  dplyr::select(-sex, -length) |>
+  dplyr::rename(
+    sex = sex_chara) 
+
+gg <- ggplot(length_comps |> dplyr::filter(length_bin <= 80) |> dplyr::mutate(length_bin = as.factor(length_bin)), aes(x = length_bin, y = prop, fill = length_bin)) +
+  geom_bar(stat = "identity") +
+  scale_fill_viridis_d() +
+  facet_wrap("year", ncol = 2) +
+  geom_text(aes(label = year),
+            x = 25,
+            y = 0.10,
+            size = 8) +
+  scale_y_continuous(limits = c(0, 0.22), breaks = seq(0, 0.25, by = 0.10)) +
+  scale_x_discrete(
+    breaks = seq(18, 90, 6)) +
+  theme(strip.background = element_blank(),
+        panel.background = element_rect(fill = "white"),
+        panel.spacing = unit(0, "cm"),
+        strip.text.x = element_blank(),
+        plot.margin = margin(12, 12, 6, 12),
+        text = element_text(size = 20),
+        axis.text = element_text(size = 18),
+        panel.border = element_rect(colour = "black", fill=NA, linewidth=1),
+        legend.position = "none") +
+  ylab("Proportion") +
+  xlab("Length (cm)") 
+ggplot2::ggsave(
+  gg,
+  filename = here::here(
+    "quarto_website",
+    "figures",
+    "length_proportion.png"
+  ),
+  width = 10, 
+  height = 10
+)
+

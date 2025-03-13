@@ -53,7 +53,7 @@ ages <- data_length_ages |>
     n_80_plus = sum(age_years >= 80),
     min_age = min(age_years),
     median_age = median(age_years),
-    age_99 = quantile(age_years, 0.995),
+    age_9975 = quantile(age_years, 0.9975),
     max_age = max(age_years)
   )
 
@@ -89,6 +89,41 @@ ggplot(max_age_by_year, aes(x = year, y = max_age, color = sex)) +
   geom_point() +
   scale_color_viridis_d() +
   theme_bw()
+
+ggplot(survey_ages |> dplyr::filter(sex != "U", length_cm > 50), 
+       aes(x = depth_m, y = age_years, color = sex)) +
+  geom_point(alpha = 0.05) +
+  geom_smooth(method = "loess", na.rm = TRUE, se = TRUE) +
+  theme_bw() +
+  scale_color_viridis_d()
+
+samples <- survey_ages |> 
+  dplyr::filter(!is.na(age_years), sex != "U", depth_m > 500) |>
+  dplyr::group_by(sex) |>
+  dplyr::reframe(
+    n = sum(!is.na(age_years)),
+    n_65_plus = sum(age_years >= 65),
+    n_70_plus = sum(age_years >= 70),
+    n_75_plus = sum(age_years >= 75),
+    n_80_plus = sum(age_years >= 80),
+    median_age = median(age_years),
+    age_9975 = quantile(age_years, 0.9975),
+    age_999 = quantile(age_years, 0.999),
+    max_age = max(age_years)
+  )
+
+samples_all <- data_length_ages |> 
+  dplyr::filter(!is.na(age_years), sex != "U") |>
+  dplyr::group_by(sex, source) |>
+  dplyr::reframe(
+    n = sum(!is.na(age_years)),
+    n_65_plus = sum(age_years >= 65),
+    n_70_plus = sum(age_years >= 70),
+    n_75_plus = sum(age_years >= 75),
+    n_80_plus = sum(age_years >= 80),
+    age_999 = quantile(age_years, 0.999),
+    max_age = max(age_years)
+  )
 
 #===============================================================================
 # Evaluate California otolith collections, ages, and landings
@@ -202,5 +237,3 @@ gg_age <- ggplot(all_ca_data, aes(x = year, y = age_rate)) +
 gg_len <- ggplot(all_ca_data, aes(x = year, y = oto_rate)) +
   geom_line() +
   geom_point()
-
-  
