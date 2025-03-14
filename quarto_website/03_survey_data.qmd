@@ -262,7 +262,7 @@ knitr::include_graphics(
 
 ```
 
-Patterns of strong recruitments are visible in both the length and age composition data. For example, in 2008 there is mode of small fish observed around 25 cm that can be seen moving through the population in 2009 and 2010.  The strongest recruitment in recent years estimated in the 2023 assessment in descending order were 2020, 2021, 2016, 2008, and 2013.
+Patterns of strong recruitments are visible in both the length and age composition data. For example, in 2008 there was a mode of small fish observed around 25 cm that can be seen moving through the population in 2009 and 2010.  The strongest recruitment in recent years estimated in the 2023 assessment in descending order were 2020, 2021, 2016, 2008, and 2013.
 
 ```{r}
 #| label: survey-length-comps
