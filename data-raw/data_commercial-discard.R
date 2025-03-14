@@ -159,7 +159,7 @@ commercial_discard_rates_pre_2011 <-
   dplyr::filter(year < 2011) |>
   dplyr::mutate(
     discard_rate = round(median_ratio, 4),
-    sd = round(dplyr::case_when(sd_ratio > 0.03 ~ sd_ratio, .default = 0.03), 3),
+    sd = round(dplyr::case_when(sd_ratio > 0.015 ~ sd_ratio, .default = 0.015), 3),
   ) |>
   dplyr::select(year, fleet, discard_rate, sd)
 cs_discard_rates <- 
@@ -167,7 +167,7 @@ cs_discard_rates <-
     here::here("data-raw", "discard", "wcgop", area, "discard_rates_combined_catch_share.csv")
   ) |> 
   dplyr::filter(year >= 2011) |>
-  dplyr::mutate(sd_ratio = 0.03) |>
+  dplyr::mutate(sd_ratio = 0.015) |>
   dplyr::rename(cs_rate = discard_rate, cs_sd = sd_ratio) |>
   dplyr::select(year, fleet, cs_rate, cs_sd) 
 ncs_discard_rates <- 
@@ -188,7 +188,7 @@ wcgop_commercial_discard_rates <- dplyr::left_join(
   discard_rates_2011, gemm_weights) |>
   dplyr::mutate(
     discard_rate = round(cs_rate * cs_weight + ncs_rate * (1 - cs_weight), 4),
-    sd = round(dplyr::case_when(ncs_sd > 0.03 ~ ncs_sd, .default = 0.03), 3)
+    sd = round(dplyr::case_when(ncs_sd > 0.015 ~ ncs_sd, .default = 0.015), 3)
   ) |>
   filter(!is.na(discard_rate)) |>
   dplyr::select(year, fleet, discard_rate, sd) |>
