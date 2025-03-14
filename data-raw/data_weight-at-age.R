@@ -60,7 +60,17 @@ maturity <- all_ages |>
   dplyr::left_join(maturity_at_age |> dplyr::filter(Model == "Spatial") ) |>
   tidyr::fill(p, .direction = "downup") |>
   dplyr::select(p) |>
-  as.matrix()
+  dplyr::mutate(
+    age = 0:70
+  ) |>
+  dplyr::rename(
+    maturity = p
+  )
+
+usethis::use_data(
+  maturity,
+  overwrite = TRUE
+)
 
 #=======================================================================
 # Time-varying weight-at-age
@@ -84,7 +94,7 @@ format_wtatage <- pad_weight_at_age(
 write_wtatage_file(
   file = here::here("data-processed", "wtatage_model_biomass_weighted.ss"),
   data = format_wtatage,
-  maturity = maturity[1:31],
+  maturity = maturity$maturity[1:31],
   max_age = 30,
   n_fleet = 7
 )
@@ -123,7 +133,7 @@ format_wtatage <- wtatage |>
 write_wtatage_file(
   file = here::here("data-processed", "wtatage_model_static.ss"),
   data = format_wtatage,
-  maturity = maturity[1:31],
+  maturity = maturity$maturity[1:31],
   max_age = 30,
   n_fleet = 7
 )
@@ -141,7 +151,7 @@ process_weight_at_age(
   years = 1997:2024,
   n_avg_years = 5,
   n_forecast = 12,
-  maturity = maturity
+  maturity = maturity$maturity
 )
  
 # wt_by_cohort <- estimate_tv_weight_at_age(
