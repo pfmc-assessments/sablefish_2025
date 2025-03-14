@@ -267,7 +267,7 @@ process_survey <- function(
   
   utils::write.csv(
     caal,
-    file = fs::path("data-processed", paste0("data-survey-comps-caal-", survey_name, ".csv")),
+    file = here::here("data-processed", paste0("data-survey-comps-caal-", survey_name, ".csv")),
     row.names = FALSE
   )
 
