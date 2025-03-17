@@ -306,7 +306,13 @@ Questions:
 
 Below are summaries of the available commercial length and age samples and comparisons of the length and age distribution by year, gear, and area in Pacific Fisheries Information Network (PacFIN).  It is important to note the Cooperative Ageing Lab are still hard at work reading otoliths from the commercial fishery and the age data are incomplete as of March 5th, 2025. The ageing lab is planning to finish ageing by the data deadline of April 21st, 2025.
 
-Previous assessments of sablefish have parameterized selectivity to be age-based to capture age-based movement.  This assessment will also explore age-based selectivity for the fishery. However, both length and age composition data from the fishery is presented below for completeness and to understand variable patterns in the data by size and age.
+<span style="color:#00c0bd; font-weight:bold;">Important Note:</span> 
+
+-  There has been a change in the age data that will be used for this assessment. The STAT, working with ODFW, identified a large number of historical otoliths that should be included in the assessment that did not appear to be in previous assessments due to the ageing method not being specified. This added over 11,000 ages collected between 1986-2000 to be used in this year's assessment. 
+
+### Selectivity
+
+Previous assessments of sablefish have parameterized selectivity to be age-based to capture age-based movement.  This assessment will also explore age-based selectivity for the fishery. However, both length and age composition data from the fishery are presented below for completeness and to understand variable patterns in the data by size and age.
 
 ```{r}
 #| label: load-commercial-bds-data
