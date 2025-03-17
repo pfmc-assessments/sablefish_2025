@@ -19,4 +19,16 @@ Important dates and information:
 -  Pending the GFSC-SSC, the assessment will be available in the Briefing Book for the September 2025 Council meeting.
 
 
+```{r}
+#| label: sablefish
+#| echo: false
+
+knitr::include_graphics(
+  file.path("figures", "Sablefish_Kosma.png")
+)
+
+```
+
+
+
 **Disclaimer: All data summaries and exploration presented here are preliminary and may not be indicative of the final data that will be incorporated in the 2025 assessment**
