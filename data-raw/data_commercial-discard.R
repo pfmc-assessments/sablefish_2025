@@ -1,4 +1,4 @@
-
+library(ggplot2)
 library(nwfscSurvey)
 area <- "coastwide"
 
@@ -148,6 +148,42 @@ gemm_weights <- catch_totals |>
   tidyr::complete(year, fleet, catch_share, fill = list(cs_weight = 0)) |>
   dplyr::filter(catch_share == "TRUE") |>
   dplyr::select(year, fleet, cs_weight) 
+
+gg1 <- ggplot(catch_totals, aes(x = year, y = prop_discard, fill = cs_fleet)) +
+  geom_bar(stat = "identity") +
+  scale_fill_viridis_d() +
+  xlab("Year") + ylab("Proportion of Total Discard") +
+  theme_bw() + 
+  facet_grid(fleet~.)
+ggplot2::ggsave(
+  gg1, 
+  filename = here::here("data-raw", "discard", "wcgop", "figures", "gemm_prop_discard.png"),
+  height = 7, width = 7
+)
+
+gg2 <- ggplot(catch_totals, aes(x = year, y = discard_mt, fill = cs_fleet)) +
+  geom_bar(stat = "identity") +
+  scale_fill_viridis_d()  +
+  xlab("Year") + ylab("All Discard (mt)") +
+  theme_bw() + 
+  facet_grid(fleet~.)
+ggplot2::ggsave(
+  gg2, 
+  filename = here::here("data-raw", "discard", "wcgop", "figures", "gemm_discard_totals.png"),
+  height = 7, width = 7
+)
+
+gg3 <- ggplot(catch_totals, aes(x = year, y = gemm_discard_rate, color = cs_fleet)) +
+  geom_line(linewidth = 1) +
+  geom_point() +
+  xlab("Year") + ylab("Discard Rate (GEMM)") +
+  scale_color_viridis_d() +
+  theme_bw()
+ggplot2::ggsave(
+  gg3, 
+  filename = here::here("data-raw", "discard", "wcgop", "figures", "gemm_discard_rates.png"),
+  height = 7, width = 7
+)
 
 # ==============================================================================
 # Weight the WCGOP discard rate data based on the GEMM data
