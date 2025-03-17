@@ -281,26 +281,19 @@ The Enhanced Data Collection Project (EDCP) conducted off Oregon for trawl vesse
 
 Previous assessments have assumed there were changes in selectivity or retention for the following time periods:
 
--   Trawl gear:
+-   Potential changes in retention across gears:
     -   1942-1946: full retention of age-1+ sablefish during WWII;
-    -   1982-2002: trip-limits induced discarding;
-    -   2003-2010: spatial closures (Rockfish Conservation Areas);
-    -   2011-2018: catch-share program; and
+    -   1982/1996: trip-limits induced discarding;
+    -   2011: catch-share program; and
     -   2019+: discard mortality rates begin to be applied in the GEMM.
--   HKL and Pot gears:
-    -   1942-1946: full retention of age-1+ sablefish during WWII;
-    -   1996-2002: trip-limits induced discarding;
-    -   2003-2010: spatial closures (Rockfish Conservation Areas);
-    -   2011-2018: catch-share program; and
-    -   2019+: discard mortality rates begin to be applied in the GEMM.
+-   Potential changes in selectivity across gears:
+    -   2003: spatial closures (Rockfish Conservation Areas)
 
 Questions:
 
--   What is behind the change in discarding observed for trawl gear starting in 2019?
+-   Are the listed management changes listed above reasonable (e.g., capture large changes that effected multiple sectors of the main sectors catching sablefish)? 
 
--   Are the listed management changes listed above reasonable? 
-
--   Are there other changes in the fishery that should be considered?
+-   Are the there historical periods where the current discard survival rates should not be applied?  For example, if trawl times were considerably longer than current times, that could be expected to reduce survival.
 
 ## Fishery Compositions
 
@@ -309,8 +302,6 @@ Below are summaries of the available commercial length and age samples and compa
 <span style="color:#00c0bd; font-weight:bold;">Important Note:</span> 
 
 -  There has been a change in the age data that will be used for this assessment. The STAT, working with ODFW, identified a large number of historical otoliths that should be included in the assessment that did not appear to be in previous assessments due to the ageing method not being specified. This added over 11,000 ages collected between 1986-2000 to be used in this year's assessment. 
-
-### Selectivity
 
 Previous assessments of sablefish have parameterized selectivity to be age-based to capture age-based movement.  This assessment will also explore age-based selectivity for the fishery. However, both length and age composition data from the fishery are presented below for completeness and to understand variable patterns in the data by size and age.
 
@@ -384,27 +375,6 @@ bds_data |>
 
 -->
 
-Commercial length compositions from trawl fisheries are similar across the coast. Meanwhile, length compositions from the hook-and-line (HKL) and pot fisheries are skewed towards larger fish in Oregon and Washington as compared to California. Length compositions of hook-and-line and pot gear are often similar, though the pot fishery may a slightly reduced frequency of larger fish in Oregon.
-
-```{r}
-#| label: length-by-gear-region
-#| echo: false
-#| warning: false
-#| fig-cap: "Distribution of length samples between 1967-2024 by gear type and state."
-#| fig-cap-location: margin
-
-bds_data |>
-  group_by(area, geargroup) |>
-  mutate(area = factor(area)) |>
-  select(sex, length_cm, area, geargroup) |>
-  ggplot(aes(x = length_cm, fill = area)) +
-    ggridges::geom_density_ridges(aes(y=geargroup), alpha=0.5, scale=1) +
-    labs(y = "Gear", x = "Length (cm)", fill = "Area")+
-    scale_x_continuous(limits = c(18, 100), expand=c(0, 0)) +
-    scale_fill_viridis_d() +
-    theme_bw()
-```
-
 Commercial age compositions from trawl fisheries are generally similar across the coast, although there is a marginally lower frequency of older ages being selected in Washington. Similarly, there is a lower frequency of older ages being selected by pot gear in Washington compared to Oregon and Northern California. The distribution of ages caught by hook-and-line gear are generally similar across the coast. 
 
 ```{r}
@@ -426,7 +396,49 @@ bds_data |>
     theme_bw()
 ```
 
-Composition data is presented below broken out into three time periods: 1980-2010, 2011-2018, and 2019-2024. The assessment will explore retention and selectivity differences during the 1980-2010 period to capture changes in trip limits (1982 and 1997) and the implementation of Rockfish Conservation Areas (2002), but those periods are not explicitly broken out here for simplicity. 
+Age composition data is presented below broken out into three time periods: 1980-2010, 2011-2018, and 2019-2024. The assessment will explore retention and selectivity differences during the 1980-2010 period to capture changes in trip limits (1982 and 1997) and the implementation of Rockfish Conservation Areas (2002), but those periods are not explicitly broken out here for simplicity. 
+
+```{r}
+#| label: age-by-gear-region-period
+#| echo: false
+#| warning: false
+#| fig-cap: "Distribution of age samples by gear and region for three time periods. Time periods are generally reflective of potential changes in retention: 2011 implementation of the catch share program and 2019 mortality credits begun being applied to discards in select fishery sectors. Note the ageing lab is currently working to read otoliths collected in California in the 2019-2024 time period."
+#| fig-cap-location: margin
+
+ggplot(bds_data,
+       aes(x = age_years, y = geargroup, fill = period, alpha = 0.25)) +
+  ggridges::geom_density_ridges(scale=0.9) +
+  scale_x_continuous(limits = c(0, 30), expand = c(0, 0), breaks = seq(0, 50, 10))+
+  labs(y = "Gear", x = "Age", fill = "Time Period")+
+  guides(alpha="none")+
+  facet_wrap(~area, ncol=2) +
+  scale_fill_viridis_d()+
+  theme_bw()+
+  theme(
+    panel.spacing.x = unit(30, "pt")
+  )
+```
+
+Commercial length compositions from trawl fisheries are similar across the coast. Meanwhile, length compositions from the hook-and-line (HKL) and pot fisheries are skewed towards larger fish in Oregon and Washington as compared to California. Length compositions of hook-and-line and pot gear are often similar, though the pot fishery may a slightly reduced frequency of larger fish in Oregon.
+
+```{r}
+#| label: length-by-gear-region
+#| echo: false
+#| warning: false
+#| fig-cap: "Distribution of length samples between 1967-2024 by gear type and state."
+#| fig-cap-location: margin
+
+bds_data |>
+  group_by(area, geargroup) |>
+  mutate(area = factor(area)) |>
+  select(sex, length_cm, area, geargroup) |>
+  ggplot(aes(x = length_cm, fill = area)) +
+    ggridges::geom_density_ridges(aes(y=geargroup), alpha=0.5, scale=1) +
+    labs(y = "Gear", x = "Length (cm)", fill = "Area")+
+    scale_x_continuous(limits = c(18, 100), expand=c(0, 0)) +
+    scale_fill_viridis_d() +
+    theme_bw()
+```
 
 Length compositions within each state and by gear type have remained largely consistent over time (southern California for which there is a paucity available post-2011). 
 
@@ -453,26 +465,6 @@ ggplot(bds_data,
 
 
 
-```{r}
-#| label: age-by-gear-region-period
-#| echo: false
-#| warning: false
-#| fig-cap: "Distribution of age samples by gear and region for three time periods. Time periods are generally reflective of potential changes in retention: 2011 implementation of the catch share program and 2019 mortality credits begun being applied to discards in select fishery sectors. Note the ageing lab is currently working to read otoliths collected in California in the 2019-2024 time period."
-#| fig-cap-location: margin
-
-ggplot(bds_data,
-       aes(x = age_years, y = geargroup, fill = period, alpha = 0.25)) +
-  ggridges::geom_density_ridges(scale=0.9) +
-  scale_x_continuous(limits = c(0, 30), expand = c(0, 0), breaks = seq(0, 50, 10))+
-  labs(y = "Gear", x = "Age", fill = "Time Period")+
-  guides(alpha="none")+
-  facet_wrap(~area, ncol=2) +
-  scale_fill_viridis_d()+
-  theme_bw()+
-  theme(
-    panel.spacing.x = unit(30, "pt")
-  )
-```
 
 **Disclaimer: All data summaries and exploration presented here are preliminary and may not be indicative of the final data that will be incorporated in the 2025 assessment**
 

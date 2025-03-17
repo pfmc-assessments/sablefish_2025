@@ -288,11 +288,11 @@ ggplot(lines_to_plot) +
 ```{r}
 #| label: growth-continous
 #| echo: false
-#| fig-cap: "Predicted length-at-age for sablefish collected by the NWFSC West Coast Groundfish Bottom Trawl survey between 2003 and 2024. The darker color represents females and the lighter color represents males. Latitudinal variation in sex-specific von Bertalanffy growth parameters is also shown (t0: length at age 0, k: growth coefficient, L∞: asymptotic length). Dashed horizontal lines denote biogeographic or political boundaries along the U.S. West Coast (~34.5°N separates southern and northern California, 42°N is the California-Oregon border, and 46°N is the Oregon-Washington border)."
+#| fig-cap: "Latitudinal variation in sex-specific von Bertalanffy growth parameters (t0: length at age 0, k: growth coefficient, L∞: asymptotic length). Dashed horizontal line denotes 36.0° N. latitude. Predicted using the NWFSC West Coast Groundfish Bottom Trawl survey data between 2003 and 2024. The darker color represents females and the lighter color represents males."
 #| fig-cap-location: margin
 
 knitr::include_graphics(
-  file.path("figures", "Fig4.png")
+  file.path("figures", "Fig4_Mod.png")
 )
 
 ```

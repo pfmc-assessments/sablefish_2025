@@ -264,18 +264,6 @@ knitr::include_graphics(
 
 Patterns of strong recruitments are visible in both the length and age composition data. For example, in 2008 there was a mode of small fish observed around 25 cm that can be seen moving through the population in 2009 and 2010.  The strongest recruitment in recent years estimated in the 2023 assessment in descending order were 2020, 2021, 2016, 2008, and 2013.
 
-```{r}
-#| label: survey-length-comps
-#| echo: false
-#| fig-cap: "Proportion of lengths observed each year across sexes by the NWFSC West Coast Groundfish Bottom Trawl survey."
-#| fig-cap-location: margin
-
-knitr::include_graphics(
-  file.path("figures", "length_proportion.png")
-)
-
-```
-
 The proportion by age across years for estimated strong recruitment years can be variable from one year to the next. For example, the 2020 cohort that was first observed in 2021 was a large proportion of the observations of aged fish. In 2022, the proportion of observed age-2 fish decreased relative to the age-1 proportion in 2021, but the proportion of age-3 fish observed in 2023 increased relative to the proportion of age-2 fish in 2022. The variability in observations of year-classes across year can result in highly uncertain initial estimates of recruitment size that require additional years of data for the model to reliably estimate the year-class size.
 
 ```{r}
@@ -286,6 +274,19 @@ The proportion by age across years for estimated strong recruitment years can be
 
 knitr::include_graphics(
   file.path("figures", "age_proportion.png")
+)
+
+```
+
+
+```{r}
+#| label: survey-length-comps
+#| echo: false
+#| fig-cap: "Proportion of lengths observed each year across sexes by the NWFSC West Coast Groundfish Bottom Trawl survey."
+#| fig-cap-location: margin
+
+knitr::include_graphics(
+  file.path("figures", "length_proportion.png")
 )
 
 ```
@@ -323,16 +324,16 @@ knitr::include_graphics(
 
 ### Environmental Indices
 
-The 2019 assessment of sablefish included an environmental index to inform the estimation of annual recruitment.  This assessment will also include an environmental index to inform the estimation of recent recruitment. The environmental index in this assessment will be based on a model with oceanographic predictors.The preliminary index is shown below. 
+The 2019 assessment of sablefish included an environmental index to inform the estimation of annual recruitment.  This assessment will also include an environmental index to inform the estimation of recent recruitment. The environmental index in this assessment will be based on a model with oceanographic predictors. The preliminary index is shown below. 
 
 ```{r}
 #| label: glorys-index
 #| echo: false
-#| fig-cap: "Model fit to the data and model testing results. Black line is the model prediction ±1.0 standard error (dotted lines). While points are the recruitment deviations in log space from the stock assessment model. Yellow points are from jackknife analysis leaving out one year and refitting the model, and red points fit the best-fit model to 1993-2017 then predict 2018-2023."
+#| fig-cap: "Model fit to the data and model testing results. Black line is the model prediction ±1.0 standard error (dotted lines). While points are the recruitment deviations in log space from the stock assessment model."
 #| fig-cap-location: margin
 
 knitr::include_graphics(
-  file.path("figures", "glorys-fit.png")
+  file.path("figures", "glorys-recruitment-index.png")
 )
 
 ```

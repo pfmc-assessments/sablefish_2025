@@ -18,6 +18,8 @@ Important dates and information:
 
 -  Pending the GFSC-SSC, the assessment will be available in the Briefing Book for the September 2025 Council meeting.
 
+-  The assessment will follow [assessment best practices](https://www.pcouncil.org/documents/2025/02/h-4-a-ssc-groundfish-subcommittee-report-1-accepted-practices-guidelines-for-groundfish-stock-assessments-in-2025-and-2026.pdf) and the [groundfish Terms of Reference](https://www.pcouncil.org/documents/2024/06/terms-of-reference-for-the-groundfish-stock-assessment-review-process-for-2025-2026-june-2024.pdf). 
+
 
 ```{r}
 #| label: sablefish
