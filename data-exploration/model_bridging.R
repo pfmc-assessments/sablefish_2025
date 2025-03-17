@@ -10,6 +10,12 @@ data_file <- "data.ss"
 ctl_file <- "control.ss"
 forcast_file <- "forecast.ss"
 
+model_2023 <- SS_output(here::here("model", "_bridging", "0_2023_model"))
+fleet_numbering <- SS_output(here::here("model", "_bridging", "1_fleet_numbering"))
+rm_enviro <- SS_output(here::here("model", "_bridging", "2_rm_enviro"))
+add_landings <- SS_output(here::here("model", "_bridging", "3_landings"))
+add_fishery_ages_all <- SS_output(here::here("model", "_bridging", "4.3_fishery_ages_all_years"))
+
 #===============================================================================
 # 1. Revise the fleet numbering and SS3 versions
 #===============================================================================
@@ -411,6 +417,10 @@ add_var <- data.frame(
   dplyr::filter(Value > 0)
 
 ctl <- SS_readctl(file = here::here("model", "_bridging", new_dir, ctl_file))
+ctl$Block_Design[[2]][ctl$Block_Design[[2]] == 2022] <- 2024
+ctl$Block_Design[[3]][ctl$Block_Design[[3]] == 2022] <- 2024
+ctl$Block_Design[[4]][ctl$Block_Design[[4]] == 2022] <- 2024
+ctl$Block_Design[[5]][ctl$Block_Design[[5]] == 2022] <- 2024
 ctl$Variance_adjustment_list <- dplyr::bind_rows(
   add_var,
   ctl$Variance_adjustment_list[ctl$Variance_adjustment_list$Data_type != 2, ]
@@ -420,6 +430,7 @@ SS_writectl(
   ctllist = ctl, 
   outfile = here::here("model", "_bridging", new_dir, ctl_file),
   overwrite = TRUE)
+setwd(here::here("model", "_bridging", new_dir))
 shell("ss3 -nohess")
 
 add_discard_rates <- SS_output(here::here("model", "_bridging", new_dir))
