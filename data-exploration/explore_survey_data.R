@@ -323,14 +323,14 @@ age_comps <- read.csv(here::here("data-processed", "data-survey-comps-ages-wcgbt
   dplyr::mutate(
     prop_to_add = dplyr::case_when(age >= 15 ~ prop, .default = 0),
     plus_group = dplyr::case_when(age >=15 ~ sum(prop_to_add), .default = 0),
-    prop = dplyr::case_when(age == 15 ~ plus_group, .default = prop)
+    prop = dplyr::case_when(age == 15 ~ plus_group, .default = prop),
+    group = dplyr::case_when(year <= 2013 ~ 1, .default = 2)
   )
 
 
 gg <- ggplot(age_comps |> dplyr::filter(age < 16) |>dplyr::mutate(age = as.factor(age)), aes(x = age, y = prop, fill = age)) +
   geom_bar(stat = "identity") +
   scale_fill_viridis_d() +
-  facet_wrap("year", ncol = 2) +
   geom_text(aes(label = year),
             x = 10,
             y = 0.4,
@@ -346,13 +346,15 @@ gg <- ggplot(age_comps |> dplyr::filter(age < 16) |>dplyr::mutate(age = as.facto
         axis.text = element_text(size = 18),
         legend.position = "none") +
   ylab("Proportion") +
-  xlab("Age")
+  xlab("Age") + 
+  facet_wrap("year", dir = "v", ncol = 2)
+
 ggplot2::ggsave(
   gg,
   filename = here::here(
     "quarto_website",
     "figures",
-    "age_proportion.png"
+    "survey_ages.png"
   ),
   width = 10, 
   height = 10
@@ -381,7 +383,7 @@ length_comps <- read.csv(here::here("data-processed", "data-survey-comps-lengths
 gg <- ggplot(length_comps |> dplyr::filter(length_bin <= 80) |> dplyr::mutate(length_bin = as.factor(length_bin)), aes(x = length_bin, y = prop, fill = length_bin)) +
   geom_bar(stat = "identity") +
   scale_fill_viridis_d() +
-  facet_wrap("year", ncol = 2) +
+  facet_wrap("year", ncol = 2, dir = "v") +
   geom_text(aes(label = year),
             x = 25,
             y = 0.10,
@@ -405,7 +407,7 @@ ggplot2::ggsave(
   filename = here::here(
     "quarto_website",
     "figures",
-    "length_proportion.png"
+    "survey_lengths.png"
   ),
   width = 10, 
   height = 10
