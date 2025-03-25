@@ -1,5 +1,4 @@
 
-assessment_dir <- fs::path("report")
 common_name <- "sablefish"
 latin_name <- "Anoplopoma fimbria"
 len_bins <- seq(18, 90, by = 2)
@@ -66,8 +65,8 @@ strata_triennial_late <- nwfscSurvey::CreateStrataDF.fn(
 
 usethis::use_data(
   age_bins,
-  assessment_dir,
   common_name,
+  gears,
   latin_name,
   len_bins,
   strata_combo,
@@ -75,6 +74,5 @@ usethis::use_data(
   strata_afsc_slope,
   strata_triennial_early,
   strata_triennial_late,
-  internal = TRUE,
   overwrite = TRUE
 )
