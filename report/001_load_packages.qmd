@@ -1,0 +1,37 @@
+```{r load-packages, echo = FALSE}
+
+# To avoid an RGL warning while loading rgl and other packages
+options(rgl.useNULL = TRUE)
+
+# To install rnaturalearthhires:
+# devtools::install_github("ropensci/rnaturalearthhires")
+
+# Packages in alphabetical order
+pacman::p_load(
+  # Alphabetical order
+  # adnuts - Using cgrandin/adnuts fork as it is generalized for paths
+  # whereas the original code cannot deal with automated projects with 
+  # general paths
+  adnuts,
+  asar,
+  cli, 
+  cowplot, 
+  dplyr,
+  ggplot2, 
+  gt,
+  here,
+  kableExtra, 
+  knitr,
+  lubridate,
+  maps, 
+  mapdata,
+  r4ss, 
+  readr, 
+  reshape2, 
+  rnaturalearth, 
+  rnaturalearthhires, 
+  stockplotr,
+  stringr,
+  tidyr, 
+  xtable)
+```

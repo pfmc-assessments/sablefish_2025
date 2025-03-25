@@ -32,9 +32,15 @@ Gear switching within the individual fishing quota (IFQ) fishery increased after
 
 ### Management History and Performance
 
-<!---
-Briefly describe the management history of the stock and status. Please only touch on historical policies that would have impacted modeling decisions or would be critical knowledge about the species that might affect its population dynamics.
---->
+From the early 1900s to the early 1980s, management of the `r spp` fishery was the responsibility of the individual coastal states (California, Oregon, and Washington). Since the adoption of the Groundfish Fishery Management Plan by the Pacific Fisheries Management Council in 1982, responsibility has rested with the federal government and the Council. From 1977 to the mid-1980s, U.S. commercial fishermen took advantage of their newly protected fishing grounds (i.e., the enactment of the Fishery Conservation and Management Act, which occurred in in 1976, later to be renamed Magnuson Stevens Fishery Conservation and Management Act) recording high catches of `r spp` to meet the demands of flourishing export (primarily Asian countries) and domestic markets.
+
+The first coast-wide regulations off the U.S. Pacific Coast for the `r spp` fishery were implemented as trip limits in October 1982, followed by a rich history of management via seasons, size-limits, trip-limits, and a complex permit system. Beginning in 1983, additional trip limits were imposed on landings of `r spp` less than 22 inches in length, considered incidental catch. In 1987, allocations between the trawl and non-trawl fleets were implemented.
+
+Beginning in the late-1980s, the fixed-gear `r spp` fishery was managed as a `derby' fishery, characterized by increasing reductions in season lengths. In 1991, the fully open season lasted seven weeks, from April 1 through May 23. In 1992, approximately 1,300 mt were landed under early season trip limits of up to 1,500 pounds per day, and the fully open season lasted from May 12 through May 26. In 1993, there was a 250 pounds per day trip limit prior to the open season which extended from May 12 through June 1. In 1994, the fully open season was shorted to May 15 through June 3. In 1995, the open season lasted one week, from August 3 to August 13. The open season spanned only six days in 1996, from September 1 to September 6. In 1997, nine days (August 25 to September 3) were set aside for the open season, with a mop-up period from October 1-15. In the more recent period, the Limited Entry Fixed Gear sector has been managed primarily through the use of tiered cumulative limits (allocated on the basis of historical landings) which can be landed throughout the 7-month season. The remaining open-access fishery and some limited-entry non-trawl vessels are allowed to make smaller landings that are subject to daily/weekly limits and two-month cumulative caps.
+
+Additionally, `r spp` are harvested by the trawl fishery in association with a variety of other species that are distributed to domestic and foreign markets. Prior to 2011, the trawl fishery was managed primarily through the use of trip limits. These evolved from simple per-trip limits in the 1980s to cumulative periodic (monthly or bi-monthly) limits by the mid-1990s. In addition to `r spp`-specific limits, various limits were in place for the overall landings of deep-water complex species.
+
+ADD TEXT ABOUT AREA BASED ACLS
 
 ### Ecosystem Considerations
 
@@ -43,3 +49,9 @@ If this section is not relevant, please ignore. However, the default will state,
 --->
 
 ### Fisheries off Canada and Alaska
+
+Similarly to the U.S. West Coast, `r spp` fisheries in Alaska and British Columbia waters began in the late 1800s, with generally low catches until after World War II. Foreign fisheries began exploiting `r spp` in the northeastern Pacific Ocean during the late 1950s in the Bering Sea leading to rapidly increasing catches in the region through the 1980s. 
+
+Historically, Alaskan landings were much larger than those off the U.S. West Coast, rising to over 20,000 mt during the early 1960s, with many years above this level until the mid 1990s. 
+
+The `r spp` fishery in the waters off British Columbia  has a similar history to those in U.S. waters. The fishery primarily uses pots, with a lesser amount landed using long lines and trawls. Landings ranged up to just over 7,000 mt during the mid-1970s, followed by a variable but generally declining trend through the present. 

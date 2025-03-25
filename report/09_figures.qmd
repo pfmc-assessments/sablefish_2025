@@ -5,6 +5,173 @@
 #| echo: false 
 #| warning: false 
 #| eval: true 
-rda_dir <- 'C:/Assessments/2025/sablefish_2025/report/rda_files'
+rda_dir <- here::here('rda_files')
 ``` 
+
+
+### Data
+
+
+```{r} 
+#| label: fig-map
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Map of the assessment area."
+#| fig-alt: "Map of the U.S. West Coast with a line indicating that this assessment covers the full U.S. West Coast."
+#| fig-width: 7
+#| fig-height: 8
+
+mod.names <- c("Management  Range", "Assessment Range")
+mod.cols  <- c("blue","lightblue", "yellow")
+
+map('worldHires', regions=c("Canada","Mexico"),
+    xlim=c(-130, -114), ylim=c(31, 51),
+    col='grey', fill=TRUE, interior=TRUE, , lwd=1)
+
+# map with US states
+map('state', regions=c("Wash","Oreg","Calif","Idaho", "Montana","Nevada","Arizona","Utah"),
+    add = TRUE,
+    col = 'grey', fill = TRUE, interior = TRUE, lwd = 1)
+axis(2, at = seq(32, 50, 2), lab = paste0(seq(32, 50, 2), "°N"), las=1)
+axis(1, at = seq(-130, -114, 4), lab = paste0(abs(seq(-130, -114, 4)), "°W"))
+
+## add vertical lines indicating range for each stock
+# North of 36
+text(-128-.8, 40.5, mod.names[1], srt=90)
+latrange <- c(32.5, 36) + c(.2, -.2)
+lines(rep(-128, 2), latrange, lwd=10, col=mod.cols[1])
+
+# South of 36
+latrange <- c(36, 48.5) + c(.2, -.2)
+lines(rep(-128, 2), latrange, lwd = 10, col=mod.cols[2])
+#text(-128-.8, mean(latrange), mod.names[1], srt=90)
+# Assessment area
+latrange <- c(32.5, 48.5) + c(.2, -.2)
+lines(rep(-126,2), latrange, lwd=10, col=mod.cols[3])
+text(-126-.8, mean(latrange), mod.names[2], srt=90)
+
+text(-120, 50, "Canada")
+text(-120, 47, "Washington")
+text(-121, 44, "Oregon")
+text(-119.5, 37, "California")
+text(-115.5, 32.1, "Mexico")
+
+
+``` 
+
+\newpage
+
+```{r} 
+#| label: fig-landings
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+stockplotr::plot_landings(
+  dat = output,
+  unit_label = "metric tons"
+)
+
+
+```
+
+\pagebreak
+
+### Biology
+
+```{r} 
+#| label: fig-maturity-data
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Samples by age that were determined to be functionally mature and immature north and south of 36 degrees north latitude. Immature fish have a functional maturity of 0 and mature fish have a functional maturity of 1. Blue vertical dashed line at age 7."
+#| fig-alt: "Age associated with immature and mature fish by area."
+
+load(here::here("data", "maturity_data.rda"))
+
+ggplot(maturity_data |>
+  dplyr::mutate(
+    Area = dplyr::case_when(latitude >= 36 ~ "North", .default = "South")), 
+    aes(x = age, y = functional_maturity)) +
+  geom_point() +
+  ylab("Functional Maturity") +
+  geom_vline(xintercept = 7, color = "blue", linetype = 2) + 
+  xlab("Age years") +
+  theme_bw() +
+  theme(strip.background = element_rect(fill = "white")) +
+  facet_wrap(Area ~ .)
+
+
+```
+
+\newpage
+
+```{r}
+#| label: fig-maturity-ogive
+#| echo: false
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated maturity-at-age by area and the biomass weighted coastwide (Spatial) maturity curve."
+#| fig-alt: "Maturity in the south is later compared to fish in the north with the biomass weighted maturity curve being slightly right shifted compared to the north maturity curve."
+
+load(here::here("data", "spatial_maturity.rda"))
+
+ggplot(spatial_maturity, aes(x = age, y = p, color = Model)) +
+  geom_line(linewidth = 1) +
+  ylab("Probability Mature") +
+  xlab("Age years") +
+  scale_colour_viridis_d() + 
+  theme_bw() +
+  theme(strip.background = element_rect(fill = "white"))
+
+```
+
+\newpage
+
+### Model Results
+
+#### Model Bridging
+
+#### Biology
+
+
+
+
+#### Selectivity
+
+#### Recruitment
+
+
+#### Fits to Data
+
+
+#### Time-series
+
+```{r}
+#| label: fig-sb
+#| echo: false
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+stockplotr::plot_spawning_biomass(
+  dat = output,
+  end_year = 2025
+)
+
+```
+
+\newpage
+
+#### Sensitivity Analyse and Retrospectives
+
+
+#### Likelihood Profiles
+
+
+#### Reference Points and Forecasts
 

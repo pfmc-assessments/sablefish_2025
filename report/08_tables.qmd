@@ -8,6 +8,57 @@
 #| include: false
 library(flextable)
 
-rda_dir <- 'C:/Assessments/2025/sablefish_2025/rda_files'
+rda_dir <- here::here('rda_files')
 ``` 
 
+
+```{r}
+#| label: tab-bds-age-samples
+#| warning: false
+#| echo: false
+#| tbl-cap: "Commercial ages by year and gear."
+
+samples <- read.csv(here::here("data-processed", "data-fishery-bds-n.csv"))
+
+samples |>
+  select(-N.Lengthed) |>
+  pivot_wider(
+    names_from = Gear,
+    values_from = N.Aged,
+    values_fill = 0
+  ) |>
+  filter(Year >= 1986) |>
+  gt() |>
+  tab_options(
+    table.font.size = 12
+  ) |>
+  tab_options(latex.use_longtable = TRUE)
+
+```
+
+
+```{r}
+#| label: tab-maturity-samples
+#| warning: false
+#| echo: false
+#| tbl-cap: "Maturity samples collected by the NWFSC West Coast Groundfish Bottom Trawl survey by year and area where north and south of 36 degress north latitude."
+
+load(here::here("data", "maturity_data.rda"))
+
+maturity_data |>
+  dplyr::mutate(
+    Area = dplyr::case_when(latitude >= 36 ~ "North", .default = "South")) |>
+  dplyr::group_by(year, Area) |>
+  dplyr::summarise(
+    Samples = dplyr::n()
+  ) |>
+  tidyr::pivot_wider(
+    names_from = Area,
+    values_from = Samples,
+    names_prefix = "Samples-"
+  ) |>
+  dplyr::rename(Year = year) |>
+  dplyr::ungroup() |>
+  gt() 
+
+```

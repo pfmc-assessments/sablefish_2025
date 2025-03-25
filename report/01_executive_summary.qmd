@@ -8,7 +8,11 @@
 
 ### Stock Output and Dynamics
 
+\input{latex_tables/b_SSB_ES.tex}
+
 ### Recruitment
+
+\input{latex_tables/c_Recr_ES.tex}
 
 ### Exploitation Status
 

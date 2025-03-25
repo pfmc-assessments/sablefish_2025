@@ -1,5 +1,5 @@
 ---
-title: 'Status of the sablfefish stock off the U.S. West Coast in 2025'
+title: 'Status of the sablefish (*Anoplopoma fimbria*) off the U.S. West Coast in 2025'
 author:
   - name: 'Chantel R. Wetzel'
     affiliations:
@@ -76,19 +76,67 @@ bibliography:
 spp <- "sablefish"
 Spp <- "Sablefish"
 
+model_name <- "13_m_prior"
+model_dir <- here::here("model", "_bridging", model_name)
+sens_dir <-  here::here("model", "sensitivities")
+retro_dir <- profile_dir <- here::here("model")
+load(file.path(model_dir, "model_output.rda"))
+
+end_year <- model_output$endyr + 1
+data_end_year <- model_output$endyr
+start_year <- model_output$startyr
+
 # load converted output from asar::convert_output() 
-output <- utils::read.csv('C:/Assessments/2025/sablefish_2025/report/sablefish_convert_output.csv') 
+output <- utils::read.csv(here::here("report", "sablefish_model_output.csv")) 
+new_table_figs <- FALSE
+if (new_table_figs) {
+  stockplotr::exp_all_figs_tables(
+    dat = output,
+    recruitment_unit_label = "mt", 
+    recruitment_scale_amount = 1,
+    end_year = 2025,
+    n_projected_years = 10,
+    relative = FALSE,
+    rda_dir = here::here("report"),
+    # imported from plot_biomass
+    ref_line = "unfished",
+    ref_point = NULL,
+    biomass_scale_amount = 1,
+    # imported from plot_landings
+    landings_unit_label = "mt",
+    # imported from plot_recruitment_deviations- zero unique arguments
+    # imported from plot_spawn_recruitment
+    spawning_biomass_label = "mt",
+    spawning_biomass_scale_amount = 1,
+    # imported from plot_spawning_biomass
+    ref_line_sb = "target",
+    ref_point_sb = NULL,
+    # imported from plot_indices
+    indices_unit_label = "Relative Index (mt)",
+    # imported from table_afsc_tier- add potential unique arguments after dev
+    # imported from table_bnc
+    biomass_unit_label = "mt",
+    catch_unit_label = "mt"
+  )
+}
+
 # Call reference points and quantities below 
 output <- output |> 
   dplyr::mutate(estimate = as.numeric(estimate), 
     uncertainty = as.numeric(uncertainty)) 
-start_year <- as.numeric(min(output$year, na.rm = TRUE)) 
-end_year <- (output |> 
-  dplyr::filter(!(year %in% c('Virg', 'Init', 'S/Rcurve', 'INIT')), 
-    !is.na(year)) |> 
-  dplyr::mutate(year = as.numeric(year)) |> 
-  dplyr::summarize(max_val = max(year)) |> 
-  dplyr::pull(max_val))-10
+#start_year <- as.numeric(min(output$year, na.rm = TRUE)) 
+#end_year <- (output |> 
+#  dplyr::filter(!(year %in% c('Virg', 'Init', 'S/Rcurve', 'INIT')), 
+#    !is.na(year)) |> 
+#  dplyr::mutate(year = as.numeric(year)) |> 
+#  dplyr::summarize(max_val = max(year)) |> 
+#  dplyr::pull(max_val)) - 11
+#data_end_year <- (output |> 
+#  dplyr::filter(!(year %in% c('Virg', 'Init', 'S/Rcurve', 'INIT')), 
+#    !is.na(year)) |> 
+#  dplyr::mutate(year = as.numeric(year)) |> 
+#  dplyr::summarize(max_val = max(year)) |> 
+#  dplyr::pull(max_val)) - 12
 # subset output to remove quantities that are split by factor 
 output2 <- output |> 
   dplyr::filter(is.na(season), 
@@ -116,8 +164,9 @@ Bend <- output2 |>
   dplyr::pull(estimate)
 # target biomass (msy) 
 # please change target if desired 
+# SSB_Btarg
 Btarg <- output2 |>
-  dplyr::filter(c(grepl('biomass', label) & grepl('target', label) & estimate >1) | label == 'biomass_msy') |>
+  dplyr::filter(c(grepl('biomass', label) & grepl('target', label) & estimate > 1) | label == 'biomass_msy') |>
   dplyr::pull(estimate)
 # total catch in the last year 
 total_catch <- output |>
@@ -139,10 +188,16 @@ sbend <- output2 |>
   dplyr::filter(grepl('spawning_biomass', label), year == end_year) |>
   dplyr::pull(estimate) |>
     unique()
+sb0 <- output2 |>
+  dplyr::filter(grepl('spawning_biomass_virigin', label)) |>
+  dplyr::pull(estimate) |>
+    unique()
+
 # overall natural mortality or at age 
 M <- output |>
-  dplyr::filter(grepl('natural_mortality', label)) |>
-  dplyr::pull(estimate)
+  dplyr::filter(grepl('natm_uniform', label)) |>
+  dplyr::pull(estimate) |>
+  unique()
 # Biomass at msy 
 # to change to another reference point, replace msy in the following lines with other label 
 Bmsy <- output2 |>
@@ -150,7 +205,7 @@ Bmsy <- output2 |>
   dplyr::pull(estimate)
 # target spawning biomass(msy) 
 # please change target if desired 
-SBtarg <- output2 |>
+SBtarg_msy <- output2 |>
   dplyr::filter(c(grepl('spawning_biomass', label) & grepl('msy$', label) & estimate >1) | label == 'spawning_biomass_msy$') |>
   dplyr::pull(estimate)
 # steepness 
@@ -169,9 +224,19 @@ R0 <- output |>
 
 Please cite this publication as: 
 
-Wetzel, C.R., A.M. Berger, C. Barnes, J.A. Zahner, N. Tolimieri. Status of the sablfefish stock off the U.S. West Coast in 2025.2025. Prepared by [COMMITTEE]. [XX] p.
+Wetzel, C.R., A.M. Berger, C. Barnes, J.A. Zahner, N. Tolimieri. 2025. Status of the sablefish (*Anoplopoma fimbria*) off the U.S. West Coast in 2025. Pacific Fisheries Management Council, Portland, Oregon.
 
  {{< pagebreak >}} 
+
+```{r, results='asis'}
+#| label: 'load_packages'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child('001_load_packages.qmd', quiet = TRUE)
+cat(a, sep = '\n')
+```
+
 
 ```{r, results='asis'}
 #| label: 'executive_summary'
