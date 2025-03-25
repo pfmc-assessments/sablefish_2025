@@ -73,7 +73,7 @@ The NWFSC West Coast Groundfish Bottom Trawl (WCGBT) survey is the longest runni
 
 ### Relative Indices of Abundance
 
-A criticial data type produced by the WCGBT survey is a relative index of abundance that reflects potential changes across time in sablefish abundance. The index is estimated using a model that accounts for spatial and spatio-temporal effects. The index of abundance decreased between 2003-2009, then slight annual increases from 2010-2018, and then finally a steep increase from 2019-2022, and has remained relatively stable in the last few years of the survey.
+A key data product produced by the WCGBT survey is a relative index of abundance that reflects potential changes across time in sablefish abundance. The index is estimated using a model that accounts for spatial and spatio-temporal effects. The index of abundance decreased between 2003-2009, then slight annual increases from 2010-2018, and then finally a steep increase from 2019-2022, and has remained relatively stable in the last few years of the survey.
 
 ```{r}
 #| label: wcgbt-index
@@ -273,7 +273,7 @@ The proportion by age across years for estimated strong recruitment years can be
 #| fig-cap-location: margin
 
 knitr::include_graphics(
-  file.path("figures", "age_proportion.png")
+  file.path("figures", "survey_ages.png")
 )
 
 ```
