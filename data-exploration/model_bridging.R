@@ -11,10 +11,13 @@ ctl_file <- "control.ss"
 forcast_file <- "forecast.ss"
 
 model_2023 <- SS_output(here::here("model", "_bridging", "0_2023_model"))
+# The fleet numbering model also includes updating the SS3 version
 fleet_numbering <- SS_output(here::here("model", "_bridging", "1_fleet_numbering"))
 rm_enviro <- SS_output(here::here("model", "_bridging", "2_rm_enviro"))
 add_landings <- SS_output(here::here("model", "_bridging", "3_landings"))
 add_fishery_ages_all <- SS_output(here::here("model", "_bridging", "4.3_fishery_ages_all_years"))
+add_discard_len <- SS_output(here::here("model", "_bridging", "5.3_discard_lengths"))
+split_fleets <- SS_output(here::here("model", "_bridging", "6_split_fixed_gears"))
 
 #===============================================================================
 # 1. Revise the fleet numbering and SS3 versions
@@ -621,9 +624,10 @@ dat <- SS_readdat(
 dat$fleetinfo$type[3] <- 1
 dat$fleetinfo$fleetname[3] <- "Pot"
 dat$fleetnames[3] <- "Pot"
+dat$fleetinfo$units <- 1
 dat$catch <- read.csv(here::here("data-processed", "data_commercial_catch_cw.csv")) |>
-  dplyr::rename(catch = catch_mt)
-  
+  dplyr::rename(catch = catch_mt) |>
+  dplyr::filter(catch > 0)
 dat$CPUEinfo[3, 2:3] <- c(1, 0) 
 dat$CPUE <- dat$CPUE |> dplyr::filter(index != 3)
 
@@ -672,8 +676,8 @@ ctl <- SS_readctl(file = here::here("model", "_bridging", new_dir, ctl_file))
 ctl$Q_options <- ctl$Q_options |> dplyr::filter(fleet != 3)
 ctl$Q_parms <- ctl$Q_parms[c(-1, -2), ]
 # add selectivity specification
-ctl$size_selex_types[rownames(ctl$size_selex_types) == "ENV", "Discard"] <- 2
-ctl$age_selex_types[rownames(ctl$age_selex_types) == "ENV", c("Pattern", "Male")] <- c(20, 1)
+ctl$size_selex_types[rownames(ctl$size_selex_types) %in% c("Pot", "ENV"), "Discard"] <- 2
+ctl$age_selex_types[rownames(ctl$age_selex_types) %in% c("Pot", "ENV"), c("Pattern", "Male")] <- c(20, 1)
 # add selectivity parameters
 ctl$size_selex_parms <- dplyr::bind_rows(
   ctl$size_selex_parms,
@@ -752,12 +756,13 @@ shell("ss3 -nohess")
 split_fleets <- SS_output(here::here("model", "_bridging", new_dir))
 modelnames <- c(
   "2023 Base", 
+  "- SSH Enviro. Index",
   "+ Landings",
   "+ Fishery Ages",
   "+ Discard Data",
   "+ Split Fixed Gears")
 mysummary <- SSsummarize(list(
-  model_2023, add_landings, add_fishery_ages_all, add_discard_weights, split_fleets))
+  model_2023, rm_enviro, add_landings, add_fishery_ages_all, add_discard_len, split_fleets))
 SSplotComparisons(mysummary,
                   filenameprefix = "0_6_",
                   legendlabels = modelnames, 	
@@ -765,6 +770,160 @@ SSplotComparisons(mysummary,
                   ylimAdj = 1.5,
                   pdf = TRUE)
 SS_plots(split_fleets)
+
+#=============================================================================================
+# 7. Revise retention and selectivity blocks
+#=============================================================================================
+old_dir <- new_dir
+files <- list.files(here::here("model", "_bridging", old_dir))
+new_dir <- "7_fix_blocks"
+dir.create(here::here("model", "_bridging", new_dir))
+
+copy_files(
+  x = files, 
+  from_name = old_dir, 
+  to_name = new_dir)
+
+ctl <- SS_readctl(file = here::here("model", "_bridging", new_dir, ctl_file))
+# Get rid of the extra triennial block and hkl/pot selectivity blocks
+ctl$N_Block_Designs <- 4
+ctl$blocks_per_pattern <- ctl$blocks_per_pattern[c(1:3, 5)]
+ctl$Block_Design <- list(ctl$Block_Design[[1]], ctl$Block_Design[[2]], 
+                         ctl$Block_Design[[3]], ctl$Block_Design[[4]])
+
+ctl$Block_Design[[1]] <- c(1995, 2004)
+
+# Revised hkl/pot retention blocks
+ctl$blocks_per_pattern[2] <- 3
+# WWII, trip limits, IFQ, survival credits
+ctl$Block_Design[[2]] <- c(1942, 1946, 2011, 2018, 2019, 2024)
+
+# Revise trawl retention blocks
+ctl$blocks_per_pattern[3] <- 3
+# WWII, IFQ, survival credits
+ctl$Block_Design[[3]] <- c(1942, 1946, 2011, 2018, 2019, 2024)
+
+# Revise trawl selectivity blocks
+ctl$blocks_per_pattern[4] <- 1
+# RCAs
+ctl$Block_Design[[4]] <- c(2002, 2024)
+
+# Fix retention parameters
+# trawl length base retention parameters cover 1890-1941 and 1947-2010
+trawl_retention <- ctl$size_selex_parms[1:8, ]
+trawl_retention[1:3, "PHASE"] <- 5
+# hkl length base retention parameters cover 1890-1941 and 1947-2010
+hkl_retention <- ctl$size_selex_parms[9:16, ]
+hkl_retention[1:3, "PHASE"] <- 5
+# pot length base retention parameters cover 1890-1941 and 1947-2010
+pot_retention <- ctl$size_selex_parms[17:24, ]
+pot_retention[1:3, "PHASE"] <- 5
+
+ctl$size_selex_parms <- dplyr::bind_rows(
+  trawl_retention,
+  hkl_retention,
+  pot_retention
+)
+
+# Fix base selectivity parameters
+trawl_selex <- ctl$age_selex_parms[1:6, ]
+trawl_selex[c(1, 4), "PHASE"] <- 4
+trawl_selex[4, "Block"] <- 4
+
+hkl_selex <- ctl$age_selex_parms[7:16, ]
+hkl_selex[1, "PHASE"] <- 4
+hkl_selex[c(1, 3), "Block"] <- 0
+hkl_selex[c(1, 3), "Block_Fxn"] <- 0
+
+pot_selex <- ctl$age_selex_parms[17:26, ]
+pot_selex[1, "PHASE"] <- 4
+pot_selex[c(1, 3), "Block"] <- 0
+pot_selex[c(1, 3), "Block_Fxn"] <- 0
+
+triennial_selex <- ctl$age_selex_parms[27:36, ]
+triennial_selex[4, "Block"] <- 1
+survey_selex <- ctl$age_selex_parms[37:nrow(ctl$age_selex_parms), ] 
+
+ctl$age_selex_parms <- dplyr::bind_rows(
+  trawl_selex,
+  hkl_selex,
+  pot_selex,
+  triennial_selex,
+  survey_selex
+)
+
+# Time varying parameters
+trawl_tv_retention <- ctl$size_selex_parms_tv[1:10, ]
+trawl_tv_retention <- trawl_tv_retention[c(1, 4, 5, 6, 9, 10), ]
+trawl_tv_retention[6, "PHASE"] <- -5
+trawl_tv_retention[6, "INIT"] <- 10
+hkl_tv_retention <- ctl$size_selex_parms_tv[11:20, ]
+hkl_tv_retention <- hkl_tv_retention[c(1, 4, 5, 6, 9, 10), ]
+hkl_tv_retention[c(3), "PHASE"] <- 5
+hkl_tv_retention[5, "INIT"] <- 10
+pot_tv_retention <- ctl$size_selex_parms_tv[21:30, ]
+pot_tv_retention <- pot_tv_retention[c(1, 4, 5, 6, 9, 10), ]
+pot_tv_retention[c(3), "PHASE"] <- 5
+pot_tv_retention[5, "INIT"] <- 10
+
+ctl$size_selex_parms_tv <- dplyr::bind_rows(
+  trawl_tv_retention,
+  hkl_tv_retention,
+  pot_tv_retention
+)
+trawl_tv_selex <- ctl$age_selex_parms_tv[1:3, ]
+trawl_tv_selex <- trawl_tv_selex[2, ]
+survey_tv_selex <- ctl$age_selex_parms_tv[nrow(ctl$age_selex_parms_tv), ]
+
+ctl$age_selex_parms_tv <- dplyr::bind_rows(
+  trawl_tv_selex,
+  survey_tv_selex
+)
+
+SS_writectl(
+  ctllist = ctl, 
+  outfile = here::here("model", "_bridging", new_dir, ctl_file),
+  overwrite = TRUE)
+
+setwd(here::here("model", "_bridging", new_dir))
+shell("ss3 -nohess")
+blocks <- SS_output(here::here("model", "_bridging", new_dir))
+
+ctl <- SS_readctl(file = here::here("model", "_bridging", new_dir, ctl_file))
+
+dw <- tune_comps(replist = blocks, fleet = 1:3, option = "Francis")[, 1:3]
+colnames(dw) <- colnames(ctl$Variance_adjustment_list)
+ctl$Variance_adjustment_list <- dplyr::bind_rows(
+  ctl$Variance_adjustment_list |> dplyr::filter(Data_type %in% 2:3),
+  dw,
+  ctl$Variance_adjustment_list |> dplyr::filter(Fleet %in% 5:7)
+)
+SS_writectl(
+  ctllist = ctl, 
+  outfile = here::here("model", "_bridging", new_dir, ctl_file),
+  overwrite = TRUE)
+shell("ss3 -nohess")
+
+blocks <- SS_output(here::here("model", "_bridging", new_dir))
+modelnames <- c(
+  "2023 Base", 
+  "- SSH Enviro. Index",
+  "+ Landings",
+  "+ Fishery Ages",
+  "+ Discard Data",
+  "+ Split Fixed Gears",
+  "Simplify Ret./Selex. Blocks")
+mysummary <- SSsummarize(list(
+  model_2023, rm_enviro, add_landings, add_fishery_ages_all, add_discard_len, split_fleets,
+  blocks))
+SSplotComparisons(mysummary,
+                  filenameprefix = "0_7_",
+                  legendlabels = modelnames, 	
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+SS_plots(blocks)
+
 
 #=============================================================================================
 # 8. Triennial
@@ -804,22 +963,37 @@ SS_writedat(
 
 setwd(here::here("model", "_bridging", new_dir))
 shell("ss3 -nohess")
-triennial <- SS_output(getwd())
+triennial <- SS_output(here::here("model", "_bridging", new_dir))
+
+ctl <- SS_readctl(file = here::here("model", "_bridging", new_dir, ctl_file))
+dw <- tune_comps(replist = triennial, fleet = 4, option = "Francis")[1:3]
+colnames(dw) <- colnames(ctl$Variance_adjustment_list)
+ctl$Variance_adjustment_list <- dplyr::bind_rows(
+  dw,
+  ctl$Variance_adjustment_list |> dplyr::filter(Fleet != 4)
+)
+SS_writectl(
+  ctllist = ctl, 
+  outfile = here::here("model", "_bridging", new_dir, ctl_file),
+  overwrite = TRUE)
+shell("ss3 -nohess")
+triennial <- SS_output(here::here("model", "_bridging", new_dir))
+
 modelnames <- c(
   "2023 Base", 
-  "+ Landings",
-  "+ Fishery Ages (DW)",
-  "+ Discard Data",
-  "+ Split Fixed Gears (DW)",
+  "Simplify Ret./Selex. Blocks",
   "+ Triennial")
 mysummary <- SSsummarize(list(
-  model_2023, add_landings, add_fishery_ages, add_discard, split_fleets, triennial))
+  model_2023,
+  blocks,
+  triennial))
 SSplotComparisons(mysummary,
                   filenameprefix = "0_8_",
                   legendlabels = modelnames, 	
                   plotdir = here::here("model", "_bridging", "_plots"),
                   ylimAdj = 1.5,
                   pdf = TRUE)
+SS_plots(triennial)
 
 
 #=============================================================================================
@@ -827,7 +1001,7 @@ SSplotComparisons(mysummary,
 #=============================================================================================
 old_dir <- new_dir
 files <- list.files(here::here("model", "_bridging", old_dir))
-new_dir <- "8_akfsc_slope"
+new_dir <- "9_akfsc_slope"
 dir.create(here::here("model", "_bridging", new_dir))
 
 copy_files(
@@ -855,19 +1029,47 @@ SS_writedat(
   outfile = here::here("model", "_bridging", new_dir, data_file),
   overwrite = TRUE)
 
+ctl <- SS_readctl(file = here::here("model", "_bridging", new_dir, "control.ss_new"))
+SS_writectl(
+  ctllist = ctl, 
+  outfile = here::here("model", "_bridging", new_dir, ctl_file),
+  overwrite = TRUE)
+
 setwd(here::here("model", "_bridging", new_dir))
 shell("ss3 -nohess")
-akfsc_slope <- SS_output(getwd())
+akfsc_slope <- SS_output(here::here("model", "_bridging", new_dir))
+
+ctl <- SS_readctl(file = here::here("model", "_bridging", new_dir, ctl_file))
+dw <- tune_comps(replist = akfsc_slope, fleet = 5, option = "Francis")[1:3]
+colnames(dw) <- colnames(ctl$Variance_adjustment_list)
+ctl$Variance_adjustment_list <- dplyr::bind_rows(
+  dw,
+  ctl$Variance_adjustment_list |> dplyr::filter(Fleet != 5)
+)
+SS_writectl(
+  ctllist = ctl, 
+  outfile = here::here("model", "_bridging", new_dir, ctl_file),
+  overwrite = TRUE)
+starter <- SS_readstarter(file = here::here("model", "_bridging", new_dir, "starter.ss"))
+starter$init_values_src <- 1
+SS_writestarter(
+  mylist = starter,
+  dir = here::here("model", "_bridging", new_dir),
+  overwrite = TRUE
+)
+
+shell("ss3 -nohess")
+akfsc_slope <- SS_output(here::here("model", "_bridging", new_dir))
+
 modelnames <- c(
   "2023 Base", 
-  "+ Landings",
-  "+ Fishery Ages (DW)",
-  "+ Discard Data",
-  "+ Split Fixed Gears (DW)",
+  "Simplify Ret./Selex. Blocks",
   "+ Triennial",
-  "+ AKFSC Slope")
+  "+ AFSC Slope")
 mysummary <- SSsummarize(list(
-  model_2023, add_landings, add_fishery_ages, add_discard, split_fleets, triennial,
+  model_2023,
+  blocks,
+  triennial,
   akfsc_slope))
 SSplotComparisons(mysummary,
                   filenameprefix = "0_9_",
@@ -875,6 +1077,7 @@ SSplotComparisons(mysummary,
                   plotdir = here::here("model", "_bridging", "_plots"),
                   ylimAdj = 1.5,
                   pdf = TRUE)
+SS_plots(akfsc_slope)
 
 #=============================================================================================
 # 10. NWFSC Slope
@@ -911,25 +1114,41 @@ SS_writedat(
 
 setwd(here::here("model", "_bridging", new_dir))
 shell("ss3 -nohess")
-nwfsc_slope <- SS_output(getwd())
+nwfsc_slope <- SS_output(here::here("model", "_bridging", new_dir))
+
+ctl <- SS_readctl(file = here::here("model", "_bridging", new_dir, ctl_file))
+dw <- tune_comps(replist = nwfsc_slope, fleet = 6, option = "Francis")[1:3]
+colnames(dw) <- colnames(ctl$Variance_adjustment_list)
+ctl$Variance_adjustment_list <- dplyr::bind_rows(
+  dw,
+  ctl$Variance_adjustment_list |> dplyr::filter(Fleet != 6)
+)
+SS_writectl(
+  ctllist = ctl, 
+  outfile = here::here("model", "_bridging", new_dir, ctl_file),
+  overwrite = TRUE)
+shell("ss3 -nohess")
+nwfsc_slope <- SS_output(here::here("model", "_bridging", new_dir))
+
 modelnames <- c(
   "2023 Base", 
-  "+ Landings",
-  "+ Fishery Ages (DW)",
-  "+ Discard Data",
-  "+ Split Fixed Gears (DW)",
+  "Simplify Ret./Selex. Blocks",
   "+ Triennial",
-  "+ AKFSC Slope",
+  "+ AFSC Slope",
   "+ NWFSC Slope")
 mysummary <- SSsummarize(list(
-  model_2023, add_landings, add_fishery_ages, add_discard, split_fleets, triennial,
-  akfsc_slope, nwfsc_slope))
+  model_2023,
+  blocks,
+  triennial,
+  akfsc_slope,
+  nwfsc_slope))
 SSplotComparisons(mysummary,
                   filenameprefix = "0_10_",
                   legendlabels = modelnames, 	
                   plotdir = here::here("model", "_bridging", "_plots"),
                   ylimAdj = 1.5,
                   pdf = TRUE)
+SS_plots(nwfsc_slope)
 
 #=============================================================================================
 # 11. NWFSC WCGBT
@@ -955,7 +1174,7 @@ dat$CPUE <- dplyr::bind_rows(
 )
 lengths <- read.csv(here::here("data-processed", "data-survey-comps-lengths-wcgbt.csv"))
 colnames(lengths) <- colnames(dat$lencomp)
-dat$lencomp <- dplyr::bind_rows(
+dat$lencomp <-  dplyr::bind_rows(
   lengths,
   dat$lencomp |> dplyr::filter(fleet != 7)
 )
@@ -976,27 +1195,51 @@ SS_writedat(
 
 setwd(here::here("model", "_bridging", new_dir))
 shell("ss3 -nohess")
-wcgbt <- SS_output(getwd())
+wcgbt <- SS_output(here::here("model", "_bridging", new_dir))
+
+ctl <- SS_readctl(file = here::here("model", "_bridging", new_dir, ctl_file))
+dw <- tune_comps(replist = wcgbt, fleet = 7, option = "Francis")[1:3]
+colnames(dw) <- colnames(ctl$Variance_adjustment_list)
+ctl$Variance_adjustment_list <- dplyr::bind_rows(
+  dw,
+  ctl$Variance_adjustment_list |> dplyr::filter(Fleet != 7)
+)
+SS_writectl(
+  ctllist = ctl, 
+  outfile = here::here("model", "_bridging", new_dir, ctl_file),
+  overwrite = TRUE)
+
+shell("ss3")
+wcgbt <- SS_output(here::here("model", "_bridging", new_dir))
+
 modelnames <- c(
   "2023 Base", 
+  "Simplify Ret./Selex. Blocks",
   "+ Triennial",
-  "+ AKFSC Slope",
-  "+ NWFSC Slope",
+  "+ AFSC Slope",
+  "+ NWFSC Slope", 
   "+ WCGBT")
-mysummary <- SSsummarize(list(model_2023, triennial, akfsc_slope, nwfsc_slope, wcgbt))
+mysummary <- SSsummarize(list(
+  model_2023,
+  blocks,
+  triennial,
+  akfsc_slope,
+  nwfsc_slope,
+  wcgbt))
 SSplotComparisons(mysummary,
                   filenameprefix = "0_11_",
                   legendlabels = modelnames, 	
                   plotdir = here::here("model", "_bridging", "_plots"),
                   ylimAdj = 1.5,
                   pdf = TRUE)
+SS_plots(wcgbt)
 
 #=============================================================================================
-# 12. Data Weight
+# 12. Maturity
 #=============================================================================================
 old_dir <- new_dir
 files <- list.files(here::here("model", "_bridging", old_dir))
-new_dir <- "12_data_weight"
+new_dir <- "12_maturity"
 dir.create(here::here("model", "_bridging", new_dir))
 
 copy_files(
@@ -1004,13 +1247,9 @@ copy_files(
   from_name = old_dir, 
   to_name = new_dir)
 
-dw <- tune_comps(replist = wcgbt, option = "Francis")[,1:3] 
+STOP THIS HAS to BE DONE BY HAND (I THINK)
 ctl <- SS_readctl(file = here::here("model", "_bridging", new_dir, ctl_file))
-colnames(dw) <- colnames(ctl$Variance_adjustment_list)
-ctl$Variance_adjustment_list <- dplyr::bind_rows(
-  ctl$Variance_adjustment_list |> dplyr::filter(Data_type == 3),
-  dw
-)
+ctl$maturity_option <- 3
 SS_writectl(
   ctllist = ctl, 
   outfile = here::here("model", "_bridging", new_dir, ctl_file),
@@ -1018,24 +1257,196 @@ SS_writectl(
 
 setwd(here::here("model", "_bridging", new_dir))
 shell("ss3 -nohess")
-dw <- SS_output(getwd())
+maturity <- SS_output(here::here("model", "_bridging", new_dir))
+
 modelnames <- c(
   "2023 Base", 
+  "Simplify Ret./Selex. Blocks",
   "+ Triennial",
-  "+ AKFSC Slope",
-  "+ NWFSC Slope",
+  "+ AFSC Slope",
+  "+ NWFSC Slope", 
   "+ WCGBT",
-  "+ Update DW")
-mysummary <- SSsummarize(list(model_2023, triennial, akfsc_slope, nwfsc_slope, wcgbt, dw))
+  "+ Maturity")
+mysummary <- SSsummarize(list(
+  model_2023,
+  blocks,
+  triennial,
+  akfsc_slope,
+  nwfsc_slope,
+  wcgbt,
+  maturity))
 SSplotComparisons(mysummary,
                   filenameprefix = "0_12_",
                   legendlabels = modelnames, 	
                   plotdir = here::here("model", "_bridging", "_plots"),
                   ylimAdj = 1.5,
                   pdf = TRUE)
-SS_plots(dw)
+SS_plots(maturity)
+
+#===============================================================================
+# 13. M prior
+#================================================================================
+old_dir <- new_dir
+files <- list.files(here::here("model", "_bridging", old_dir))
+new_dir <- "13_m_prior"
+dir.create(here::here("model", "_bridging", new_dir))
+
+copy_files(
+  x = files, 
+  from_name = old_dir, 
+  to_name = new_dir)
+
+ctl <- SS_readctl(file = here::here("model", "_bridging", new_dir, ctl_file))
+prior <- round(log(5.4 / 75), 3)
+sd_prior <- 0.31
+mgparam <- ctl$MG_parms
+mgparam[c(1, 13), "PRIOR"] <- prior
+mgparam[c(1, 13), "PR_SD"] <- sd_prior
+ctl$MG_parms <- mgparam
+SS_writectl(
+  ctllist = ctl, 
+  outfile = here::here("model", "_bridging", new_dir, ctl_file),
+  overwrite = TRUE)
+
+starter <- SS_readstarter(file = here::here("model", "_bridging", new_dir, "starter.ss"))
+starter$init_values_src <- 1
+SS_writestarter(
+  mylist = starter,
+  dir = here::here("model", "_bridging", new_dir),
+  overwrite = TRUE
+)
+
+setwd(here::here("model", "_bridging", new_dir))
+shell("ss3 -nohess")
+m_prior <- SS_output(here::here("model", "_bridging", new_dir))
+
+modelnames <- c(
+  "2023 Base", 
+  "Simplify Ret./Selex. Blocks",
+  "+ Triennial",
+  "+ AFSC Slope",
+  "+ NWFSC Slope", 
+  "+ WCGBT",
+  "+ Maturity",
+  "+ M Prior")
+mysummary <- SSsummarize(list(
+  model_2023,
+  blocks,
+  triennial,
+  akfsc_slope,
+  nwfsc_slope,
+  wcgbt,
+  maturity,
+  m_prior))
+SSplotComparisons(mysummary,
+                  filenameprefix = "0_13_",
+                  legendlabels = modelnames, 	
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+SS_plots(m_prior)
 
 
 #===============================================================================
-#
-#==============================================================================
+# 14. Weight-at-age (one vector)
+#================================================================================
+old_dir <- new_dir
+files <- list.files(here::here("model", "_bridging", old_dir))
+new_dir <- "14_watage_not_tv"
+dir.create(here::here("model", "_bridging", new_dir))
+
+copy_files(
+  x = files, 
+  from_name = old_dir, 
+  to_name = new_dir)
+
+ctl <- SS_readctl(file = here::here("model", "_bridging", new_dir, ctl_file))
+ctl$EmpiricalWAA <- 1
+ctl$MG_parms[-c(1, 13), "PHASE"] <- -99
+SS_writectl(
+  ctllist = ctl, 
+  outfile = here::here("model", "_bridging", new_dir, ctl_file),
+  overwrite = TRUE)
+
+file.copy(
+  from = here::here("data-processed", "wtatage_model_static.ss"),
+  to = here::here("model", "_bridging", new_dir)
+)
+file.rename(
+  from = here::here("model", "_bridging", new_dir, "wtatage_model_static.ss"),
+  to = here::here("model", "_bridging", new_dir, "wtatage.ss")
+)
+starter <- SS_readstarter(file = here::here("model", "_bridging", new_dir, "starter.ss"))
+starter$init_values_src <- 0
+SS_writestarter(
+  mylist = starter,
+  dir = here::here("model", "_bridging", new_dir),
+  overwrite = TRUE
+)
+
+dat <- SS_readdat(
+  file = here::here("model", "_bridging", new_dir, data_file))
+dat$lencomp <-  dplyr::bind_rows(
+  dat$lencomp |> dplyr::filter(fleet != 7)
+)
+ages <- read.csv(here::here("data-processed", "data-survey-comps-ages-wcgbt.csv")) |>
+  dplyr::mutate(fleet = 7)
+colnames(ages) <- colnames(dat$agecomp)
+dat$agecomp <- dplyr::bind_rows(
+  ages,
+  dat$agecomp |> dplyr::filter(!fleet %in% c(-7, 7))
+)
+SS_writedat(
+  datlist = dat, 
+  outfile = here::here("model", "_bridging", new_dir, data_file),
+  overwrite = TRUE)
+
+setwd(here::here("model", "_bridging", new_dir))
+shell("ss3 -nohess")
+wtatage <- SS_output(here::here("model", "_bridging", new_dir))
+
+# Figure out the error with commercial fleets and tune_comps
+#ctl <- SS_readctl(file = here::here("model", "_bridging", new_dir, ctl_file))
+#dw <- tune_comps(replist = wtatage, fleet = 4:7, option = "Francis")
+#colnames(dw) <- colnames(ctl$Variance_adjustment_list)
+#ctl$Variance_adjustment_list <- dplyr::bind_rows(
+#  dw,
+#  ctl$Variance_adjustment_list |> dplyr::filter(Data_type != 2),
+#  ctl$Variance_adjustment_list |> dplyr::filter(Data_type != 3)
+#)
+#SS_writectl(
+#  ctllist = ctl, 
+#  outfile = here::here("model", "_bridging", new_dir, ctl_file),
+#  overwrite = TRUE)
+
+#shell("ss3")
+#wtatage <- SS_output(here::here("model", "_bridging", new_dir))
+
+modelnames <- c(
+  "2023 Base", 
+  "Simplify Ret./Selex. Blocks",
+  "+ Triennial",
+  "+ AFSC Slope",
+  "+ NWFSC Slope", 
+  "+ WCGBT",
+  "+ Maturity",
+  "+ M Prior",
+  "+ Static Wt-at-Age")
+mysummary <- SSsummarize(list(
+  model_2023,
+  blocks,
+  triennial,
+  akfsc_slope,
+  nwfsc_slope,
+  wcgbt,
+  maturity,
+  m_prior,
+  wtatage))
+SSplotComparisons(mysummary,
+                  filenameprefix = "0_14_",
+                  legendlabels = modelnames, 	
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+SS_plots(wtatage)
+
