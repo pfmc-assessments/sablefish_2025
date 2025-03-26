@@ -60,6 +60,22 @@ text(-115.5, 32.1, "Mexico")
 
 ``` 
 
+
+
+```{r} 
+#| label: fig-data
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Data used in the base model."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "data_plot.png")
+)
+
+``` 
+
 \newpage
 
 ```{r} 
@@ -67,14 +83,29 @@ text(-115.5, 32.1, "Mexico")
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: ""
-#| fig-alt: ""
+#| fig-cap: "Landings in metric tons (mt) by year for trawl, pot, and hook-and line gears."
+#| fig-alt: "Landings before the 1970s were less than 5,000 mt by year with landings sharply increasing in the 1970s and early 1980s and landings since ranging between approximately 5,000 to 7,500 mt by year."
 
-stockplotr::plot_landings(
-  dat = output,
-  unit_label = "metric tons"
+knitr::include_graphics(
+  file.path(model_dir, "plots", "catch2_landings_stacked.png")
 )
 
+```
+
+\pagebreak
+
+
+```{r} 
+#| label: fig-catches
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Catches, landed and dead discards, in metric tons (mt) by year for trawl, pot, and hook-and line gears."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "catch16_landings_+_dead_discards.png")
+)
 
 ```
 

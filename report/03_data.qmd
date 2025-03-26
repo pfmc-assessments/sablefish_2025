@@ -1,6 +1,6 @@
 ## Data
 
-A description of each data source is provided below (Figure XX).
+A description of each data source is provided below (@fig-data).
 
 ### Fishery-dependent data
 
