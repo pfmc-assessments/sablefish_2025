@@ -8,9 +8,46 @@
 #| include: false
 library(flextable)
 
-rda_dir <- here::here('rda_files')
+rda_dir <- here::here('report', 'rda_files')
+
 ``` 
 
+
+```{r}
+#| label: tab-landings
+#| warning: false
+#| echo: false
+#| tbl-cap: "Landings in metric tons (mt) by year."
+
+landings <- model_output[["catch"]] |>
+  tibble::as_tibble() |>
+   dplyr::select(Fleet_Name, Yr, ret_bio) |>
+   dplyr::group_by(Yr) |>
+   dplyr::mutate(
+     ret_bio = round(ret_bio, 0),
+     `Total (mt)` = sum(ret_bio)
+   ) |>
+   tidyr::pivot_wider(
+     names_from = Fleet_Name,
+     values_from = ret_bio
+   ) |>
+   dplyr::rename(
+     Year = Yr,
+     `Trawl (mt)` = TWL,
+     `Hook and Line (mt)` = HKL,
+     `Pot (mt)` = Pot
+   ) |>
+   dplyr::ungroup()
+
+flextable(landings) 
+set_flextable_defaults(
+  font.size = 8,
+  split = TRUE
+) 
+    
+```
+
+\pagebreak
 
 ```{r}
 #| label: tab-bds-age-samples
@@ -36,6 +73,7 @@ samples |>
 
 ```
 
+\pagebreak
 
 ```{r}
 #| label: tab-maturity-samples
