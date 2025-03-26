@@ -19,6 +19,7 @@ pacman::p_load(
   dplyr,
   ggplot2, 
   gt,
+  flextable,
   here,
   kableExtra, 
   knitr,
