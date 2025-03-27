@@ -7,11 +7,13 @@
 process_weight_at_age(
   dir = here::here(),
   max_age = 30,
+  model_start_year = -1890,
   years = 1997:2024,
   n_avg_years = 5,
   n_forecast = 12,
   n_fleet = 9,
-  maturity = maturity_at_age
+  maturity = maturity_at_age,
+  use_fishery = FALSE
 )
 }
 \arguments{
@@ -24,6 +26,8 @@ used to import data and export results to.}
 This will correspond to the maximum age group in the data, not in the
 model because SS can model many ages when there is only information in
 the data for a few ages.}
+
+\item{model_start_year}{The start year for the SS3 model.}
 
 \item{years}{A vector of years to search for recent data. Typically,
 the vector starts with 2008 and ends with the most recent year

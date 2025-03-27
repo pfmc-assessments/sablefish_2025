@@ -7,7 +7,7 @@
 compare_total_catch(
   dir = NULL,
   r4ss_output,
-  years = NULL,
+  add_name = NULL,
   common_name = "sablefish"
 )
 }
@@ -16,7 +16,7 @@ compare_total_catch(
 
 \item{r4ss_output}{List of model objects created by r4ss::SS_output()}
 
-\item{years}{Vector of years to filter where years should be continous (2002:2023)}
+\item{add_name}{String that can be added to the saved figure names.}
 
 \item{common_name}{Common name of the species in the GEMM database}
 }
