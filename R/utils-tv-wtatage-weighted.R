@@ -11,21 +11,35 @@
 #'   in the Stock Synthesis model. All age data beyond this will be assigned
 #'   to the maximum age. This is typically the age beyond which data are sparse
 #'   and weight and length are essentially the same across ages. 
+#' @param data_file Character string name of file with the weight at age data
+#'   to use. This file is expected to be a csv file stored in the "data-processed"
+#'   folder. Default is "data_weight_at_age_survey", but the option of 
+#'   c("data_weight_at_age_survey", "data_weight_at_age_fishery") will include
+#'   both fishery and survey data.
+#' @param do_plots TRUE/FALSE to create plots from the model
 #' @return
 #' A data frame in long format with time-varying weight-at-age data.
 #' @author Kelli F. Johnson, Chantel Wetzel, and Eric Ward
 #' 
 estimate_tv_wtatage_weighted <- function(
-  max_age = 30) {
-
-  weight_at_age_files <- fs::dir_ls(
-    regexp = "data_weight_at_age_survey",
-    here::here("data-processed")
+  max_age = 30,
+  data_file = "data_weight_at_age_survey",
+  do_plots = FALSE) {
+  if (length(data_file) == 2) {
+    add_name = "_fishery_survey"
+  } else {
+    add_name = "_survey"
+  }
+  files_weights <- fs::path(
+    ext = "csv",
+    dir,
+    "data-processed",
+    data_file
   )
-
+  
   # Load in data
   weight_at_age_data <- purrr::map_df(
-    weight_at_age_files,
+    files_weights,
     utils::read.csv,
     .id = "path"
   ) |>
@@ -66,7 +80,7 @@ estimate_tv_wtatage_weighted <- function(
   )
   saveRDS(
     m1,
-    file = here::here("data-raw", "weight_at_age", "tv_watage_fit.rds")
+    file = here::here("data-raw", "weight_at_age", paste0("tv_watage_fit", add_name, ".rds"))
   )
 
   # extract random effects for plotting
@@ -87,11 +101,13 @@ estimate_tv_wtatage_weighted <- function(
     geom_line() + xlab("Year") + ylab("Estimate") +
     theme_bw() +
     ggtitle("Year effects (+/- 2SE)")
-  ggsave(
-    gridExtra::grid.arrange(p1, p2, ncol = 1),
-    width = 7, height = 7, units = "in",
-    filename = here::here("data-raw", "weight_at_age",  "plots", "cohort_and_year_effects.png")
-  )
+  if (do_plots) {
+    ggsave(
+      gridExtra::grid.arrange(p1, p2, ncol = 1),
+      width = 7, height = 7, units = "in",
+      filename = here::here("data-raw", "weight_at_age",  "plots", paste0("cohort_and_year_effects", add_name, ".png"))
+    )
+  }
 
   # create prediction grid
   pred_grid <- readRDS(here::here("data-raw", "survey", "trawl", "indices", "wcgbt_pred_biomass.rds")) |>
@@ -125,19 +141,25 @@ estimate_tv_wtatage_weighted <- function(
       pred_unweight = mean(exp(est))
     ) |>
     as.data.frame()
-
-  gg <- ewaa |>
-    ggplot(aes(age, pred_weight, group = year, col = year)) +
-    geom_line() +
-    theme_bw() + 
-    ggplot2::ylab("Estimated Weight by Year") +
-    ggplot2::xlab("Age") +
-    ggplot2::facet_grid(sex~.)
-  ggplot2::ggsave(
-    gg,
-    width = 10, height = 7, units = "in",
-    filename = here::here("data-raw", "weight_at_age", "plots", "year_wt_at_age_estimate.png")
-  )
+  
+  gg <- ggplot() +
+    geom_line(data = ewaa |> dplyr::mutate(Year = as.factor(year)), 
+              aes(x = age, y = pred_weight, color = Year), linewidth = 1.0) +
+    scale_color_viridis_d() +
+    xlab("Age (years)") + ylab("Estimated Weight by Year") +
+    theme_bw() +
+    theme(
+      text = element_text(size = 15),
+      axis.text = element_text(size = 15)
+    ) +
+    facet_grid(sex~.)
+  if (do_plots) {
+    ggplot2::ggsave(
+      gg,
+      width = 10, height = 7, units = "in",
+      filename = here::here("data-raw", "weight_at_age", "plots", paste0("year_wt_at_age_estimate", add_name, ".png"))
+    )
+  }
   
   breaks <- round(seq(0, max(ewaa[["pred_weight"]]), length = (length(unique(ewaa$age)))), 3)
   col_vec <- rainbow(50)
@@ -146,18 +168,20 @@ estimate_tv_wtatage_weighted <- function(
     facet_grid(sex~.) +
     xlab("Age") + ylab("Year") +
     theme(legend.position = "none") 
-  ggplot2::ggsave(
-    gg2,
-    width = 10, height = 7, units = "in",
-    filename = here::here("data-raw", "weight_at_age", "plots", "weighted_wtatage_heatmap.png")
-  )
-  
+  if (do_plots) {
+    ggplot2::ggsave(
+      gg2,
+      width = 10, height = 7, units = "in",
+      filename = here::here("data-raw", "weight_at_age", "plots", paste0("weighted_wtatage_heatmap", add_name, ".png"))
+    )
+  }
+
   ewaa_long <- ewaa |>
     dplyr::select(year, sex, age, pred_weight)
   
   utils::write.csv(
     ewaa_long,
-    fs::path(here::here("data-processed"), "weight-at-age-ogives.csv"),
+    fs::path(here::here("data-processed"), paste0("weight-at-age-ogives", add_name, ".csv")),
     row.names = FALSE
   )
   return(ewaa_long)  

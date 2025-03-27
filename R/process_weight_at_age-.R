@@ -64,7 +64,6 @@ process_weight_at_age_survey <- function(savedir = getwd()) {
     quote = FALSE,
     row.names = FALSE
   )
-  return(survey_data)
 }
 
 #' Get the weight-at-age data from the fishery data. 
@@ -84,22 +83,43 @@ process_weight_at_age_fishery <- function(savedir = getwd()) {
     ) |>
     tibble::tibble() 
   cleaned_bds <- pacfintools::cleanPacFIN(
-    Pdata = raw_bds
-  )
+    Pdata = raw_bds |> dplyr::filter(SAMPLE_YEAR %in% c(2003:2024)),
+    keep_gears = gears,
+    CLEAN = TRUE,
+    keep_age_method = c("B", "BB", "S", "M", "U", ""),
+    keep_sample_type = c("", "M", "C", "S"),
+    keep_sample_method = "R",
+    keep_length_type = c("U", "A", "F"),
+    keep_states = c("WA", "OR", "CA"),
+    spp = "sablefish"
+  ) |>
+    dplyr::mutate(
+      weightkg = dplyr::case_when(
+        FISH_WEIGHT_UNITS == "P" ~ FISH_WEIGHT * 0.453592, 
+        .default = weightkg
+      )
+    )
   
   bds_data <- cleaned_bds |>
     dplyr::rename_with(
       tolower
     ) |>
     dplyr::filter(
-      age_method != "S",
       sex != "U",
+      !is.na(lengthcm),
       !is.na(age),
       !is.na(weightkg)) |>
     dplyr::mutate(
       source = "PacFIN",
-      date = paste0(sample_year, "-", sample_month, "-", sample_day)) |>
-    dplyr::select(source, state, sample_year, sex, lengthcm, age, weightkg, date) |>
+      date = paste0(sample_year, "-", sample_month, "-", sample_day),
+      depth_m = NULL,
+      area = dplyr::case_when(state %in% c("OR", "WA") ~ "north", .default = "unknown"),
+      wgt_len_ratio = weightkg / lengthcm,
+      outlier = dplyr::case_when(
+        wgt_len_ratio > quantile(wgt_len_ratio, 0.995) ~ TRUE,
+        .default = FALSE)
+    ) |>
+    dplyr::select(source, sample_year, state, area, sex, lengthcm, age, weightkg, date, wgt_len_ratio, outlier) |>
     dplyr::rename(
       year = sample_year, 
       weight_kg = weightkg,
@@ -107,14 +127,13 @@ process_weight_at_age_fishery <- function(savedir = getwd()) {
       length_cm = lengthcm)
   
   # Save the data after combining with old data
-  file_path <- fs::path(savedir, "data-raw", "data_weight_at_age_fishery.csv")
+  file_path <- fs::path(savedir, "data-processed", "data_weight_at_age_fishery.csv")
   utils::write.csv(
     x = bds_data,
     file = file_path,
     quote = FALSE,
     row.names = FALSE
   )
-  return(bds_data)
 }
 #' Create weight-at-age files for hake assessment
 #'
@@ -129,6 +148,7 @@ process_weight_at_age_fishery <- function(savedir = getwd()) {
 #' This will correspond to the maximum age group in the data, not in the
 #' model because SS can model many ages when there is only information in
 #' the data for a few ages.
+#' @param model_start_year The start year for the SS3 model.
 #' @param years A vector of years to search for recent data. Typically,
 #' the vector starts with 2008 and ends with the most recent year
 #' of data. This will allow files created from `process_weight_at_age_US()` to
@@ -154,21 +174,34 @@ process_weight_at_age_fishery <- function(savedir = getwd()) {
 process_weight_at_age <- function(
   dir = here::here(),
   max_age = 30,
+  model_start_year = -1890,
   years = 1997:2024,
   n_avg_years = 5,
   n_forecast = 12,
   n_fleet = 9,
-  maturity = maturity_at_age) {
+  maturity = maturity_at_age,
+  use_fishery = FALSE) {
   fs::dir_create(path = file.path(dir, "data-raw", "weight_at_age"))
   fs::dir_create(path = file.path(dir, "data-raw", "weight_at_age", "plots"))
-  files_weights <- fs::path(
-    ext = "csv",
-    dir,
-    "data-processed",
-    # Not using fishery data since all data comes from Oregon
-    #c("data_weight_at_age_survey", "data_weight_at_age_fishery")
-    "data_weight_at_age_survey"
-  )
+  if (use_fishery) {
+    files_weights <- fs::path(
+      ext = "csv",
+      dir,
+      "data-processed",
+      c("data_weight_at_age_survey", "data_weight_at_age_fishery")
+    )
+    add_name <- "_fishery_survey"
+  } else {
+    files_weights <- fs::path(
+      ext = "csv",
+      dir,
+      "data-processed",
+      "data_weight_at_age_survey"
+    )
+    add_name <- "_survey"
+  }
+
+  
   all_data <- purrr::map_dfr(
     files_weights,
     .f = read.csv) |>
@@ -198,7 +231,7 @@ process_weight_at_age <- function(
   ggplot2::ggsave(
     gg,
     width = 10, height = 7, units = "in",
-    filename = file.path(dir, "data-raw", "weight_at_age", "plots", "weight_age_data_source.png")
+    filename = file.path(dir, "data-raw", "weight_at_age", "plots", paste0("weight_age_data_source", add_name, ".png"))
   )
   # mean-weigth-at-age by survey
   gg <- plot_weight_at_age(
@@ -209,7 +242,7 @@ process_weight_at_age <- function(
   ggplot2::ggsave(
     gg,
     width = 10, height = 7, units = "in",
-    filename = file.path(dir, "data-raw", "weight_at_age", "plots", "meanweightatage_all.png")
+    filename = file.path(dir, "data-raw", "weight_at_age", "plots", paste0("meanweightatage_all", add_name, ".png"))
   )
   
   # mean-weight-at-age by year
@@ -220,7 +253,7 @@ process_weight_at_age <- function(
   ggplot2::ggsave(
     gg,
     width = 7, height = 7, units = "in",
-    filename = file.path(dir, "data-raw", "weight_at_age",  "plots", "meanweightatage_sex.png")
+    filename = file.path(dir, "data-raw", "weight_at_age",  "plots", paste0("meanweightatage_sex", add_name, ".png"))
   )
   data_modified <- data |>
     dplyr::mutate(
@@ -241,7 +274,7 @@ process_weight_at_age <- function(
   ggplot2::ggsave(
     gg,
     width = 7, height = 7, units = "in",
-    filename = file.path(dir, "data-raw", "weight_at_age",  "plots", "meanweightatage_sex_years_age_trunc.png")
+    filename = file.path(dir, "data-raw", "weight_at_age",  "plots", paste0("meanweightatage_sex_years_age_trunc", add_name, ".png"))
   )
 
   #### making input files for SS with the holes still present
@@ -250,7 +283,7 @@ process_weight_at_age <- function(
     dat = filter_data,
     max_age = max_age)
   wtage_all_mean <- dplyr::bind_rows(
-    weight_at_age_wide(filter_data |> dplyr::mutate(year = -1892)),
+    weight_at_age_wide(filter_data |> dplyr::mutate(year = -1 * model_start_year)),
     weight_at_age_wide(filter_data)
   )
   
@@ -258,7 +291,7 @@ process_weight_at_age <- function(
   lenage_all_mean <- dplyr::bind_rows(
     weight_at_age_wide(
       filter_data |>
-        dplyr::mutate(year = -1892) |>
+        dplyr::mutate(year = -1 * model_start_year) |>
         dplyr::filter(!is.na(length_cm)),
       value = "length"
     ),
@@ -271,7 +304,7 @@ process_weight_at_age <- function(
   # repeat but return sample sizes instead of mean weights
   counts_all_mean <- dplyr::bind_rows(
     weight_at_age_wide(
-      filter_data |> dplyr::mutate(year = -1892),
+      filter_data |> dplyr::mutate(year = -1 * model_start_year),
       value = "count"
     ) |>
       dplyr::mutate(dplyr::across(dplyr::everything(), ~tidyr::replace_na(.x, 0))),
@@ -283,12 +316,12 @@ process_weight_at_age <- function(
   )
   utils::write.csv(
     counts_all_mean,,
-    file = file.path(normalizePath(dir), "data-processed", "wtatage-all-samplesize.csv"),
+    file = file.path(normalizePath(dir), "data-processed", paste("wtatage-all-samplesize", add_name, ".csv")),
     row.names = FALSE
   )
   utils::write.csv(
     lenage_all_mean,
-    file = file.path(normalizePath(dir), "data-processed", "wtatage-all-lenage.csv"),
+    file = file.path(normalizePath(dir), "data-processed", paste0("wtatage-all-lenage", add_name, ".csv")),
     row.names = FALSE
   )
   # new method does only linear interpolation within each age (only works with all data)
@@ -358,14 +391,14 @@ process_weight_at_age <- function(
   fore_year <- sort(rep(max(years) + 1:12, 2))
   withforecast[withforecast$year == 2026, "year"] <- fore_year
   write_wtatage_file(
-    file = fs::path(dir, "data-processed", "wtatage_interploations.ss"),
+    file = fs::path(dir, "data-processed", paste0("wtatage_interploations", add_name, ".ss")),
     data = as.data.frame(withforecast),
     maturity = maturity,
     n_fleet = n_fleet
   )
   save(
     filter_data, wtage_all, wtage_all_mean, withforecast,
-    file = fs::path(dir, "data-raw", "weight_at_age", "LWAdata.Rdata")
+    file = fs::path(dir, "data-raw", "weight_at_age", paste0("LWAdata", add_name, ".Rdata"))
   )
   
   return(withforecast)
