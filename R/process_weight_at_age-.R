@@ -39,7 +39,7 @@ process_weight_at_age_survey <- function(savedir = getwd()) {
   file_path <- fs::path(savedir, "data-processed")
   utils::write.csv(
     x = survey_data,
-    file = fs::path(file_path, "process_weight_at_age_survey"),
+    file = fs::path(file_path, "data_weight_at_age_survey.csv"),
     quote = FALSE,
     row.names = FALSE
   )
@@ -60,7 +60,7 @@ process_weight_at_age_survey <- function(savedir = getwd()) {
     )
   utils::write.csv(
     x = samples_age_sex,
-    file = fs::path(file_path, "wtatage-all-samplesize.csv"),
+    file = fs::path(file_path, "data-wtatage-survey-samplesize.csv"),
     quote = FALSE,
     row.names = FALSE
   )
