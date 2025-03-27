@@ -3,7 +3,7 @@ library(ggplot2)
 library(pacfintools)
 
 raw_pacfin_bds <-
-  fs::dir_ls(here::here("data-raw", "bds"), regex = "PacFIN\\..+bds")[3] |>
+  fs::dir_ls(here::here("data-raw", "bds"), regex = "PacFIN\\..+bds") |>
   purrr::map_df(
     .f = function(x) {load(x); return(bds.pacfin)}
   ) |>
