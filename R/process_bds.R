@@ -79,7 +79,11 @@ process_bds_data <- function(
     spp = common_name
   ) |>
     dplyr::mutate(
-      stratification = paste(state, geargroup, sep = ".")
+      stratification = paste(state, geargroup, sep = "."),
+      weightkg = dplyr::case_when(
+        FISH_WEIGHT_UNITS == "P" ~ FISH_WEIGHT * 0.453592, 
+        .default = weightkg
+      )
     ) 
   
   saveRDS(
