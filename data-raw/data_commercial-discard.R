@@ -5,7 +5,7 @@ area <- "coastwide"
 # ==============================================================================
 # Create WCGOP data_commercial_discard_composition
 # ==============================================================================
-data_commercial_discard_composition <-
+data_commercial_discard_length_composition <-
   # Length frequencies
   utils::read.csv(
     here::here("data-raw", "discard", "wcgop", area, "biological_discard_lengths.csv")
@@ -19,6 +19,29 @@ data_commercial_discard_composition <-
       TRUE ~ NA_integer_
     ),
     month = 7
+  ) |>
+  dplyr::rename(`#year` = year) |>
+  dplyr::arrange(fleet) |>
+  dplyr::rename_with(~gsub("X", "U-", .x), dplyr::starts_with("X"))
+
+data_commercial_discard_age_composition <-
+  # Age frequencies
+  utils::read.csv(
+    here::here("data-raw", "discard", "wcgop", area, "biological_discard_ages.csv")
+  ) |>
+  dplyr::filter(
+    input_n > 10
+  ) |>
+  # replace the fleet names with the fleet number
+  dplyr::mutate(
+    fleet = dplyr::case_when(
+      fleet == "trawl-coastwide" ~ 1,
+      fleet == "hook-and-line-coastwide" ~ 2,
+      fleet == "pot-coastwide" ~ 3,
+      TRUE ~ NA_integer_
+    ),
+    month = 7,
+    age_error = 1
   ) |>
   dplyr::rename(`#year` = year) |>
   dplyr::arrange(fleet) |>
@@ -316,9 +339,11 @@ data_ashop_discard_composition <- dplyr::bind_rows(
 
 # Write the three objects to data-processed
 write_named_csvs(
-  data_commercial_discard_composition,
+  data_commercial_discard_length_composition,
+  data_commercial_discard_age_composition,
   data_commercial_discard_weight,
   data_commercial_discard_rates,
   data_ashop_discard_composition,
-  dir = "data-processed"
+  dir = here::here("data-processed")
 )
+
