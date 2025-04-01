@@ -195,7 +195,7 @@ write_r4ss_tables <- function(
   )
   es.b <- dplyr::full_join(ssb, fraction_unfished, by = "yrs")
   colnames(es.b) <- c(
-    "Year", sb.label, "Lower Interval", "Upper Interval",
+    "Year", sb.label, "Lower Interval (mt)", "Upper Interval (mt)",
     "Fraction Unfished", "Lower Interval", "Upper Interval"
   )
   saveRDS(es.b, file = file.path(rds_dir, "ssb_es.rds"))
@@ -269,7 +269,7 @@ write_r4ss_tables <- function(
     devs.out[, 1], devs.out[, 2], devs.out[, 3]
   )
   colnames(es.c) <- c(
-    "Year", "Recruitment (1,000s)", "Lower Interval", "Upper Interval",
+    "Year", "Recruitment (1,000s)", "Lower Interval (1,000s)", "Upper Interval (1,000s)",
     "Recruitment Deviations", "Lower Interval", "Upper Interval"
   )
   saveRDS(es.c, file = file.path(rds_dir, "recr_es.rds"))
@@ -313,8 +313,8 @@ write_r4ss_tables <- function(
     f.value[["dq"]], f.value[["low"]], f.value[["high"]]
   )
   colnames(es.d) <- c(
-    "Year", spr_label, "Lower Interval", "Upper Interval",
-    f_type, "Lower Interval", "Upper Interval"
+    "Year", spr_label, "Lower Interval (SPR)", "Upper Interval (SPR)",
+    f_type, "Lower Interval (Rate)", "Upper Interval (Rate)"
   )
   saveRDS(es.d, file = file.path(rds_dir, "spr_es.rds"))
   
@@ -392,17 +392,17 @@ write_r4ss_tables <- function(
     rec.virgin[["dq"]], rec.virgin[["low"]], rec.virgin[["high"]],
     ssb[["dq"]][dim(ssb)[1]], ssb[["low"]][dim(ssb)[1]], ssb[["high"]][dim(ssb)[1]],
     final.fraction_unfished[["dq"]], final.fraction_unfished[["low"]], final.fraction_unfished[["high"]],
-    "", "", "",
+    NA, NA, NA,
     b.target[["dq"]], b.target[["low"]], b.target[["high"]],
     spr.btarg[["dq"]], spr.btarg[["low"]], spr.btarg[["high"]],
     f.btarg[["dq"]], f.btarg[["low"]], f.btarg[["high"]],
     yield.btarg[["dq"]], yield.btarg[["low"]], yield.btarg[["high"]],
-    "", "", "",
+    NA, NA, NA,
     b.spr[["dq"]], b.spr[["low"]], b.spr[["high"]],
     spr / 100, "", "",
     f.spr[["dq"]], f.spr[["low"]], f.spr[["high"]],
     yield.spr[["dq"]], yield.spr[["low"]], yield.spr[["high"]],
-    "", "", "",
+    NA, NA, NA,
     b.msy[["dq"]], b.msy[["low"]], b.msy[["high"]],
     spr.msy[["dq"]], spr.msy[["low"]], spr.msy[["high"]],
     f.msy[["dq"]], f.msy[["low"]], f.msy[["high"]],
