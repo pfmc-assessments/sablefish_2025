@@ -5,13 +5,14 @@
 #' groundfish assessments. Additionally, .csv files of historical catches,
 #' time-series, and numbers-at-age are created.
 #'
-#' @param replist
+#' @param replist List created by `r4ss::SS_output()`
 #' @param dir Directory where a new `tables` directory will be created,
 #'   which will be used to store the output from this function. The default is
 #'   the dir location where the Report.sso file is located.
 #' @param ci_value To calculate confidence intervals, the desired interval must
 #'   be specified. The default is 0.95.
-#' @param fleetnames
+#' @param fleetnames String of fleetnames. Default is NULL which will use the 
+#'   the model fleet names.
 #' @param add_text A single character object, where the default is `"model
 #'   area"`. The text will be added to some of the table captions to indicate
 #'   what the results apply to. Besides the default, one could use `"base
@@ -32,15 +33,14 @@
 #' @param endyr Optional input to choose a different ending year for tables,
 #'   which could be useful for catch-only updates. The default is `NULL`, which
 #'   leads to using the ending year defined in Report.sso.
-#' @param verbose
+#' @param verbose Print messages to the screen.
 #'
 #' @return
-#' Individual .csv files for each executive summary table and additional tables
-#' (catch, timeseries, numbers-at-age).
+#' Individual .rds tables
 #' @author Chantel R. Wetzel, Kelli F. Johnson, Ian G. Taylor
 #' @export
 #'
-SSexecutivesummary <- function(
+write_r4ss_tables <- function(
   replist,
   dir = NULL,
   ci_value = 0.95,

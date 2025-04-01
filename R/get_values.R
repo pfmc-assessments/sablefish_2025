@@ -3,10 +3,10 @@
 #'
 #' @param replist r4ss model output list created by r4ss::SS_output()
 #' @param label description
-#' @param yrs
+#' @param yrs Vector of years.
 #' @param ci_value To calculate confidence intervals, the desired interval must
 #'   be specified. The default is 0.95.
-#' @param single
+#' @param single Default is FALSE
 #'
 #' @return
 #' Individual .csv files for each executive summary table and additional tables
