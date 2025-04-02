@@ -181,22 +181,7 @@ ggplot(spatial_maturity, aes(x = age, y = p, color = Model)) +
 
 #### Time-series
 
-```{r}
-#| label: fig-sb
-#| echo: false
-#| warning: false 
-#| eval: true 
-#| fig-cap: ""
-#| fig-alt: ""
 
-stockplotr::plot_spawning_biomass(
-  dat = output,
-  end_year = 2025
-)
-
-```
-
-\newpage
 
 #### Sensitivity Analyse and Retrospectives
 
