@@ -1,0 +1,44 @@
+```{r}
+#| echo: false
+
+if (file.exists(table_dir)) {
+  all_files <- list.files(table_dir)
+  all_rda_files <- all_files[grep(".rda", all_files)]
+  for (a in 1:length(all_rda_files)) {
+    load(file.path(table_dir, all_rda_files[a]))
+  }
+  
+  catches_es_table <- catches_es$table
+  catches_es_cap <- catches_es$cap
+  rm(catches_es)
+  
+  ssb_es_table <- ssb_es$table
+  ssb_es_cap <- ssb_es$cap
+  rm(ssb_es)
+  
+  spr_es_table <- spr_es$table
+  spr_es_cap <- spr_es$cap
+  rm(spr_es)
+  
+  recr_es_table <- recr_es$table
+  recr_es_cap <- recr_es$cap
+  rm(recr_es)
+  
+  reference_points_table <- reference_points$table
+  reference_points_cap <- reference_points$cap
+  rm(reference_points)
+  
+  recent_management_table <- recent_management$table
+  recent_management_cap <- recent_management$cap
+  rm(recent_management)
+    
+  projections_table <- projections$table
+  projections_cap <- projections$cap
+  rm(projections)
+  
+  eval_tables <- TRUE
+} else {
+  eval_tables <- FALSE
+}
+
+```
