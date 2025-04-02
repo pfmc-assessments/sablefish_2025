@@ -16,6 +16,7 @@ Check to see if referencing works @tbl-es-catches
 #| echo: false
 #| eval: !expr eval_tables 
 #| tbl-cap: !expr if(eval_tables) catches_es_cap 
+#| tbl-pos: H
 
 catches_es_table |>
   gt::gt() |>
@@ -24,7 +25,7 @@ catches_es_table |>
     decimals = 0
   ) |>
   tab_options(
-    table.font.size = 12 
+    table.font.size = 12
   ) |>
   gt::cols_align(
     align = "center"
@@ -36,6 +37,19 @@ catches_es_table |>
 
 ```
 
+```{r} 
+#| label: fig-es-landings
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Landings in metric tons (mt) by year for trawl, pot, and hook-and line gears."
+#| fig-alt: "Landings before the 1970s were less than 5,000 mt by year with landings sharply increasing in the 1970s and early 1980s and landings since ranging between approximately 5,000 to 7,500 mt by year."
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "catch2_landings_stacked.png")
+)
+
+```
 
 ### Data and Assessments {-}
 
@@ -50,6 +64,7 @@ catches_es_table |>
 #| echo: false
 #| eval: !expr eval_tables 
 #| tbl-cap: !expr if(eval_tables) ssb_es_cap 
+#| tbl-pos: H
 
 ssb_es_table |>
   gt::gt() |>
@@ -75,6 +90,37 @@ ssb_es_table |>
 ```
 
 
+```{r} 
+#| label: fig-es-sb
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated time series of spawning biomass for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "ts7_Spawning_output.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-es-depl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated time series of fraction of unfished spawning biomass for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "ts9_Relative_spawning_biomass.png")
+)
+
+```
+
 ### Recruitment {-}
 
 ```{r, results = "asis"}
@@ -83,6 +129,7 @@ ssb_es_table |>
 #| echo: false
 #| eval: !expr eval_tables 
 #| tbl-cap: !expr if(eval_tables) recr_es_cap 
+#| tbl-pos: H
 
 recr_es_table |>
   gt::gt() |>
@@ -107,6 +154,21 @@ recr_es_table |>
 
 ```
 
+```{r} 
+#| label: fig-es-recruits
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated time series of age-0 recruits for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "ts11_Age-0_recruits_(1000s).png")
+)
+
+```
+
 
 ### Exploitation Status {-}
 
@@ -117,6 +179,7 @@ recr_es_table |>
 #| echo: false
 #| eval: !expr eval_tables 
 #| tbl-cap: !expr if(eval_tables) spr_es_cap 
+#| tbl-pos: H
 
 spr_es_table |>
   gt::gt() |>
@@ -150,7 +213,7 @@ spr_es_table |>
 #| echo: false
 #| eval: !expr eval_tables 
 #| tbl-cap: !expr if(eval_tables) reference_points_cap 
-
+#| tbl-pos: H
 
 reference_points_table |>
   gt() |>
@@ -189,6 +252,23 @@ reference_points_table |>
 
 ```
 
+
+
+```{r} 
+#| label: fig-es-yield
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated yield curve with reference points for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "yield2_yield_curve_with_refpoints.png")
+)
+
+```
+
 ### Management Performance {-}
 
 
@@ -198,6 +278,7 @@ reference_points_table |>
 #| echo: false
 #| eval: !expr eval_tables 
 #| tbl-cap: !expr if(eval_tables) recent_management_cap 
+#| tbl-pos: H
 
 recent_management_table |>
   gt::gt() |>
@@ -232,19 +313,24 @@ recent_management_table |>
 #| echo: false
 #| eval: !expr eval_tables 
 #| tbl-cap: !expr if(eval_tables) projections_cap 
+#| tbl-pos: H
 
 projections_table |>
   gt::gt() |>
   gt::fmt_number(
-    columns = c(2:3, 5),
+    columns = c(2:5, 7:9),
     decimals = 0
   ) |>
   gt::fmt_number(
-    columns = 6,
+    columns = c(6, 10),
     decimals = 3
   ) |>
   tab_options(
     table.font.size = 12 
+  ) |>
+  sub_missing(
+    columns = everything(),
+    missing_text = "---"
   ) |>
   gt::cols_align(
     align = "center"
