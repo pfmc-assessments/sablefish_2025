@@ -36,7 +36,7 @@
 #' @param verbose Print messages to the screen.
 #'
 #' @return
-#' Individual .rds tables
+#' Individual .rda tables
 #' @author Chantel R. Wetzel, Kelli F. Johnson, Ian G. Taylor
 #' @export
 #'
@@ -49,7 +49,7 @@ write_r4ss_tables <- function(
   divide_by_2 = FALSE,
   endyr = NULL,
   verbose = TRUE) {
-  rds_dir <- file.path(
+  rda_dir <- file.path(
     ifelse(
       is.null(dir),
       yes = replist[["inputs"]][["dir"]],
@@ -57,8 +57,7 @@ write_r4ss_tables <- function(
     ),
     "tables"
   )
-  dir.create(rds_dir, showWarnings = FALSE)
-  nwfscSurvey::check_dir(dir = rds_dir, verbose = verbose)
+  dir.create(rda_dir, showWarnings = FALSE)
   
   # ============================================================================
   # Determine the model version and dimensions of the model
@@ -129,8 +128,6 @@ write_r4ss_tables <- function(
     sb_short <- "SB"
   }
   
-  caption <- filename <- NULL
-  
   # ======================================================================
   # ES Table a  Catches from the fisheries
   # ======================================================================
@@ -156,21 +153,16 @@ write_r4ss_tables <- function(
   if (sum(total.catch) != sum(total.dead)) {
     es.a <- data.frame(years_minus_final, catch, total.catch, total.dead)
     colnames(es.a) <- c("Year", paste(fleet.names, "(mt)"), "Total Landings (mt)", "Total Dead (mt)")
-    
-    caption <- c(
-      caption,
-      paste0("Recent landings by fleet, total landings summed across fleets, and the total dead catch including discards.")
-    )
+    caption <- "Recent landings by fleet, total landings summed across fleets, and the total dead catch including discards."
   } else {
     es.a <- data.frame(years_minus_final, catch, total.catch)
     colnames(es.a) <- c("Year", paste(fleet.names, "(mt)"), "Total Catch (mt)")
-    caption <- c(
-      caption,
-      paste0("Recent catches (mt) by fleet and total catch (mt) summed across fleets.")
-    )
+    caption <- "Recent catches (mt) by fleet and total catch (mt) summed across fleets."
   }
-  saveRDS(es.a, file = file.path(rds_dir, "catches_es.rds"))
-  filename <- c(filename, "catches_es.rds")
+  catches_es <- list()
+  catches_es$table <- es.a
+  catches_es$cap <- caption
+  save(catches_es, file = file.path(rda_dir, "catches_es.rda"))
   
   # ======================================================================
   # ES Table b Spawning Biomass and Fraction Unfished
@@ -198,16 +190,16 @@ write_r4ss_tables <- function(
     "Year", sb.label, "Lower Interval (mt)", "Upper Interval (mt)",
     "Fraction Unfished", "Lower Interval", "Upper Interval"
   )
-  saveRDS(es.b, file = file.path(rds_dir, "ssb_es.rds"))
-  caption <- c(
-    caption,
+  caption <- 
     paste0(
       "Estimated recent trend in ", sb.text.name, " and the fraction unfished and the ", round(100 * ci_value, 0),
       " percent intervals."
     )
-  )
-  filename <- c(filename, "ssb_es.rds")
-  
+  ssb_es <- list()
+  ssb_es$table <- es.b
+  ssb_es$cap <- caption
+  save(ssb_es, file = file.path(rda_dir, "ssb_es.rda"))
+
   # ======================================================================
   # ES Table c Recruitment
   # ======================================================================
@@ -272,16 +264,14 @@ write_r4ss_tables <- function(
     "Year", "Recruitment (1,000s)", "Lower Interval (1,000s)", "Upper Interval (1,000s)",
     "Recruitment Deviations", "Lower Interval", "Upper Interval"
   )
-  saveRDS(es.c, file = file.path(rds_dir, "recr_es.rds"))
-  
-  caption <- c(
-    caption,
+  recr_es <- list()
+  recr_es$table <- es.c
+  recr_es$cap <- 
     paste0(
       "Estimated recent trend in recruitment (1,000s) and recruitment deviations and the ", round(100 * ci_value, 0),
       " percent intervals."
     )
-  )
-  filename <- c(filename, "recr_es.rds")
+  save(recr_es, file = file.path(rda_dir, "recr_es.rda"))
   
   # ======================================================================
   # ES Table d 1-SPR (%)
@@ -299,7 +289,7 @@ write_r4ss_tables <- function(
     spr_label <- paste0(
       substring(replist[["SPRratioLabel"]], 1, 14), " ",
       substring(replist[["SPRratioLabel"]], 16, 17),
-      "\\%)"
+      "%)"
     )
   } else {
     spr_label <- replist[["SPRratioLabel"]]
@@ -316,16 +306,13 @@ write_r4ss_tables <- function(
     "Year", spr_label, "Lower Interval (SPR)", "Upper Interval (SPR)",
     f_type, "Lower Interval (Rate)", "Upper Interval (Rate)"
   )
-  saveRDS(es.d, file = file.path(rds_dir, "spr_es.rds"))
-  
-  caption <- c(
-    caption,
-    paste0(
-      "Estimated recent trend in the ", spr_label, " where SPR is the spawning potential ratio, the exploitation rate, and the ", round(100 * ci_value, 0),
-      " percent intervals."
-    )
+  spr_es <- list()
+  spr_es$table <- es.d
+  spr_es$cap <- paste0(
+    "Estimated recent trend in the ", spr_label, " where SPR is the spawning potential ratio, the exploitation rate, and the ", round(100 * ci_value, 0),
+    " percent intervals."
   )
-  filename <- c(filename, "spr_es.rds")
+  save(spr_es, file = file.path(rda_dir, "spr_es.rda"))
   
   # ======================================================================
   # ES Table e Reference Point Table
@@ -386,67 +373,39 @@ write_r4ss_tables <- function(
     b.msy <- b.msy / sexfactor
   }
   
-  es.e <- matrix(c(
-    ssb.virgin[["dq"]], ssb.virgin[["low"]], ssb.virgin[["high"]],
-    smry.virgin[["dq"]], smry.virgin[["low"]], smry.virgin[["high"]],
-    rec.virgin[["dq"]], rec.virgin[["low"]], rec.virgin[["high"]],
-    ssb[["dq"]][dim(ssb)[1]], ssb[["low"]][dim(ssb)[1]], ssb[["high"]][dim(ssb)[1]],
-    final.fraction_unfished[["dq"]], final.fraction_unfished[["low"]], final.fraction_unfished[["high"]],
-    NA, NA, NA,
-    b.target[["dq"]], b.target[["low"]], b.target[["high"]],
-    spr.btarg[["dq"]], spr.btarg[["low"]], spr.btarg[["high"]],
-    f.btarg[["dq"]], f.btarg[["low"]], f.btarg[["high"]],
-    yield.btarg[["dq"]], yield.btarg[["low"]], yield.btarg[["high"]],
-    NA, NA, NA,
-    b.spr[["dq"]], b.spr[["low"]], b.spr[["high"]],
-    spr / 100, "", "",
-    f.spr[["dq"]], f.spr[["low"]], f.spr[["high"]],
-    yield.spr[["dq"]], yield.spr[["low"]], yield.spr[["high"]],
-    NA, NA, NA,
-    b.msy[["dq"]], b.msy[["low"]], b.msy[["high"]],
-    spr.msy[["dq"]], spr.msy[["low"]], spr.msy[["high"]],
-    f.msy[["dq"]], f.msy[["low"]], f.msy[["high"]],
-    msy[["dq"]], msy[["low"]], msy[["high"]]
-  ), ncol = 3, byrow = T)
-  
-  es.e <- cbind(
-    c(
-      paste("Unfished", sb.label),
-      paste0("Unfished Age ", smry.age, "+ Biomass (mt)"),
-      "Unfished Recruitment (R0)",
-      paste(years[length(years)], sb.label),
-      paste(years[length(years)], "Fraction Unfished"),
-      paste0("Reference Points Based ", sb_short, btarg, "\\%"),
-      paste0("Proxy ", sb.label, " ", sb_short, btarg, "\\%"),
-      paste0("SPR Resulting in ", sb_short, btarg, "\\%"),
-      paste0("Exploitation Rate Resulting in ", sb_short, btarg, "\\%"),
-      paste0("Yield with SPR Based On ", sb_short, btarg, "\\% (mt)"),
-      "Reference Points Based on SPR Proxy for MSY",
-      paste0("Proxy ", sb.label, " (SPR", spr, ")"),
-      paste0("SPR", spr),
-      paste0("Exploitation Rate Corresponding to SPR", spr),
-      paste0("Yield with SPR", spr, " at ", sb_short, " SPR (mt)"),
-      "Reference Points Based on Estimated MSY Values",
-      paste0(sb.label, " at MSY (", sb_short, " MSY)"),
-      "SPR MSY",
-      "Exploitation Rate Corresponding to SPR MSY",
-      "MSY (mt)"
-    ),
-    es.e
-  )
-  es.e <- noquote(es.e)
-  colnames(es.e) <- c("Reference Points", "Estimate", "Lower Interval", "Upper Interval")
-  saveRDS(es.e, file = file.path(rds_dir, "reference_points.rds"))
-  
-  caption <- c(
-    caption,
-    paste0(
-      "Summary of reference points and management quantities, including estimates of the ", round(100 * ci_value, 0),
-      " percent intervals."
+  suppressMessages(
+    es.e <- dplyr:: bind_rows(
+      dplyr::bind_cols(paste("Unfished", sb.label), ssb.virgin[["dq"]], ssb.virgin[["low"]], ssb.virgin[["high"]]),
+      dplyr::bind_cols(paste0("Unfished Age ", smry.age, "+ Biomass (mt)"), smry.virgin[["dq"]], smry.virgin[["low"]], smry.virgin[["high"]]),
+      dplyr::bind_cols("Unfished Recruitment (R0)", rec.virgin[["dq"]], rec.virgin[["low"]], rec.virgin[["high"]]),
+      dplyr::bind_cols(paste(years[length(years)], sb.label), ssb[["dq"]][dim(ssb)[1]], ssb[["low"]][dim(ssb)[1]], ssb[["high"]][dim(ssb)[1]]),
+      dplyr::bind_cols(paste(years[length(years)], "Fraction Unfished"), final.fraction_unfished[["dq"]], final.fraction_unfished[["low"]], final.fraction_unfished[["high"]]),
+      dplyr::bind_cols(paste0("Reference Points Based ", sb_short, btarg, "%"), NA, NA, NA),
+      dplyr::bind_cols(paste0("Proxy ", sb.label, " ", sb_short, btarg, "%"), b.target[["dq"]], b.target[["low"]], b.target[["high"]]),
+      dplyr::bind_cols(paste0("SPR Resulting in ", sb_short, btarg, "%"), spr.btarg[["dq"]], spr.btarg[["low"]], spr.btarg[["high"]]),
+      dplyr::bind_cols(paste0("Exploitation Rate Resulting in ", sb_short, btarg, "%"), f.btarg[["dq"]], f.btarg[["low"]], f.btarg[["high"]]),
+      dplyr::bind_cols(paste0("Yield with SPR Based On ", sb_short, btarg, "% (mt)"), yield.btarg[["dq"]], yield.btarg[["low"]], yield.btarg[["high"]]),
+      dplyr::bind_cols("Reference Points Based on SPR Proxy for MSY", NA, NA, NA),
+      dplyr::bind_cols(paste0("Proxy ", sb.label, " (SPR", spr, ")"), b.spr[["dq"]], b.spr[["low"]], b.spr[["high"]]),
+      dplyr::bind_cols(paste0("SPR", spr), spr / 100, NA, NA),
+      dplyr::bind_cols(paste0("Exploitation Rate Corresponding to SPR", spr), f.spr[["dq"]], f.spr[["low"]], f.spr[["high"]]),
+      dplyr::bind_cols(paste0("Yield with SPR", spr, " at ", sb_short, " SPR (mt)"), yield.spr[["dq"]], yield.spr[["low"]], yield.spr[["high"]]),
+      dplyr::bind_cols("Reference Points Based on Estimated MSY Values", NA, NA, NA),
+      dplyr::bind_cols(paste0(sb.label, " at MSY (", sb_short, " MSY)"), b.msy[["dq"]], b.msy[["low"]], b.msy[["high"]]),
+      dplyr::bind_cols("SPR MSY", spr.msy[["dq"]], spr.msy[["low"]], spr.msy[["high"]]),
+      dplyr::bind_cols("Exploitation Rate Corresponding to SPR MSY", f.msy[["dq"]], f.msy[["low"]], f.msy[["high"]]),
+      dplyr::bind_cols("MSY (mt)", msy[["dq"]], msy[["low"]], msy[["high"]])
     )
   )
-  filename <- c(filename, "reference_points.rds")
-  
+  colnames(es.e) <- c("Reference Point", "Estimate", "Lower Interval", "Upper Interval")
+  reference_points <- list()
+  reference_points$table <- es.e
+  reference_points$cap <- paste0(
+    "Summary of reference points and management quantities, including estimates of the ", round(100 * ci_value, 0),
+    " percent intervals."
+  )
+  save(reference_points, file = file.path(rda_dir, "reference_points.rda"))
+
   # ======================================================================
   # ES Table f is the historical harvest
   # ======================================================================
@@ -475,20 +434,16 @@ write_r4ss_tables <- function(
   if (sum(total.catch) != sum(total.dead)) {
     es.f <- data.frame(years_minus_final, ofl, abc, acl, total.catch, total.dead)
     colnames(es.f) <- c("Year", "OFL (mt)", "ABC (mt)", "ACL (mt)", "Landings (mt)", "Total Mortality (mt)")
-    caption <- c(
-      caption,
-      "Recent trend in the overfishing limits (OFLs), the acceptable biological catches (ABCs), the annual catch limits (ACLs), the total landings, and total mortality all in metric tons (mt)."
-    )
+    caption <- "Recent trend in the overfishing limits (OFLs), the acceptable biological catches (ABCs), the annual catch limits (ACLs), the total landings, and total mortality all in metric tons (mt)."  
   } else {
     es.f <- data.frame(years_minus_final, ofl, abc, acl, total.catch)
     colnames(es.f) <- c("Year", "OFL (mt)", "ABC (mt)", "ACL (mt)", "Catch (mt)")
-    caption <- c(
-      caption,
-      "Recent trend in the overfishing limits (OFL), the acceptable biological catches (ABCs), the annual catch limits (ACLs), and the total catch all in metric tons (mt)."
-    )
+    caption <- "Recent trend in the overfishing limits (OFL), the acceptable biological catches (ABCs), the annual catch limits (ACLs), and the total catch all in metric tons (mt)."
   }
-  saveRDS(es.f, file = file.path(rds_dir, "recent_catches.rds"))
-  filename <- c(filename, "recent_catches.rds")
+  recent_management <- list()
+  recent_management$cap <- caption
+  recent_management$table <- es.f
+  save(recent_management, file = file.path(rda_dir, "recent_management.rda"))
   
   # ======================================================================
   # ES Table g  Predicted forecast values
@@ -515,17 +470,13 @@ write_r4ss_tables <- function(
     temp <- replist[["timeseries"]][["Bio_smry"]][ind]
     smry.fore <- smry.fore + temp
   }
-  
   es.g <- data.frame(fore, ofl.fore, abc.fore, buffer, ssb.fore, fraction_unfished.fore)
   colnames(es.g) <- c("Year", "OFL (mt)", "ABC (mt)", "Buffer", sb.label, "Fraction Unfished")
-  saveRDS(es.g, file = file.path(rds_dir, "projections.rds"))
-  
-  caption <- c(
-    caption,
-    paste0("Projections of potential OFLs (mt), ABCs (mt), estimated ", sb.text.name, ", and fraction unfished.")
-  )
-  filename <- c(filename, "projections.rds")
-  
+  projections <- list()
+  projections$table <- es.g
+  projections$cap <- paste0("Projections of potential OFLs (mt), ABCs (mt), estimated ", sb.text.name, ", and fraction unfished.")
+  save(projections, file = file.path(rda_dir, "projections.rda"))
+
   # ======================================================================
   # Total catch when discards are estimated
   # ======================================================================
@@ -550,19 +501,18 @@ write_r4ss_tables <- function(
   if (sum(total.catch) != sum(total.dead)) {
     mortality <- data.frame(ind, catch, total.catch, total.dead)
     colnames(mortality) <- c("Year", paste(fleet.names, "(mt)"), "Total Landings (mt)", "Total Dead (mt)")
-    caption <- c(caption, paste0("Landings (mt) by fleet for all years, total landings (mt), and total dead catch (mt) summed by year."))
+    caption <- paste0("Landings (mt) by fleet for all years, total landings (mt), and total dead catch (mt) summed by year.")
   } else {
     mortality <- data.frame(ind, catch, total.catch)
     colnames(mortality) <- c("Year", paste(fleet.names, "(mt)"), "Total Catch (mt)")
-    
-    caption <- c(
-      caption,
-      paste0("Catches (mt) by fleet for all years and total catches (mt) summed by year.")
-    )
+    caption <- paste0("Catches (mt) by fleet for all years and total catches (mt) summed by year.")
   }
-  saveRDS(mortality, file = file.path(rds_dir, "mortality_all_years.rds"))
-  filename <- c(filename, "mortality_all_years.rds")
-  
+  mortality.df <- mortality
+  mortality <- list()
+  mortality$cap <- caption
+  mortality$table <- mortality.df
+  save(mortality, file = file.path(rda_dir, "mortality_all_years.rda"))
+
   # ======================================================================
   # Time-series Tables
   # ======================================================================
@@ -574,12 +524,10 @@ write_r4ss_tables <- function(
   smry.all <- tot.bio.all <- recruits.all <- ssb.all <- total.dead.all <- 0
   for (a in 1:nareas) {
     find <- replist[["timeseries"]][["Area"]] == a & replist[["timeseries"]][["Yr"]] %in% all
-    
     smry <- replist[["timeseries"]][["Bio_smry"]][find]
     tot.bio <- replist[["timeseries"]][["Bio_all"]][find]
     recruits <- replist[["timeseries"]][["Recruit_0"]][find]
     ssb <- replist[["timeseries"]][["SpawnBio"]][find]
-    
     smry.all <- smry.all + smry
     tot.bio.all <- tot.bio.all + tot.bio
     recruits.all <- recruits.all + recruits
@@ -600,7 +548,6 @@ write_r4ss_tables <- function(
       total.dead.all <- total.dead.all + dead
     }
   }
-    
   expl.all <- total.dead.all / smry.all
   spr_type <- replist[["SPRratioLabel"]]
     
@@ -646,19 +593,16 @@ write_r4ss_tables <- function(
     adj.spr.all,
     expl.all
   )
-  
   colnames(ts.table) <- c(
     "Year", "Total Biomass (mt)", sb.label,
     paste0("Total Biomass ", smry.age, "+ (mt)"), "Fraction Unfished",
     "Age-0 Recruits (1,000s)", "Total Mortality (mt)", spr_type,
     "Exploitation Rate"
   )
-  saveRDS(ts.table, file = file.path(rds_dir, "time_series.rds"))
-  caption <- c(
-    caption,
-    paste0("Time series of population estimates from the base model.")
-  )
-  filename <- c(filename, "time_series.rds")
+  time_series <- list()
+  time_series$cap <- "Time series of population estimates from the base model."
+  time_series$table <- ts.table
+  save(time_series, file = file.path(rda_dir, "time_series.rda"))
   
   # ======================================================================
   # Numbers at age
@@ -666,7 +610,6 @@ write_r4ss_tables <- function(
   if (verbose) {
     cli::cli_inform("Creating numbers-at-age table.")
   }
-  
   check <- dim(replist[["natage"]])[2]
   if (is.null(check)) {
     if (verbose) {
@@ -677,7 +620,6 @@ write_r4ss_tables <- function(
   } else {
     age0 <- which(names(replist[["natage"]]) == "0")
     get.ages <- age0:check
-    
     if (nsexes == 1) {
       natage <- 0
       for (a in 1:nareas) {
@@ -689,12 +631,10 @@ write_r4ss_tables <- function(
       }
       colnames(natage) <- paste0("Age", 0:(length(get.ages) - 1))
       natage <- data.frame(Year = startyr:max(fore), natage)
-      saveRDS(natage, file = file.path(rds_dir, "numbers_at_age.rds"))
-      caption <- c(
-        caption,
-        paste0("Numbers at age for the base model.")
-      )
-      filename <- c(filename, "numbers_at_age.rds")
+      numbers_at_age <- list()
+      numbers_at_age$cap <- "Numbers at age for the base model."
+      numbers_at_age$table <- natage
+      save(numbers_at_age, file = file.path(rda_dir, "numbers_at_age.rda"))
     }
     
     if (nsexes == 2) {
@@ -714,21 +654,17 @@ write_r4ss_tables <- function(
       
       colnames(natage.m) <- paste0("Age", 0:(length(get.ages) - 1))
       natage.m <- data.frame(Year = startyr:max(fore), natage.m)
-      saveRDS(natage.m, file = file.path(rds_dir, "numbers_at_age_male.rds"))
-      caption <- c(
-        caption,
-        paste0("Numbers at age for males from the base model.")
-      )
-      filename <- c(filename, "numbers_at_age_male.rds")
+      numbers_at_age_male <- list()
+      numbers_at_age_male$cap <- "Numbers at age for males from the base model."
+      numbers_at_age_male$table <- natage.m
+      save(numbers_at_age_male, file = file.path(rda_dir, "numbers_at_age_male.rda"))
       
       colnames(natage.f) <- paste0("Age", 0:(length(get.ages) - 1))
       natage.f <- data.frame(Year = startyr:max(fore), natage.f)
-      saveRDS(natage.f, file = file.path(rds_dir, "numbers_at_age_female.rds"))
-      caption <- c(
-        caption,
-        paste0("Numbers at age for females from the base model.")
-      )
-      filename <- c(filename, "numbers_at_age_female.rds")
+      numbers_at_age_female <- list()
+      numbers_at_age_female$cap <- "Numbers at age for females from the base model."
+      numbers_at_age_female$table <- natage.f
+      save(numbers_at_age_female, file = file.path(rda_dir, "numbers_at_age_female.rda"))
     }
   } # end check for detailed output
   
@@ -762,12 +698,10 @@ write_r4ss_tables <- function(
       
       colnames(batage) <- paste0("Age", 0:(length(get.ages) - 1))
       batage <- data.frame(Year = startyr:max(fore), batage)
-      saveRDS(batage, file = file.path(rds_dir, "biomass_at_age.rds"))
-      caption <- c(
-        caption,
-        paste0("Biomass at age from the base model.")
-      )
-      filename <- c(filename, "biomass_at_age.rds")
+      biomass_at_age <- list()
+      biomass_at_age$cap <- "Biomass at age from the base model."
+      biomass_at_age$table <- batage
+      save(biomass_at_age, file = file.path(rda_dir, "biomass_at_age.rda"))
     }
       
     if (nsexes == 2) {
@@ -784,35 +718,20 @@ write_r4ss_tables <- function(
           batage.m <- batage.m + temp
         }
       }
-      
       colnames(batage.m) <- paste0("Age", 0:(length(get.ages) - 1))
       batage.m <- data.frame(Year = startyr:max(fore), batage.m)
-      saveRDS(batage.f, file = file.path(rds_dir, "biomass_at_age_male.rds"))
-      caption <- c(
-        caption,
-        paste0("Biomass at age for males from the base model.")
-      )
-      filename <- c(filename, "biomass_at_age_male.rds")
+      biomass_at_age_male <- list()
+      biomass_at_age_male$cap <- "Biomass at age for male from the base model."
+      biomass_at_age_male$table <- batage.m
+      save(biomass_at_age_male, file = file.path(rda_dir, "biomass_at_age_male.rda"))
       
       colnames(batage.f) <- paste0("Age", 0:(length(get.ages) - 1))
       batage.f <- data.frame(Year = startyr:max(fore), batage.f)
-      saveRDS(batage.f, file = file.path(rds_dir, "biomass_at_age_female.rds"))
-      caption <- c(
-        caption,
-        paste0("Biomass at age for females from the base model.")
-      )
-      filename <- c(filename, "biomass_at_age_female.rds")
+      biomass_at_age_female <- list()
+      biomass_at_age_female$cap <- "Biomass at age for female from the base model."
+      biomass_at_age_female$table <- batage.m
+      save(biomass_at_age_female, file = file.path(rda_dir, "biomass_at_age_female.rda"))
     }
   } # end check for detailed output
   
-  # ======================================================================
-  # Write out table with all the captions for each executive summary table
-  # ======================================================================
-  out_csv <- cbind(caption, filename)
-  colnames(out_csv) <- c("caption", "filename")
-  write.csv(
-    out_csv,
-    file = file.path(rds_dir, "table_labels.csv"),
-    row.names = FALSE
-  )
 }

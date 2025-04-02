@@ -53,7 +53,7 @@ stop is not needed but can be used because a full stop is appended to the
 end of the caption if it does not already exist.}
 }
 \value{
-Individual .rds tables
+Individual .rda tables
 }
 \description{
 Take the output from \code{SS_output()} and create executive summary .csv files
