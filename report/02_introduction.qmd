@@ -1,3 +1,13 @@
+\pagebreak
+\setlength{\parskip}{5mm plus1mm minus1mm}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\setcounter{section}{0}
+\renewcommand{\thefigure}{\arabic{figure}}
+\renewcommand{\thetable}{\arabic{table}}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+
 ## Introduction
 
 `r Spp` (*Anoplopoma fimbria*, also known as black cod) are distributed in the northeastern Pacific Ocean from the southern tip of Baja California northward to the north-central Bering Sea and in the northwestern Pacific Ocean from Kamchatka southward to the northeastern coast of Japan [@hart_pacific_1973; @eschmeyer_field_1983]. U.S. West Coast `r spp` are modeled as a single stock. Thus, this stock assessment does not explicitly account for movement between offshore sea mounts [@shaw_movement_1997; @morita_sex_2012; @hanselman_move_2015], regions to the north of the U.S. west coast, or to the western Pacific [@fujioka_description_1988; @heifetz_movement_1991; @hanselman_move_2015].
