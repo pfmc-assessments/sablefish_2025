@@ -7,14 +7,14 @@
 #| eval: true 
 #| include: false
 library(flextable)
-
+library(etable)
 rda_dir <- here::here('report', 'rda_files')
 
 ``` 
 
 
 ```{r}
-#| label: tab-landings
+#| label: tbl-landings
 #| warning: false
 #| echo: false
 #| tbl-cap: "Landings in metric tons (mt) by year."
@@ -38,19 +38,14 @@ landings <- model_output[["catch"]] |>
      `Pot (mt)` = Pot
    ) |>
    dplyr::ungroup()
-
-flextable(landings) 
-set_flextable_defaults(
-  font.size = 8,
-  split = TRUE
-) 
+knitr::kable(landings)
     
 ```
 
 \pagebreak
 
 ```{r}
-#| label: tab-bds-age-samples
+#| label: tbl-bds-age-samples
 #| warning: false
 #| echo: false
 #| tbl-cap: "Commercial ages by year and gear."
@@ -69,14 +64,16 @@ samples |>
   tab_options(
     table.font.size = 12
   ) |>
-  tab_options(latex.use_longtable = TRUE)
+  tab_options(latex.use_longtable = TRUE) |>
+  as_latex()
 
 ```
 
 \pagebreak
 
+
 ```{r}
-#| label: tab-maturity-samples
+#| label: tbl-maturity-samples
 #| warning: false
 #| echo: false
 #| tbl-cap: "Maturity samples collected by the NWFSC West Coast Groundfish Bottom Trawl survey by year and area where north and south of 36 degress north latitude."
