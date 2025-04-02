@@ -1,35 +1,264 @@
-## Executive Summary
 
-### Stock Description
+## Executive Summary {-}
 
-### Catches
+### Stock Description {-}
 
-### Data and Assessments
+This assessment reports the status of the `r spp` (*Anoplopoma fimbria*, or `black cod') resource off the coast of the United States (U.S.) from southern California to the U.S.-Canadian border using data through `r data_end_year`. The resource is modeled as a single stock, however `r spp` do disperse to and from offshore sea mounts and along the coastal waters of the continental U.S., Canada, and Alaska and across the Aleutian Islands to the western Pacific. Their movement is not explicitly accounted for in this analysis.
 
-### Stock Output and Dynamics
+### Catches {-}
 
-\input{latex_tables/b_SSB_ES.tex}
-
-### Recruitment
-
-\input{latex_tables/c_Recr_ES.tex}
-
-### Exploitation Status
-
-### Ecosysystem Consideration
-
-### Reference Points
-
-### Management Performance
+Check to see if referencing works @tbl-es-catches
 
 
-### Evaluation of Scientific Uncertainty
+```{r, results = "asis"}
+#| label: tbl-es-catches
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) catches_es_cap 
+
+catches_es_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:6,
+    decimals = 0
+  ) |>
+  tab_options(
+    table.font.size = 12 
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  cols_width(
+    everything() ~ px(75)
+  ) |>
+  as_latex()
+
+```
 
 
-### Harvest Projections and Decision Tables
+### Data and Assessments {-}
 
 
+### Stock Output and Dynamics {-}
 
-### Unresolved Problems and Major Uncertainties
+@tbl-es-sb
 
-### Research and Data Needs
+```{r, results = "asis"}
+#| label: tbl-es-sb
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) ssb_es_cap 
+
+ssb_es_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:4,
+    decimals = 0
+  ) |>
+  fmt_number(
+    columns = 5:7,
+    decimals = 3
+  ) |>
+  tab_options(
+    table.font.size = 12  
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  cols_width(
+    everything() ~ px(75)
+  ) |>
+  as_latex()
+
+```
+
+
+### Recruitment {-}
+
+```{r, results = "asis"}
+#| label: tbl-es-recr
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) recr_es_cap 
+
+recr_es_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:4,
+    decimals = 0
+  ) |>
+  fmt_number(
+    columns = 5:7,
+    decimals = 3
+  ) |>
+  tab_options(
+    table.font.size = 12 
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  cols_width(
+    everything() ~ px(75)
+  ) |>
+  as_latex()
+
+```
+
+
+### Exploitation Status {-}
+
+
+```{r, results = "asis"}
+#| label: tbl-es-spr
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) spr_es_cap 
+
+spr_es_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:7,
+    decimals = 3
+  ) |>
+  tab_options(
+    table.font.size = 12 
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  cols_width(
+    everything() ~ px(80)
+  ) |>
+  as_latex()
+
+```
+
+
+### Ecosysystem Consideration {-}
+
+
+### Reference Points {-}
+
+
+```{r, results = "asis"}
+#| label: tbl-ref-points
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) reference_points_cap 
+
+
+reference_points_table |>
+  gt() |>
+  fmt_number(
+    columns = 2:4,
+    rows = c(1:4, 7, 10, 12, 15, 17, 20),
+    decimals = 0
+  ) |>
+  fmt_number(
+    columns = 2:4,
+    rows = c(5, 8, 9, 13:14, 18:19),
+    decimals = 3
+  ) |>
+  tab_options(
+    table.font.size = 12 
+  ) |>  
+  tab_style(
+    style = list(
+      cell_text(style = "italic")
+    ),
+    locations = cells_body(
+      columns = "Reference Point",
+      rows = starts_with("Reference")
+    )
+  ) |>
+  sub_missing(
+    columns = everything(),
+    missing_text = "---"
+  ) |>
+  cols_width(
+    starts_with("R") ~ px(300),
+    starts_with("E") ~ px(65),
+    ends_with("l") ~ px(65)
+  ) |>
+  as_latex()
+
+```
+
+### Management Performance {-}
+
+
+```{r, results = "asis"}
+#| label: tbl-es-management
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) recent_management_cap 
+
+recent_management_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 5:6,
+    decimals = 0
+  ) |>
+  tab_options(
+    table.font.size = 12 
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  cols_width(
+    everything() ~ px(75)
+  ) |>
+  as_latex()
+
+```
+
+
+### Evaluation of Scientific Uncertainty {-}
+
+
+### Harvest Projections and Decision Tables {-}
+
+\blandscape
+
+```{r, results = "asis"}
+#| label: tbl-es-projections
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) projections_cap 
+
+projections_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = c(2:3, 5),
+    decimals = 0
+  ) |>
+  gt::fmt_number(
+    columns = 6,
+    decimals = 3
+  ) |>
+  tab_options(
+    table.font.size = 12 
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  cols_width(
+    everything() ~ px(75)
+  ) |>
+  as_latex()
+
+```
+
+\elandscape
+
+### Unresolved Problems and Major Uncertainties {-}
+
+### Research and Data Needs {-}
+
