@@ -7,7 +7,6 @@ _main.md
 *.aux
 *.upa
 *.log
-*.tex
 *.pdf
 *.html
 *.css
