@@ -50,6 +50,7 @@ format:
       - 'support_files/_titlepage.tex'
     include-in-header:
       - 'support_files/in-header.tex'
+      - 'support_files/figures.tex'
     toc: true
     lof: true
     lot: true
@@ -67,6 +68,10 @@ params:
 bibliography: 
 -  asar_references.bib 
 ---
+
+
+
+
 ```{r} 
 #| label: 'output_and_quantities'
 #| echo: false 
@@ -85,6 +90,51 @@ load(file.path(model_dir, "model_output.rda"))
 end_year <- model_output$endyr + 1
 data_end_year <- model_output$endyr
 start_year <- model_output$startyr
+
+all_years <- start_year:end_year
+sb <- model_output$derived_quants[model_output$derived_quants$Label %in% paste0("SSB_", all_years), "Value"]
+sb0 <- model_output$derived_quants[model_output$derived_quants$Label == "SSB_Virgin", "Value"] 
+depl <- round(sb / sb0, 3)
+quants <- data.frame(
+  year = all_years, 
+  sb = round(sb, 0), 
+  depl = depl)
+depl_final <- quants[quants$year == end_year, 'depl']
+sb_final <- round(quants[quants$year == end_year, 'sb'], 0)
+min_depl <- min(quants$depl)
+min_depl_year <- quants[quants$depl == min_depl, 'year']
+
+proj_years <- (end_year + 2):(end_year + 12)
+est_ofl <- round(model_output$derived_quants[model_output$derived_quants$Label %in% paste0("OFLCatch_", proj_years), "Value"], 0) 
+est_abc <- round(model_output$derived_quants[model_output$derived_quants$Label %in% paste0("ForeCatch_", proj_years), "Value"], 0) 
+
+recdevs <- dplyr::bind_rows(
+  model_output$parameters |>
+    dplyr::filter(grepl("Main_RecrDev", Label)) |>
+    dplyr::select(Value),
+  model_output$parameters |>
+    dplyr::filter(grepl("Late_RecrDev", Label)) |>
+    dplyr::select(Value)
+  )
+rec_years <- readr::parse_number(rownames(recdevs))
+recdevs <- data.frame(
+  years = rec_years,
+  recdevs = recdevs$Value
+)
+
+# Biology values
+m <- model_output$parameters |>
+  dplyr::filter(Label %in% c("NatM_uniform_Fem_GP_1", "NatM_uniform_Mal_GP_1")) |>
+  dplyr::select(Label, Value) |>
+  tidyr::pivot_wider(
+    names_from = Label,
+    values_from = Value
+  ) |>
+  as.numeric()
+h <- model_output$parameters |>
+  dplyr::filter(Label %in% c("SR_BH_steep")) |>
+  dplyr::select(Value) |>
+  as.numeric()
 
 # load converted output from asar::convert_output() 
 output <- utils::read.csv(here::here("report", "sablefish_model_output.csv")) 
@@ -209,9 +259,9 @@ SBtarg_msy <- output2 |>
   dplyr::filter(c(grepl('spawning_biomass', label) & grepl('msy$', label) & estimate >1) | label == 'spawning_biomass_msy$') |>
   dplyr::pull(estimate)
 # steepness 
-h <- output |> 
-  dplyr::filter(grepl('steep', label)) |> 
-  dplyr::pull(estimate)
+# h <- output |> 
+#  dplyr::filter(grepl('steep', label)) |> 
+#  dplyr::pull(estimate)
 # recruitment 
 R0 <- output |> 
   dplyr::filter(grepl('R0', label) | grepl('recruitment_virgin', label)) |> 
