@@ -69,7 +69,12 @@ bibliography:
 -  asar_references.bib 
 ---
 
+\pagebreak
+\pagenumbering{roman}
+\setcounter{page}{1}
 
+\renewcommand{\thetable}{\roman{table}}
+\renewcommand{\thefigure}{\roman{figure}}
 
 
 ```{r} 
@@ -83,6 +88,7 @@ Spp <- "Sablefish"
 
 model_name <- "13_m_prior"
 model_dir <- here::here("model", "_bridging", model_name)
+table_dir <- file.path(model_dir, "tables")
 sens_dir <-  here::here("model", "sensitivities")
 retro_dir <- profile_dir <- here::here("model")
 load(file.path(model_dir, "model_output.rda"))
@@ -284,6 +290,16 @@ Wetzel, C.R., A.M. Berger, C. Barnes, J.A. Zahner, N. Tolimieri. 2025. Status of
 #| echo: false
 #| warning: false
 a <- knitr::knit_child('001_load_packages.qmd', quiet = TRUE)
+cat(a, sep = '\n')
+```
+
+
+```{r, results='asis'}
+#| label: 'load_tables'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child('002_load_tables.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
 
