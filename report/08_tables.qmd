@@ -1,23 +1,11 @@
 ## Tables 
- 
-```{r} 
-#| label: 'set-rda-dir-tbls'
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| include: false
-library(flextable)
-library(etable)
-rda_dir <- here::here('report', 'rda_files')
-
-``` 
 
 
 ```{r}
 #| label: tbl-landings
 #| warning: false
 #| echo: false
-#| tbl-cap: "Landings in metric tons (mt) by year."
+#| tbl-cap: "Landings in metric tons (mt) by year for each fleet."
 
 landings <- model_output[["catch"]] |>
   tibble::as_tibble() |>
@@ -44,27 +32,316 @@ knitr::kable(landings)
 
 \pagebreak
 
-```{r}
-#| label: tbl-bds-age-samples
+
+```{r, results = "asis"}
+#| label: tbl-management
 #| warning: false
 #| echo: false
-#| tbl-cap: "Commercial ages by year and gear."
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) recent_management_cap 
+#| tbl-pos: H
 
-samples <- read.csv(here::here("data-processed", "data-fishery-bds-n.csv"))
-
-samples |>
-  select(-N.Lengthed) |>
-  pivot_wider(
-    names_from = Gear,
-    values_from = N.Aged,
-    values_fill = 0
+recent_management_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:6,
+    decimals = 0
   ) |>
-  filter(Year >= 1986) |>
+  tab_options(
+    table.font.size = 12 
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  cols_width(
+    everything() ~ px(75)
+  ) |>
+  as_latex()
+
+```
+
+\pagebreak
+
+
+```{r, results = "asis"}
+#| label: tbl-discard-rates-twl
+#| warning: false
+#| echo: false
+#| tbl-cap: "Discard rate by year for trawl gear."
+#| tbl-pos: H
+
+read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
+  dplyr::filter(fleet == 1) |>
+  dplyr::select(-month, -fleet) |>
+  dplyr::rename(
+    Year = year,
+    `Discard Rate` = discard_rate,
+    `SD` = sd
+  ) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:3,
+    decimals = 2
+  ) |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+
+```
+
+\pagebreak
+
+```{r, results = "asis"}
+#| label: tbl-discard-rates-hkl
+#| warning: false
+#| echo: false
+#| tbl-cap: "Discard rate by year for hook-and-line gear."
+#| tbl-pos: H
+
+read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
+  dplyr::filter(fleet == 2) |>
+  dplyr::select(-month, -fleet) |>
+  dplyr::rename(
+    Year = year,
+    `Discard Rate` = discard_rate, 
+    `SD` = sd
+  ) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:3,
+    decimals = 2
+  ) |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+
+```
+
+\pagebreak
+
+```{r, results = "asis"}
+#| label: tbl-discard-rates-pot
+#| warning: false
+#| echo: false
+#| tbl-cap: "Discard rate by year for pot gear."
+#| tbl-pos: H
+
+read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
+  dplyr::filter(fleet == 3) |>
+  dplyr::select(-month, -fleet) |>
+  dplyr::rename(
+    Year = year,
+    `Discard Rate` = discard_rate,
+    `SD` = sd
+  ) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:3,
+    decimals = 2
+  ) |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+
+```
+
+\pagebreak
+
+```{r}
+#| label: tbl-twl-age-samples
+#| warning: false
+#| echo: false
+#| tbl-cap: "Commercial ages by year for the trawl fleet."
+
+read.csv(here::here("data-processed", "data-commercial-age-bds-n.csv")) |>
+  dplyr::filter(fleet == "TWL") |>
+  dplyr::rename(
+    Year = year,
+    Trips = trips,
+    Samples = samples,
+    `Input N` = input_n
+  ) |>
+  dplyr::select(-fleet) |>
+  gt() |>
+  gt::fmt_number(
+    columns = 4,
+    decimals = 1
+  ) |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+
+```
+
+\pagebreak
+
+
+```{r}
+#| label: tbl-hkl-age-samples
+#| warning: false
+#| echo: false
+#| tbl-cap: "Commercial ages by year for the hook-and-line fleet."
+
+read.csv(here::here("data-processed", "data-commercial-age-bds-n.csv")) |>
+  dplyr::filter(fleet == "HKL") |>
+  dplyr::rename(
+    Year = year,
+    Trips = trips,
+    Samples = samples,
+    `Input N` = input_n
+  ) |>
+  dplyr::select(-fleet) |>
+  gt() |>
+  gt::fmt_number(
+    columns = 4,
+    decimals = 1
+  ) |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+
+```
+
+\pagebreak
+
+
+```{r}
+#| label: tbl-pot-age-samples
+#| warning: false
+#| echo: false
+#| tbl-cap: "Commercial ages by year for the pot fleet."
+
+read.csv(here::here("data-processed", "data-commercial-age-bds-n.csv")) |>
+  dplyr::filter(fleet == "POT") |>
+  dplyr::rename(
+    Year = year,
+    Trips = trips,
+    Samples = samples,
+    `Input N` = input_n
+  ) |>
+  dplyr::select(-fleet) |>
+  gt() |>
+  gt::fmt_number(
+    columns = 4,
+    decimals = 1
+  ) |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+
+```
+
+\pagebreak
+
+```{r}
+#| label: tbl-wcgbt-samples
+#| warning: false
+#| echo: false
+#| tbl-cap: "Samples by year from the NWFSC WCGBT survey."
+
+read.csv(here::here("data-processed", "data-survey-wcgbt-n.csv")) |>
+  dplyr::select(-N.Lengthed, -Survey) |>
+  dplyr::rename(
+    Tows = N.Tows,
+    `Positive Tows` = Positive.Tows,
+    `Prop. Positive` = Proportion.Positive,
+    Aged = N.Aged
+  ) |>
   gt() |>
   tab_options(
-    table.font.size = 12
+    table.font.size = 12,
+    latex.use_longtable = TRUE
   ) |>
-  tab_options(latex.use_longtable = TRUE) |>
+  as_latex()
+
+```
+
+\pagebreak
+
+```{r}
+#| label: tbl-nwslope-samples
+#| warning: false
+#| echo: false
+#| tbl-cap: "Samples by year from the NWFSC Slope survey."
+
+read.csv(here::here("data-processed", "data-survey-nwfscslope-n.csv")) |>
+  dplyr::select(-N.Lengthed, -Survey) |>
+  dplyr::rename(
+    Tows = N.Tows,
+    `Positive Tows` = Positive.Tows,
+    `Prop. Positive` = Proportion.Positive,
+    Aged = N.Aged
+  ) |>
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+
+```
+
+\pagebreak
+
+
+```{r}
+#| label: tbl-afslope-samples
+#| warning: false
+#| echo: false
+#| tbl-cap: "Samples by year from the AFSC Slope survey."
+
+read.csv(here::here("data-processed", "data-survey-afscslope-n.csv")) |>
+  dplyr::select(-N.Lengthed, -Survey) |>
+  dplyr::rename(
+    Tows = N.Tows,
+    `Positive Tows` = Positive.Tows,
+    `Prop. Positive` = Proportion.Positive,
+    Aged = N.Aged
+  ) |>
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+
+```
+
+\pagebreak
+
+```{r}
+#| label: tbl-tri-samples
+#| warning: false
+#| echo: false
+#| tbl-cap: "Samples by year from the Triennial survey."
+
+dplyr::bind_rows(
+  read.csv(here::here("data-processed", "data-survey-triennial-early-n.csv")),
+  read.csv(here::here("data-processed", "data-survey-triennial-late-n.csv"))) |>
+  dplyr::select(-N.Lengthed, -Survey) |>
+  dplyr::rename(
+    Tows = N.Tows,
+    `Positive Tows` = Positive.Tows,
+    `Prop. Positive` = Proportion.Positive,
+    Aged = N.Aged
+  ) |>
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
   as_latex()
 
 ```
