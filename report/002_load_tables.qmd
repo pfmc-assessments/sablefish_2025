@@ -30,10 +30,30 @@ if (file.exists(table_dir)) {
   
   recent_management_table <- recent_management$table
   recent_management_cap <- recent_management$cap
+  recent_management_table[, "OFL (mt)"] <- cw_harvest_spex |>
+    dplyr::filter(SPECIFICATION_TYPE == "OFL", YEAR %in% es_10_years) |>
+    dplyr::arrange(YEAR) |>
+    dplyr::select(VAL)
+  recent_management_table[, "ABC (mt)"] <- cw_harvest_spex |>
+    dplyr::filter(SPECIFICATION_TYPE == "ABC", YEAR %in% es_10_years) |>
+    dplyr::arrange(YEAR) |>
+    dplyr::select(VAL)
+  recent_management_table[, "ACL (mt)"] <- cw_harvest_spex |>
+    dplyr::filter(SPECIFICATION_TYPE == "ACL", YEAR %in% es_10_years) |>
+    dplyr::arrange(YEAR) |>
+    dplyr::select(VAL)
   rm(recent_management)
     
   projections_table <- projections$table
   projections_cap <- projections$cap
+  projections_table[1:2, "Adopted OFL (mt)"] <- cw_harvest_spex |>
+    dplyr::filter(SPECIFICATION_TYPE == "OFL", YEAR >= end_year) |>
+    dplyr::arrange(YEAR) |>
+    dplyr::select(VAL)
+  projections_table[1:2, "Adopted ACL (mt)"] <- cw_harvest_spex |>
+    dplyr::filter(SPECIFICATION_TYPE == "ACL", YEAR >= end_year) |>
+    dplyr::arrange(YEAR) |>
+    dplyr::select(VAL)
   rm(projections)
   
   eval_tables <- TRUE
