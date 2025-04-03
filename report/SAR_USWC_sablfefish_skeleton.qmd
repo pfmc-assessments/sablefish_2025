@@ -69,7 +69,7 @@ bibliography:
 -  asar_references.bib 
 ---
 
-\pagebreak
+
 \pagenumbering{roman}
 \setcounter{page}{1}
 
