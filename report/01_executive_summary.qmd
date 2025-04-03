@@ -300,7 +300,6 @@ knitr::include_graphics(
 
 
 
-
 ```{r} 
 #| label: fig-es-yield
 #| echo: false 
@@ -330,7 +329,7 @@ knitr::include_graphics(
 recent_management_table |>
   gt::gt() |>
   gt::fmt_number(
-    columns = 5:6,
+    columns = 2:6,
     decimals = 0
   ) |>
   tab_options(
