@@ -86,18 +86,24 @@ bibliography:
 spp <- "sablefish"
 Spp <- "Sablefish"
 
+# Define the location and name of the base model
 model_name <- "13_m_prior"
 model_dir <- here::here("model", "_bridging", model_name)
+load(file.path(model_dir, "model_output.rda"))
+# Directory for tables created by r4ss::table_exec_summary()
 table_dir <- file.path(model_dir, "tables")
+# Other potential directories that could be useful
 sens_dir <-  here::here("model", "sensitivities")
 retro_dir <- profile_dir <- here::here("model")
-load(file.path(model_dir, "model_output.rda"))
 
+# Define objects from the list created by r4ss::SS_output
 end_year <- model_output$endyr + 1
 data_end_year <- model_output$endyr
 start_year <- model_output$startyr
-
 all_years <- start_year:end_year
+proj_years <- (end_year + 2):(end_year + 12)
+
+# Define some derived quantities
 sb <- model_output$derived_quants[model_output$derived_quants$Label %in% paste0("SSB_", all_years), "Value"]
 sb0 <- model_output$derived_quants[model_output$derived_quants$Label == "SSB_Virgin", "Value"] 
 depl <- round(sb / sb0, 3)
@@ -105,15 +111,21 @@ quants <- data.frame(
   year = all_years, 
   sb = round(sb, 0), 
   depl = depl)
+
 depl_final <- quants[quants$year == end_year, 'depl']
-sb_final <- round(quants[quants$year == end_year, 'sb'], 0)
+quants[, "sb"] <- format(round(quants[, "sb"], 0), scientific = FALSE, big.mark = ",")
+sb_final <- quants[quants$year == end_year, 'sb'] 
+min_sb <- min(quants[, "sb"])
+min_sb_year <- quants[quants$sb == min_sb, 'year']
+
 min_depl <- min(quants$depl)
 min_depl_year <- quants[quants$depl == min_depl, 'year']
 
-proj_years <- (end_year + 2):(end_year + 12)
+# Calculated harvest metrics
 est_ofl <- round(model_output$derived_quants[model_output$derived_quants$Label %in% paste0("OFLCatch_", proj_years), "Value"], 0) 
 est_abc <- round(model_output$derived_quants[model_output$derived_quants$Label %in% paste0("ForeCatch_", proj_years), "Value"], 0) 
 
+# Parameter values
 recdevs <- dplyr::bind_rows(
   model_output$parameters |>
     dplyr::filter(grepl("Main_RecrDev", Label)) |>
@@ -127,8 +139,12 @@ recdevs <- data.frame(
   years = rec_years,
   recdevs = recdevs$Value
 )
+high_5 <- sort(recdevs[, "recdevs"], decreasing = TRUE, index.return = TRUE)$ix[1:5]
+top_recdevs <- recdevs[high_5, ]
+low_5 <- sort(recdevs[, "recdevs"], decreasing = FALSE, index.return = TRUE)$ix[1:5]
+low_recdevs <- recdevs[low_5, ]
 
-# Biology values
+# Parameters: biology values
 m <- model_output$parameters |>
   dplyr::filter(Label %in% c("NatM_uniform_Fem_GP_1", "NatM_uniform_Mal_GP_1")) |>
   dplyr::select(Label, Value) |>
@@ -141,6 +157,45 @@ h <- model_output$parameters |>
   dplyr::filter(Label %in% c("SR_BH_steep")) |>
   dplyr::select(Value) |>
   as.numeric()
+Linf <- model_output$parameters |>
+  dplyr::filter(Label %in% c("L_at_Amax_Fem_GP_1", "L_at_Amax_Mal_GP_1")) |>
+  dplyr::select(Label, Value) |>
+  tidyr::pivot_wider(
+    names_from = Label,
+    values_from = Value
+  ) |>
+  as.numeric() |>
+  round(1)
+Lmin <- model_output$parameters |>
+  dplyr::filter(Label %in% c("L_at_Amin_Fem_GP_1", "L_at_Amin_Mal_GP_1")) |>
+  dplyr::select(Label, Value) |>
+  tidyr::pivot_wider(
+    names_from = Label,
+    values_from = Value
+  ) |>
+  as.numeric() |>
+  round(1)
+k <- model_output$parameters |>
+  dplyr::filter(Label %in% c("VonBert_K_Fem_GP_1", "VonBert_K_Mal_GP_1")) |>
+  dplyr::select(Label, Value) |>
+  tidyr::pivot_wider(
+    names_from = Label,
+    values_from = Value
+  ) |>
+  as.numeric() |>
+  round(3)
+
+# Survey catchabilties and added sd
+find <- grep("LnQ_base", model$parameters$Label)
+q <- model_output$parameters[find, ] |>
+  dplyr::select(Label, Value) 
+rownames(q) <- NULL
+q[, "Value"] <- exp(q[, "Value"])
+find <- grep("Q_extraSD", model$parameters$Label)
+survey_add_sd <- model_output$parameters[find, ] |>
+  dplyr::select(Label, Value) 
+rownames(survey_add_sd) <- NULL
+
 
 # load converted output from asar::convert_output() 
 output <- utils::read.csv(here::here("report", "sablefish_model_output.csv")) 
