@@ -100,7 +100,7 @@ ssb_es_table |>
 #| fig-pos: H
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "ts7_Spawning_output.png")
+  file.path(model_dir, "plots", "ts7_Spawning_output_with_95_intervals.png")
 )
 
 ```
@@ -116,7 +116,7 @@ knitr::include_graphics(
 #| fig-pos: H
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "ts9_Relative_spawning_biomass.png")
+  file.path(model_dir, "plots", "ts9_Relative_spawning_biomass_intervals.png")
 )
 
 ```
@@ -164,7 +164,22 @@ recr_es_table |>
 #| fig-pos: H
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "ts11_Age-0_recruits_(1000s).png")
+  file.path(model_dir, "plots", "ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png")
+)
+
+```
+
+```{r} 
+#| label: fig-es-recdevs
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated time series of recruitment deviations for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "recdevs2_withbars.png")
 )
 
 ```
@@ -188,7 +203,7 @@ spr_es_table |>
     decimals = 3
   ) |>
   tab_options(
-    table.font.size = 12 
+    table.font.size = 12
   ) |>
   gt::cols_align(
     align = "center"
@@ -197,6 +212,22 @@ spr_es_table |>
     everything() ~ px(80)
   ) |>
   as_latex()
+
+```
+
+
+```{r} 
+#| label: fig-es-spr
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated time series of fishing intensity for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "SPR3_ratiointerval.png")
+)
 
 ```
 
@@ -251,6 +282,22 @@ reference_points_table |>
   as_latex()
 
 ```
+
+```{r} 
+#| label: fig-es-spr-phase
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Phase plot of fishing intensity versus fraction unfished for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "SPR4_phase.png")
+)
+
+```
+
 
 
 
