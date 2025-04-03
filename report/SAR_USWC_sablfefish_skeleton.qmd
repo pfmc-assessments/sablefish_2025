@@ -185,13 +185,13 @@ k <- model_output$parameters |>
   as.numeric() |>
   round(3)
 
-# Survey catchabilties and added sd
-find <- grep("LnQ_base", model$parameters$Label)
+# Survey catchabilities and added sd
+find <- grep("LnQ_base", model_output$parameters$Label)
 q <- model_output$parameters[find, ] |>
   dplyr::select(Label, Value) 
 rownames(q) <- NULL
 q[, "Value"] <- exp(q[, "Value"])
-find <- grep("Q_extraSD", model$parameters$Label)
+find <- grep("Q_extraSD", model_output$parameters$Label)
 survey_add_sd <- model_output$parameters[find, ] |>
   dplyr::select(Label, Value) 
 rownames(survey_add_sd) <- NULL
