@@ -102,6 +102,8 @@ data_end_year <- model_output$endyr
 start_year <- model_output$startyr
 all_years <- start_year:end_year
 proj_years <- (end_year + 2):(end_year + 12)
+es_10_years <- (end_year - 10):data_end_year
+es_12_years <- (end_year - 10):(end_year + 1)
 
 # Define some derived quantities
 sb <- model_output$derived_quants[model_output$derived_quants$Label %in% paste0("SSB_", all_years), "Value"]
@@ -195,6 +197,18 @@ find <- grep("Q_extraSD", model_output$parameters$Label)
 survey_add_sd <- model_output$parameters[find, ] |>
   dplyr::select(Label, Value) 
 rownames(survey_add_sd) <- NULL
+
+# Read in adopted harvest specifications:
+cw_harvest_spex <- read.csv(here::here("data-processed", "harvest_spex.csv")) |>
+  dplyr::filter(AREA_NAME == "CW", YEAR %in% es_12_years) |>
+  dplyr::mutate(
+    VAL = round(VAL, 0)
+  )
+area_harvest_spex <- read.csv(here::here("data-processed", "harvest_spex.csv")) |>
+  dplyr::filter(AREA_NAME != "CW", YEAR %in% es_12_years) |>
+  dplyr::mutate(
+    VAL = round(VAL, 0)
+  )
 
 
 # load converted output from asar::convert_output() 
