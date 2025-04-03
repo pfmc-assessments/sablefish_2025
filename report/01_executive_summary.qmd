@@ -25,14 +25,16 @@ catches_es_table |>
     decimals = 0
   ) |>
   tab_options(
-    table.font.size = 12
+    table.font.size = 12,
+    # if want to not have tables the width of the page include the below option:
+    latex.use_longtable = TRUE 
   ) |>
   gt::cols_align(
     align = "center"
   ) |>
-  cols_width(
-    everything() ~ px(75)
-  ) |>
+  #cols_width(
+  #  everything() ~ px(75)
+  #) |>
   as_latex()
 
 ```
@@ -77,7 +79,8 @@ ssb_es_table |>
     decimals = 3
   ) |>
   tab_options(
-    table.font.size = 12  
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
   ) |>
   gt::cols_align(
     align = "center"
@@ -142,7 +145,8 @@ recr_es_table |>
     decimals = 3
   ) |>
   tab_options(
-    table.font.size = 12 
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
   ) |>
   gt::cols_align(
     align = "center"
@@ -203,7 +207,8 @@ spr_es_table |>
     decimals = 3
   ) |>
   tab_options(
-    table.font.size = 12
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
   ) |>
   gt::cols_align(
     align = "center"
@@ -259,7 +264,8 @@ reference_points_table |>
     decimals = 3
   ) |>
   tab_options(
-    table.font.size = 12 
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
   ) |>  
   tab_style(
     style = list(
@@ -274,11 +280,11 @@ reference_points_table |>
     columns = everything(),
     missing_text = "---"
   ) |>
-  cols_width(
-    starts_with("R") ~ px(300),
-    starts_with("E") ~ px(65),
-    ends_with("l") ~ px(65)
-  ) |>
+  #cols_width(
+  #  starts_with("R") ~ px(300),
+  #  starts_with("E") ~ px(65),
+  #  ends_with("l") ~ px(65)
+  #) |>
   as_latex()
 
 ```
@@ -333,14 +339,15 @@ recent_management_table |>
     decimals = 0
   ) |>
   tab_options(
-    table.font.size = 12 
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
   ) |>
   gt::cols_align(
     align = "center"
   ) |>
-  cols_width(
-    everything() ~ px(75)
-  ) |>
+  #cols_width(
+  #  everything() ~ px(75)
+  #) |>
   as_latex()
 
 ```
@@ -372,7 +379,8 @@ projections_table |>
     decimals = 3
   ) |>
   tab_options(
-    table.font.size = 12 
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
   ) |>
   sub_missing(
     columns = everything(),
