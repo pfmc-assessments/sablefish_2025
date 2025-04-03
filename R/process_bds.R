@@ -129,23 +129,6 @@ process_bds_data <- function(
     overwrite = TRUE
   )
   
-  samples <- bds_cleaned |>
-    dplyr::group_by(geargroup, year) |>
-    dplyr::summarise(
-      `N Lengthed` = sum(!is.na(lengthcm)),
-      `N Aged` = sum(!is.na(Age))
-    ) |>
-    dplyr::rename(
-      Year = year,
-      Gear = geargroup
-    ) |>
-    as.data.frame()
-  utils::write.csv(
-    samples,
-    file = here::here("data-processed", paste0("data-fishery-bds-n.csv")),
-    row.names = FALSE
-  )
-  
   raw_samples_by_gear_state <- bds_cleaned |>
     dplyr::group_by(year, state, geargroup) |>
     dplyr::summarise(
@@ -235,6 +218,20 @@ process_bds_data <- function(
     verbose = FALSE
   )
   
+  length_trips_samples <- length_comps_long |>
+    dplyr::group_by(fishyr, fleet) |>
+    dplyr::summarise(
+      trips = sum(unique(n_tows)),
+      samples = sum(unique(n_fish)),
+      input_n = sum(unique(n_stewart))
+    ) |>
+    dplyr::rename(year = fishyr) 
+  utils::write.csv(
+    length_trips_samples,
+    file = here::here("data-processed", "data-commercial-length-bds-n.csv"),
+    row.names = FALSE
+  )
+  
   length_composition_data <- writeComps(
     inComps = length_comps_long,
     column_with_input_n = "n_stewart",
@@ -251,6 +248,20 @@ process_bds_data <- function(
     Comps = "AGE",
     weightid = "Final_Sample_Size_A",
     verbose = FALSE
+  )
+  
+  age_trips_samples <- age_comps_long |>
+    dplyr::group_by(fishyr, fleet) |>
+    dplyr::summarise(
+      trips = sum(unique(n_tows)),
+      samples = sum(unique(n_fish)),
+      input_n = sum(unique(n_stewart))
+    ) |>
+    dplyr::rename(year = fishyr) 
+  utils::write.csv(
+    age_trips_samples,
+    file = here::here("data-processed", "data-commercial-age-bds-n.csv"),
+    row.names = FALSE
   )
   
   age_composition_data <- writeComps(
