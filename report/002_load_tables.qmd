@@ -2,6 +2,11 @@
 #| echo: false
 
 if (file.exists(table_dir)) {
+  # Load in rda files created by:
+  # r4ss::table_exec_summary
+  # r4ss::table_pars
+  # r4ss::table_parcounts
+  
   all_files <- list.files(table_dir)
   all_rda_files <- all_files[grep(".rda", all_files)]
   for (a in 1:length(all_rda_files)) {
@@ -30,6 +35,25 @@ if (file.exists(table_dir)) {
   
   recent_management_table <- recent_management$table
   recent_management_cap <- recent_management$cap
+  rm(recent_management)
+    
+  projections_table <- projections$table
+  projections_cap <- projections$cap
+  rm(projections)
+  
+  eval_tables <- TRUE
+} else {
+  eval_tables <- FALSE
+}
+
+```
+
+
+```{r}
+#| echo: false
+
+# Special modification to the management and projection tables to add quantities
+# from a sourced csv file in the skeleton r chunk.
   recent_management_table[, "OFL (mt)"] <- cw_harvest_spex |>
     dplyr::filter(SPECIFICATION_TYPE == "OFL", YEAR %in% es_10_years) |>
     dplyr::arrange(YEAR) |>
@@ -42,10 +66,7 @@ if (file.exists(table_dir)) {
     dplyr::filter(SPECIFICATION_TYPE == "ACL", YEAR %in% es_10_years) |>
     dplyr::arrange(YEAR) |>
     dplyr::select(VAL)
-  rm(recent_management)
-    
-  projections_table <- projections$table
-  projections_cap <- projections$cap
+
   projections_table[1:2, "Adopted OFL (mt)"] <- cw_harvest_spex |>
     dplyr::filter(SPECIFICATION_TYPE == "OFL", YEAR >= end_year) |>
     dplyr::arrange(YEAR) |>
@@ -54,11 +75,5 @@ if (file.exists(table_dir)) {
     dplyr::filter(SPECIFICATION_TYPE == "ACL", YEAR >= end_year) |>
     dplyr::arrange(YEAR) |>
     dplyr::select(VAL)
-  rm(projections)
-  
-  eval_tables <- TRUE
-} else {
-  eval_tables <- FALSE
-}
 
 ```
