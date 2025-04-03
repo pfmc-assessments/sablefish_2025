@@ -96,20 +96,71 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: fig-catches
+#| label: fig-index-wcgbt
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Catches, landed and dead discards, in metric tons (mt) by year for trawl, pot, and hook-and line gears."
+#| fig-cap: "Relative index of abundance for the NWFSC WCGBT survey."
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "catch16_landings_+_dead_discards.png")
+  file.path(model_dir, "plots", "index1_cpuedata_NWCBO.png")
 )
 
 ```
 
 \pagebreak
+
+
+```{r} 
+#| label: fig-index-nwslope
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Relative index of abundance for the NWFSC Slope survey."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "index1_cpuedata_NWSLP.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: fig-index-afslope
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Relative index of abundance for the AFSC Slope survey."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "index1_cpuedata_AKSLP.png")
+)
+
+```
+
+\pagebreak
+
+
+```{r} 
+#| label: fig-index-tri
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Relative index of abundance for the Triennial survey."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "index1_cpuedata_AKSHLF.png")
+)
+
+```
+
+\pagebreak
+
 
 ### Biology
 
@@ -169,11 +220,7 @@ ggplot(spatial_maturity, aes(x = age, y = p, color = Model)) +
 #### Biology
 
 
-
-
 #### Selectivity
-
-#### Recruitment
 
 
 #### Fits to Data
@@ -181,6 +228,153 @@ ggplot(spatial_maturity, aes(x = age, y = p, color = Model)) +
 
 #### Time-series
 
+
+```{r} 
+#| label: fig-sb
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated time series of spawning biomass for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "ts7_Spawning_output_with_95_intervals.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-depl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated time series of fraction of unfished spawning biomass for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "ts9_Relative_spawning_biomass_intervals.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-recruits
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated time series of age-0 recruits for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png")
+)
+
+```
+
+\pagebreak
+
+
+```{r} 
+#| label: fig-recdevs
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated time series of recruitment deviations for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "recdevs2_withbars.png")
+)
+
+```
+
+
+
+```{r} 
+#| label: fig-biasramp
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Bias adjustment applied to the recruitment deviations (red line). Points are transformed variances relative to the assumed variance of recruitment."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "recruit_fit_bias_adjust.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-spr
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated time series of fishing intensity for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "SPR3_ratiointerval.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-spr-phase
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Phase plot of fishing intensity versus fraction unfished for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "SPR4_phase.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-yield
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated yield curve with reference points for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "yield2_yield_curve_with_refpoints.png")
+)
+
+```
+
+
+
+```{r} 
+#| label: fig-dyn-b0
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Dynamic B0 plot. The lower line shows the time series of estimated spawning output in the presence of fishing mortality. The upper line shows the time series that could occur under the same dynamics (including deviations in recruitment), but without fishing. The point at the left represents the unfished equilibrium."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "ts_DynamicB0.png")
+)
+
+```
 
 
 #### Sensitivity Analyse and Retrospectives
