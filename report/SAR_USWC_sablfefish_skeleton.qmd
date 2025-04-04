@@ -249,7 +249,17 @@ if (new_table_figs) {
 output <- output |> 
   dplyr::mutate(estimate = as.numeric(estimate), 
     uncertainty = as.numeric(uncertainty)) 
+# Original definition
 #start_year <- as.numeric(min(output$year, na.rm = TRUE)) 
+# Needed Fix
+#start_year <- output |> 
+#  dplyr::filter(label == "spawning_biomass", module_name == "DERIVED_QUANTITIES") |>
+#  dplyr::summarise(min(year, na.rm = TRUE)) |>
+#  as.numeric()
+# End year below had to be changed to subtract 11 rather than 10, but I can see
+# users having to change this depending upon how many projection years they have.
+# Figuring out a way to determine model years based on the data file or using 
+# time series era column.
 #end_year <- (output |> 
 #  dplyr::filter(!(year %in% c('Virg', 'Init', 'S/Rcurve', 'INIT')), 
 #    !is.na(year)) |> 
@@ -372,6 +382,17 @@ a <- knitr::knit_child('002_load_tables.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
 
+
+```{r, results='asis'}
+#| label: 'disclaimer'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child('00a_disclaimer.qmd', quiet = TRUE)
+cat(a, sep = '\n')
+```
+
+ {{< pagebreak >}} 
 
 ```{r, results='asis'}
 #| label: 'executive_summary'
