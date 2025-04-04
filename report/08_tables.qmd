@@ -1,4 +1,4 @@
-## Tables 
+# Tables 
 
 
 ```{r}
@@ -371,6 +371,58 @@ maturity_data |>
   ) |>
   dplyr::rename(Year = year) |>
   dplyr::ungroup() |>
-  gt() 
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
 
 ```
+
+ {{< pagebreak >}} 
+
+```{r}
+#| label: tbl-n-param
+#| warning: false
+#| echo: false
+#| tbl-cap: "The number of estimated parameters in the base model."
+
+n_pars |>
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+
+```
+
+ {{< pagebreak >}} 
+ 
+ \blandscape
+
+```{r}
+#| label: tbl-param
+#| warning: false
+#| echo: false
+#| tbl-cap: "The estimated and fixed parameters in the base model."
+#| tbl-pos: H
+
+pars |>
+  kableExtra::kbl() |>
+  kableExtra::kable_styling(font_size = 7)
+  #gt() |>
+  #tab_options(
+  #  table.font.size = 10,
+  #  latex.use_longtable = TRUE
+  #) |>
+  #cols_width(
+  #  starts_with("L") ~ px(300),
+  #  starts_with("Pr") ~ px(100)
+  #) |>
+  #as_latex()
+
+```
+
+\elandscape

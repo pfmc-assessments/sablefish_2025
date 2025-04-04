@@ -1,4 +1,4 @@
-## Figures 
+# Figures 
  
 ```{r} 
 #| label: 'set-rda-dir-figs'
@@ -96,6 +96,23 @@ knitr::include_graphics(
 
 
 ```{r} 
+#| label: fig-index-stand
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Standardized indices overlaid. Each index is rescaled to have mean observation = 1.0."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "index9_standcpueall.png")
+)
+
+```
+
+\pagebreak
+
+
+```{r} 
 #| label: fig-index-wcgbt
 #| echo: false 
 #| warning: false 
@@ -162,7 +179,7 @@ knitr::include_graphics(
 \pagebreak
 
 
-### Biology
+## Biology
 
 ```{r} 
 #| label: fig-maturity-data
@@ -213,20 +230,19 @@ ggplot(spatial_maturity, aes(x = age, y = p, color = Model)) +
 
 \newpage
 
-### Model Results
 
-#### Model Bridging
+## Model Bridging
 
-#### Biology
-
-
-#### Selectivity
+## Biology
 
 
-#### Fits to Data
+### Selectivity
 
 
-#### Time-series
+## Fits to Data
+
+
+## Time-series
 
 
 ```{r} 
@@ -377,11 +393,11 @@ knitr::include_graphics(
 ```
 
 
-#### Sensitivity Analyse and Retrospectives
+## Sensitivity Analyse and Retrospectives
 
 
-#### Likelihood Profiles
+## Likelihood Profiles
 
 
-#### Reference Points and Forecasts
+## Reference Points and Forecasts
 

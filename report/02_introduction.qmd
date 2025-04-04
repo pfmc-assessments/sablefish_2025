@@ -8,7 +8,7 @@
 \setcounter{table}{0}
 \setcounter{figure}{0}
 
-## Introduction
+# Introduction
 
 `r Spp` (*Anoplopoma fimbria*, also known as black cod) are distributed in the northeastern Pacific Ocean from the southern tip of Baja California northward to the north-central Bering Sea and in the northwestern Pacific Ocean from Kamchatka southward to the northeastern coast of Japan [@hart_pacific_1973; @eschmeyer_field_1983]. U.S. West Coast `r spp` are modeled as a single stock. Thus, this stock assessment does not explicitly account for movement between offshore sea mounts [@shaw_movement_1997; @morita_sex_2012; @hanselman_move_2015], regions to the north of the U.S. west coast, or to the western Pacific [@fujioka_description_1988; @heifetz_movement_1991; @hanselman_move_2015].
 
@@ -16,7 +16,7 @@ While previous analyses suggests the existence of several stocks of `r spp` in t
 
 Smaller `r spp` are generally found in shallower waters, but the demographics appears to be fully mixed (adult and juvenile) near the shelf-slope break (i.e., 100-300 m). Beyond the shelf-slope break, the adult population is dominated by older individuals [@methot_assessment_1994] and younger fish become increasingly rare. Fish in the deepest areas sampled tend to be the oldest individuals, but not the largest individuals, suggesting that age rather than size dictates depth distribution. However, the interaction between environmental conditions and seasonal movements that produce an increase in age with depth are largely unknown. The stock is distributed beyond the greatest depth sampled by any of the surveys and beyond the deepest commercial fishing areas. Research in these deeper habitats occupied by `r spp` is potentially difficult because they extend across the boundary of the exclusive economic zone and sea mounts and ridges around the Pacific. There are relatively fewer `r spp` in the Puget Sound and the Strait of Georgia than in coastal U.S. waters. Therefore, connectivity among these areas and the open coast is likely of less importance to this stock assessment than movement along the coast.
 
-### Life History
+## Life History
 
 @tolimieri_oceanographic_2018 provide a thorough review of the literature on spawning and early life history of `r spp` in the California Current. Briefly, `r spp` off the U.S. West Coast exhibit a protracted spawning period from December through March, with peak in February [@guzman_reproductive_2017]. This winter-time spawning may result in reduced availability to the commercial fishery during the winter months. Spawning occurs along the continental shelf-slope break in waters deeper than 300 m. Eggs (~2.1 mm in diameter) are buoyant and rise in the water column before hatching and sinking to deeper waters. Pelagic juveniles are present in off-shore surface waters and settle to the benthos as age-0 recruits during the late summer to fall, with most newly settled fish at depths of less than 250 m. 
 
@@ -25,7 +25,7 @@ Smaller `r spp` are generally found in shallower waters, but the demographics ap
 Adult `r spp` are fast-swimming and capable of feeding on a diverse array of prey species including fishes, cephalopods, and crustaceans [@low_sablefish_1976]. The cohabitation of adult and juvenile `r spp` may result in some cannibalism, and large changes in predator biomass (such as the recent rebuilding of lingcod, *Ophiodon elongatus*, could have a feedback on juvenile survival and, therefore, stock productivity.
 
 
-### Fishery Description
+## Fishery Description
 
 Historical `r spp` landings, beginning in 1890, have been reconstructed by the states (Washington, Oregon, and California) using a variety of sources. Generally, historical `r spp` landings were more reliable than those for many other groundfish species because of their consistent species-level identification. While `r spp` landings were recorded back to the beginning of the 20th century, appreciable quantities were not landed until 1916-1919, with landings remaining below 5,000 metric tons (mt) through the late 1960s. Landings prior to 1960 were primarily harvested by hook-and-line gear. The peak around World War II was likely due to a relaxed degree of species sorting rather than a dramatic increase in fishing effort (i.e., grey literature notes a decrease in manpower with the onset of the war), where increases in demand were fueled by the need for domestic sources of protein [@browning_fisheries_1980].
 
@@ -40,7 +40,7 @@ Gear switching within the individual fishing quota (IFQ) fishery increased after
 **UPDATE** In 2018, the ex-vessel value of the `r spp` fishery was estimated at 25.3 million dollars (pers. comm., E. Steiner). This represents a five-year low, where the previous year, 2017, represented the five-year high at 35.0 million dollars.
 
 
-### Management History and Performance
+## Management History and Performance
 
 From the early 1900s to the early 1980s, management of the `r spp` fishery was the responsibility of the individual coastal states (California, Oregon, and Washington). Since the adoption of the Groundfish Fishery Management Plan by the Pacific Fisheries Management Council in 1982, responsibility has rested with the federal government and the Council. From 1977 to the mid-1980s, U.S. commercial fishermen took advantage of their newly protected fishing grounds (i.e., the enactment of the Fishery Conservation and Management Act, which occurred in in 1976, later to be renamed Magnuson Stevens Fishery Conservation and Management Act) recording high catches of `r spp` to meet the demands of flourishing export (primarily Asian countries) and domestic markets.
 
@@ -52,13 +52,13 @@ Additionally, `r spp` are harvested by the trawl fishery in association with a v
 
 ADD TEXT ABOUT AREA BASED ACLS
 
-### Ecosystem Considerations
+## Ecosystem Considerations
 
 <!---
 If this section is not relevant, please ignore. However, the default will state, “Ecosystem considerations and/or climate indicators were not included in this assessment.”
 --->
 
-### Fisheries off Canada and Alaska
+## Fisheries off Canada and Alaska
 
 Similarly to the U.S. West Coast, `r spp` fisheries in Alaska and British Columbia waters began in the late 1800s, with generally low catches until after World War II. Foreign fisheries began exploiting `r spp` in the northeastern Pacific Ocean during the late 1950s in the Bering Sea leading to rapidly increasing catches in the region through the 1980s. 
 

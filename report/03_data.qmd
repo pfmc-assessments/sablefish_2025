@@ -1,10 +1,10 @@
-## Data
+# Data
 
 A description of each data source is provided below (@fig-data).
 
-### Fishery-dependent data
+## Fishery-dependent data
 
-#### Landings
+### Landings
 
 Landings for `r spp` were composed various historical landings reconstructions, historical foreign fishery data, data extracted from Pacific Fisheries Information Network (PacFIN, extracted April, 21, 2025), and at-sea bycatch estimates (provided by Vanessa Tuttle, NWFSC). The landings used in this assessment are shown in Figure XX and Table XX. 
 
@@ -18,7 +18,7 @@ This assessment also included data on bycatch of `r spp` by the Pacific hake At-
 
 Foreign catches are included in the landings estimates for commercial fleets and were very large in the late 1970s. This assessment assumed the same foreign landings reconstruction used in previous `r spp` asssessments based on the records in the historical annotated landings (HAL) database [@van_houten_lynde_historical_1986].
 
-#### Discards
+### Discards
 
 Data on discards of `r spp` are available from multiple sources. 
 
@@ -28,12 +28,12 @@ The final data for discard rates, meand body weight of discarded fish, and lengt
 
 The discard rates across all data sources by fleet based on gear type are shown in Table XX and Figures XX - XX. The mean weights of discarded `r spp` from WCGCOP data are shown in Figures XX and XX. The discard length observations from the Pikitch study and WCGOP are shown in Figures XX and XX.
 
-#### Composition Data
+### Composition Data
 
 
 
 
-### Fishery-Independent Data
+## Fishery-Independent Data
 
 Data from four research surveys have been used in this assessment to provide fishery-independent information about the abundance, distribution, and biological characteristics
 of `r spp`. The longest time series of fishery-independent data arises from the NWFSC
@@ -41,12 +41,11 @@ West Coast Groundfish Bottom Trawl (WCGBT) survey which began in 2003. This surv
 samples the shelf and slope off the U.S. West Coast covering depths from 30--700 fathoms (55--1,280 meters) on an annual basis (excluding 2020 due to COVID-19). This assessment also
 used data from three additional fishery-independent surveys: NWFSC Slope survey, Alaska Fisheries Science Center (AFSC) Slope survey, and the AFSC/NWFSC West Coast Triennial Shelf survey (Triennial Survey). 
 
-
 The indices from each fishery-independent source were standardized for comparison. Each
 index of abundance was re-scaled relative its mean index value (i.e., each index centered
-around 1.0) shown in Figure XX.
+around 1.0) shown in @fig-index-stand.
 
-#### NWFSC West Coast Groundfish Bottom Trawl Survey
+### NWFSC West Coast Groundfish Bottom Trawl Survey
 
 The WCGBT survey is based on a random-grid design; covering the coastal waters from a depth
 of 55 - 1,280 m [@bradburn_2003_2011]. This design generally uses four industry-chartered
@@ -58,18 +57,18 @@ number (approximately 700) of possible cells from a very large set of possible c
 from the U.S./Mexico to the U.S./Canada borders.
 
 `r Spp` are observed across the full range of depths (Figure XX) and latitudes (Figure XX) sampled by the
-WCGBT survey. A coastwide relative index of abundance was estimated for sablefish using the Species
-Distribution Modeling platform written in Template Model Builder (TMB) (sdmTMB; Anderson et al. [-@Anderson:2022:SRP]). A delta model with a gamma error distribution was selected over the lognormal distribution based on the quantile-quantile plots (Figure XX). This was the same error distribution selected by the 2019 benchmark and 2023 update assessments. The relative index of abundance for `r spp` decreased to the lowest levels between 2008 and 2010, begun to slowly increase between 2011 and 2019, and then sharply increased in 2021 to 2022 and remained high in 2023 and 2024 (Figure XX).
+WCGBT survey. A coastwide relative index of abundance was estimated for `r spp` using the Species
+Distribution Modeling platform written in Template Model Builder (TMB) (sdmTMB; Anderson et al. [-@Anderson:2022:SRP]). A delta model with a gamma error distribution was selected over the lognormal distribution based on the quantile-quantile plots (Figure XX). This was the same error distribution selected by the 2019 benchmark and 2023 update assessments. The relative index of abundance for `r spp` decreased to the lowest levels between 2008 and 2010, begun to slowly increase between 2011 and 2019, and then sharply increased in 2021 to 2022 and remained high in 2023 and 2024 (@fig-index-wcgbt).
 
 Length and age samples collected annually during the WCGBT survey were processed using 2 cm length bins
 between 18 cm and 90 cm and age bins between 0 and 50 years. The length compositions were expanded to
-the tow level and strata level. The age data were included as conditional-age-at-length data to better inform the internal estimation of growth than can be done using marginal age data. Input sample size for the length composition were based on the number of positive tows and a multiplier. lInput sample sizes for the conditional-age-at-length data were the annual number of fish sampled for both age and length.
+the tow level and strata level. The age data were included as conditional-age-at-length data to better inform the internal estimation of growth than can be done using marginal age data. Input sample size for the length composition were based on the number of positive tows and a multiplier. Input sample sizes for the conditional-age-at-length data were the annual number of fish sampled for both age and length.
 
 The 2021 and 2022 length compositions for fish less than 30 cm indicate potentially multiple above average
 recruitments entering the population (Figure XX). The age data indicate above average
 observations of fish from the 2023, 2021, and 2020 cohorts (Figure XX). Across all years, age-0 fish were observed more frequently during the second pass of the survey compared to the first pass, with age-0 fish generally measuring less than 30 cm (Figure XX). The size of age-1 fish generally ranged between 30 cm and 45 cm, with sizes increasing from pass 1 to pass 2. The distribution of age-1 fish size observed in 2021 and 2022 was more variable compared to most other years. Additionally, the distribution of sizes in age-1 fish varied between 2021 and 2022, with age-1 fish being slightly smaller by pass in 2022 compared to 2021.
 
-#### NWFSC Slope Survey
+### NWFSC Slope Survey
 
 The NWFSC Slope Survey covered waters throughout the summer from 183 m to 1,280
 m north of 34\^\circ$ 30$^\prime$ N. latitude, which is near Point Conception, from 1999 and 2002. The
@@ -80,8 +79,10 @@ sample from each year, with 302 - 327 successful tows on average per year. The s
 conducted from mid-August to mid-October in 1998 but was somewhat earlier in 1999 and
 2000 (late-June to late- September).
 
+sdmTMB was used in a similar fashion to that specified for fitting the NWFSC Slope survey. The estimated index shows a relatively flat trajectory over the survey period except for the increase in 2000 (@fig-index-nwslope). Q-Q plots suggested that the gamma distribution (Figure XX) fit the data, better than a log-normal distribution (results not shown). No spatial or spatiotemporal patterns were found in the Pearson residuals (Figures XX). 
 
-#### AFSC Slope Survey
+
+### AFSC Slope Survey
 
 The AFSC Slope survey operated during the months of October to November aboard the
 R/V Miller Freeman. Partial survey coverage of the U.S. west coast occurred during the years
@@ -90,7 +91,7 @@ R/V Miller Freeman. Partial survey coverage of the U.S. west coast occurred duri
 groundfish stock assessments.
 
 
-#### AFSC/NWFSC West Coast Triennial Shelf Survey
+### AFSC/NWFSC West Coast Triennial Shelf Survey
 
 The Triennial survey was first conducted by the AFSC in 1977, and the survey continued
 until 2004 [@weinberg_estimation_2002]. Its basic design was a series of equally-spaced east-to-west
@@ -116,11 +117,11 @@ timing, the Triennial survey data have been split into independent early (1980 -
 late (1995 - 2004) survey time series. The split of the time series was done in the base model
 via a shift in catchability (Q) between the 1992 and 1995 survey years.
 
-### Additional Data Considered
+## Additional Data Considered
 
-### Biological Data
+## Biological Data
 
-#### Natural Mortality
+### Natural Mortality
 
 
 The current method for developing a prior on natural mortality for West Coast groundfish stock assessments is based on Hamel and Cope [-@hamel_development_2022], a method for combining meta-analytic approaches relating the $M$ rate to other life-history parameters such as longevity, size, growth rate, and reproductive effort to provide a prior on $M$. This approach modifies work done by Then et al. [-@then_evaluating_2015] who estimated $M$ and related life history parameters across a large number of fish species from which to develop an $M$ estimator for fish species in general. They concluded by recommending $M$ estimates be based on maximum age alone, based on an updated Hoenig non-linear least squares estimator $M = 4.899A^{-0.916}_{\text{max}}$. Hamel and Cioe [-@hamel_development_2022] re-evaluated the data used by Then et al. [-@then_evaluating_2015] by fitting the one-parameter $A_{\text{max}}$ model under a log-log transformation (such that the slope is forced to be -1 in the transformed space [@hamel_development_2022]), the point estimate and median of the prior for $M$ is:
@@ -137,17 +138,17 @@ where $A_{\text{max}}$ is the maximum age. The prior is defined as a lognormal d
 
 The maximum age for `r spp` was selected based on available age data from all West Coast data sources. The oldest aged `r spp` was 102 years, captured by the commercial fishery in 2006, not accounting for potential ageing error. Examining all aged fish, a maximum age of 75 was selected. Across all data sources there were limited observation greater than 75 years of age. There are a higher frequency of older males compared to females observed in the data, however, females grow to larger sizes and generally have higher fishery selectivity which may bias the sex-ratio of older individuals. Using a maximum age of , the median of the prior was 0.72 yr$^{-1}$ with a standard error of 0.31.
 
-#### Growth/Weight-at-Age
+### Growth/Weight-at-Age
 
 
-#### Maturity and Fecundity
+### Maturity and Fecundity
 
-#### Ageing Precision and Bias
+### Ageing Precision and Bias
 
 Uncertainty surrounding the age-reading error process for `r spp` was incorporated by estimating ageing error by age. Age composition data used in the model were from break-and-burn otolith reads.  
 
 The large majority of aged `r spp` used in the assessment were aged by the Cooperative Ageing Project (CAP).  Within-lab ageing error was estimated for CAP. Break-and-burn double reads of more than 12,000 otoliths were provided by the CAP lab (unpublished data).  An ageing error estimate was made based on these double reads using a computational tool specifically developed for estimating ageing error [@punt_quantifying_2008] and using release 2.02. of the R package \href{https://github.com/nwfsc-assess/nwfscAgeingError}{AgeingError} for input and output diagnostics. A linear standard error was estimated by age where there is more variability in the age of older fish (Figure XX). Sensitivities to alternative ageing error estimates (curvilinear relationship with age) were conducted during model development and the model was relatively insensitive to alternative ageing error assumptions. 
 
-### Environmental/Ecosystem Indicator Data
+## Environmental/Ecosystem Indicator Data
 
 <!-- Describe the environmental/ecosystem indicator data. If none are considered, include a blanket statement. -->

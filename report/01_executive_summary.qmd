@@ -1,11 +1,11 @@
 
-## Executive Summary {-}
+# Executive Summary {-}
 
-### Stock Description {-}
+## Stock Description {-}
 
 This assessment reports the status of the `r spp` (*Anoplopoma fimbria*, or `black cod') resource off the coast of the United States (U.S.) from southern California to the U.S.-Canadian border using data through `r data_end_year`. The resource is modeled as a single stock, however `r spp` do disperse to and from offshore sea mounts and along the coastal waters of the continental U.S., Canada, and Alaska and across the Aleutian Islands to the western Pacific. Their movement is not explicitly accounted for in this analysis.
 
-### Catches {-}
+## Catches {-}
 
 Check to see if referencing works @tbl-es-catches
 
@@ -24,7 +24,7 @@ catches_es_table |>
     columns = 2:6,
     decimals = 0
   ) |>
-  tab_options(
+  gt::tab_options(
     table.font.size = 12,
     # if want to not have tables the width of the page include the below option:
     latex.use_longtable = TRUE 
@@ -35,7 +35,7 @@ catches_es_table |>
   #cols_width(
   #  everything() ~ px(75)
   #) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -53,10 +53,10 @@ knitr::include_graphics(
 
 ```
 
-### Data and Assessments {-}
+## Data and Assessments {-}
 
 
-### Stock Output and Dynamics {-}
+## Stock Output and Dynamics {-}
 
 @tbl-es-sb
 
@@ -124,7 +124,7 @@ knitr::include_graphics(
 
 ```
 
-### Recruitment {-}
+## Recruitment {-}
 
 ```{r, results = "asis"}
 #| label: tbl-es-recr
@@ -189,7 +189,7 @@ knitr::include_graphics(
 ```
 
 
-### Exploitation Status {-}
+## Exploitation Status {-}
 
 
 ```{r, results = "asis"}
@@ -237,10 +237,10 @@ knitr::include_graphics(
 ```
 
 
-### Ecosysystem Consideration {-}
+## Ecosysystem Consideration {-}
 
 
-### Reference Points {-}
+## Reference Points {-}
 
 
 ```{r, results = "asis"}
@@ -321,7 +321,7 @@ knitr::include_graphics(
 
 ```
 
-### Management Performance {-}
+## Management Performance {-}
 
 
 ```{r, results = "asis"}
@@ -353,10 +353,10 @@ recent_management_table |>
 ```
 
 
-### Evaluation of Scientific Uncertainty {-}
+## Evaluation of Scientific Uncertainty {-}
 
 
-### Harvest Projections and Decision Tables {-}
+## Harvest Projections and Decision Tables {-}
 
 \blandscape
 
@@ -398,7 +398,7 @@ projections_table |>
 
 \elandscape
 
-### Unresolved Problems and Major Uncertainties {-}
+## Unresolved Problems and Major Uncertainties {-}
 
-### Research and Data Needs {-}
+## Research and Data Needs {-}
 

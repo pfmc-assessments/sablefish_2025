@@ -1,30 +1,30 @@
-## Assessment
+# Assessment
 
-### History of Modeling Approaches
+## History of Modeling Approaches
 
-### Most Recent STAR Panel Recommendations
-
-
-### Response to SSC Groundfish Subcommittee Recommendations
+## Most Recent STAR Panel Recommendations
 
 
-### Bridging Analysis
+## Response to SSC Groundfish Subcommittee Recommendations
 
 
-### Configuration of the Base Model
+## Bridging Analysis
+
+
+## Configuration of the Base Model
 
 <!--- Describe the setup of the stock assessment model. --->
 
-### Model Parameters
+## Model Parameters
 
 <!--- General model specifications: assessment program, model structure, area
 and fleet definitions, initial conditions. --->
 
 <!--- Fixed and estimated parameters --->
 
-#### Priors
+## Priors
 
 
-#### Data Weighting
+## Data Weighting
 
 
