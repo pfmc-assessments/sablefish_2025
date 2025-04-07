@@ -41,6 +41,22 @@ if (file.exists(table_dir)) {
   projections_cap <- projections$cap
   rm(projections)
   
+  compweight_table <- table_compweight$table
+  compweight_cap <- table_compweight$cap
+  rm(table_compweight)
+  
+  config_table <- table_config$table
+  config_cap <- table_config$cap
+  rm(table_config)
+  
+  parcount_table <- table_parcounts$table
+  parcount_cap <- table_parcounts$cap
+  rm(table_parcounts)
+  
+  par_table <- table_pars$table
+  par_cap <- table_pars$cap
+  rm(table_pars)
+  
   eval_tables <- TRUE
 } else {
   eval_tables <- FALSE
@@ -75,5 +91,20 @@ if (file.exists(table_dir)) {
     dplyr::filter(SPECIFICATION_TYPE == "ACL", YEAR >= end_year) |>
     dplyr::arrange(YEAR) |>
     dplyr::select(VAL)
+  
+  all_files <- list.files(here::here("data"))
+  all_rda_files <- all_files[grep(".rda", all_files)]
+  for (a in 1:length(all_rda_files)) {
+    load(here::here("data", all_rda_files[a]))
+  }
+  
+  wcgbt_catch <- data_survey_catch$nwfsc_combo |>
+  dplyr::mutate(
+    positive = dplyr::case_when(total_catch_numbers > 0 ~ 1, .default = 0),
+    state = dplyr::case_when(Latitude_dd > 46.25 ~ "WA", 
+                             Latitude_dd < 36.0 ~ "SCA", 
+                             Latitude_dd >= 36.0 & Latitude_dd < 42.0 ~ "NCA",
+                             .default = "OR"))
+  wcgbt_bio <- data_survey_bio$nwfsc_combo
 
 ```

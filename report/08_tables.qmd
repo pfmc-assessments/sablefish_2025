@@ -246,6 +246,41 @@ read.csv(here::here("data-processed", "data-commercial-age-bds-n.csv")) |>
 \pagebreak
 
 ```{r}
+#| label: tbl-wcgbt-strata
+#| warning: false
+#| echo: false
+#| tbl-cap: "Design-based stratification by depth and latitude used to expand composition data for the WCGBT survey."
+
+
+strata_combo |>
+  tidyr::unite(
+    "Depth", c(Depth_m.1, Depth_m.2), sep = '-'
+  ) |>
+  tidyr::unite(
+    "Latitude", c(Latitude_dd.1, Latitude_dd.2), sep = '-'
+  ) |>
+  dplyr::rename(
+    `Area (km2)` = area,
+    `Depth (m)` = Depth
+  ) |>
+  dplyr::select(-name) |>
+  dplyr::relocate(`Area (km2)`, .after = Latitude) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 3,
+    decimals = 0
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+\pagebreak
+
+```{r}
 #| label: tbl-wcgbt-samples
 #| warning: false
 #| echo: false
@@ -269,6 +304,41 @@ read.csv(here::here("data-processed", "data-survey-wcgbt-n.csv")) |>
 ```
 
 \pagebreak
+
+
+```{r}
+#| label: tbl-nwslope-strata
+#| warning: false
+#| echo: false
+#| tbl-cap: "Design-based stratification by depth and latitude used to expand composition data for the NWFSC Slope survey."
+
+
+strata_nwfsc_slope |>
+  tidyr::unite(
+    "Depth", c(Depth_m.1, Depth_m.2), sep = '-'
+  ) |>
+  tidyr::unite(
+    "Latitude", c(Latitude_dd.1, Latitude_dd.2), sep = '-'
+  ) |>
+  dplyr::rename(
+    `Area (km2)` = area,
+    `Depth (m)` = Depth
+  ) |>
+  dplyr::select(-name) |>
+  dplyr::relocate(`Area (km2)`, .after = Latitude) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 3,
+    decimals = 0
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
 
 ```{r}
 #| label: tbl-nwslope-samples
@@ -297,6 +367,40 @@ read.csv(here::here("data-processed", "data-survey-nwfscslope-n.csv")) |>
 
 
 ```{r}
+#| label: tbl-afslope-strata
+#| warning: false
+#| echo: false
+#| tbl-cap: "Design-based stratification by depth and latitude used to expand composition data for the AFSC Slope survey."
+
+
+strata_afsc_slope |>
+  tidyr::unite(
+    "Depth", c(Depth_m.1, Depth_m.2), sep = '-'
+  ) |>
+  tidyr::unite(
+    "Latitude", c(Latitude_dd.1, Latitude_dd.2), sep = '-'
+  ) |>
+  dplyr::rename(
+    `Area (km2)` = area,
+    `Depth (m)` = Depth
+  ) |>
+  dplyr::select(-name) |>
+  dplyr::relocate(`Area (km2)`, .after = Latitude) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 3,
+    decimals = 0
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+
+```{r}
 #| label: tbl-afslope-samples
 #| warning: false
 #| echo: false
@@ -316,6 +420,76 @@ read.csv(here::here("data-processed", "data-survey-afscslope-n.csv")) |>
     latex.use_longtable = TRUE
   ) |>
   as_latex()
+
+```
+
+\pagebreak
+
+
+```{r}
+#| label: tbl-tri-early-strata
+#| warning: false
+#| echo: false
+#| tbl-cap: "Design-based stratification by depth and latitude used to expand composition data for the Triennial survey between 1980-1992."
+
+
+strata_triennial_early |>
+  tidyr::unite(
+    "Depth", c(Depth_m.1, Depth_m.2), sep = '-'
+  ) |>
+  tidyr::unite(
+    "Latitude", c(Latitude_dd.1, Latitude_dd.2), sep = '-'
+  ) |>
+  dplyr::rename(
+    `Area (km2)` = area,
+    `Depth (m)` = Depth
+  ) |>
+  dplyr::select(-name) |>
+  dplyr::relocate(`Area (km2)`, .after = Latitude) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 3,
+    decimals = 0
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+
+```{r}
+#| label: tbl-tri-late-strata
+#| warning: false
+#| echo: false
+#| tbl-cap: "Design-based stratification by depth and latitude used to expand composition data for the Triennial survey between 1995-2004."
+
+
+strata_triennial_early |>
+  tidyr::unite(
+    "Depth", c(Depth_m.1, Depth_m.2), sep = '-'
+  ) |>
+  tidyr::unite(
+    "Latitude", c(Latitude_dd.1, Latitude_dd.2), sep = '-'
+  ) |>
+  dplyr::rename(
+    `Area (km2)` = area,
+    `Depth (m)` = Depth
+  ) |>
+  dplyr::select(-name) |>
+  dplyr::relocate(`Area (km2)`, .after = Latitude) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 3,
+    decimals = 0
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
 
 ```
 
@@ -381,14 +555,33 @@ maturity_data |>
 ```
 
  {{< pagebreak >}} 
+ 
+```{r}
+#| label: tbl-model-config
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) config_cap
+
+config_table |>
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+
+```
+
 
 ```{r}
 #| label: tbl-n-param
 #| warning: false
 #| echo: false
-#| tbl-cap: "The number of estimated parameters in the base model."
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) parcount_cap
 
-n_pars |>
+parcount_table |>
   gt() |>
   tab_options(
     table.font.size = 12,
@@ -400,29 +593,32 @@ n_pars |>
 
  {{< pagebreak >}} 
  
- \blandscape
+::: {.landscape}
 
 ```{r}
-#| label: tbl-param
+#| label: tbl-param-asar
 #| warning: false
 #| echo: false
-#| tbl-cap: "The estimated and fixed parameters in the base model."
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) par_cap 
 #| tbl-pos: H
 
-pars |>
-  kableExtra::kbl() |>
-  kableExtra::kable_styling(font_size = 7)
-  #gt() |>
-  #tab_options(
-  #  table.font.size = 10,
-  #  latex.use_longtable = TRUE
-  #) |>
-  #cols_width(
-  #  starts_with("L") ~ px(300),
-  #  starts_with("Pr") ~ px(100)
-  #) |>
-  #as_latex()
+par_table |>
+  flextable::flextable() |>
+  flextable::fontsize(size = 8) |>
+  flextable::width(
+    j = c(1, 2, 3, 4, 5, 6, 7),
+    width = c(2, 0.5, 0.5, 1.5, 0.5, 0.5, 2.5)
+  ) 
+
+#asar::ID_tbl_width_class(
+#  plot_name = "parameters.rda",
+#  rda_dir = table_dir,
+#  portrait_pg_width = 12
+#)
 
 ```
 
-\elandscape
+::: 
+
+ {{< pagebreak >}} 
