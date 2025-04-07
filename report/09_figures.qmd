@@ -111,6 +111,22 @@ knitr::include_graphics(
 
 \pagebreak
 
+```{r} 
+#| label: fig-qq-wcgbt
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "QQ plot for the NWFSC WCGBT survey."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "wcgbt_qq.png")
+)
+
+```
+
+\pagebreak
+
 
 ```{r} 
 #| label: fig-index-wcgbt
@@ -122,6 +138,89 @@ knitr::include_graphics(
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "index1_cpuedata_NWCBO.png")
+)
+
+```
+
+\pagebreak
+
+
+```{r} 
+#| label: fig-positive-lat-wcgbt
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Proportion of tows where sablefish was present or absent across all years by latitude for the NWFSC West Coast Groundfish Bottom Trawl survey."
+#| fig-alt: ""
+
+ nwfscSurvey::plot_proportion(
+    data = wcgbt_catch |> 
+      dplyr::mutate(new = factor(cpue_kg_km2 <= 0, levels = c(FALSE, TRUE), labels = c("Present", "Absent"))),
+    column_factor = new,
+    column_bin = Latitude_dd,
+    width = 1,
+    boundary = 0,
+    bar_width = "equal"
+  ) 
+
+```
+
+
+```{r} 
+#| label: fig-positive-depth-wcgbt
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Proportion of tows where sablefish was present or absent across all years by depth (m) for the NWFSC West Coast Groundfish Bottom Trawl survey."
+#| fig-alt: ""
+
+ nwfscSurvey::plot_proportion(
+    data = wcgbt_catch |> 
+      dplyr::mutate(new = factor(cpue_kg_km2 <= 0, levels = c(FALSE, TRUE), labels = c("Present", "Absent"))),
+    column_factor = new,
+    column_bin = Depth_m,
+    width = 100,
+    boundary = 0,
+    bar_width = "equal"
+  ) 
+
+```
+
+\pagebreak
+
+
+```{r} 
+#| label: fig-sex-ratio-wcgbt
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Sex ratio across all years by depth (m) for the NWFSC West Coast Groundfish Bottom Trawl survey."
+#| fig-alt: ""
+
+ nwfscSurvey::plot_proportion(
+    data = wcgbt_bio |> dplyr::filter(Sex != "U"),
+    column_factor = Sex,
+    column_bin = Depth_m,
+    width = 100,
+    boundary = 0,
+    bar_width = "equal"
+  ) 
+
+```
+
+\pagebreak
+
+
+```{r} 
+#| label: fig-qq-nwfslope
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "QQ plot for the NWFSC Slope survey."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "nwfsc_slope_qq.png")
 )
 
 ```
@@ -145,6 +244,23 @@ knitr::include_graphics(
 
 \pagebreak
 
+
+```{r} 
+#| label: fig-qq-afslope
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "QQ plot for the AFSC Slope survey."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "afsc_slope_qq.png")
+)
+
+```
+
+\pagebreak
+
 ```{r} 
 #| label: fig-index-afslope
 #| echo: false 
@@ -155,6 +271,41 @@ knitr::include_graphics(
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "index1_cpuedata_AKSLP.png")
+)
+
+```
+
+\pagebreak
+
+
+```{r} 
+#| label: fig-qq-tri-early
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "QQ plot for the Triennial survey for the early period, 1980-1992."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "tri_early_qq.png")
+)
+
+```
+
+\pagebreak
+
+
+
+```{r} 
+#| label: fig-qq-tri-late
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "QQ plot for the Triennial survey for the late period, 1995-2004."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "tri_late_qq.png")
 )
 
 ```
