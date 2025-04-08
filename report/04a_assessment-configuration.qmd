@@ -2,10 +2,147 @@
 
 ## History of Modeling Approaches
 
+The first `r spp` stock assessment was completed in 1984 [@francis1984sablefish], followed by frequent assessments since then (e.g., @francis1985sablefish, @mcdevitt1987sablefish, @methot1988sablefish, @methot1989sablefish, @methot1990sablefish, @methot1992, @methot1994, @crone1997sablefish, @methot1998sablefish, @schirripa2001sablefish, @schirripa2002sablefish, @schirripa2005sablefish, @schirripa2007sablefish, @stewart2011sablefish, @johnson2016sablefish}). The 1984 assessment examined CPUE data from the 1979 to 1983 NMFS pot survey [@francis1984sablefish}] Subsequent stock assessments were based on age-structured frameworks of varying complexity.
+
+The 1985 age-structured assessment utilized a simulation model, estimating $M$, average weight-at-age, recruitment, and relative age-specific catchability, to examine maximum sustainable yield ($MSY$). The model relied on NMFS trawl and pot surveys as well as parameter estimates generated from independent research. The 1987 `r spp` assessment extended the NMFS survey time-series and primarily consisted of a modified yield-per-recruitment analysis focusing on the minimum size limit (22 in) implemented in 1983.
+
+In 1988, a catch-at-age analysis using an early version of the Stock Synthesis (SS) modeling framework, which is the basis for all subsequent assessments, was implemented [@methot1988sablefish] This model included two fleets, fixed gear and trawl, and two years of fishery biological data. NMFS trawl and pot surveys provided indices of abundance, and estimates of exploitation rate were based on tag-recapture information generated from a tagging study that began in 1971. The 1989 `r spp` stock assessment followed a similar approach; revisions in the age-determination criteria for `r spp` caused an increase in the observed proportion of old fish and a decrease in the estimate of $M$ from 0.15 to 0.09. The 1990 `r spp` assessment [@methot1990sablefish] explicitly modeled stock structure with a northern population (U.S. Vancouver and Columbia INPFC areas) and a southern population (Eureka, Monterey, and Conception INPFC areas). Including spatial structure was motivated by differences in growth rates and the perception of low migration rates. The spatial models facilitated comparisons between and amongst areas with signals in the raw data.
+
+In 1992, the assessment reverted to a single stock area, excluding the Conception INPFC area [@methot1992}] Data from the Triennial Shelf trawl survey were used to extrapolate survey estimates to the entire assessment area (Monterey through U.S. Vancouver INPFC areas). Analysis focused on exploring the trade-off in fitting the trawl-survey biomass and the trend from the pot survey. The depth stratified age- and length-composition data suggested that movement of `r spp` into deep water was more closely related to their age than size. The 1994 `r spp` assessment [@methot1994] was similar to the 1992 analysis. The survey was used as an absolute measure of biomass after extrapolation to the coast-wide level. The 1997 assessment [@crone1997sablefish] added CPUE data. No single model was found that fit all indices well. The 1998 assessment [@methot1998sablefish] focused on the inclusion and exclusion of the pot survey index and the use of commercial logbook CPUE.
+
+The 2001 assessment [@schirripa2001sablefish] focused on evaluating the sensitivity of the results to the treatment of the survey data and trade-offs among pot survey and logbook indices of abundance. This assessment was the first to introduce the possibility that `r spp` recruitment may be linked to environmental factors. The 2002 assessment [@schirripa2002sablefish] was an update to [@schirripa2001sablefish] and focused mainly on newly available data from existing sources. It was the first assessment to detect the strong 1999 and 2000 cohorts in the 2001 data, following many years of below average recruitment. A significant relationship between recruitment and sea level was identified.
+
+Several important changes were made to the `r spp` assessment in 2005 [@schirripa2005sablefish]. Landings (and the modeled time-period) were extended back to the year 1900. Separate selectivity curves were implemented for the trawl surveys, and years with limited geographic coverage in the Triennial Shelf Survey were eliminated. Discard data from the relatively new observer program were included and discard mortality was investigated. Sea level was used as an explicit offset in the population dynamics to expected recruitment.
+
+The 2007 assessment [@schirripa2007sablefish] included newly available data and changed the treatment of the sea level index of recruitment within the stock assessment model to be a survey index of recruitment with observation error, rather than an explicit offset in the population dynamics to expected recruitment. The assessment made the explicit assumption that catchability for the WCGBT Survey was equal to 0.56, which was modeled by using only the shelf region. Uncertainty was investigated and reported primarily through alternate values for catchability.
+
+The 2011 stock assessment [@stewart2011sablefish] reduced the number of parameters used to model fishery dynamics. Historical management actions were condensed to those that had a strong influence on fishery behavior (sorting and retention, selectivity, or both). Previously fixed leading parameters, $M$ and trawl survey catchability, were estimated or used analytical solutions. Changes lead to increased, more realistic, estimates of uncertainty around stock size estimates. Repeated testing of the correlation between sea level and recruitment continued to find a significant relationship that explained approximately 35 percent of the variability in recruitment deviations. The sea-level data was used from 1970 forward, a period with length- and age-composition data, and was not retained in the base model because the index provided a recruitment signal largely consistent with that provided by the composition data. Finally, the large number of deviations about annual growth and annual selectivity curves estimated in the 2007 model were reduced, with the net effect that uncertainty was increased. The sensitivity of model results to ($M$), equilibrium recruitment, and steepness ($h$), which was estimated prior to 2011, was investigated via likelihood profiles. The 2015 stock assessment [@johnson2016sablefish] was an update to the 2011 stock assessment, maintaining the same model structure and focused on adding the new data and retuning the model given the new data.
+
+ADD SUMMARY OF THE 2019 ASSESSMENT
+
+In summary, assessments have largely drawn the similar conclusions regarding historical trends. Since the 1970s, the `r spp` resource has show a rapid, persistent decline due to many years with low recruitment and high fishing intensity during 1970s and 1980s. Uncertainty regarding the absolute scale of the `r spp` population has remained high, with previous assessment models suggesting that unfished spawning biomass ranges between just under 100,000 mt up to approximately 250,000 mt.
+
+
 ## Most Recent STAR Panel Recommendations
 
+The [STAR Panel Report](https://www.pcouncil.org/documents/2019/10/sablefish-star-panel-report-july-8-12-2019.pdf/) from the 2019 benchmark assessment made the following suggestions:
 
-## Response to SSC Groundfish Subcommittee Recommendations
+*Short Term*
+
+**Recommendation**: To understand whether regional differences in growth, and associated size or age composition,
+are behind the strong tensions observed in age and length composition data, future assessment models should evaluate having separate fixed gear fleets north and south of 36$^\circ$ N (as discussed in unresolved problems and major uncertainties). The potential merits of other regional differences in fleet structure could also be explored. 
+
+**Response**:
+
+
+**Recommendation**: Future assessments should consider the use of empirical weights-at-age. One approach would be to begin with the WCGBT data and use it to fit (outside model) a smoother outside the model (see Jim Ianelli for code that uses a random effects model to estimate weights using empirical
+data by cohort and year). This would avoids confounding weight at age with growth estimates (e.g., Lee et al. 2019, Whitten et al. 2013), should allow the model to run faster, and should enable the model to better accommodate variability in growth (in both age and over time). Another advantage is that somatic body masses are based on actual measurements instead of model estimates which predicts mean length and then converts length to mass via a fixed set of length-weight parameters
+
+**Response**:
+
+
+**Recommendation**: Consider (and potentially adopt) length based selectivity for the WCGBTS, as selectivity bias could lead to observed age zero fish not being a good representation of mean length at age 0 (which could affect estimates of growth). [Figure 13](https://www.pcouncil.org/documents/2019/10/sablefish-star-panel-report-july-8-12-2019.pdf/#page = 28) shows some summary results of this issue, including the lack of apparent growth of age 0 sablefish during the period of the survey. A related issue is that specifying the size at age 0.5 (or 1.5), as well as the CV, should be in common by sex. Dimorphic growth presumably occurs at older ages. Future assessments should consider configuring “offsets” for sex differences in the growth. The rationale for this change is that differences between sexes at such young ages seem unlikely and re-configuring the model in this way will reduce the number of parameters needed.
+
+**Response**: Examine age-specific selectivity that is fixed at a “plus group” age (or have a reasonable
+rationale as to why selectivity might be changing over those ages).
+
+
+**Recommendation**: Provide estimates of retention external to the model and evaluate if the approach of doing it
+within the model (and then fixing the values because of discard length composition data affecting
+model results other than the shape of the retention curve).
+
+**Response**:
+
+
+**Recommendation**: Reconsider spline or some other non-parametric selectivity forms, as there are unexpected
+behaviors observed in estimating double normal selectivities for the fixed gear fishery. The
+requirement (apparently) to have to fix the “P6” parameter related to old sablefish selectivity and
+some other interactions seems unusual, and several of the convergence issues were related to
+selectivity parameters for some gear types/surveys. The 2015 model used a different form for
+selectivity and the document provided little justification to choose one over the other. “Fewer
+parameters” is a poor reason if performance overall is so much worse. The convergence
+problems did seem to be largely resolved after the STAT fixed the CV of young ages.
+
+**Response**:
+
+
+**Recommendation**: The CAAL plots suggest that in the early years of the WCGBTS the residuals of the biggest fish
+were generally “young” and in the more recent years the pattern of observed and predicted were more consistent. This could be due to changes in growth and/or size (or age) based selectivity/availability changes and should be investigated. 
+
+**Response**:
+
+**Recommendation**: Developing diagnostics that better evaluate sex ratio observations against model predictions
+would be useful, especially given some of the differences observed in the fisheries selectivities
+estimates and in sex specific natural mortality configurations compared to combined sexes
+natural mortality.
+
+**Response**:
+
+
+**Recommendation**: Reducing the number of ages should be considered, as the plus group information and dynamics
+beyond some ages are unlikely to change (as shown in [Figure 14]((https://www.pcouncil.org/documents/2019/10/sablefish-star-panel-report-july-8-12-2019.pdf/#page = 29))).
+
+**Response**:
+
+
+**Recommendation**: Continuing to evaluate the use of sea level and/or other environmental indicators as drivers of
+both historic and future recruitments is strongly encouraged, and future assessments should strive
+to clearly convey how such data explicitly relate to recruitment as well as to convey the logic and
+presumed mechanisms behind the relationship.
+
+**Response**:
+
+
+*Medium and Long Term*
+
+**Recommendation**: The panel had concerns about the large amount of data and the challenges faced doing things
+such as estimating natural mortality and the CVs on growth and other factors. However, the core
+growth parameters were generally stable, and convergence problems are not atypical when
+natural mortality is difficult to estimate and selectivity patterns are all dome-shaped. The panel
+notes that it is worth reflecting on whether a somewhat different modeling approach would work
+better (in the longer term). The nature of the issues in the data may be stretching the capacity of
+the analytical framework and software to do what needs to be done.
+
+**Response**:
+
+
+**Recommendation**: The STAT provided very helpful updates on ongoing efforts to evaluate life history
+characteristics, movement patterns and management approaches throughout the range of
+sablefish in the Northeast Pacific. The STAR Panel agrees with the STAT that ongoing and
+future work, such as efforts to develop a transboundary stock assessment and management
+framework, be pursued. This is based on strong indications that current stock boundaries are
+likely to be inappropriate, and that a transboundary assessment would likely improve the ability
+to estimate the scale of the population.
+
+**Response**:
+
+**Recommendation**: As the WCGBTS is highly informative in the model, maintaining full coastwide survey effort is
+essential. However, currently the survey does not include a large fraction of the habitat south of
+36$^\circ$ N, the cowcod conservation areas. Despite a lack of data in this large area, catch is allocated north and south of 36$^\circ$ N based on the estimated fraction of sablefish in these areas, and this fraction, in turn, is based on an extrapolation of survey catch rates outside the CCAs to those
+inside. As fish within the CCAs are only subject to fishing pressure if and when they move, and
+movement rates are variable, this concentration of effort outside of the CCAs could potentially
+lead to localized depletion, which in turn could bias the signal in fishery (and potentially survey)
+age and length composition from the fished areas. It would be beneficial to have survey data
+from within the CCAs to inform the survey, and to allow for some evaluation of whether and
+how population structure may vary inside and outside of the CCAs. There could be some
+potential for local depletion elsewhere as well, given the concentration of trawl effort off of
+Oregon and Washington and the decline in fishing effort and catches of both trawl and fished
+gear in California north of 36$^\circ$ N.
+
+**Response**:
+
+**Recommendation**: For the WCGBTS, evaluate cohort total mortality ($Z$) for consistency and as a check with model
+values. Comparing the survey estimate numbers at age over time (e.g., relative abundance at age
+2 in year $y$ compared to abundance at age 3 in year $y+1$). 
+
+**Response**:
+
+**Recommendation**: Better estimates of aging error, bias and continued efforts to improve on age validation remain
+high research priorities. 
+
+**Response**:
+
+
 
 
 ## Bridging Analysis
