@@ -245,6 +245,69 @@ read.csv(here::here("data-processed", "data-commercial-age-bds-n.csv")) |>
 
 \pagebreak
 
+
+
+```{r, results = "asis"}
+#| label: tbl-prop-area
+#| warning: false
+#| echo: false
+#| tbl-cap: "Estimated percentage of sablefish biomass estimated north and south of 36 N. latitude based on the NWFSC WCGBT survey data over the last five years."
+#| tbl-pos: H
+
+wcgbt_area <- read.csv(here::here("report", "figures", "wcgbt_est_by_area.csv")) |>
+  dplyr::filter(area %in%  c("North of Monterey Bay", "South of Monterey Bay")) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    total_est = sum(est)
+  ) |>
+  dplyr::mutate(
+    Area = dplyr::case_when(area == "North of Monterey Bay" ~ "north", .default = "south"),
+    prop = est / total_est
+  ) |>
+  dplyr::filter(year >= 2019)  |>
+  dplyr::rename(
+    Year = year,
+    Proportion = prop) |>
+  dplyr::select(Year, Area, Proportion) |>
+  tidyr::pivot_wider(
+    names_from = Area,
+    values_from = Proportion
+  ) |>
+  dplyr::mutate(
+    Year = as.character(Year)
+  ) |>
+  as.data.frame()
+
+average <- data.frame(
+  Year = "Average",
+  north = mean(as.numeric(wcgbt_area[, 2])),
+  south = mean(as.numeric(wcgbt_area[, 3]))
+)
+
+all <- dplyr::bind_rows(wcgbt_area, average)
+colnames(all) <- c(
+  "Year", 
+  "N. 36 Latitude",
+  "S. 36 Latitude"
+)
+
+all |>
+  dplyr::ungroup() |>
+  gt::gt() |>
+  gt::fmt_percent(
+    columns = 2:3,
+    decimals = 1
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+\pagebreak
+
 ```{r}
 #| label: tbl-wcgbt-strata
 #| warning: false
@@ -622,3 +685,118 @@ par_table |>
 ::: 
 
  {{< pagebreak >}} 
+ 
+
+```{r, results = "asis"}
+#| label: tbl-ref-points
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) reference_points_cap 
+#| tbl-pos: H
+
+reference_points_table |>
+  gt() |>
+  fmt_number(
+    columns = 2:4,
+    rows = c(1:4, 7, 10, 12, 15, 17, 20),
+    decimals = 0
+  ) |>
+  fmt_number(
+    columns = 2:4,
+    rows = c(5, 8, 9, 13:14, 18:19),
+    decimals = 3
+  ) |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>  
+  tab_style(
+    style = list(
+      cell_text(style = "italic")
+    ),
+    locations = cells_body(
+      columns = "Reference Point",
+      rows = starts_with("Reference")
+    )
+  ) |>
+  sub_missing(
+    columns = everything(),
+    missing_text = "---"
+  ) |>
+  #cols_width(
+  #  starts_with("R") ~ px(300),
+  #  starts_with("E") ~ px(65),
+  #  ends_with("l") ~ px(65)
+  #) |>
+  as_latex()
+
+```
+
+
+\pagebreak
+
+::: {.landscape}
+
+```{r, results = "asis"}
+#| label: tbl-projections
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) projections_cap 
+#| tbl-pos: H
+
+projections_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = c(2:5, 7:9),
+    decimals = 0
+  ) |>
+  gt::fmt_number(
+    columns = c(6, 10),
+    decimals = 3
+  ) |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>
+  sub_missing(
+    columns = everything(),
+    missing_text = "---"
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  cols_width(
+    everything() ~ px(75)
+  ) |>
+  as_latex()
+
+```
+
+:::
+
+\pagebreak
+
+
+```{r, results = "asis"}
+#| label: tbl-area-spex
+#| warning: false
+#| echo: false
+#| tbl-cap: "Adopted coastwide OFL (mt) and ABC (mt) values and the area-based ACL (mt) north and south of 36 N. latitude by year."
+#| tbl-pos: H
+
+area_management_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = c(2:5),
+    decimals = 0
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>
+  gt::as_latex()
+
+```
+

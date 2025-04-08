@@ -1,0 +1,19 @@
+Most of the research needs listed below entail investigations that need to take place outside of the routine assessment cycle and require additional resources to be completed.
+
+\begin{enumerate}
+
+\item Not all of the available otoliths were aged for this stock assessment because of time constraints resulting from the federal government furlough, and, in some cases, the sample sizes of aged fish are lower than what would be ideal. Resources should be provided to age otolith samples from years with missing age data or small sample sizes.
+
+\item Investigation of environmental covariates for recruitment on a stock-wide, northeast Pacific scale.
+
+\item Continuation of the annual NWFSC WCGBT survey will provide information on stock trends and incoming recruitments. A longer survey time series may improve the precision of estimates of absolute stock size and productivity into the future.
+
+\item Age validation is needed to verify the level of age bias present in the data, if any.
+
+\item Investigate aging methods that could prove more precise than current break-and-burn methods. More accurate age data would facilitate tracking cohorts to older ages, improving estimates of historical year-class strengths.
+
+\item Research on understanding the interactions between spatial patterns in sablefish growth, fishery size selectivity, and movement across the Northeast Pacific began during 2019 and are ongoing. The results of this research should be considered in future benchmark stock assessments. 
+
+\item Anecdotal information, such as the large 1947 recruitment reported by central California sport fisherman, along with historical records could be investigated to provide additional information on historical patterns of recruitment.
+
+\end{enumerate}
