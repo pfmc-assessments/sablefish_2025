@@ -244,7 +244,7 @@ knitr::include_graphics(
 
 
 ```{r, results = "asis"}
-#| label: tbl-ref-points
+#| label: tbl-ref-points-es
 #| warning: false
 #| echo: false
 #| eval: !expr eval_tables 
