@@ -70,6 +70,15 @@ if (file.exists(table_dir)) {
 
 # Special modification to the management and projection tables to add quantities
 # from a sourced csv file in the skeleton r chunk.
+  add_col <- data.frame(acl_north = recent_management_table[, "ACL (mt)"]) 
+  recent_management_table <- dplyr::bind_cols(
+    recent_management_table |>
+      dplyr::rename(`ACL South (mt)` = `ACL (mt)`),
+    add_col
+  ) |>
+  dplyr::relocate(acl_north, .after = `ABC (mt)`) |>
+  dplyr::rename(`ACL North (mt)` = acl_north)
+  
   recent_management_table[, "OFL (mt)"] <- cw_harvest_spex |>
     dplyr::filter(SPECIFICATION_TYPE == "OFL", YEAR %in% es_10_years) |>
     dplyr::arrange(YEAR) |>
@@ -78,10 +87,49 @@ if (file.exists(table_dir)) {
     dplyr::filter(SPECIFICATION_TYPE == "ABC", YEAR %in% es_10_years) |>
     dplyr::arrange(YEAR) |>
     dplyr::select(VAL)
-  recent_management_table[, "ACL (mt)"] <- cw_harvest_spex |>
-    dplyr::filter(SPECIFICATION_TYPE == "ACL", YEAR %in% es_10_years) |>
+  recent_management_table[, "ACL North (mt)"] <- area_harvest_spex |>
+    dplyr::filter(AREA_NAME == "N36", YEAR %in% es_10_years) |>
     dplyr::arrange(YEAR) |>
     dplyr::select(VAL)
+  recent_management_table[, "ACL South (mt)"] <-area_harvest_spex |>
+    dplyr::filter(AREA_NAME == "S36", YEAR %in% es_10_years) |>
+    dplyr::arrange(YEAR) |>
+    dplyr::select(VAL)
+  
+  area_management_table <- dplyr::bind_cols(
+    area_harvest_spex |>
+    dplyr::select(YEAR, AREA_NAME, VAL) |>
+    dplyr::rename(
+      Year = YEAR,
+      area = AREA_NAME
+    ) |>
+    tidyr::pivot_wider(
+      names_from = area,
+      values_from = VAL
+    ),
+    cw_harvest_spex |>
+    dplyr::filter(SPECIFICATION_TYPE == "OFL") |>
+    dplyr::select(VAL) |>
+    dplyr::rename(
+      ofl = VAL),
+    cw_harvest_spex |>
+    dplyr::filter(SPECIFICATION_TYPE == "ABC") |>
+    dplyr::select(VAL) |>
+    dplyr::rename(
+      abc = VAL)
+  ) |>
+    dplyr::relocate(
+      ofl, .after = Year
+    ) |>
+    dplyr::relocate(
+      abc, .after = ofl
+    ) |>
+    dplyr::rename(
+      `OFL Coastwide (mt)` = ofl,
+      `ABC Coastwide (mt)` = abc,
+      `ACL South (mt)` = S36,
+      `ACL North (mt)` = N36
+    )
 
   projections_table[1:2, "Adopted OFL (mt)"] <- cw_harvest_spex |>
     dplyr::filter(SPECIFICATION_TYPE == "OFL", YEAR >= end_year) |>
