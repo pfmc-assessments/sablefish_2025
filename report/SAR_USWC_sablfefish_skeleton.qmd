@@ -124,6 +124,24 @@ min_sb_year <- quants[quants$sb == min_sb, 'year']
 min_depl <- min(quants$depl)
 min_depl_year <- quants[quants$depl == min_depl, 'year']
 
+catch_spr <- model_output$derived_quants |>
+  dplyr::filter(Label == "Dead_Catch_SPR") |>
+  dplyr::mutate(
+    catch_spr = round(Value, 0)
+  ) |>
+  dplyr::select(catch_spr) |>
+  as.numeric() |>
+  format(scientific = FALSE, big.mark = ",")
+
+sb_spr <- model_output$derived_quants |>
+  dplyr::filter(Label == "SSB_Btgt") |>
+  dplyr::mutate(
+    sb_spr = round(Value, 0)
+  ) |>
+  dplyr::select(sb_spr) |>
+  as.numeric() |>
+  format(scientific = FALSE, big.mark = ",")
+
 # Calculated harvest metrics
 est_ofl <- round(model_output$derived_quants[model_output$derived_quants$Label %in% paste0("OFLCatch_", proj_years), "Value"], 0) 
 est_abc <- round(model_output$derived_quants[model_output$derived_quants$Label %in% paste0("ForeCatch_", proj_years), "Value"], 0) 
@@ -199,6 +217,9 @@ survey_add_sd <- model_output$parameters[find, ] |>
   dplyr::select(Label, Value) 
 rownames(survey_add_sd) <- NULL
 
+ofl_sigma <- round(model_output$OFL_sigma, 2)
+sb_sigma <- round(model_output$Pstar_sigma,2)
+
 # Read in adopted harvest specifications:
 cw_harvest_spex <- read.csv(here::here("data-processed", "harvest_spex.csv")) |>
   dplyr::filter(AREA_NAME == "CW", YEAR %in% es_12_years) |>
@@ -245,114 +266,6 @@ if (new_table_figs) {
     catch_unit_label = "mt"
   )
 }
-
-# Call reference points and quantities below 
-output <- output |> 
-  dplyr::mutate(estimate = as.numeric(estimate), 
-    uncertainty = as.numeric(uncertainty)) 
-# Original definition
-#start_year <- as.numeric(min(output$year, na.rm = TRUE)) 
-# Needed Fix
-#start_year <- output |> 
-#  dplyr::filter(label == "spawning_biomass", module_name == "DERIVED_QUANTITIES") |>
-#  dplyr::summarise(min(year, na.rm = TRUE)) |>
-#  as.numeric()
-# End year below had to be changed to subtract 11 rather than 10, but I can see
-# users having to change this depending upon how many projection years they have.
-# Figuring out a way to determine model years based on the data file or using 
-# time series era column.
-#end_year <- (output |> 
-#  dplyr::filter(!(year %in% c('Virg', 'Init', 'S/Rcurve', 'INIT')), 
-#    !is.na(year)) |> 
-#  dplyr::mutate(year = as.numeric(year)) |> 
-#  dplyr::summarize(max_val = max(year)) |> 
-#  dplyr::pull(max_val)) - 11
-#data_end_year <- (output |> 
-#  dplyr::filter(!(year %in% c('Virg', 'Init', 'S/Rcurve', 'INIT')), 
-#    !is.na(year)) |> 
-#  dplyr::mutate(year = as.numeric(year)) |> 
-#  dplyr::summarize(max_val = max(year)) |> 
-#  dplyr::pull(max_val)) - 12
-# subset output to remove quantities that are split by factor 
-output2 <- output |> 
-  dplyr::filter(is.na(season), 
-    is.na(fleet), 
-    is.na(sex), 
-    is.na(area), 
-    is.na(growth_pattern), 
-    is.na(subseason), 
-    is.na(age))
-# terminal fishing mortality 
-Fend <- output2 |> 
-  dplyr::filter(c(label == 'fishing_mortality' & year == end_year) | c(label == 'terminal_fishing_mortality' & is.na(year))) |>
-  dplyr::pull(estimate)
-# fishing mortality at msy 
-# please change target if desired 
-Ftarg <- output2 |>
-  dplyr::filter(grepl('f_target', label) | grepl('f_msy', label) | c(grepl('fishing_mortality_msy', label) & is.na(year))) |>
-  dplyr::pull(estimate)
-# Terminal year F respective to F target 
-F_Ftarg <- Fend / Ftarg
-# terminal year biomass 
-Bend <- output2 |>
-  dplyr::filter(grepl('mature_biomass', label) | grepl('^biomass$', label),
-    year == end_year) |>
-  dplyr::pull(estimate)
-# target biomass (msy) 
-# please change target if desired 
-# SSB_Btarg
-Btarg <- output2 |>
-  dplyr::filter(c(grepl('biomass', label) & grepl('target', label) & estimate > 1) | label == 'biomass_msy') |>
-  dplyr::pull(estimate)
-# total catch in the last year 
-total_catch <- output |>
-  dplyr::filter(grepl('^catch$', label), 
-  year == end_year,
-    is.na(fleet),
-    is.na(age),
-    is.na(area),
-    is.na(growth_pattern)) |>
-  dplyr::pull(estimate)
-# total landings in the last year 
-total_landings <- output |>
-  dplyr::filter(grepl('landings_weight', label), year == end_year,
-    is.na(fleet),
-    is.na(age)) |>
-  dplyr::pull(estimate)
-# spawning biomass in the last year
-sbend <- output2 |>
-  dplyr::filter(grepl('spawning_biomass', label), year == end_year) |>
-  dplyr::pull(estimate) |>
-    unique()
-sb0 <- output2 |>
-  dplyr::filter(grepl('spawning_biomass_virigin', label)) |>
-  dplyr::pull(estimate) |>
-    unique()
-
-# overall natural mortality or at age 
-M <- output |>
-  dplyr::filter(grepl('natm_uniform', label)) |>
-  dplyr::pull(estimate) |>
-  unique()
-# Biomass at msy 
-# to change to another reference point, replace msy in the following lines with other label 
-Bmsy <- output2 |>
-  dplyr::filter(c(grepl('biomass', label) & grepl('msy', label) & estimate >1) | label == 'biomass_msy') |>
-  dplyr::pull(estimate)
-# target spawning biomass(msy) 
-# please change target if desired 
-SBtarg_msy <- output2 |>
-  dplyr::filter(c(grepl('spawning_biomass', label) & grepl('msy$', label) & estimate >1) | label == 'spawning_biomass_msy$') |>
-  dplyr::pull(estimate)
-# steepness 
-# h <- output |> 
-#  dplyr::filter(grepl('steep', label)) |> 
-#  dplyr::pull(estimate)
-# recruitment 
-R0 <- output |> 
-  dplyr::filter(grepl('R0', label) | grepl('recruitment_virgin', label)) |> 
-  dplyr::pull(estimate)
-# female SB (placeholder)
 
 ``` 
 
