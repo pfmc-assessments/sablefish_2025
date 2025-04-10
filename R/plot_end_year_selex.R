@@ -31,14 +31,14 @@ plot_year_selex <- function(
     cli::cli_abort("No parameters were found for yaer {year} and fleets {fleet}.")
   }
   
-  gg <- ggplot(final_selex, aes(x = age, y = selex, color = Factor, linetype = Sex, shape = Sex)) +
-    geom_line() + 
-    geom_point() +
-    ylim(c(0, 1)) +
-    theme_bw() +
-    scale_color_viridis_d() +
-    ylab("Selectivity-Retention-Discard Mortality") +
-    facet_grid(c("Fleet"))
+  gg <- ggplot2::ggplot(final_selex, ggplot2::aes(x = age, y = selex, color = Factor, linetype = Sex, shape = Sex)) +
+    ggplot2::geom_line() + 
+    ggplot2::geom_point() +
+    ggplot2::ylim(c(0, 1)) +
+    ggplot2::theme_bw() +
+    ggplot2::scale_color_viridis_d() +
+    ggplot2::ylab("Selectivity-Retention-Discard Mortality") +
+    ggplot2::facet_grid(c("Fleet"))
   gg
 }
 
