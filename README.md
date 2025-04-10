@@ -33,9 +33,7 @@ You can install {sablefish} from [GitHub](https://github.com/) with
 pak::pkg_install("pfmc-assessments/sablefish_2025")
 ```
 
-## Workflow
-
-### File structure
+## File structure
 
 This repository is structured like an R package to ease the installation
 process and increase the ability to easily test code. Please follow the
@@ -52,7 +50,7 @@ following guidelines for the placement of files.
 └───report
 ```
 
-Where
+where
 
 - data contains rda file of processed data in its final form that will be included in the
   assessment or assessment document, only data in its non-confidential
@@ -61,16 +59,38 @@ Where
   files into something that is saved in data or in data-processed; all data files
   are saved within data-raw, but not saved to github. A list of the files are in
   .gitignore: 2023, ageing_error, ahsop, biology, bds, discard, landings, maturity,
-  survey, weight_at_age. 
+  survey, weight_at_age; 
 - data-processed is for csv or other fully processed and formatted data that 
   will be included in the assessment or assessment document, only data in its 
   non-confidential form should be saved here;
 - data-exploration is for exploratory scripts;
 - quarto_website contains files for the website;
+- report contains file for the creation of the assessment document,
 - man stores .Rd files and figures used in the documentation; and
 - R stores .R scripts that are loaded when building the package, this
   means functions only. These scripts are either called within the assessment
   document or .R scripts in the data-raw folder. 
+  
+## Report 
+
+The assessment report is created via quarto files in the report folder.  Within
+the files there are code chunks that load an rda file for the model output containing
+a list of quantities created by `r4ss::SS_output()`, tables from the model output 
+created by `r4ss::table_all()`, plots created via `r4ss::SS_plots`, and loads needed R 
+packages. To switch the base model for the assessment report users should do the
+following steps:
+
+1. Run the `model_output_objects` script in the data-raw folder by updating the 
+`model_name` object and ensuring the `model_dir` points to where that model resides.
+2. Change the `model_name` in the `ouput_and_quantities` code chunk located in the
+SAR_USWC_sablefish_skeleton.qmd.
+3. Required packages for the report document are listed in the 001_load_packages.qmd
+file. The `pacman::p_load`command should install any missing packages so no additional 
+steps should be required. 
+4. If using a specific package within a code chunk in any of the child documents
+make sure to use the `package_name::` option and that the package is included in the
+list in the 001_load_packages.qmd code chunk.
+
 
 ## Disclaimer
 
