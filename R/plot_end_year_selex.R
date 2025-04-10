@@ -17,7 +17,7 @@ plot_year_selex <- function(
   keys <- c("Asel", "Aret", "Amort")
   
   final_selex <- selex |>
-    dplyr::filter(Yr == year, Factor %in% keys) |>
+    dplyr::filter(Yr == year, Factor %in% keys, Fleet %in% fleets) |>
     tidyr::pivot_longer(
       cols = n,
       values_to = "selex",
@@ -27,8 +27,11 @@ plot_year_selex <- function(
       age = as.numeric(age),
       Sex = as.factor(Sex)
     )
+  if (dim(final_selex)[1] == 0) {
+    cli::cli_abort("No parameters were found for yaer {year} and fleets {fleet}.")
+  }
   
-  gg <- ggplot(final_selex |> dplyr::filter(Fleet %in% fleets), aes(x = age, y = selex, color = Factor, linetype = Sex, shape = Sex)) +
+  gg <- ggplot(final_selex, aes(x = age, y = selex, color = Factor, linetype = Sex, shape = Sex)) +
     geom_line() + 
     geom_point() +
     ylim(c(0, 1)) +
