@@ -26,7 +26,17 @@ landings <- model_output[["catch"]] |>
      `Pot (mt)` = Pot
    ) |>
    dplyr::ungroup()
-knitr::kable(landings)
+kableExtra::kable(
+  landings, 
+  format = "latex", 
+  longtable = TRUE,
+  booktabs = TRUE,
+  caption = "Landings in metric tons (mt) by year for each fleet.",
+  linesep = "") |>
+  kableExtra::kable_styling(
+    latex_options = "repeat_header",
+    font_size = 8)
+#knitr::kable(landings)
     
 ```
 
@@ -55,6 +65,29 @@ recent_management_table |>
   ) |>
   gt::cols_width(
     tidyselect::everything() ~ px(75)
+  ) |>
+  gt::as_latex()
+
+```
+
+\pagebreak
+
+```{r, results = "asis"}
+#| label: tbl-area-spex
+#| warning: false
+#| echo: false
+#| tbl-cap: "Adopted coastwide OFL (mt) and ABC (mt) values and the area-based ACL (mt) north and south of 36 N. latitude by year."
+#| tbl-pos: H
+
+area_management_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = c(2:5),
+    decimals = 0
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
   ) |>
   gt::as_latex()
 
@@ -653,6 +686,32 @@ parcount_table |>
 
  {{< pagebreak >}} 
  
+```{r}
+#| label: tbl-likes
+#| warning: false
+#| echo: false
+#| tbl-cap: "Likelihood components by source."
+
+table <- dplyr::bind_cols(
+  data.frame(Label = gsub("_", " ", rownames(model_output$likelihoods_used) )), 
+  data.frame(Total = model_output$likelihoods_used[,1])
+)
+table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2,
+    decimals = 1
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+ {{< pagebreak >}} 
+ 
 ::: {.landscape}
 
 ```{r}
@@ -722,6 +781,35 @@ reference_points_table |>
 
 \pagebreak
 
+
+```{r, results = "asis"}
+#| label: tbl-ts
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) time_series_cap 
+#| tbl-pos: H
+
+time_series_table |>
+kableExtra::kable(
+  format = "latex", 
+  longtable = TRUE,
+  booktabs = TRUE,
+  caption = "Time series of population estimates from the base model.",
+  linesep = "") |>
+  kableExtra::kable_styling(
+    latex_options = "repeat_header",
+    font_size = 8) |>
+  kableExtra::column_spec(
+    column = 1:9,
+    width = "0.5in"
+  )
+
+```
+
+
+\pagebreak
+
 ::: {.landscape}
 
 ```{r, results = "asis"}
@@ -764,25 +852,4 @@ projections_table |>
 
 \pagebreak
 
-
-```{r, results = "asis"}
-#| label: tbl-area-spex
-#| warning: false
-#| echo: false
-#| tbl-cap: "Adopted coastwide OFL (mt) and ABC (mt) values and the area-based ACL (mt) north and south of 36 N. latitude by year."
-#| tbl-pos: H
-
-area_management_table |>
-  gt::gt() |>
-  gt::fmt_number(
-    columns = c(2:5),
-    decimals = 0
-  ) |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE 
-  ) |>
-  gt::as_latex()
-
-```
 
