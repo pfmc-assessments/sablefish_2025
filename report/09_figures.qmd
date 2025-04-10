@@ -342,18 +342,17 @@ knitr::include_graphics(
 
 load(here::here("data", "maturity_data.rda"))
 
-ggplot(maturity_data |>
+ggplot2::ggplot(maturity_data |>
   dplyr::mutate(
     Area = dplyr::case_when(latitude >= 36 ~ "North", .default = "South")), 
-    aes(x = age, y = functional_maturity)) +
-  geom_point() +
-  ylab("Functional Maturity") +
-  geom_vline(xintercept = 7, color = "blue", linetype = 2) + 
-  xlab("Age years") +
-  theme_bw() +
-  theme(strip.background = element_rect(fill = "white")) +
-  facet_wrap(Area ~ .)
-
+    ggplot2::aes(x = age, y = functional_maturity)) +
+  ggplot2::geom_point() +
+  ggplot2::ylab("Functional Maturity") +
+  ggplot2::geom_vline(xintercept = 7, color = "blue", linetype = 2) + 
+  ggplot2::xlab("Age years") +
+  ggplot2::theme_bw() +
+  ggplot2::theme(strip.background = ggplot2::element_rect(fill = "white")) +
+  ggplot2::facet_wrap(Area ~ .)
 
 ```
 
@@ -369,13 +368,13 @@ ggplot(maturity_data |>
 
 load(here::here("data", "spatial_maturity.rda"))
 
-ggplot(spatial_maturity, aes(x = age, y = p, color = Model)) +
-  geom_line(linewidth = 1) +
-  ylab("Probability Mature") +
-  xlab("Age years") +
-  scale_colour_viridis_d() + 
-  theme_bw() +
-  theme(strip.background = element_rect(fill = "white"))
+ggplot2::ggplot(spatial_maturity, ggplot2::aes(x = age, y = p, color = Model)) +
+  ggplot2::geom_line(linewidth = 1) +
+  ggplot2::ylab("Probability Mature") +
+  ggplot2::xlab("Age years") +
+  ggplot2::scale_colour_viridis_d() + 
+  ggplot2::theme_bw() +
+  ggplot2::theme(strip.background = ggplot2::element_rect(fill = "white"))
 
 ```
 

@@ -74,21 +74,21 @@ ssb_es_table |>
     columns = 2:4,
     decimals = 0
   ) |>
-  fmt_number(
+  gt::fmt_number(
     columns = 5:7,
     decimals = 3
   ) |>
-  tab_options(
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE 
   ) |>
   gt::cols_align(
     align = "center"
   ) |>
-  cols_width(
-    everything() ~ px(75)
+  gt::cols_width(
+    tidyselect::everything() ~ px(75)
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -140,21 +140,21 @@ recr_es_table |>
     columns = 2:4,
     decimals = 0
   ) |>
-  fmt_number(
+  gt::fmt_number(
     columns = 5:7,
     decimals = 3
   ) |>
-  tab_options(
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE 
   ) |>
   gt::cols_align(
     align = "center"
   ) |>
-  cols_width(
-    everything() ~ px(75)
+  gt::cols_width(
+    tidyselect::everything() ~ px(75)
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -206,17 +206,17 @@ spr_es_table |>
     columns = 2:7,
     decimals = 3
   ) |>
-  tab_options(
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE 
   ) |>
   gt::cols_align(
     align = "center"
   ) |>
-  cols_width(
-    everything() ~ px(80)
+  gt::cols_width(
+    tidyselect::everything() ~ px(80)
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -252,22 +252,22 @@ knitr::include_graphics(
 #| tbl-pos: H
 
 reference_points_table |>
-  gt() |>
-  fmt_number(
+  gt::gt() |>
+  gt::fmt_number(
     columns = 2:4,
     rows = c(1:4, 7, 10, 12, 15, 17, 20),
     decimals = 0
   ) |>
-  fmt_number(
+  gt::fmt_number(
     columns = 2:4,
     rows = c(5, 8, 9, 13:14, 18:19),
     decimals = 3
   ) |>
-  tab_options(
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE 
   ) |>  
-  tab_style(
+  gt::tab_style(
     style = list(
       cell_text(style = "italic")
     ),
@@ -276,16 +276,11 @@ reference_points_table |>
       rows = starts_with("Reference")
     )
   ) |>
-  sub_missing(
-    columns = everything(),
+  gt::sub_missing(
+    columns = tidyselect::everything(),
     missing_text = "---"
   ) |>
-  #cols_width(
-  #  starts_with("R") ~ px(300),
-  #  starts_with("E") ~ px(65),
-  #  ends_with("l") ~ px(65)
-  #) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -338,17 +333,14 @@ recent_management_table |>
     columns = 2:6,
     decimals = 0
   ) |>
-  tab_options(
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE 
   ) |>
   gt::cols_align(
     align = "center"
   ) |>
-  #cols_width(
-  #  everything() ~ px(75)
-  #) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -356,9 +348,21 @@ recent_management_table |>
 ## Evaluation of Scientific Uncertainty {-}
 
 
+```{r, results='asis'}
+#| label: 'scientific-uncertainty-es'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child(here::here("report", "shared_text", "scientific_uncertainty.qmd"), quiet = TRUE)
+cat(a, sep = '\n')
+```
+
+
+
+
 ## Harvest Projections and Decision Tables {-}
 
-\blandscape
+::: {.landscape}
 
 ```{r, results = "asis"}
 #| label: tbl-es-projections
@@ -378,27 +382,48 @@ projections_table |>
     columns = c(6, 10),
     decimals = 3
   ) |>
-  tab_options(
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE 
   ) |>
-  sub_missing(
-    columns = everything(),
+  gt::sub_missing(
+    columns = tidyselect::everything(),
     missing_text = "---"
   ) |>
   gt::cols_align(
     align = "center"
   ) |>
-  cols_width(
+  gt::cols_width(
     everything() ~ px(75)
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
-\elandscape
+:::
 
 ## Unresolved Problems and Major Uncertainties {-}
 
+
+```{r, results='asis'}
+#| label: 'uncertainties-es'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child(here::here("report", "shared_text", "unresolved_uncertainties.qmd"), quiet = TRUE)
+cat(a, sep = '\n')
+```
+
 ## Research and Data Needs {-}
+
+
+```{r, results='asis'}
+#| label: 'research-data-es'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child(here::here("report", "shared_text", "research_data_needs.qmd"), quiet = TRUE)
+cat(a, sep = '\n')
+```
+
 

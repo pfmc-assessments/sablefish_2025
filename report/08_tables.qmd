@@ -47,16 +47,16 @@ recent_management_table |>
     columns = 2:6,
     decimals = 0
   ) |>
-  tab_options(
+  gt::tab_options(
     table.font.size = 12 
   ) |>
   gt::cols_align(
     align = "center"
   ) |>
-  cols_width(
-    everything() ~ px(75)
+  gt::cols_width(
+    tidyselect::everything() ~ px(75)
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -83,11 +83,11 @@ read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
     columns = 2:3,
     decimals = 2
   ) |>
-  tab_options(
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -113,11 +113,11 @@ read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
     columns = 2:3,
     decimals = 2
   ) |>
-  tab_options(
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -143,11 +143,11 @@ read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
     columns = 2:3,
     decimals = 2
   ) |>
-  tab_options(
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -168,16 +168,16 @@ read.csv(here::here("data-processed", "data-commercial-age-bds-n.csv")) |>
     `Input N` = input_n
   ) |>
   dplyr::select(-fleet) |>
-  gt() |>
+  gt::gt() |>
   gt::fmt_number(
     columns = 4,
     decimals = 1
   ) |>
-  tab_options(
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -204,11 +204,11 @@ read.csv(here::here("data-processed", "data-commercial-age-bds-n.csv")) |>
     columns = 4,
     decimals = 1
   ) |>
-  tab_options(
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -230,16 +230,16 @@ read.csv(here::here("data-processed", "data-commercial-age-bds-n.csv")) |>
     `Input N` = input_n
   ) |>
   dplyr::select(-fleet) |>
-  gt() |>
+  gt::gt() |>
   gt::fmt_number(
     columns = 4,
     decimals = 1
   ) |>
-  tab_options(
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -314,7 +314,6 @@ all |>
 #| echo: false
 #| tbl-cap: "Design-based stratification by depth and latitude used to expand composition data for the WCGBT survey."
 
-
 strata_combo |>
   tidyr::unite(
     "Depth", c(Depth_m.1, Depth_m.2), sep = '-'
@@ -357,12 +356,12 @@ read.csv(here::here("data-processed", "data-survey-wcgbt-n.csv")) |>
     `Prop. Positive` = Proportion.Positive,
     Aged = N.Aged
   ) |>
-  gt() |>
-  tab_options(
+  gt::gt() |>
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -374,7 +373,6 @@ read.csv(here::here("data-processed", "data-survey-wcgbt-n.csv")) |>
 #| warning: false
 #| echo: false
 #| tbl-cap: "Design-based stratification by depth and latitude used to expand composition data for the NWFSC Slope survey."
-
 
 strata_nwfsc_slope |>
   tidyr::unite(
@@ -417,12 +415,12 @@ read.csv(here::here("data-processed", "data-survey-nwfscslope-n.csv")) |>
     `Prop. Positive` = Proportion.Positive,
     Aged = N.Aged
   ) |>
-  gt() |>
-  tab_options(
+  gt::gt() |>
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -477,12 +475,12 @@ read.csv(here::here("data-processed", "data-survey-afscslope-n.csv")) |>
     `Prop. Positive` = Proportion.Positive,
     Aged = N.Aged
   ) |>
-  gt() |>
-  tab_options(
+  gt::gt() |>
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -529,7 +527,6 @@ strata_triennial_early |>
 #| echo: false
 #| tbl-cap: "Design-based stratification by depth and latitude used to expand composition data for the Triennial survey between 1995-2004."
 
-
 strata_triennial_early |>
   tidyr::unite(
     "Depth", c(Depth_m.1, Depth_m.2), sep = '-'
@@ -574,12 +571,12 @@ dplyr::bind_rows(
     `Prop. Positive` = Proportion.Positive,
     Aged = N.Aged
   ) |>
-  gt() |>
-  tab_options(
+  gt::gt() |>
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -608,12 +605,12 @@ maturity_data |>
   ) |>
   dplyr::rename(Year = year) |>
   dplyr::ungroup() |>
-  gt() |>
-  tab_options(
+  gt::gt() |>
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -627,12 +624,12 @@ maturity_data |>
 #| tbl-cap: !expr if(eval_tables) config_cap
 
 config_table |>
-  gt() |>
-  tab_options(
+  gt::gt() |>
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -645,12 +642,12 @@ config_table |>
 #| tbl-cap: !expr if(eval_tables) parcount_cap
 
 parcount_table |>
-  gt() |>
-  tab_options(
+  gt::gt() |>
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -674,12 +671,6 @@ par_table |>
     width = c(2, 0.5, 0.5, 1.5, 0.5, 0.5, 2.5)
   ) 
 
-#asar::ID_tbl_width_class(
-#  plot_name = "parameters.rda",
-#  rda_dir = table_dir,
-#  portrait_pg_width = 12
-#)
-
 ```
 
 ::: 
@@ -696,40 +687,35 @@ par_table |>
 #| tbl-pos: H
 
 reference_points_table |>
-  gt() |>
-  fmt_number(
+  gt::gt() |>
+  gt::fmt_number(
     columns = 2:4,
     rows = c(1:4, 7, 10, 12, 15, 17, 20),
     decimals = 0
   ) |>
-  fmt_number(
+  gt::fmt_number(
     columns = 2:4,
     rows = c(5, 8, 9, 13:14, 18:19),
     decimals = 3
   ) |>
-  tab_options(
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE 
   ) |>  
-  tab_style(
+  gt::tab_style(
     style = list(
       cell_text(style = "italic")
     ),
     locations = cells_body(
       columns = "Reference Point",
-      rows = starts_with("Reference")
+      rows = tidyselect::starts_with("Reference")
     )
   ) |>
-  sub_missing(
-    columns = everything(),
+  gt::sub_missing(
+    columns = tidyselect::everything(),
     missing_text = "---"
   ) |>
-  #cols_width(
-  #  starts_with("R") ~ px(300),
-  #  starts_with("E") ~ px(65),
-  #  ends_with("l") ~ px(65)
-  #) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
@@ -756,21 +742,21 @@ projections_table |>
     columns = c(6, 10),
     decimals = 3
   ) |>
-  tab_options(
+  gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE 
   ) |>
-  sub_missing(
-    columns = everything(),
+  gt::sub_missing(
+    columns = tidyselect::everything(),
     missing_text = "---"
   ) |>
   gt::cols_align(
     align = "center"
   ) |>
-  cols_width(
-    everything() ~ px(75)
+  gt::cols_width(
+    tidyselect::everything() ~ px(75)
   ) |>
-  as_latex()
+  gt::as_latex()
 
 ```
 
