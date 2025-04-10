@@ -242,6 +242,15 @@ knitr::include_graphics(
 
 ## Reference Points {-}
 
+```{r, results='asis'}
+#| label: 'hcr-es'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child(here::here("report", "shared_text", "harvest_control_rule.qmd"), quiet = TRUE)
+cat(a, sep = '\n')
+```
+
 
 ```{r, results = "asis"}
 #| label: tbl-ref-points-es
