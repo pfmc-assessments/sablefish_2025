@@ -78,6 +78,17 @@ bibliography:
 \renewcommand{\thefigure}{\roman{figure}}
 
 
+```{r, results='asis'}
+#| label: 'load_packages'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child('001_load_packages.qmd', quiet = TRUE)
+cat(a, sep = '\n')
+```
+
+
+
 ```{r} 
 #| label: 'output_and_quantities'
 #| echo: false 
@@ -232,41 +243,6 @@ area_harvest_spex <- read.csv(here::here("data-processed", "harvest_spex.csv")) 
     VAL = round(VAL, 0)
   )
 
-
-# load converted output from asar::convert_output() 
-output <- utils::read.csv(here::here("report", "sablefish_model_output.csv")) 
-new_table_figs <- FALSE
-if (new_table_figs) {
-  stockplotr::exp_all_figs_tables(
-    dat = output,
-    recruitment_unit_label = "mt", 
-    recruitment_scale_amount = 1,
-    end_year = 2025,
-    n_projected_years = 10,
-    relative = FALSE,
-    rda_dir = here::here("report"),
-    # imported from plot_biomass
-    ref_line = "unfished",
-    ref_point = NULL,
-    biomass_scale_amount = 1,
-    # imported from plot_landings
-    landings_unit_label = "mt",
-    # imported from plot_recruitment_deviations- zero unique arguments
-    # imported from plot_spawn_recruitment
-    spawning_biomass_label = "mt",
-    spawning_biomass_scale_amount = 1,
-    # imported from plot_spawning_biomass
-    ref_line_sb = "target",
-    ref_point_sb = NULL,
-    # imported from plot_indices
-    indices_unit_label = "Relative Index (mt)",
-    # imported from table_afsc_tier- add potential unique arguments after dev
-    # imported from table_bnc
-    biomass_unit_label = "mt",
-    catch_unit_label = "mt"
-  )
-}
-
 ``` 
 
 {{< pagebreak >}} 
@@ -276,15 +252,6 @@ Please cite this publication as:
 Wetzel, C.R., A.M. Berger, C. Barnes, J.A. Zahner, N. Tolimieri. 2025. Status of the sablefish (*Anoplopoma fimbria*) off the U.S. West Coast in 2025. Pacific Fisheries Management Council, Portland, Oregon.
 
  {{< pagebreak >}} 
-
-```{r, results='asis'}
-#| label: 'load_packages'
-#| eval: true
-#| echo: false
-#| warning: false
-a <- knitr::knit_child('001_load_packages.qmd', quiet = TRUE)
-cat(a, sep = '\n')
-```
 
 
 ```{r, results='asis'}
