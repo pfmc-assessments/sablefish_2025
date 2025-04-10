@@ -41,9 +41,11 @@ Imports:
     PEPtools,
     purrr,
     r4ss,
+    reade,
     stringr,
     tibble,
     tidyr,
+    tidyselect,
     utils,
     viridis
 Remotes: 

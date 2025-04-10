@@ -34,5 +34,6 @@ pacman::p_load(
   stockplotr,
   stringr,
   tidyr, 
+  tidyselect,
   xtable)
 ```
