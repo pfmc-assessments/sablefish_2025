@@ -1,22 +1,23 @@
 #' Plot final year age-based selectivity, retention, and discard
-#' mortality
+#' mortality for a selected year.
 #'
 #' @param replist List created by `r4ss::SS_output()`
 #' @param fleets Vector of fleets to plot.
+#' @param year Single numeric year to plot the selectivity for.
 #' 
 #' @export
 #' 
-plot_end_year_selex <- function(
+plot_year_selex <- function(
   replist,
-  fleets = 1:3) {
-  endyr <- replist[["endyr"]]
+  fleets = 1:3,
+  year = 2024) {
   selex <- replist[["ageselex"]]
   sex <- unique(selex[, "Sex"])
   n <- 8:ncol(selex)
   keys <- c("Asel", "Aret", "Amort")
   
   final_selex <- selex |>
-    dplyr::filter(Yr == endyr, Factor %in% keys) |>
+    dplyr::filter(Yr == year, Factor %in% keys) |>
     tidyr::pivot_longer(
       cols = n,
       values_to = "selex",
