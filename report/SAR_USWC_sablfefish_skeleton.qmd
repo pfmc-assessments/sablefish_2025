@@ -105,7 +105,7 @@ load(file.path(model_dir, "model_output.rda"))
 # Directory for tables created by r4ss::table_exec_summary()
 table_dir <- file.path(model_dir, "tables")
 # Other potential directories that could be useful
-sens_dir <-  here::here("model", "sensitivities")
+sens_dir <-  here::here("model", "_sensitivities")
 retro_dir <- profile_dir <- here::here("model")
 
 # Define objects from the list created by r4ss::SS_output
@@ -154,6 +154,8 @@ sb_spr <- model_output$derived_quants |>
   format(scientific = FALSE, big.mark = ",")
 
 # Calculated harvest metrics
+fixed_catch <- round(model_output$derived_quants[model_output$derived_quants$Label %in% paste0("ForeCatch_", end_year:(end_year + 1)), "Value"], 0) |>
+  format(scientific = FALSE, big.mark = ",")
 est_ofl <- round(model_output$derived_quants[model_output$derived_quants$Label %in% paste0("OFLCatch_", proj_years), "Value"], 0) 
 est_abc <- round(model_output$derived_quants[model_output$derived_quants$Label %in% paste0("ForeCatch_", proj_years), "Value"], 0) 
 
