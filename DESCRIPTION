@@ -41,7 +41,7 @@ Imports:
     PEPtools,
     purrr,
     r4ss,
-    reade,
+    readr,
     stringr,
     tibble,
     tidyr,
