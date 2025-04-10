@@ -37,7 +37,7 @@ During 2003 through 2017 WCGOP data show the non-catch shares fixed-gear fishery
 
 Gear switching within the individual fishing quota (IFQ) fishery increased after the implementation of the program, leading to concerns about utilization of the trawl allocation for sablefish north of 36 $^{\circ}$ N. lat. The majority of landings by vessels participating in gear switching was `r spp`.  At the April 2024 the Pacific Fishery Management Council (the Council) took final action to limit gear switching in years when `r spp` annual catch limit (ACL) for the area north of 36$^{\circ}$ N. lat. is below 6,000 mt. 
 
-**UPDATE** In 2018, the ex-vessel value of the `r spp` fishery was estimated at 25.3 million dollars (pers. comm., E. Steiner). This represents a five-year low, where the previous year, 2017, represented the five-year high at 35.0 million dollars.
+In 2024, the ex-vessel revenue of the `r spp` fishery was estimated at 13.5 million dollars, the lowest in available data starting in 2005 (pers. comm., E. Steiner). Since 2005, the ex-vessel revenue peaked 2011 at 61.5 million dollars and has generally had a decreasing trend since 2017.
 
 
 ## Management History and Performance
