@@ -1,1 +1,20 @@
 # Acknowledgements {#sec-acknowledgements}
+
+Many people were instrumental in the successful completion of this assessment and their
+contribution is greatly appreciated. This assessment draws heavily on the text and analyses
+from previous Dover sole assessments and has benefited greatly from the efforts of all authors
+contributing to those analyses.
+
+Theresa Tsou (WDFW) provided Washington historical catches and quickly addressed our multiple questions in order to better understand the data. Alison Whitman (ODFW) provided Oregon historical catches and quickly uploaded age data that were critical to this assessment. E.J. Dick (NWFSC) provided historical catches for California and Brenda Erwin (CDFW) provided timely answers and resolutions regarding California data.
+
+This assessment was improved by research conducted Melissa Head and Eric Ward. 
+
+This assessment was greatly benefited from thoughtful input we received during the pre-assessment data workshop. We
+are very grateful to Patrick McDonald and the team of agers at the Cooperative Ageing Program for their hard work
+reading numerous otoliths and availability to answer questions when needed. Curt Whitmire
+provided survey sampling area analysis that was critical to understanding area sampled and not sampled by the survey. Kayleigh Somers assisted with data from the Fisheries Observer Program and entertained
+my many questions. Also, we would like to acknowledge our survey team and their dedication to improving the assessments we do. The data they collect is essential to the assessment of West Coast stocks.
+
+The assessment was greatly improved through the streamlining of data processing tools (Kelli
+Johnson and Ian Taylor) and the many discussions within the Population Ecology team in
+the FRAM division at the NWFSC.
