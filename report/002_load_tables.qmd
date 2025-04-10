@@ -57,6 +57,10 @@ if (file.exists(table_dir)) {
   par_cap <- table_pars$cap
   rm(table_pars)
   
+  time_series_table <- time_series$table
+  time_series_cap <- time_series$cap
+  rm(time_series)
+  
   eval_tables <- TRUE
 } else {
   eval_tables <- FALSE
@@ -154,5 +158,16 @@ if (file.exists(table_dir)) {
                              Latitude_dd >= 36.0 & Latitude_dd < 42.0 ~ "NCA",
                              .default = "OR"))
   wcgbt_bio <- data_survey_bio$nwfsc_combo
+  
+  time_series_table[, "Spawning Biomass (mt)"] <- 
+    round(time_series_table[, "Spawning Biomass (mt)"], 0)
+  time_series_table[, "Fraction Unfished"] <- 
+    round(time_series_table[, "Fraction Unfished"], 3)
+  time_series_table[, "Age-0 Recruits (1,000s)"] <- 
+    round(time_series_table[, "Age-0 Recruits (1,000s)"], 0)
+  time_series_table[, "Total Mortality (mt)"] <- 
+    round(time_series_table[, "Total Mortality (mt)"], 0)
+  time_series_table[, (ncol(time_series_table) -1):ncol(time_series_table)] <- 
+    round(time_series_table[, (ncol(time_series_table) -1):ncol(time_series_table)], 3)
 
 ```
