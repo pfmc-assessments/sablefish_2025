@@ -12,7 +12,7 @@
 #' 
 #' @export
 #' 
-run_data_sensitivies <- function(
+sens_remove_fleet_data <- function(
     dir,
     base_model,
     sens_dir,
