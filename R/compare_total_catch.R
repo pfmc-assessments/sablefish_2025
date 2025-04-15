@@ -48,6 +48,7 @@ compare_model_gemm_catch <- function(
   gemm <- nwfscSurvey::pull_gemm(common_name = common_name, dir = dir) |>
     dplyr::group_by(year) |>
     dplyr::summarise(
+      gemm_landings = sum(total_landings_mt),
       gemm_dead_discard = sum(total_discard_with_mort_rates_applied_mt),
       gemm_total_catch = sum(total_discard_with_mort_rates_applied_and_landings_mt)
     )
@@ -108,10 +109,33 @@ compare_model_gemm_catch <- function(
       model_catch = catch,
       gemm_catch = gemm_total_catch
     )
+  ymin <- min(out[, "model_minus_gemm"])
+  ymax <- max(out[, "model_minus_gemm"])
+  if (abs(ymin) > ymax) {
+    ylim <- c(ymin, abs(ymin))
+  } else {
+    ylim <- c(-1 * ymax, ymax)
+  }
+  gg3 <- ggplot2::ggplot() +
+    ggplot2::geom_bar(stat = "identity", data = out,
+                      ggplot2::aes(x = year, y = model_minus_gemm)) +
+    ggplot2::scale_fill_viridis_d() +
+    ggplot2::ylab("Model Estimated Mortality - GEMM Mortality (mt)") +
+    ggplot2::xlab("Year") +
+    ggplot2::ylim(ylim) + 
+    ggplot2::theme_bw()
+  if (!is.null(dir)){
+    ggplot2::ggsave(
+      gg3,
+      filename = file.path(dir, paste0("model_gemm_mortality_diff", add_name, ".png"))
+    )
+  } else {
+    gg3
+  }
   
   if (!is.null(dir)) {
     save(
-      catch,
+      out,
       file = file.path(dir, paste0("model_gemm_catch_comparison", add_name, ".rda"))
     )
   }
