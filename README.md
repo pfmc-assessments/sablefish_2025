@@ -42,12 +42,29 @@ following guidelines for the placement of files.
 ``` bash
 ├───data
 ├───data-raw
+│   └───2023 (git ignored)
+│   └───ageing_error (git ignored)
+│   └───ashop (git ignored)
+│   └───bds (git ignored)
+│   └───biology (git ignored)
+│   └───discard (git ignored)
+│   └───landings (git ignored)
+│   └───maturity (git ignored)
+│   └───survey (git ignored)
+│   └───weight_at_age (git ignored)
 ├───date-exploration
 ├───date-processed
 ├───quarto_website
+│   └───figures
 ├───man
+├───model (git ignored)
 ├───R
 └───report
+│   └───figures
+│   └───SAR_USWC_sablefish_skeleton_files (git ignored)
+│   └───shared_text
+│   └───support_files
+└───scientific_papers (git ignored)
 ```
 
 where
@@ -80,14 +97,16 @@ created by `r4ss::table_all()`, plots created via `r4ss::SS_plots`, and loads ne
 packages. To switch the base model for the assessment report users should do the
 following steps:
 
-1. Run the `model_output_objects` script in the data-raw folder by updating the 
+1. Confirm that you have the folder structure described above for model files and 
+you have the reference model version in step 2 in your local directory.
+2. Run the `model_output_objects` script in the data-raw folder by updating the 
 `model_name` object and ensuring the `model_dir` points to where that model resides.
-2. Change the `model_name` in the `ouput_and_quantities` code chunk located in the
+3. Change the `model_name` in the `ouput_and_quantities` code chunk located in the
 SAR_USWC_sablefish_skeleton.qmd.
-3. Required packages for the report document are listed in the 001_load_packages.qmd
+4. Required packages for the report document are listed in the 001_load_packages.qmd
 file. The `pacman::p_load`command should install any missing packages so no additional 
 steps should be required. 
-4. If using a specific package within a code chunk in any of the child documents
+5. If using a specific package within a code chunk in any of the child documents
 make sure to use the `package_name::` option and that the package is included in the
 list in the 001_load_packages.qmd code chunk.
 
