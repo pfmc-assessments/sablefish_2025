@@ -133,17 +133,16 @@ trawl <- c(
 gemm_data[which(gemm_data[, "sector"] %in% hkl), "fleet"] <- "hook-and-line"
 gemm_data[which(gemm_data[, "sector"] %in% trawl), "fleet"] <- "trawl"
 gemm_data[which(gemm_data[, "sector"] %in% pot), "fleet"] <- "pot"
-gemm_data[, "fleet"] <- apply(gemm_data[, c("catch_shares", "fleet")], 1, paste, collapse = "-")
 catch_totals <- gemm_data |>
   dplyr::filter(year >= 2011) |>
-  dplyr::group_by(year) |>
+  dplyr::group_by(year, fleet) |>
   dplyr::mutate(
-    landed_mt_by_year = sum(total_landings_mt),
     discard_mt_by_year = sum(total_discard_mt),
     dead_discard_mt_by_year = sum(total_discard_with_mort_rates_applied_mt),
+    landed_mt_by_year = sum(total_landings_mt),
     catch_by_year = sum(total_discard_with_mort_rates_applied_and_landings_mt),
   ) |>
-  dplyr::group_by(year, fleet) |>
+  dplyr::group_by(year, fleet, catch_shares) |>
   dplyr::summarise(
     discard_mt = sum(total_discard_mt),
     dead_discard_mt = sum(total_discard_with_mort_rates_applied_mt),
@@ -153,29 +152,31 @@ catch_totals <- gemm_data |>
     gemm_dead_discard_rate = dead_discard_mt / (landed_mt + dead_discard_mt),
     prop_discard = discard_mt / unique(discard_mt_by_year),
     prop_landed = landed_mt / unique(landed_mt_by_year),
-    prop_catch = catch / unique(catch_by_year)
+    prop_catch = catch / unique(catch_by_year),
+    prop_selex = sum(discard_mt + catch) / sum(unique(catch_by_year) + unique(discard_mt_by_year))
   ) |>
   dplyr::ungroup()
+
 catch_totals$cs_fleet <- catch_totals$fleet
 catch_totals$catch_share <- TRUE
-catch_totals[grep("non-catch-shares", catch_totals$fleet), "catch_share"] <- FALSE
+catch_totals[grep("non-catch-shares", catch_totals$catch_shares), "catch_share"] <- FALSE
 catch_totals[grep("trawl", catch_totals$fleet), "fleet"] <- "trawl-coastwide"
 catch_totals[grep("hook-and-line", catch_totals$fleet), "fleet"] <- "hook-and-line-coastwide"
 catch_totals[grep("pot", catch_totals$fleet), "fleet"] <- "pot-coastwide"
 gemm_weights <- catch_totals |>
   dplyr::group_by(year, fleet) |>
   dplyr::mutate(
-    cs_weight = prop_discard / sum(prop_discard)
+    cs_weight = prop_selex
   ) |>
   tibble::as_tibble() |>
   tidyr::complete(year, fleet, catch_share, fill = list(cs_weight = 0)) |>
   dplyr::filter(catch_share == "TRUE") |>
   dplyr::select(year, fleet, cs_weight) 
 
-gg1 <- ggplot(catch_totals, aes(x = year, y = prop_discard, fill = cs_fleet)) +
+gg1 <- ggplot(catch_totals, aes(x = year, y = prop_selex, fill = catch_shares)) +
   geom_bar(stat = "identity") +
   scale_fill_viridis_d() +
-  xlab("Year") + ylab("Proportion of Total Discard") +
+  xlab("Year") + ylab("Proportion of Total Selected Biomass") +
   theme_bw() + 
   facet_grid(fleet~.)
 ggplot2::ggsave(
@@ -184,7 +185,7 @@ ggplot2::ggsave(
   height = 7, width = 7
 )
 
-gg2 <- ggplot(catch_totals, aes(x = year, y = discard_mt, fill = cs_fleet)) +
+gg2 <- ggplot(catch_totals, aes(x = year, y = discard_mt, fill = catch_shares)) +
   geom_bar(stat = "identity") +
   scale_fill_viridis_d()  +
   xlab("Year") + ylab("All Discard (mt)") +
@@ -193,18 +194,6 @@ gg2 <- ggplot(catch_totals, aes(x = year, y = discard_mt, fill = cs_fleet)) +
 ggplot2::ggsave(
   gg2, 
   filename = here::here("data-raw", "discard", "wcgop", "figures", "gemm_discard_totals.png"),
-  height = 7, width = 7
-)
-
-gg3 <- ggplot(catch_totals, aes(x = year, y = gemm_discard_rate, color = cs_fleet)) +
-  geom_line(linewidth = 1) +
-  geom_point() +
-  xlab("Year") + ylab("Discard Rate (GEMM)") +
-  scale_color_viridis_d() +
-  theme_bw()
-ggplot2::ggsave(
-  gg3, 
-  filename = here::here("data-raw", "discard", "wcgop", "figures", "gemm_discard_rates.png"),
   height = 7, width = 7
 )
 
