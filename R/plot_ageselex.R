@@ -1,18 +1,37 @@
-library(r4ss)
-library(tidyverse)
-library(stringr)
-
-model_path <- file.path(here::here(), "model", "13_m_prior")
-
-fleet_num = 5
-model_out <- r4ss::SS_output(dir=model_path)
-
-
-plots <- sapply(1:7, \(x) plot_fleet_selectivity(model_out, x))
-
-
-######### function starts here
-plot_fleet_selectivity <- function(model_out, fleet_num){
+#library(r4ss)
+#library(tidyverse)
+#library(stringr)
+#
+#model_path <- file.path(here::here(), "model", "13_m_prior")
+#
+#fleet_num = 5
+#model_out <- r4ss::SS_output(dir=model_path)
+#
+#
+#plots <- sapply(1:7, \(x) plot_fleet_selectivity(model_out, x))
+#
+#
+#
+#
+#library(patchwork)
+#library(cowplot)
+#
+#sel1 <- plot_fleet_selectivity(model_out, 1)
+#sel2 <- plot_fleet_selectivity(model_out, 2)
+#sel3 <- plot_fleet_selectivity(model_out, 3)
+#sel4 <- plot_fleet_selectivity(model_out, 4)
+#sel5 <- plot_fleet_selectivity(model_out, 5)
+#sel6 <- plot_fleet_selectivity(model_out, 6)+theme(legend.position.inside=c(0.65, 0.3))
+#sel7 <- plot_fleet_selectivity(model_out, 7)
+#sel7_leg <- sel7+guides(shape=guide_legend(), linetype=guide_legend())
+#
+#legend <- cowplot::get_plot_component(sel7_leg, 'guide-box-inside', return_all = TRUE)
+#cowplot::ggdraw(legend$grob[[2]])
+#
+#(sel1+sel2+sel3+sel4+sel5+sel6+sel7+plot_spacer()+legend$grob[[2]])+plot_layout(axes="collect")
+#ggsave("~/Desktop/test.jpeg", height=11, width=8.5)
+#
+plot_fleet_selectivity <- function(model_path, model_out, fleet_num){
     data <- r4ss::SS_readdat(file.path(model_path, "data.ss"))
     fleet_name <- data$fleetnames[fleet_num]
     fleet_type <- data$fleetinfo %>% filter(fleetname==fleet_name) %>% pull(type)
@@ -81,36 +100,18 @@ plot_fleet_selectivity <- function(model_out, fleet_num){
     # show(plot)
     return(plot)
 }
-
-
-library(patchwork)
-library(cowplot)
-
-sel1 <- plot_fleet_selectivity(model_out, 1)
-sel2 <- plot_fleet_selectivity(model_out, 2)
-sel3 <- plot_fleet_selectivity(model_out, 3)
-sel4 <- plot_fleet_selectivity(model_out, 4)
-sel5 <- plot_fleet_selectivity(model_out, 5)
-sel6 <- plot_fleet_selectivity(model_out, 6)+theme(legend.position.inside=c(0.65, 0.3))
-sel7 <- plot_fleet_selectivity(model_out, 7)
-sel7_leg <- sel7+guides(shape=guide_legend(), linetype=guide_legend())
-
-legend <- cowplot::get_plot_component(sel7_leg, 'guide-box-inside', return_all = TRUE)
-cowplot::ggdraw(legend$grob[[2]])
-
-(sel1+sel2+sel3+sel4+sel5+sel6+sel7+plot_spacer()+legend$grob[[2]])+plot_layout(axes="collect")
-ggsave("~/Desktop/test.jpeg", height=11, width=8.5)
-
-
-
-
-
-
-
-
-
-
-plot_fleet_retention <- function(model_out, fleet_num){
+#
+#
+#
+#ret1 <- plot_fleet_retention(model_out, 1)
+#ret2 <- plot_fleet_retention(model_out, 2)
+#ret3 <- plot_fleet_retention(model_out, 3)
+#ret7_leg <- sel7+guides(shape=guide_legend(), linetype=guide_legend())
+#
+#(ret1+ret2+ret3)+plot_layout(axes="collect")
+#ggsave("~/Desktop/test_ret.jpeg", width=8.5, height=6)
+#
+plot_fleet_retention <- function(model_path, model_out, fleet_num){
     data <- r4ss::SS_readdat(file.path(model_path, "data.ss"))
     fleet_name <- data$fleetnames[fleet_num]
     fleet_type <- data$fleetinfo %>% filter(fleetname==fleet_name) %>% pull(type)
@@ -179,10 +180,3 @@ plot_fleet_retention <- function(model_out, fleet_num){
     return(plot)
 }
 
-ret1 <- plot_fleet_retention(model_out, 1)
-ret2 <- plot_fleet_retention(model_out, 2)
-ret3 <- plot_fleet_retention(model_out, 3)
-ret7_leg <- sel7+guides(shape=guide_legend(), linetype=guide_legend())
-
-(ret1+ret2+ret3)+plot_layout(axes="collect")
-ggsave("~/Desktop/test_ret.jpeg", width=8.5, height=6)
