@@ -13,9 +13,9 @@ data_commercial_discard_length_composition <-
   # replace the fleet names with the fleet number
   dplyr::mutate(
     fleet = dplyr::case_when(
-      fleet == "trawl-coastwide" ~ 1,
-      fleet == "hook-and-line-coastwide" ~ 2,
-      fleet == "pot-coastwide" ~ 3,
+      fleet == "trawl-coastwide" ~ 4,
+      fleet == "hook-and-line-coastwide" ~ 5,
+      fleet == "pot-coastwide" ~ 6,
       TRUE ~ NA_integer_
     ),
     month = 7
@@ -35,9 +35,9 @@ data_commercial_discard_age_composition <-
   # replace the fleet names with the fleet number
   dplyr::mutate(
     fleet = dplyr::case_when(
-      fleet == "trawl-coastwide" ~ 1,
-      fleet == "hook-and-line-coastwide" ~ 2,
-      fleet == "pot-coastwide" ~ 3,
+      fleet == "trawl-coastwide" ~ 4,
+      fleet == "hook-and-line-coastwide" ~ 5,
+      fleet == "pot-coastwide" ~ 6,
       TRUE ~ NA_integer_
     ),
     month = 7,
@@ -55,9 +55,9 @@ data_commercial_discard_weight <- utils::read.csv(
   # replace the fleet names with the fleet number
   dplyr::mutate(
     fleet = dplyr::case_when(
-      fleet == "trawl-coastwide" ~ 1,
-      fleet == "hook-and-line-coastwide" ~ 2,
-      fleet == "pot-coastwide" ~ 3,
+      fleet == "trawl-coastwide" ~ 4,
+      fleet == "hook-and-line-coastwide" ~ 5,
+      fleet == "pot-coastwide" ~ 6,
       TRUE ~ NA_integer_
     ),
     month = 7,
@@ -244,9 +244,9 @@ wcgop_commercial_discard_rates <- dplyr::left_join(
   dplyr::mutate(
     month = 7,
     fleet = dplyr::case_when(
-      fleet == "trawl-coastwide" ~ 1,
-      fleet == "hook-and-line-coastwide" ~ 2,
-      fleet == "pot-coastwide" ~ 3,
+      fleet == "trawl-coastwide" ~ 4,
+      fleet == "hook-and-line-coastwide" ~ 5,
+      fleet == "pot-coastwide" ~ 6,
       TRUE ~ NA_integer_
     )
   ) |>
@@ -259,7 +259,7 @@ wcgop_commercial_discard_rates <- dplyr::left_join(
 pikitch_trawl_discards <- data.frame(
   year = 1985:1987,
   month = 7,
-  fleet = 1,
+  fleet = 4,
   discard_rate = c(0.3731,  0.3637, 0.3532),
   sd = c(0.2577, 0.2368, 0.229)
 )
@@ -289,7 +289,7 @@ comps <- nwfscSurvey::get_raw_comps(
   comp_bins = seq(18, 90, 2),
   comp_column_name = "length",
   input_n_method = "stewart_hamel",
-  fleet = 1,
+  fleet = 4,
   month = 7,
   partition = 1
 )
@@ -314,7 +314,7 @@ early_comps <- nwfscSurvey::get_raw_comps(
   comp_bins = seq(18, 90, 2),
   comp_column_name = "length",
   input_n_method = "stewart_hamel",
-  fleet = 1,
+  fleet = 4,
   month = 7,
   partition = 1
 )
