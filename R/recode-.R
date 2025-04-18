@@ -37,36 +37,18 @@ recode_fleet_cw <- function(x) {
   x <- tolower(as.character(x))
   dplyr::case_when(
     x %in% c("twl", "trawl") ~ "1",
-    x %in% c("hkl") ~ "2",
+    x %in% c("hkl", "fixed-gear") ~ "2",
     x %in% c("pot") ~ "3",
-    x %in% c("akshlf", "triennial", "triennial_early", "triennial_late", "tri", "groundfish triennial shelf survey") ~ "4",
-    x %in% c("akslp", "afsc.slope", "afsc_slope", "aslope", "ak slope", "afsc/race slope survey") ~ "5",
-    x %in% c("nwslp", "nwfsc.slope", "nwfsc_slope", "nslope", "nwfsc slope", "groundfish slope survey") ~ "6",
-    x %in% c("nwcbo", "nwfsc.combo", "wcgbt", "wcgbts", "groundfish slope and shelf combination survey") ~ "7",
-    x %in% c("env", "env. index") ~ "8",
-    TRUE ~ NA_character_
-  ) |>
-    as.numeric()
-}
-
-recode_fleet_area <- function(x) {
-  x <- tolower(x)
-  dplyr::case_when(
-    x %in% c("north-trawl") ~ "1",
-    x %in% c("north-hkl") ~ "2",
-    x %in% c("north-pot") ~ "3",
-    x %in% c("south-trawl") ~ "4",
-    x %in% c("south-hkl") ~ "5",
-    x %in% c("south-pot") ~ "6",
-    x %in% c("akshlf", "triennial", "tri") ~ "7",
-    x %in% c("akslp", "afsc.slope", "aslope", "ak slope") ~ "8",
-    x %in% c("nwslp", "nwfsc.slope", "nslope", "nwfsc slope") ~ "9",
-    x %in% c("nwcbo", "nwfsc.combo", "wcgbt", "wcgbts") ~ "10",
+    x %in% c("akshlf", "triennial", "triennial_early", "triennial_late", "tri", "groundfish triennial shelf survey") ~ "7",
+    x %in% c("akslp", "afsc.slope", "afsc_slope", "aslope", "ak slope", "afsc/race slope survey") ~ "8",
+    x %in% c("nwslp", "nwfsc.slope", "nwfsc_slope", "nslope", "nwfsc slope", "groundfish slope survey") ~ "9",
+    x %in% c("nwcbo", "nwfsc.combo", "wcgbt", "wcgbts", "groundfish slope and shelf combination survey") ~ "10",
     x %in% c("env", "env. index") ~ "11",
     TRUE ~ NA_character_
   ) |>
     as.numeric()
 }
+
 
 recode_fleet_text_cw <- function(x, case = FALSE) {
   stopifnot(inherits(x, "numeric") || inherits(x, "integer"))
@@ -74,27 +56,6 @@ recode_fleet_text_cw <- function(x, case = FALSE) {
     x == 1 ~ "trawl fleet",
     x == 2 ~ "hook-and-line fleet",
     x == 3 ~ "pot fleet",
-    x == 4 ~ "\\glsentryshort{s-tri}",
-    x == 5 ~ "\\glsentryshort{s-aslope}",
-    x == 6 ~ "\\glsentryshort{s-nslope}",
-    x == 7 ~ "\\glsentryshort{s-wcgbt}",
-    x == 8 ~ "environmental survey",
-  )
-  if (case == "title") {
-    out <- stringi::stri_trans_totitle(out)
-  }
-  return(out)
-}
-
-recode_fleet_text_area <- function(x, case = FALSE) {
-  stopifnot(inherits(x, "numeric") || inherits(x, "integer"))
-  out <- dplyr::case_when(
-    x == 1 ~ "trawl fleet north",
-    x == 2 ~ "hook-and-line fleet north",
-    x == 3 ~ "pot fleet north",
-    x == 4 ~ "trawl fleet south",
-    x == 5 ~ "hook-and-line fleet south",
-    x == 6 ~ "pot fleet south",
     x == 7 ~ "\\glsentryshort{s-tri}",
     x == 8 ~ "\\glsentryshort{s-aslope}",
     x == 9 ~ "\\glsentryshort{s-nslope}",
@@ -113,27 +74,10 @@ recode_fleet_figure_cw <- function(x) {
     x == 1 ~ "Trawl",
     x == 2 ~ "Hook-and-Line",
     x == 3 ~ "Pot",
-    x == 4 ~ "Triennial",
-    x == 5 ~ "AFSC Slope",
-    x == 6 ~ "NWFSC Slope",
-    x == 7 ~ "WCGBT",
-    x == 3 ~ "Env. Index"
-  )
-}
-
-recode_fleet_figure_area <- function(x) {
-  stopifnot(inherits(x, "numeric") || inherits(x, "integer"))
-  dplyr::case_when(
-    x == 1 ~ "Trawl North",
-    x == 2 ~ "Hook-and-Line North",
-    x == 3 ~ "Pot North",
-    x == 4 ~ "Trawl South",
-    x == 5 ~ "Hook-and-Line South",
-    x == 6 ~ "Pot North",
-    x == 4 ~ "Triennial",
-    x == 5 ~ "AFSC Slope",
-    x == 6 ~ "NWFSC Slope",
-    x == 7 ~ "WCGBT",
+    x == 7 ~ "Triennial",
+    x == 8 ~ "AFSC Slope",
+    x == 9 ~ "NWFSC Slope",
+    x == 10 ~ "WCGBT",
     x == 11 ~ "Env. Index"
   )
 }
