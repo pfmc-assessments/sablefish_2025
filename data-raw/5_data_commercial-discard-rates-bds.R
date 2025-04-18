@@ -336,3 +336,16 @@ write_named_csvs(
   dir = here::here("data-processed")
 )
 
+# General notes:
+# I compare landings and dead discard estimates with GEMM and there were some
+# discrepencies that I could not resolve.  The largest difference for total
+# mortality between the GEMM and my calculation occur in 2002 and 2003.  
+# 1. In earlier work I found that the GEMM has ~75 mt of landings from 
+# Other Fisheries + EFP that are not in PacFIN.
+# 2. The other discrepency that I found was that the landings for HKL and 
+# Trawl gear differ between the GEMM and my calculations (the total landings
+# are more similar) where the GEMM had higher numbers of trawl landings and 
+# lower landings of HKL gear compared to my calculations.  The difference in
+# discarding rates and discard mortality assumptions between these gear types
+# results in the GEMM having higher total mortality for these years.
+

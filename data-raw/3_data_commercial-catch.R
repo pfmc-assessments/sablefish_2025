@@ -409,7 +409,8 @@ data_commercial_landings <- all_mortality_data |>
     .after = year
   ) |>
   dplyr::mutate(catch_se = 0.01, .after = catch_mt) |>
-  dplyr::arrange(fleet) 
+  dplyr::arrange(fleet)  |>
+  dplyr::filter(catch_mt > 0)
 
 
 data_commercial_catch_expansions <- all_mortality_data |>
