@@ -715,7 +715,7 @@ table |>
 ::: {.landscape}
 
 ```{r}
-#| label: tbl-param-asar
+#| label: tbl-param
 #| warning: false
 #| echo: false
 #| eval: !expr eval_tables 

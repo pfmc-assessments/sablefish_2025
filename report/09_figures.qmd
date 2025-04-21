@@ -210,6 +210,38 @@ knitr::include_graphics(
 
 \pagebreak
 
+```{r} 
+#| label: fig-wcgbt-map-density
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Sampling locations for sablefish collected by the NWFSC West Coast Groundfish Bottom Trawl survey between 2003 and 2024. Standard lengths (rounded down to the nearest cm) are shown on the left and age estimates (yr) are shown on the right. Lighter colors represent smaller or younger individuals and darker colors represent larger or older individuals. Latitudinal and inshore-offshore patterns were similar for males and females, thus sexes were combined."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path("report", "figure", "wcgbt_length_age_density.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: fig-wcgbt-depth-len-age
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Length (top; cm) and age (bottom; yr) compositions for sablefish collected by the NWFSC West Coast Groundfish Bottom Trawl Survey between 2003 and 2024 by sex and depth (m). Lighter colors represent smaller or younger individuals and darker colors represent larger or older individuals."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path("report", "figure", "wcgbts_length_age_compositions.png")
+)
+
+```
+
+\pagebreak
+
 
 ```{r} 
 #| label: fig-qq-nwfslope
