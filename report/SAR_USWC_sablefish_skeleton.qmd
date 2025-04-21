@@ -400,17 +400,6 @@ cat(a, sep = '\n')
  {{< pagebreak >}} 
 
 ```{r, results='asis'}
-#| label: 'notes'
-#| eval: true
-#| echo: false
-#| warning: false
-a <- knitr::knit_child('10_notes.qmd', quiet = TRUE)
-cat(a, sep = '\n')
-```
-
- {{< pagebreak >}} 
-
-```{r, results='asis'}
 #| label: 'appendix'
 #| eval: true
 #| echo: false
