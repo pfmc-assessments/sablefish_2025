@@ -94,6 +94,102 @@ knitr::include_graphics(
 
 \pagebreak
 
+```{r} 
+#| label: fig-data-trawl-1
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt1mkt0_page1.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: fig-data-trawl-2
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt1mkt0_page2.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: fig-data-hkl-1
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt2mkt0_page1.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: fig-data-hkl-2
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt2mkt0_page2.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: fig-data-pot-1
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt3mkt0_page1.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: fig-data-pot-2
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt3mkt0_page2.png")
+)
+
+```
+
+\pagebreak
+
 
 ```{r} 
 #| label: fig-index-stand
@@ -137,7 +233,7 @@ knitr::include_graphics(
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "index1_cpuedata_NWCBO.png")
+  file.path(model_dir, "plots", "index1_cpuedata_WCGBT.png")
 )
 
 ```
@@ -269,7 +365,7 @@ knitr::include_graphics(
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "index1_cpuedata_NWSLP.png")
+  file.path(model_dir, "plots", "index1_cpuedata_NWFSC_Slope.png")
 )
 
 ```
@@ -302,7 +398,7 @@ knitr::include_graphics(
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "index1_cpuedata_AKSLP.png")
+  file.path(model_dir, "plots", "index1_cpuedata_AFSC_Slope.png")
 )
 
 ```
@@ -354,7 +450,7 @@ knitr::include_graphics(
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "index1_cpuedata_AKSHLF.png")
+  file.path(model_dir, "plots", "index1_cpuedata_Triennial.png")
 )
 
 ```
