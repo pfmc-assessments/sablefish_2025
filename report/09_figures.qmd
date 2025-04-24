@@ -92,6 +92,7 @@ knitr::include_graphics(
 
 ```
 
+
 \pagebreak
 
 ```{r} 
@@ -187,6 +188,16 @@ knitr::include_graphics(
 )
 
 ```
+
+
+\pagebreak
+
+Add catch comparison figure
+
+\pagebreak
+
+
+Add discard length and age figures
 
 \pagebreak
 
