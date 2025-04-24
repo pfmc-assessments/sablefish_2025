@@ -11,10 +11,9 @@ get <- get_settings_profile(
 model_settings <- get_settings(
   mydir = path,
   settings = list(
-    base_name = "1.7_wcgbt_dw",
-    run = "jitter",
-    #profile_details = get,
-    Njitter = 10
+    base_name = "2.1_selex_trawl_double_normal_sex_w_block_split_fixed",
+    profile_details = get,
+    Njitter = 20
   )
 )
 run_diagnostics(mydir = path, model_settings = model_settings)
