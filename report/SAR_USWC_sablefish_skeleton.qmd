@@ -99,11 +99,27 @@ spp <- "sablefish"
 Spp <- "Sablefish"
 
 # Define the location and name of the base model
-model_name <- "13_m_prior"
-model_dir <- here::here("model", "_bridging", model_name)
+model_name <- "0_init_hessian"
+model_dir <- here::here("model", model_name)
+if (!file.exists(file.path(model_dir, "model_output.rda"))) {
+  model_output <- r4ss::SS_output(model_dir)
+  save(model_output, file = file.path(model_dir, "model_output.rda"))
+}
 load(file.path(model_dir, "model_output.rda"))
-# Directory for tables created by r4ss::table_exec_summary()
+
 table_dir <- file.path(model_dir, "tables")
+if (!file.exists(file.path(table_dir, "catches_es.rda"))) {
+  r4ss::table_all(
+    replist = model_output,
+    fleetnames = c(
+      "Trawl", "Hook-and-Line", "Pot", "Trawl Discard", 
+      "Hook-and-Line Discard", "Pot Discard",
+      "Triennial", "AKFSC Slope", "NWFSC Slope", "WCGBT"
+    )
+  )
+  r4ss::table_config(replist = model_output)
+}
+
 # Other potential directories that could be useful
 sens_dir <-  here::here("model", "_sensitivities")
 retro_dir <- profile_dir <- here::here("model")
