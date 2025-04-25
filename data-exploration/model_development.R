@@ -5,6 +5,7 @@ ctl_file <- "2025_sablefish_ctl.ss"
 
 model_2023 <- SS_output(here::here("model", "_bridging", "0_2023_model"))
 m_prior <- SS_output(here::here("model", "_bridging", "13_m_prior"))
+age_based_ret <- SS_output(here::here("model", "_bridging", "14m_fix_survey_selex_params"))
 
 copy_files <- function(x, from_name, to_name){
   file.copy(
@@ -41,8 +42,9 @@ SS_writectl(
 modelnames <- c(
   "2023 Base", 
   "13. M Prior",
+  "14. Age-Based Retention",
   "0-Init Model")
-mysummary <- SSsummarize(list(model_2023, m_prior, model_0))
+mysummary <- SSsummarize(list(model_2023, m_prior, age_based_ret, model_0))
 SSplotComparisons(mysummary,
                   filenameprefix = "0_",
                   legendlabels = modelnames, 	
@@ -393,45 +395,167 @@ SSplotComps(
 SS_plots(wcgbt, plot = c(2, 16:21, 26))
 
 #===============================================================================
-# Data Weight
+# 2.1 Selex
 #===============================================================================
 
-model_name <- ""
+model_name <- "2.1_selex_trawl_double_normal_sex_w_block_split_fixed"
+split_hkl_pot <- SS_output(here::here("model", model_name))
+SS_plots(split_hkl_pot)
 
-dw <- r4ss::tune_comps(
-  replist = data_weight, 
-  dir = here::here("model", model_name),
-  option = "Francis")[, 1:3]
-ctl <- SS_readctl(file = here::here("model", model_name, ctl_file))
-ctl$Variance_adjustment_list <- dw
-SS_writectl(
-  ctllist = ctl, 
-  outfile = here::here("model", model_name, ctl_file),
+plot_fleet_selectivity(
+  model_path = here::here("model", model_name), 
+  model_out = split_hkl_pot, 
+  fleet_num = 3)
+
+p1 <- plot_year_selex(
+  replist = split_hkl_pot,
+  fleets = 1,
+  year = 2024)
+p2 <- plot_year_selex(
+  replist = split_hkl_pot,
+  fleets = 1,
+  year = 1890)
+cowplot::plot_grid(p1, p2, nrow = 2)
+
+p1 <- plot_year_selex(
+  replist = split_hkl_pot,
+  fleets = 2,
+  year = 2024)
+p3 <- plot_year_selex(
+  replist = split_hkl_pot,
+  fleets = 2,
+  year = 1890)
+cowplot::plot_grid(p1, p2, nrow = 2)
+
+#===============================================================================
+# 3.0 Rec Devs
+#===============================================================================
+
+# Turn off pre-model deves
+# Push back main year dev period
+# Update bias adjustment
+#_no timevary SR parameters
+# 1 #do_recdev:  0=none; 1=devvector (R=F(SSB)+dev); 2=deviations (R=F(SSB)+dev); 3=deviations (R=R0*dev; dev2=R-f(SSB)); 4=like 3 with sum(dev2) adding penalty
+# 1970 # first year of main recr_devs; early devs can preceed this era
+# 2023 # last year of main recr_devs; forecast devs start in following year
+# 3 #_recdev phase
+# 1 # (0/1) to read 13 advanced options
+# 1890 #_recdev_early_start (0=none; neg value makes relative to recdev_start)
+# 3 #_recdev_early_phase
+# 3 #_forecast_recruitment phase (incl. late recr) (0 value resets to maxphase+1)
+# 1 #_lambda for Fcast_recr_like occurring before endyr+1
+# 1976 #_last_yr_nobias_adj_in_MPD; begin of ramp
+# 1980 #_first_yr_fullbias_adj_in_MPD; begin of plateau
+# 2021 #_last_yr_fullbias_adj_in_MPD
+# 2023 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
+# 0.729 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
+
+model_name <- "3.0_recdevs_adj_early_years_bias_adj"
+dev_period <- SS_output(here::here("model", model_name))
+SS_plots(dev_period, plot = 1:7)
+
+# Moving the early dev period to include that early large deviation, resulted
+# in that dev being estimated to be much lower due to the sum to 0 constraint
+# during the early period of the model.
+
+# Total NLL = 2427.44 vs (2.2_selex_trawl_double = 2433.52) (3.2: 2428.08)
+# Recruitment LL = 47.5  (51.5)
+# Eliminate estimating early deviations so the likelihood should change
+# Age NLL = 2339.75 (2.2: 2342.23) (3.2: 2338.91)
+# Length NLL = 86.1403 (85.8674) 
+
+# The sum of the early period devs = -22.6
+# The sum of main period devs = -4.21e-06
+
+#===============================================================================
+# 3.1 Rec Devs - option 2 - remove sum to zero constraint
+#===============================================================================
+
+model_name <- "3.1_recdevs_adj_early_years_bias_adj_opt=2"
+dev_opt_2 <- SS_output(here::here("model", model_name))
+SS_plots(dev_opt_2, plot = 3:4)
+
+# The sum of the early period devs = -18.2
+# The sum of main period devs = 25.5
+
+#===============================================================================
+# 3.2 Rec Devs - move main devs to start in 1960
+#===============================================================================
+
+model_name <- "3.2_recdevs_adj_main_dev_start"
+dev <- SS_output(here::here("model", model_name))
+SS_plots(dev, plot = 3:4)
+
+#===============================================================================
+# 4.0 discard fleet length selex
+#===============================================================================
+
+# Look at the implied aggregated fits to the discard length data
+model_name <- "4.0_discard_data"
+discard_selex <- r4ss::SS_output(here::here("model", model_name))
+model_mod <- discard_selex
+model_mod$lendbase <- model_mod$ghostlendbase |> 
+  dplyr::filter(Sexes == 0) |>
+  dplyr::mutate(Pearson = 0, effN =  0, Used = "yes")
+SSplotComps(
+  replist = model_mod, 
+  print = TRUE,
+  plotdir = here::here("model", "4.0_discard_length_selex", "unsexed_ghostfleet_fits")
+)
+model_mod$agedbase <- model_mod$ghostagedbase |> 
+  dplyr::filter(Sexes == 3, Fleet == 10) |>
+  dplyr::mutate(Pearson = 0, effN =  0, Used = "yes")
+SSplotComps(
+  replist = model_mod,
+  #subplots = 21,
+  kind = "AGE", 
+  fleets = 10,
+  print = TRUE,
+  maxrows = 3,
+  maxcols = 3,
+  plotdir = here::here("model", "4.0_discard_length_selex", "sexed_ghostfleet_fits")
+)
+
+#===============================================================================
+# 4.1 discard fleet length selex
+#===============================================================================
+
+# Look at the implied aggregated fits to the discard length data
+model_name <- "4.1_discard_length_selex"
+
+dat <- SS_readdat(
+  file = here::here("model", model_name, "2025_sablefish_dat.ss"))
+
+lencomp <- dplyr::bind_rows(
+  dat$lencomp |> dplyr::filter(fleet == 10),
+  dat$lencomp |> dplyr::filter(fleet != 10) |> dplyr::mutate(fleet = -1 * fleet)
+)
+dat$lencomp <- lencomp
+
+agecomp <- dplyr::bind_rows(
+  dat$agecomp |> dplyr::filter(!fleet %in% 4:6),
+  dat$agecomp |> dplyr::filter(fleet %in% 4:6) |> dplyr::mutate(fleet = -1 * fleet)
+)
+dat$agecomp <- agecomp
+
+SS_writedat(
+  datlist = dat, 
+  outfile = here::here("model",  model_name, "2025_sablefish_dat.ss"),
   overwrite = TRUE)
 
-wcgbt_dw <- SS_output(here::here("model", model_name))
-
-modelnames <- c(
-  "2023 Base", 
-  "13. M Prior",
-  "0-Init Model",
-  "1.5-Fishery Selectivity", 
-  "1.7-WCGBT Spline")
-mysummary <- SSsummarize(
-  list(model_2023, m_prior, model_0, data_weight, wcgbt_dw))
-SSplotComparisons(mysummary,
-                  filenameprefix = "1.7_",
-                  legendlabels = modelnames, 	
-                  plotdir = here::here("model", "_plots"),
-                  pdf = TRUE)
-
-
-
-
+discard_len_selex <- SS_output(here::here("model", model_name))
+# selectivity plots are plot = 2
+# time series are plot = 3
+SS_plots(discard_len_selex, plot = c(2, 16:26))
+model_mod <- discard_len_selex
+model_mod$agedbase <- model_mod$ghostagedbase |> 
+  dplyr::filter(Sexes == 0) |>
+  dplyr::mutate(Pearson = 0, effN =  0, Used = "yes")
 SSplotComps(
-  replist = wcgbt,
+  replist = model_mod,
   kind = "AGE", 
-  subplots = 1,
-  fleets = 1,
-  datonly = TRUE
+  print = TRUE,
+  maxrows = 3,
+  maxcols = 3,
+  plotdir = here::here("model", model_name, "unsexed_ghostfleet_fits")
 )
