@@ -21,7 +21,7 @@ create_model_plots <- function(
     "Hook-and-Line Discards",
     "Pot Discard",
     "Triennial", 
-    "AKFSC Slope", 
+    "AFSC Slope", 
     "NWFSC Slope", 
     "WCGBT",
     "Recruitment Index"
@@ -60,7 +60,7 @@ create_model_tables <- function(
       "Hook-and-Line Discards",
       "Pot Discard",
       "Triennial", 
-      "AKFSC Slope", 
+      "AFSC Slope", 
       "NWFSC Slope", 
       "WCGBT",
       "Recruitment Index"
