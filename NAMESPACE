@@ -2,6 +2,8 @@
 
 export(compare_model_gemm_catch)
 export(create_comparison_table)
+export(create_model_plots)
+export(create_model_tables)
 export(create_rda)
 export(get_data_survey)
 export(get_values)
