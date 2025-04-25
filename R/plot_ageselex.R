@@ -1,12 +1,3 @@
-library(r4ss)
-library(tidyverse)
-library(stringr)
-
-model_path <- file.path(here::here(), "model", "13_m_prior")
-
-fleet_num = 5
-model_out <- r4ss::SS_output(dir=model_path)
-
 #' Plot Age-Based Selectivity Curve
 #' 
 #' Create a plot of selectivity-at-age for a given fishery or survey
@@ -208,10 +199,3 @@ plot_fleet_retention <- function(model_out, fleet_num){
     return(plot)
 }
 
-ret1 <- plot_fleet_retention(model_out, 1)
-ret2 <- plot_fleet_retention(model_out, 2)
-ret3 <- plot_fleet_retention(model_out, 3)
-ret7_leg <- sel7+guides(shape=guide_legend(), linetype=guide_legend())
-
-(ret1+ret2+ret3)+plot_layout(axes="collect")
-ggsave("~/Desktop/test_ret.jpeg", width=8.5, height=6)

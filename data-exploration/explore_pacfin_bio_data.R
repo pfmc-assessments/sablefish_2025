@@ -331,3 +331,37 @@ library(patchwork)
 plot_n_geargroup_port + plot_prop_geargroup_port + plot_layout(guides="collect") & custom_theme
 ggsave(filename = here::here("data", "pacfin", "samples_by_gear_by_port.png"),
        width = 10, height = 25)
+
+#==============================================================================
+# Look at uncleanded data for length samples
+#===============================================================================
+bds_all <- pacfintools::cleanPacFIN(
+  Pdata = raw_pacfin_bds,
+  CLEAN = FALSE
+) |>
+  dplyr::mutate(
+    stratification = paste(state, geargroup, sep = ".")
+  )
+
+lengths <- bds_all |>
+  dplyr::group_by(year) |>
+  dplyr::summarise(
+    n = sum(!is.na(lengthcm))
+  )
+
+devtools::load_all("C:/Users/chantel.wetzel/Documents/github/PacFIN.Utilities")
+load("//nwcfile/FRAM/Assessments/Archives/Sablefish/Sablefish2019/6_non_confidential_data/PacFIN_BDS/PacFIN.SABL.bds.27.Feb.2019.dmp")
+data_2019 <- PacFIN.SABL.bds.27.Feb.2019
+data_2019$FISH_LENGTH_UNITS = "CM"
+bds_2019 <- cleanPacFIN(
+  Pdata = data_2019,
+  CLEAN = FALSE
+)
+table(data_2019$SAMPLE_YEAR, !is.na(data_2019$FISH_LENGTH))
+data_2019$sample <- paste0(data_2019$SAMPLE_NO, "-", data_2019$FISH_NO)
+bds_2019 <- data_2019 |>
+  dplyr::distinct(sample, .keep_all = TRUE) |>
+  dplyr::group_by(SAMPLE_YEAR) |>
+  dplyr::summarise(
+    n = sum(!is.na(FISH_LENGTH))
+  )

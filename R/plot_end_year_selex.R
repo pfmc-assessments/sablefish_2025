@@ -28,7 +28,7 @@ plot_year_selex <- function(
       Sex = as.factor(Sex)
     )
   if (dim(final_selex)[1] == 0) {
-    cli::cli_abort("No parameters were found for yaer {year} and fleets {fleet}.")
+    cli::cli_abort("No parameters were found for year {year} and fleets {fleets}.")
   }
   
   gg <- ggplot2::ggplot(final_selex, ggplot2::aes(x = age, y = selex, color = Factor, linetype = Sex, shape = Sex)) +

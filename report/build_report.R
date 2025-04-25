@@ -7,11 +7,11 @@ pak::pkg_install("nmfs-ost/satf")
 # is passed to the function in the `outdir` and `savedir` arguments below:
 asar::convert_output(
   output_file = "Report.sso", 
-  outdir = here::here("model", "_bridging", "0_2023_model"),
+  outdir = here::here("model", "_bridging", "13_m_prior"),
   model = "ss3", 
   file_save = TRUE,
   savedir = here::here("report"),
-  save_name = "sablefish_convert_output"
+  save_name = "sablefish_model_output"
 )
 
 asar::create_template(

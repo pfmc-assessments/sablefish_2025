@@ -278,11 +278,11 @@ reference_points_table |>
   ) |>  
   gt::tab_style(
     style = list(
-      cell_text(style = "italic")
+      gt::cell_text(style = "italic")
     ),
-    locations = cells_body(
+    locations = gt::cells_body(
       columns = "Reference Point",
-      rows = starts_with("Reference")
+      rows = tidyselect::starts_with("Reference")
     )
   ) |>
   gt::sub_missing(

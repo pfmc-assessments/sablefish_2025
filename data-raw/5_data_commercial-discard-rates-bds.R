@@ -13,9 +13,9 @@ data_commercial_discard_length_composition <-
   # replace the fleet names with the fleet number
   dplyr::mutate(
     fleet = dplyr::case_when(
-      fleet == "trawl-coastwide" ~ 1,
-      fleet == "hook-and-line-coastwide" ~ 2,
-      fleet == "pot-coastwide" ~ 3,
+      fleet == "trawl-coastwide" ~ 4,
+      fleet == "hook-and-line-coastwide" ~ 5,
+      fleet == "pot-coastwide" ~ 6,
       TRUE ~ NA_integer_
     ),
     month = 7
@@ -35,9 +35,9 @@ data_commercial_discard_age_composition <-
   # replace the fleet names with the fleet number
   dplyr::mutate(
     fleet = dplyr::case_when(
-      fleet == "trawl-coastwide" ~ 1,
-      fleet == "hook-and-line-coastwide" ~ 2,
-      fleet == "pot-coastwide" ~ 3,
+      fleet == "trawl-coastwide" ~ 4,
+      fleet == "hook-and-line-coastwide" ~ 5,
+      fleet == "pot-coastwide" ~ 6,
       TRUE ~ NA_integer_
     ),
     month = 7,
@@ -55,9 +55,9 @@ data_commercial_discard_weight <- utils::read.csv(
   # replace the fleet names with the fleet number
   dplyr::mutate(
     fleet = dplyr::case_when(
-      fleet == "trawl-coastwide" ~ 1,
-      fleet == "hook-and-line-coastwide" ~ 2,
-      fleet == "pot-coastwide" ~ 3,
+      fleet == "trawl-coastwide" ~ 4,
+      fleet == "hook-and-line-coastwide" ~ 5,
+      fleet == "pot-coastwide" ~ 6,
       TRUE ~ NA_integer_
     ),
     month = 7,
@@ -133,17 +133,16 @@ trawl <- c(
 gemm_data[which(gemm_data[, "sector"] %in% hkl), "fleet"] <- "hook-and-line"
 gemm_data[which(gemm_data[, "sector"] %in% trawl), "fleet"] <- "trawl"
 gemm_data[which(gemm_data[, "sector"] %in% pot), "fleet"] <- "pot"
-gemm_data[, "fleet"] <- apply(gemm_data[, c("catch_shares", "fleet")], 1, paste, collapse = "-")
 catch_totals <- gemm_data |>
   dplyr::filter(year >= 2011) |>
-  dplyr::group_by(year) |>
+  dplyr::group_by(year, fleet) |>
   dplyr::mutate(
-    landed_mt_by_year = sum(total_landings_mt),
     discard_mt_by_year = sum(total_discard_mt),
     dead_discard_mt_by_year = sum(total_discard_with_mort_rates_applied_mt),
+    landed_mt_by_year = sum(total_landings_mt),
     catch_by_year = sum(total_discard_with_mort_rates_applied_and_landings_mt),
   ) |>
-  dplyr::group_by(year, fleet) |>
+  dplyr::group_by(year, fleet, catch_shares) |>
   dplyr::summarise(
     discard_mt = sum(total_discard_mt),
     dead_discard_mt = sum(total_discard_with_mort_rates_applied_mt),
@@ -153,29 +152,31 @@ catch_totals <- gemm_data |>
     gemm_dead_discard_rate = dead_discard_mt / (landed_mt + dead_discard_mt),
     prop_discard = discard_mt / unique(discard_mt_by_year),
     prop_landed = landed_mt / unique(landed_mt_by_year),
-    prop_catch = catch / unique(catch_by_year)
+    prop_catch = catch / unique(catch_by_year),
+    prop_selex = sum(discard_mt + catch) / sum(unique(catch_by_year) + unique(discard_mt_by_year))
   ) |>
   dplyr::ungroup()
+
 catch_totals$cs_fleet <- catch_totals$fleet
 catch_totals$catch_share <- TRUE
-catch_totals[grep("non-catch-shares", catch_totals$fleet), "catch_share"] <- FALSE
+catch_totals[grep("non-catch-shares", catch_totals$catch_shares), "catch_share"] <- FALSE
 catch_totals[grep("trawl", catch_totals$fleet), "fleet"] <- "trawl-coastwide"
 catch_totals[grep("hook-and-line", catch_totals$fleet), "fleet"] <- "hook-and-line-coastwide"
 catch_totals[grep("pot", catch_totals$fleet), "fleet"] <- "pot-coastwide"
 gemm_weights <- catch_totals |>
   dplyr::group_by(year, fleet) |>
   dplyr::mutate(
-    cs_weight = prop_discard / sum(prop_discard)
+    cs_weight = prop_selex
   ) |>
   tibble::as_tibble() |>
   tidyr::complete(year, fleet, catch_share, fill = list(cs_weight = 0)) |>
   dplyr::filter(catch_share == "TRUE") |>
   dplyr::select(year, fleet, cs_weight) 
 
-gg1 <- ggplot(catch_totals, aes(x = year, y = prop_discard, fill = cs_fleet)) +
+gg1 <- ggplot(catch_totals, aes(x = year, y = prop_selex, fill = catch_shares)) +
   geom_bar(stat = "identity") +
   scale_fill_viridis_d() +
-  xlab("Year") + ylab("Proportion of Total Discard") +
+  xlab("Year") + ylab("Proportion of Total Selected Biomass") +
   theme_bw() + 
   facet_grid(fleet~.)
 ggplot2::ggsave(
@@ -184,7 +185,7 @@ ggplot2::ggsave(
   height = 7, width = 7
 )
 
-gg2 <- ggplot(catch_totals, aes(x = year, y = discard_mt, fill = cs_fleet)) +
+gg2 <- ggplot(catch_totals, aes(x = year, y = discard_mt, fill = catch_shares)) +
   geom_bar(stat = "identity") +
   scale_fill_viridis_d()  +
   xlab("Year") + ylab("All Discard (mt)") +
@@ -193,18 +194,6 @@ gg2 <- ggplot(catch_totals, aes(x = year, y = discard_mt, fill = cs_fleet)) +
 ggplot2::ggsave(
   gg2, 
   filename = here::here("data-raw", "discard", "wcgop", "figures", "gemm_discard_totals.png"),
-  height = 7, width = 7
-)
-
-gg3 <- ggplot(catch_totals, aes(x = year, y = gemm_discard_rate, color = cs_fleet)) +
-  geom_line(linewidth = 1) +
-  geom_point() +
-  xlab("Year") + ylab("Discard Rate (GEMM)") +
-  scale_color_viridis_d() +
-  theme_bw()
-ggplot2::ggsave(
-  gg3, 
-  filename = here::here("data-raw", "discard", "wcgop", "figures", "gemm_discard_rates.png"),
   height = 7, width = 7
 )
 
@@ -255,9 +244,9 @@ wcgop_commercial_discard_rates <- dplyr::left_join(
   dplyr::mutate(
     month = 7,
     fleet = dplyr::case_when(
-      fleet == "trawl-coastwide" ~ 1,
-      fleet == "hook-and-line-coastwide" ~ 2,
-      fleet == "pot-coastwide" ~ 3,
+      fleet == "trawl-coastwide" ~ 4,
+      fleet == "hook-and-line-coastwide" ~ 5,
+      fleet == "pot-coastwide" ~ 6,
       TRUE ~ NA_integer_
     )
   ) |>
@@ -270,7 +259,7 @@ wcgop_commercial_discard_rates <- dplyr::left_join(
 pikitch_trawl_discards <- data.frame(
   year = 1985:1987,
   month = 7,
-  fleet = 1,
+  fleet = 4,
   discard_rate = c(0.3731,  0.3637, 0.3532),
   sd = c(0.2577, 0.2368, 0.229)
 )
@@ -300,7 +289,7 @@ comps <- nwfscSurvey::get_raw_comps(
   comp_bins = seq(18, 90, 2),
   comp_column_name = "length",
   input_n_method = "stewart_hamel",
-  fleet = 1,
+  fleet = 4,
   month = 7,
   partition = 1
 )
@@ -325,7 +314,7 @@ early_comps <- nwfscSurvey::get_raw_comps(
   comp_bins = seq(18, 90, 2),
   comp_column_name = "length",
   input_n_method = "stewart_hamel",
-  fleet = 1,
+  fleet = 4,
   month = 7,
   partition = 1
 )
@@ -346,4 +335,17 @@ write_named_csvs(
   data_ashop_discard_composition,
   dir = here::here("data-processed")
 )
+
+# General notes:
+# I compare landings and dead discard estimates with GEMM and there were some
+# discrepencies that I could not resolve.  The largest difference for total
+# mortality between the GEMM and my calculation occur in 2002 and 2003.  
+# 1. In earlier work I found that the GEMM has ~75 mt of landings from 
+# Other Fisheries + EFP that are not in PacFIN.
+# 2. The other discrepency that I found was that the landings for HKL and 
+# Trawl gear differ between the GEMM and my calculations (the total landings
+# are more similar) where the GEMM had higher numbers of trawl landings and 
+# lower landings of HKL gear compared to my calculations.  The difference in
+# discarding rates and discard mortality assumptions between these gear types
+# results in the GEMM having higher total mortality for these years.
 

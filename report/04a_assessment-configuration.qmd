@@ -150,6 +150,8 @@ high research priorities.
 
 <!--- Describe the setup of the stock assessment model. --->
 
+@tbl-model-config
+
 ## Model Parameters
 
 <!--- General model specifications: assessment program, model structure, area
@@ -157,15 +159,13 @@ and fleet definitions, initial conditions. --->
 
 <!--- Fixed and estimated parameters --->
 
+@tbl-n-param
+
 ## Priors
 
 Priors were used to determine fixed parameter values for natural mortality ($M$) and steepness ($h$) in the base model. The prior distribution for natural mortality was based on the @hamel_development_2022 meta-analytic approach with an assumed maximum age of 75 years for both males and females. The prior assumed a log normal distribution for natural mortality. The log normal prior has a median of 0.072 yr$^{-1}$ and a standard error of 0.31. 
 
 The treatment of $h$ has varied across recent assessment. The assessment conducted in 2007 estimated $h$ = 0.43, the 2011 assessment fixed $h$ = 0.60 based upon @he_prior_2006, and the 2019 assessment fixed $h$ = 0.70.  The prior for steepness assumed a beta distribution with mean of 0.70 and standard error of 0.223. 
-
-
-
-
 
 ## Data Weighting
 

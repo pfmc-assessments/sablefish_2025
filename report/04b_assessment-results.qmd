@@ -4,8 +4,11 @@
 
 <!-- For each of the following subsections, please describe the results for the base model. -->
 
+@tbl-likes
+
 ### Parameter Estimates
 
+@tbl-param
 
 ### Recruitment Estimates and Deviations
 
