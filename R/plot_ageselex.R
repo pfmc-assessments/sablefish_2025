@@ -31,8 +31,13 @@
 #(sel1+sel2+sel3+sel4+sel5+sel6+sel7+plot_spacer()+legend$grob[[2]])+plot_layout(axes="collect")
 #ggsave("~/Desktop/test.jpeg", height=11, width=8.5)
 #
-plot_fleet_selectivity <- function(model_path, model_out, fleet_num){
-    data <- r4ss::SS_readdat(file.path(model_path, "data.ss"))
+plot_fleet_selectivity <- function(
+    model_path, 
+    model_out, 
+    fleet_num,
+    data_file_name = "2025_sablefish_dat.ss",
+    ctl_file_name = "2025_sablefish_ctl.ss"){
+    data <- r4ss::SS_readdat(file.path(model_path, data_file_name))
     fleet_name <- data$fleetnames[fleet_num]
     fleet_type <- data$fleetinfo %>% filter(fleetname==fleet_name) %>% pull(type)
     if(fleet_type == 1){
@@ -43,7 +48,7 @@ plot_fleet_selectivity <- function(model_path, model_out, fleet_num){
         fleet_active_years <- c(min(fleet_years), max(fleet_years))
     }
 
-    ctl_file <- r4ss::SS_readctl_3.30(file.path(model_path, "control.ss"))
+    ctl_file <- r4ss::SS_readctl_3.30(file.path(model_path, ctl_file_name))
     tv_selex <- ctl_file$age_selex_parms_tv
     fleet_tv_entry <- rownames(tv_selex[grep(paste0("(",fleet_num,")"), rownames(tv_selex), fixed=TRUE),])
     fleet_end_blocks <- as.vector(sapply(fleet_tv_entry, \(x) stringr::str_extract(x, "\\d+$")))
