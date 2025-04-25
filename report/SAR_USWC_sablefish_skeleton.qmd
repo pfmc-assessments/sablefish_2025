@@ -60,6 +60,8 @@ format:
       - bottom=1in
       - right=1in
       - left=1in
+    link-citations: true
+    fig-pos: 'H'
 output-file: 'sablfefish_SAR_2025' 
 params:
    office: 'NWFSC'
@@ -88,6 +90,92 @@ cat(a, sep = '\n')
 ```
 
 
+```{r, results='asis'}
+#| label: 'load_functions'
+#| eval: true
+#| echo: false
+#| warning: false
+
+#' Create r4ss plots required for the report document
+#'
+#' @param  dir Directory to save figures. The full directory is required and if 
+#'   provided a folder will be created in this location where figures will be 
+#'   saved.  
+#' @param  model_name String model folder name.
+#' @param  fleetnames List of user specific fleet names to use in the figures or 
+#'   tables.
+#'
+#' @author Chantel Wetzel
+#' @export
+#'
+create_model_plots <- function(
+  model_name,
+  dir = here::here("model"),
+  fleetnames = c(
+    "Trawl", 
+    "Hook-and-Line", 
+    "Pot",
+    "Trawl Discards", 
+    "Hook-and-Line Discards",
+    "Pot Discard",
+    "Triennial", 
+    "AKFSC Slope", 
+    "NWFSC Slope", 
+    "WCGBT",
+    "Recruitment Index"
+    )
+  ) {
+
+  model_dir <- file.path(dir, model_name)
+  model_output <- r4ss::SS_output(model_dir)
+  save(model_output, file = file.path(model_dir, "model_output.rda"))
+  r4ss::SS_plots(
+    replist = model_output,
+    fleetnames = fleetnames
+  )
+}
+#'
+#' Create r4ss rda files required for the report document
+#'
+#' @param  dir Directory to save figures. The full directory is required and if 
+#'   provided a folder will be created in this location where figures will be 
+#'   saved.  
+#' @param  model_name String model folder name.
+#' @param  fleetnames List of user specific fleet names to use in the figures or 
+#'   tables.
+#'
+#' @author Chantel Wetzel
+#' @export
+#'
+create_model_tables <- function(
+    model_name,
+    dir = here::here("model"),
+    fleetnames = c(
+      "Trawl", 
+      "Hook-and-Line", 
+      "Pot",
+      "Trawl Discards", 
+      "Hook-and-Line Discards",
+      "Pot Discard",
+      "Triennial", 
+      "AKFSC Slope", 
+      "NWFSC Slope", 
+      "WCGBT",
+      "Recruitment Index"
+    )
+) {
+  
+  model_dir <- file.path(dir, model_name)
+  model_output <- r4ss::SS_output(model_dir)
+  r4ss::table_all(
+    replist = model_output,
+    fleetnames = fleetnames
+  )
+  r4ss::table_config(replist = model_output)
+}
+
+```
+
 
 ```{r} 
 #| label: 'output_and_quantities'
@@ -99,25 +187,26 @@ spp <- "sablefish"
 Spp <- "Sablefish"
 
 # Define the location and name of the base model
-model_name <- "0_init_hessian"
+model_name <- "2.1_selex_trawl_double_normal_sex_w_block_split_fixed"
 model_dir <- here::here("model", model_name)
-if (!file.exists(file.path(model_dir, "model_output.rda"))) {
-  model_output <- r4ss::SS_output(model_dir)
-  save(model_output, file = file.path(model_dir, "model_output.rda"))
+
+if (any(c(
+  !file.exists(file.path(model_dir, "model_output.rda")), 
+  !file.exists(file.path(model_dir, "plots"))
+  ))) {
+  create_model_plots(
+    model_name = model_name,
+   dir = here::here("model")
+  )
 }
 load(file.path(model_dir, "model_output.rda"))
 
 table_dir <- file.path(model_dir, "tables")
-if (!file.exists(file.path(table_dir, "catches_es.rda"))) {
-  r4ss::table_all(
-    replist = model_output,
-    fleetnames = c(
-      "Trawl", "Hook-and-Line", "Pot", "Trawl Discard", 
-      "Hook-and-Line Discard", "Pot Discard",
-      "Triennial", "AKFSC Slope", "NWFSC Slope", "WCGBT"
-    )
+if (!file.exists(table_dir)) {
+  create_model_tables(
+    model_name = model_name,
+    dir = here::here("model")
   )
-  r4ss::table_config(replist = model_output)
 }
 
 # Other potential directories that could be useful
