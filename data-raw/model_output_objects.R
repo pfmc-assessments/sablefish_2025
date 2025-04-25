@@ -10,13 +10,6 @@ model_output <- r4ss::SS_output(model_dir)
 save(model_output, file = file.path(model_dir, "model_output.rda"))
 r4ss::SS_plots(model_output)
 
-#model_output$agedbase <- model_output$agedbase |> 
-#  dplyr::filter(Sexes == 3)
-#SSplotComps(
-#  replist = model_output,
-#  subplots = 21 
-#)
-
 r4ss::table_all(
   replist = model_output,
   fleetnames = c(
