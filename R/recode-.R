@@ -53,9 +53,12 @@ recode_fleet_cw <- function(x) {
 recode_fleet_text_cw <- function(x, case = FALSE) {
   stopifnot(inherits(x, "numeric") || inherits(x, "integer"))
   out <- dplyr::case_when(
-    x == 1 ~ "trawl fleet",
-    x == 2 ~ "hook-and-line fleet",
-    x == 3 ~ "pot fleet",
+    x == 1 ~ "trawl",
+    x == 2 ~ "hkl",
+    x == 3 ~ "pot",
+    x == 4 ~ "trawl discard",
+    x == 5 ~ "hkl discard",
+    x == 6 ~ "pot discard",
     x == 7 ~ "\\glsentryshort{s-tri}",
     x == 8 ~ "\\glsentryshort{s-aslope}",
     x == 9 ~ "\\glsentryshort{s-nslope}",
