@@ -22,14 +22,14 @@ format_wtatage <- pad_weight_at_age(
   ages = 0:30)
 
 write_wtatage_file(
-  file = here::here("data-processed", "wtatage_model_biomass_weighted.ss"),
+  file = here::here("data-processed", "wtatage_model_biomass_weighted_fleet=11.ss"),
   data = format_wtatage,
   maturity = maturity$maturity[1:31],
   max_age = 30,
-  n_fleet = 7
+  n_fleet = 11
 )
 
-ggplot(format_wtatage |> dplyr::filter(year >= first_year), aes(x = age, y = year, z = pred_weight)) +
+ggplot(wtatage, aes(x = age, y = year, z = pred_weight)) +
   stat_summary_2d(geom = "tile") + #, fun = function(x) cut(mean(x), breaks = breaks, right = FALSE))  +
   #xlim(0, 15) +
   facet_grid(sex~.)
@@ -52,11 +52,11 @@ format_wtatage <- pad_weight_at_age(
   ages = 0:30)
 
 write_wtatage_file(
-  file = here::here("data-processed", "wtatage_model_biomass_weighted_fishery_survey.ss"),
+  file = here::here("data-processed", "wtatage_model_biomass_weighted_fishery_survey_fleet=11.ss"),
   data = format_wtatage,
   maturity = maturity$maturity[1:31],
   max_age = 30,
-  n_fleet = 7
+  n_fleet = 11
 )
 
 #=======================================================================
@@ -84,11 +84,11 @@ format_wtatage <- wtatage |>
   as.data.frame()
 
 write_wtatage_file(
-  file = here::here("data-processed", "wtatage_model_static.ss"),
+  file = here::here("data-processed", "wtatage_model_static_fleet=11.ss"),
   data = format_wtatage,
   maturity = maturity$maturity[1:31],
   max_age = 30,
-  n_fleet = 7
+  n_fleet = 11
 )
 
 
