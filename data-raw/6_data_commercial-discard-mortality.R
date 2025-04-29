@@ -83,7 +83,8 @@ data_commercial_discards <- rates_and_landings |>
 data_commercial_catch <- dplyr::bind_rows(
   data_commercial_landings,
   data_commercial_discards
-)
+) |>
+  dplyr::mutate(catch_mt = round(catch_mt, 2))
 
 write_named_csvs(
   data_commercial_catch,
