@@ -7,6 +7,7 @@
 #' (weight ~ 1 + s(age, by = sex) + (1|fcohort) + (1|fyear) + sex + area). The
 #' model estimated weight-at-age parameters by sex, cohort, year, and area are
 #' then biomass weighted via a prediction grid based on a sdmTMB index.
+#' @param dir Parent directory for the repository.
 #' @param max_age An integer specifying the maximum age of the modeled data
 #'   in the Stock Synthesis model. All age data beyond this will be assigned
 #'   to the maximum age. This is typically the age beyond which data are sparse
@@ -22,6 +23,7 @@
 #' @author Kelli F. Johnson, Chantel Wetzel, and Eric Ward
 #' 
 estimate_tv_wtatage_weighted <- function(
+  dir = here::here(),
   max_age = 30,
   data_file = "data_weight_at_age_survey",
   do_plots = FALSE) {

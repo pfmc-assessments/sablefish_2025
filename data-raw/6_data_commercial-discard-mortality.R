@@ -26,6 +26,8 @@ landings_by_year <- all_mortality_data |>
 # between 2002-2010.
 # 4. 2024 Discard rates are equal to the 2023 rates
 discard_rates <- read.csv(here::here("data-processed", "data_commercial_discard_rates.csv"))
+# Change the fleet numbers to the discard rates to match the landings for joining later
+discard_rates[, "fleet"] <- discard_rates[, "fleet"] - 3
 ave_hkl_2002_2010 <- discard_rates |>
   dplyr::filter(fleet == 2, year < 2011) |>
   dplyr::summarise(ave_rate = mean(discard_rate))
@@ -38,6 +40,7 @@ ave_trawl_1890_2001 <- discard_rates |>
   dplyr::filter(fleet == 1, year < 2002) |>
   dplyr::summarise(ave_rate = mean(discard_rate))
 # 0.363333
+# if 2002-2010 is included in the average calculation = 0.2416
 
 rates_and_landings <- dplyr::left_join(landings_by_year, discard_rates) |>
   dplyr::select(-month, -sd) |>
@@ -57,15 +60,15 @@ rates_and_landings <- dplyr::left_join(landings_by_year, discard_rates) |>
   tidyr::fill(discard_rate, .direction = "down") |>
   dplyr::group_by(year, gear_group) |>
   dplyr::mutate(
-    discard_mt = discard_mortality_rate * discard_rate * landings_mt,
+    dead_discard_mt = discard_mortality_rate * discard_rate * landings_mt,
     landings_fleet = sum(landings_mt + catch_mt),
-    total_mortality_mt = sum(discard_mt + landings_mt + catch_mt)
+    total_mortality_mt = sum(dead_discard_mt + landings_mt + catch_mt)
   )
 
 data_commercial_discards <- rates_and_landings |>
   dplyr::group_by(year, gear_group) |>
   dplyr::summarise(
-    catch_mt = round(sum(discard_mt), digits = 4),
+    catch_mt = round(sum(dead_discard_mt), digits = 4),
   ) |>
   dplyr::rename(fleet = gear_group) |>
   dplyr::mutate(
@@ -80,7 +83,8 @@ data_commercial_discards <- rates_and_landings |>
 data_commercial_catch <- dplyr::bind_rows(
   data_commercial_landings,
   data_commercial_discards
-)
+) |>
+  dplyr::mutate(catch_mt = round(catch_mt, 2))
 
 write_named_csvs(
   data_commercial_catch,

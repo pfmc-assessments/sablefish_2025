@@ -559,3 +559,148 @@ SSplotComps(
   maxcols = 3,
   plotdir = here::here("model", model_name, "unsexed_ghostfleet_fits")
 )
+
+#===============================================================================
+# 5.0 fix discard catches
+#===============================================================================
+
+model_name <- "5.0_fix_discard_catch"
+fix_catch <- SS_output(here::here("model", model_name))
+# Run the model
+
+# Update the data weights 
+dw <- r4ss::tune_comps(
+  replist = fix_catch, 
+  dir = here::here("model", model_name),
+  option = "Francis")
+#ctl <- SS_readctl(file = here::here("model", model_name, ctl_file))
+#ctl$Variance_adjustment_list <- dw
+#SS_writectl(
+#  ctllist = ctl, 
+#  outfile = here::here("model", model_name, ctl_file),
+#  overwrite = TRUE)
+# Rerun the model with the new data weights
+fix_catch <- SS_output(here::here("model", model_name))
+SS_plots(fix_catch)
+
+#===============================================================================
+# 5.1 fix discard catches
+#===============================================================================
+
+model_name <- "5.1_weight_at_age"
+wtatage <- SS_output(here::here("model", model_name))
+dw <- r4ss::tune_comps(
+  replist = wtatage, 
+  fleet = 10,
+  dir = here::here("model", model_name),
+  option = "Francis")
+
+#===============================================================================
+# Compare Models
+#===============================================================================
+modelnames <- c(
+  "2023 Base", 
+  "13. M Prior",
+  "14. Age-Based Retention",
+  "5-Fixed Discard Catch",
+  "5-Weight-at-Age")
+mysummary <- SSsummarize(list(model_2023, m_prior, age_based_ret, fix_catch, wtatage))
+SSplotComparisons(mysummary,
+                  filenameprefix = "5.1_",
+                  legendlabels = modelnames, 	
+                  ylimAdj = 1.25,
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_plots"),
+                  pdf = TRUE)
+
+#===============================================================================
+# 5.2 Change CAAL to marginals WCGBT
+#===============================================================================
+
+model_name <- "5.2_wcgbt_marginals"
+
+dat <- SS_readdat(file = here::here("model", model_name, dat_file))
+agecomp <- dplyr::bind_rows(
+  dat$agecomp |>
+    dplyr::filter(fleet %in% 1:9) |>
+    dplyr::mutate(part = 0), 
+  dat$agecomp |>
+    dplyr::filter(fleet == -10) |>
+    dplyr::mutate(fleet = 10)
+)
+dat$agecomp <- agecomp
+SS_writedat(
+  datlist = dat, 
+  outfile = here::here("model", model_name, dat_file),
+  overwrite = TRUE)
+
+remove_caal <- SS_output(here::here("model", model_name))
+dw <- r4ss::tune_comps(
+  replist = remove_caal, 
+  fleet = 1:9,
+  dir = here::here("model", model_name),
+  option = "Francis")
+
+#===============================================================================
+# 5.3 Remove WCGBT len
+#===============================================================================
+
+model_name <- "5.3_remove_wcgbt_len"
+
+dat <- SS_readdat(file = here::here("model", model_name, dat_file))
+lencomp <- dplyr::bind_rows(
+  dat$lencomp |>
+    dplyr::filter(fleet != 10) |>
+    dplyr::mutate(part = 0), 
+  dat$lencomp |>
+    dplyr::filter(fleet == 10) |>
+    dplyr::mutate(fleet = -10)
+)
+dat$lencomp <- lencomp
+SS_writedat(
+  datlist = dat, 
+  outfile = here::here("model", model_name, dat_file),
+  overwrite = TRUE)
+
+remove_len <- SS_output(here::here("model", model_name))
+dw <- r4ss::tune_comps(
+  replist = remove_len, 
+  dir = here::here("model", model_name),
+  option = "Francis")
+# Rerun the model with updated data weights
+#factor fleet New_Var_adj hash Old_Var_adj New_Francis   New_MI Francis_mult Francis_lo Francis_hi  MI_mult Type         Name Note
+# 1        5     1    0.148241    #    0.169524    0.148241 0.042451     0.874455   0.565148   1.704292 0.250411  age          TWL     
+# 2        5     2    0.618678    #    0.624502    0.618678 0.069626     0.990674   0.725995   1.511450 0.111491  age          HKL     
+# 3        5     3    0.128228    #    0.119210    0.128228 0.390071     1.075646   0.708009   2.373488 3.272131  age          Pot     
+# 4        5     4    0.323733    #    0.354678    0.323733 0.041691     0.912753   0.578172   1.895335 0.117546  age TWL_Discards     
+# 5        5     5    0.079562    #    0.086883    0.079562 0.103032     0.915737   0.638043   1.844330 1.185867  age HKL_Discards     
+# 6        5     6    0.108909    #    0.119801    0.108909 0.115177     0.909082   0.614074   1.786469 0.961401  age  Pot_Discard     
+# 7        5     7    2.596135    #    2.270030    2.596135 0.023560     1.143657   0.628777   5.570683 0.010379  age    Triennial     
+# 8        5     8    0.087685    #    0.110421    0.087685 0.013067     0.794099   0.511560   3.199631 0.118334  age  AKFSC_SLOPE     
+# 9        5     9    0.103209    #    0.121479    0.103209 0.026092     0.849601   0.544707   2.885157 0.214783  age  NWFSC_Slope     
+# 10       5    10    0.059075    #    0.069307    0.059075 0.005760     0.852367   0.589623   1.413672 0.083107  age        WCGBT
+remove_len <- SS_output(here::here("model", model_name))
+SS_plots(remove_len)
+
+#===============================================================================
+# Compare Models
+#===============================================================================
+modelnames <- c(
+  "2023 Base", 
+  "13. M Prior",
+  "14. Age-Based Retention",
+  "5-Fixed Discard Catch",
+  "5-Weight-at-Age",
+  "- Remove WCGBT CAAL",
+  "- Remove WCGBT Lengths + DW"
+  )
+mysummary <- SSsummarize(list(model_2023, m_prior, age_based_ret, fix_catch, wtatage, remove_caal, remove_len))
+SSplotComparisons(mysummary,
+                  filenameprefix = "5.3_",
+                  legendlabels = modelnames, 	
+                  ylimAdj = 1.5,
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_plots"),
+                  pdf = TRUE)

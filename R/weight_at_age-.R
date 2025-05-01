@@ -441,7 +441,7 @@ write_wtatage_file <- function(
   data,
   maturity,
   max_age =  70, 
-  n_fleet = 9) {
+  n_fleet = 11) {
   # Ensure column name that matters is lowercase
   colnames(data)[grep("fleet", ignore.case = TRUE, colnames(data))] <- "fleet"
   
