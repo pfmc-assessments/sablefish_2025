@@ -139,5 +139,33 @@ compare_model_gemm_catch <- function(
       file = file.path(dir, paste0("model_gemm_catch_comparison", add_name, ".rda"))
     )
   }
+  
+  all <- dplyr::bind_rows(
+    catch_gemm |>
+      dplyr::group_by(year) |>
+      dplyr::summarize(
+        catch = sum(catch),
+        source = "Model"
+      ),
+    gemm |> 
+      dplyr::select(year, gemm_total_catch) |>
+      dplyr::rename(catch = gemm_total_catch) |>
+      dplyr::mutate(source = "GEMM")
+  )
+  
+  gg4 <- ggplot(all, aes(x = year, y = catch, linetype = source, color = source)) +
+    geom_line(linewidth = 1) +
+    theme_bw() +
+    ylim(c(0, 8000)) +
+    xlab("Year") + ylab("Catch (mt)") +
+    scale_color_viridis_d(begin = 0, end = 0.5)
+  if (!is.null(dir)){
+    ggplot2::ggsave(
+      gg4,
+      filename = file.path(dir, paste0("model_gemm_mortality_comparison", add_name, ".png"))
+    )
+  } else {
+    gg4
+  }
   return(out)
 }
