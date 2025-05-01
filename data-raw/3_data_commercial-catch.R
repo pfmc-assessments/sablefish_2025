@@ -16,7 +16,7 @@ port_lats <- pacfin_ports_withlatlong |>
   tibble::tibble()
 
 raw_pacfin_catch <-
-  fs::dir_ls(here::here("data-raw", "landings"), regex = "PacFIN\\..+Comp")[3] |>
+  fs::dir_ls(here::here("data-raw", "landings"), regex = "PacFIN\\..+Comp") |>
   purrr::map_df(
     .f = function(x) {load(x); return(catch.pacfin)}
   ) |>
