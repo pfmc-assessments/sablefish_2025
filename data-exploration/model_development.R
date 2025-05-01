@@ -680,6 +680,8 @@ dw <- r4ss::tune_comps(
 # 8        5     8    0.087685    #    0.110421    0.087685 0.013067     0.794099   0.511560   3.199631 0.118334  age  AKFSC_SLOPE     
 # 9        5     9    0.103209    #    0.121479    0.103209 0.026092     0.849601   0.544707   2.885157 0.214783  age  NWFSC_Slope     
 # 10       5    10    0.059075    #    0.069307    0.059075 0.005760     0.852367   0.589623   1.413672 0.083107  age        WCGBT
+
+model_name <- "5.4_remove_wcgbt_len_mle"
 remove_len <- SS_output(here::here("model", model_name))
 SS_plots(remove_len)
 
@@ -688,16 +690,283 @@ SS_plots(remove_len)
 #===============================================================================
 modelnames <- c(
   "2023 Base", 
-  "13. M Prior",
   "14. Age-Based Retention",
-  "5-Fixed Discard Catch",
-  "5-Weight-at-Age",
-  "- Remove WCGBT CAAL",
-  "- Remove WCGBT Lengths + DW"
+  "5.3 Discard Fleet Weight-at-Age"
   )
-mysummary <- SSsummarize(list(model_2023, m_prior, age_based_ret, fix_catch, wtatage, remove_caal, remove_len))
+mysummary <- SSsummarize(list(model_2023, age_based_ret, remove_len))
 SSplotComparisons(mysummary,
                   filenameprefix = "5.3_",
+                  legendlabels = modelnames, 	
+                  ylimAdj = 1.5,
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_plots"),
+                  pdf = TRUE)
+
+#===============================================================================
+# 5.5 Add latest ages
+#===============================================================================
+
+model_name <- "5.5_add_new_ages"
+
+dat <- SS_readdat(file = here::here("model", model_name, dat_file))
+new_ages <- read.csv(here::here("data-processed", "data-commercial-comps_age-0-50.csv")) 
+colnames(new_ages) <- colnames(dat$agecomp)
+agecomp <- dplyr::bind_rows(
+  new_ages,
+  dat$agecomp |>
+    dplyr::filter(!fleet %in% 1:3)
+)
+dat$agecomp <- agecomp
+SS_writedat(
+  datlist = dat, 
+  outfile = here::here("model", model_name, dat_file),
+  overwrite = TRUE)
+
+new_ages <- SS_output(here::here("model", model_name))
+SS_plots(new_ages)
+
+#===============================================================================
+# Compare Models
+#===============================================================================
+modelnames <- c(
+  "2023 Base", 
+  "14. Age-Based Retention",
+  "5.3 Discard Fleet Weight-at-Age",
+  "5.5 + New Ages"
+)
+mysummary <- SSsummarize(list(model_2023, age_based_ret, remove_len, new_ages))
+SSplotComparisons(mysummary,
+                  filenameprefix = "5.5_",
+                  legendlabels = modelnames, 	
+                  ylimAdj = 1.5,
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_plots"),
+                  pdf = TRUE)
+
+#===============================================================================
+# 5.6 Convert the trawl fleet to model retention
+#===============================================================================
+
+model_name <- "5.6_trawl_ret"
+# data file:
+# change catch data for fleet 1 and fleet 4
+# add discard rates
+# modify the fleet number on discard lengths (fleet 4 -> fleet 1)
+# modify the partition to 1 
+# control file:
+# change selectivity set-up for fleet 1 and 4
+# add retention parameters
+# double check the blocks
+
+discard_rates <- read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
+  dplyr::filter(fleet == 1)
+catches <- read.csv(here::here("data-processed", "data_commercial_landings_catch.csv")) |>
+  dplyr::filter(fleet %in% c(1, 4))
+dat <- SS_readdat(file = here::here("model", model_name, dat_file))
+colnames(catches) <- colnames(dat$catch)
+dat$catch <- dplyr::bind_rows(
+  catches,
+  dat$catch |> dplyr::filter(fleet %in% c(2:3, 5:6))
+)
+agecomp <- dplyr::bind_rows(
+  dat$agecomp |> dplyr::filter(fleet == 4) |>
+    dplyr::mutate(fleet = 1, part = 1),
+  dat$agecomp |> dplyr::filter(fleet != 4)
+)
+dat$agecomp <- agecomp
+dat$N_discard_fleets <- 1
+SS_writedat(
+  datlist = dat, 
+  outfile = here::here("model", model_name, dat_file),
+  overwrite = TRUE)
+
+trawl_ret <- SS_output(here::here("model", model_name))
+SS_plots(trawl_ret, plot = 2:25)
+
+#===============================================================================
+# Compare Models
+#===============================================================================
+modelnames <- c(
+  "2023 Base", 
+  "14. Age-Based Retention",
+  "5.5 Weight-at-Age Discard Fleets",
+  "5.6 Trawl Retention"
+)
+mysummary <- SSsummarize(list(model_2023, age_based_ret, new_ages, trawl_ret))
+SSplotComparisons(mysummary,
+                  filenameprefix = "5.6_",
+                  legendlabels = modelnames, 	
+                  ylimAdj = 1.5,
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_plots"),
+                  pdf = TRUE)
+
+#===============================================================================
+# 5.7 Convert the trawl and hkl fleet to model retention
+#===============================================================================
+
+model_name <- "5.7_trawl_hkl_ret"
+# data file:
+# change catch data for fleet 1 and fleet 4
+# add discard rates
+# modify the fleet number on discard lengths (fleet 4 -> fleet 1)
+# modify the partition to 1 
+# control file:
+# change selectivity set-up for fleet 1 and 4
+# add retention parameters
+# double check the blocks
+
+discard_rates <- read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
+  dplyr::filter(fleet == 5) |>
+  dplyr::mutate(fleet = 2)
+catches <- read.csv(here::here("data-processed", "data_commercial_landings_catch.csv")) |>
+  dplyr::filter(fleet %in% c(2, 5))
+
+dat <- SS_readdat(file = here::here("model", model_name, dat_file))
+colnames(catches) <- colnames(dat$catch)
+colnames(discard_rates) <- colnames(dat$discard_data)
+dat$catch <- dplyr::bind_rows(
+  catches,
+  dat$catch |> dplyr::filter(fleet %in% c(1, 3, 4, 6))
+)
+agecomp <- dplyr::bind_rows(
+  dat$agecomp |> dplyr::filter(fleet == 5) |>
+    dplyr::mutate(fleet = 2, part = 1),
+  dat$agecomp |> dplyr::filter(fleet != 5)
+)
+dat$agecomp <- agecomp
+dat$N_discard_fleets <- 2
+dat$discard_fleet_info <- dplyr::bind_rows(
+  dat$discard_fleet_info,
+  dat$discard_fleet_info |> dplyr::mutate(fleet = 2)
+)
+dat$discard_data <- dplyr::bind_rows(
+  dat$discard_data,
+  discard_rates
+)
+SS_writedat(
+  datlist = dat, 
+  outfile = here::here("model", model_name, dat_file),
+  overwrite = TRUE)
+
+trawl_hkl_ret <- SS_output(here::here("model", model_name))
+SS_plots(trawl_hkl_ret)
+
+#===============================================================================
+# Compare Models
+#===============================================================================
+modelnames <- c(
+  "2023 Base", 
+  "14. Age-Based Retention",
+  "5.5 Weight-at-Age Discard Fleets",
+  "5.6 Trawl Retention",
+  "5.7 Trawl & HKL Retention"
+)
+mysummary <- SSsummarize(list(model_2023, age_based_ret, new_ages, trawl_ret, trawl_hkl_ret))
+SSplotComparisons(mysummary,
+                  filenameprefix = "5.7_",
+                  legendlabels = modelnames, 	
+                  ylimAdj = 1.5,
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_plots"),
+                  pdf = TRUE)
+
+#===============================================================================
+# 5.8 Convert the trawl, hkl, and pot fleets to model retention
+#===============================================================================
+
+model_name <- "5.8_trawl_hkl_pot_ret"
+# data file:
+# change catch data for fleet 1 and fleet 4
+# add discard rates
+# modify the fleet number on discard lengths (fleet 4 -> fleet 1)
+# modify the partition to 1 
+# control file:
+# change selectivity set-up for fleet 1 and 4
+# add retention parameters
+# double check the blocks
+
+discard_rates <- read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
+  dplyr::filter(fleet == 6) |>
+  dplyr::mutate(fleet = 3)
+catches <- read.csv(here::here("data-processed", "data_commercial_landings_catch.csv")) |>
+  dplyr::filter(fleet %in% c(3, 6))
+
+dat <- SS_readdat(file = here::here("model", model_name, dat_file))
+colnames(catches) <- colnames(dat$catch)
+colnames(discard_rates) <- colnames(dat$discard_data)
+dat$catch <- dplyr::bind_rows(
+  catches,
+  dat$catch |> dplyr::filter(fleet %in% c(1:2, 4:5))
+)
+agecomp <- dplyr::bind_rows(
+  dat$agecomp |> dplyr::filter(fleet == 6) |>
+    dplyr::mutate(fleet = 3, part = 1),
+  dat$agecomp |> dplyr::filter(fleet != 6)
+)
+dat$agecomp <- agecomp
+dat$N_discard_fleets <- 3
+dat$discard_fleet_info <- dplyr::bind_rows(
+  dat$discard_fleet_info,
+  dat$discard_fleet_info[1, ] |> dplyr::mutate(fleet = 3)
+)
+dat$discard_data <- dplyr::bind_rows(
+  dat$discard_data,
+  discard_rates
+)
+SS_writedat(
+  datlist = dat, 
+  outfile = here::here("model", model_name, dat_file),
+  overwrite = TRUE)
+
+trawl_hkl_pot_ret <- SS_output(here::here("model", model_name))
+SS_plots(trawl_hkl_pot_ret)
+
+#===============================================================================
+# Compare Models
+#===============================================================================
+modelnames <- c(
+  "2023 Base", 
+  "14. Age-Based Retention",
+  "5.5 Weight-at-Age Discard Fleets",
+  "5.6 Trawl Retention",
+  "5.7 Trawl & HKL Retention",
+  "5.8 Trawl, HKL & Pot Retention"
+)
+mysummary <- SSsummarize(list(model_2023, age_based_ret, new_ages, trawl_ret, trawl_hkl_ret, trawl_hkl_pot_ret))
+SSplotComparisons(mysummary,
+                  filenameprefix = "5.8_",
+                  legendlabels = modelnames, 	
+                  ylimAdj = 1.5,
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_plots"),
+                  pdf = TRUE)
+
+#==============================================================================
+# 5.9 Data weight
+#===============================================================================
+dw <- r4ss::tune_comps(
+  replist = trawl_hkl_pot_ret, 
+  dir = here::here("model", model_name),
+  option = "Francis")
+data_weight <- "5.9_data_weight"
+data_weight <- SS_output(here::here("model", model_name))
+SS_plots(data_weight)
+
+modelnames <- c(
+  "2023 Base", 
+  "14. Age-Based Retention",
+  "5.5 Weight-at-Age Discard Fleets",
+  "5.9 Age-Based Retention"
+)
+mysummary <- SSsummarize(list(model_2023, age_based_ret, new_ages, data_weight))
+SSplotComparisons(mysummary,
+                  filenameprefix = "5.9_",
                   legendlabels = modelnames, 	
                   ylimAdj = 1.5,
                   btarg = 0.40,
