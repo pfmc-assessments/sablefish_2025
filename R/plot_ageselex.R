@@ -199,3 +199,70 @@ plot_fleet_retention <- function(model_out, fleet_num){
     return(plot)
 }
 
+#' Plot Selectivity, Retention and Discard Mortality
+#' 
+#' Create a plot of selectivity, retention, discard mortality
+#' -at-age across sexes and fishing fleets
+#' 
+#' @param model_out model object created by [r4ss::SS_output()]
+#' @param model_path path to model directory containing control.ss file
+#' @param sexes sexes across which plot (default 1:2)
+#' @param years year to plot data for (default 2024)
+#' 
+#' @return ggplot plot object
+#' @export  plot_sel_ret_discard
+#' 
+#' @examples
+#' 
+#' mod_out <- r4ss::SS_output(dir=model_dir)
+#' 
+#' plot_sel_ret_discard(mod_out, model_dir, sexes=1:2, year=2024)
+#' 
+plot_sel_ret_discard <- function(model_out, model_path, sexes=1:2, year=2024){
+    data <- r4ss::SS_readdat(file.path(model_path, "data.ss"))
+    fleet_names <- data$fleetinfo %>% dplyr::filter(type == 1) %>% dplyr::pull(fleetname)
+
+    names(fleet_names) <- c(1:length(fleet_names))
+
+    data <- model_out$ageselex %>% 
+        dplyr::select(-Label) %>% 
+        dplyr::filter(Factor %in% c("Asel", "Aret", "Amort"), Sex %in% sexes, Yr == year) %>% 
+        tidyr::pivot_longer(7:ncol(.), names_to="age", values_to="val") %>%
+        tidyr::pivot_wider(names_from="Factor", values_from="val") %>%
+        dplyr::mutate(
+            age = as.numeric(age),
+            keep = Asel*Aret,
+            disc = Asel*(1-Aret),
+            dead = Asel*(Aret + (1-Aret)*Amort),
+            Sex = factor(Sex, levels=c(1, 2), labels=c("Female", "Male")),
+            Fleet = factor(Fleet, levels=names(fleet_names), labels=fleet_names)
+        ) %>%
+        dplyr::filter(!is.na(Fleet)) %>%
+        tidyr::pivot_longer(Asel:dead, names_to="Quantity", values_to="value") %>%
+        dplyr::mutate(
+            Quantity = factor(
+                Quantity, 
+                levels=c("Asel", "Aret", "Amort", "keep", "dead", "disc"),
+                labels = c("Selectivity", "Retention", "Discard Mortality", "Keep = Sel*Ret", "Dead = Sel*(Ret+(1-Ret)*Mort)", "Discard = Sel*(1-Ret)")
+            )
+        )
+
+    plot <- ggplot2::ggplot(data, aes(x=age, value, color=Quantity, shape=Quantity))+
+        ggplot2::geom_point()+
+        ggplot2::geom_line()+
+        ggplot2::scale_color_manual(values=c("blue", "red", "orange", "purple", "green", "grey"))+
+        ggplot2::labs(x="Age", y="Selectivity, Retention, Mortality", color="", shape="")+
+        ggplot2::facet_grid(rows=vars(Sex), cols=vars(Fleet))+
+        ggplot2::theme_bw()+
+        ggplot2::theme(
+            legend.position = "bottom",
+            legend.text = element_text(size=12),
+            legend.title = element_text(size=14),
+            axis.title = element_text(size=14),
+            axis.text = element_text(size=12),
+            strip.text = element_text(size=16)
+        )
+
+    return(plot)
+
+}
