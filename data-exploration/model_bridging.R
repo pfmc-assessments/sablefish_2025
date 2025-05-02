@@ -28,8 +28,8 @@ if (run_r4ss_output){
   wcgbt <- SS_output(here::here("model", "_bridging", "11_wcgbt"))
   maturity <- SS_output(here::here("model", "_bridging", "12_maturity"))
   m_prior <- SS_output(here::here("model", "_bridging", "13_m_prior"))
-  age_based <- SS_output(here::here("model", "_bridging", "14k_retention_HL_PT_TW_addParm"))
-  wtatage <- SS_output(here::here("model", "_bridging", "15_watage_not_tv_m"))
+  age_based <- SS_output(here::here("model", "_bridging", "14m_fix_survey_selex_params"))
+
   
   if (run_comparison) {
     modelnames <- c(
@@ -1528,82 +1528,10 @@ r4ss::SS_plots(age_based)
 #                    pdf = TRUE)
 
 #===============================================================================
-# Weight-at-age (one vector)
+# 15 Remove discard weights
 #================================================================================
-old_dir <- new_dir
-files <- list.files(here::here("model", "_bridging", old_dir))
-new_dir <- "15_watage_not_tv_m"
-dir.create(here::here("model", "_bridging", new_dir))
 
-copy_files(
-  x = files, 
-  from_name = old_dir, 
-  to_name = new_dir)
-
-cli::cli_abort("Modify the ctl file by hand to turn on watage and turn off parameters.")
-#ctl <- SS_readctl(file = here::here("model", "_bridging", new_dir, ctl_file))
-#ctl$EmpiricalWAA <- 1
-#ctl$MG_parms[-c(1, 13), "PHASE"] <- -99
-#SS_writectl(
-#  ctllist = ctl, 
-#  outfile = here::here("model", "_bridging", new_dir, ctl_file),
-#  overwrite = TRUE)
-
-file.copy(
-  from = here::here("data-processed", "wtatage_model_static.ss"),
-  to = here::here("model", "_bridging", new_dir)
-)
-file.rename(
-  from = here::here("model", "_bridging", new_dir, "wtatage_model_static.ss"),
-  to = here::here("model", "_bridging", new_dir, "wtatage.ss")
-)
-starter <- SS_readstarter(file = here::here("model", "_bridging", new_dir, "starter.ss"))
-starter$init_values_src <- 0
-SS_writestarter(
-  mylist = starter,
-  dir = here::here("model", "_bridging", new_dir),
-  overwrite = TRUE
-)
-
-dat <- SS_readdat(
-  file = here::here("model", "_bridging", new_dir, data_file))
-dat$lencomp <-  dplyr::bind_rows(
-  dat$lencomp |> dplyr::filter(fleet != 7)
-)
-ages <- read.csv(here::here("data-processed", "data-survey-comps-ages-wcgbt.csv")) |>
-  dplyr::mutate(fleet = 7)
-colnames(ages) <- colnames(dat$agecomp)
-dat$agecomp <- dplyr::bind_rows(
-  ages,
-  dat$agecomp |> dplyr::filter(!fleet %in% c(-7, 7))
-)
-SS_writedat(
-  datlist = dat, 
-  outfile = here::here("model", "_bridging", new_dir, data_file),
-  overwrite = TRUE)
-
-setwd(here::here("model", "_bridging", new_dir))
-shell("ss3 -nohess")
-wtatage <- SS_output(here::here("model", "_bridging", new_dir))
-r4ss::SS_plots(wtatage)
-
-# Figure out the error with commercial fleets and tune_comps
-ctl <- SS_readctl(file = here::here("model", "_bridging", new_dir, ctl_file))
-dw <- tune_comps(replist = wtatage, option = "Francis")[, 1:3]
-colnames(dw) <- colnames(ctl$Variance_adjustment_list)
-ctl$Variance_adjustment_list <- dplyr::bind_rows(
-  dw |> dplyr::filter(factor == 5),
-  ctl$Variance_adjustment_list |> dplyr::filter(factor == 2),
-  ctl$Variance_adjustment_list |> dplyr::filter(factor == 3),
-  ctl$Variance_adjustment_list |> dplyr::filter(factor == 4)
-)
-SS_writectl(
-  ctllist = ctl, 
-  outfile = here::here("model", "_bridging", new_dir, ctl_file),
-  overwrite = TRUE)
-
-shell("ss3")
-wtatage <- SS_output(here::here("model", "_bridging", new_dir))
+remove_discard_weights <- SS_output(here::here("model", "_bridging", "15_remove_discard_weights"))
 
 modelnames <- c(
   "2023 Base", 
@@ -1613,8 +1541,9 @@ modelnames <- c(
   "+ NWFSC Slope", 
   "+ WCGBT",
   "+ Maturity",
-  "+ M Prior",
-  "+ Static Wt-at-Age (M equal)")
+  "+ M Prior", 
+  "+ Age-based selex, ret, discard", 
+  "- Remove discard weights")
 mysummary <- SSsummarize(list(
   model_2023,
   blocks,
@@ -1624,16 +1553,167 @@ mysummary <- SSsummarize(list(
   wcgbt,
   maturity,
   m_prior,
-  wtatage))
+  age_based,
+  remove_discard_weights))
 SSplotComparisons(mysummary,
                   filenameprefix = "0_15_",
                   legendlabels = modelnames, 	
                   plotdir = here::here("model", "_bridging", "_plots"),
                   ylimAdj = 1.5,
                   pdf = TRUE)
+SS_plots(remove_discard_weights)
 
-plot_year_selex(replist = wtatage, fleets = 1:3, year = 1890)
-plot_year_selex(replist = wtatage, fleets = 1:3, year = 1942)
-plot_year_selex(replist = wtatage, fleets = 1:3, year = 2010)
-plot_year_selex(replist = wtatage, fleets = 1:3, year = 2011)
-plot_year_selex(replist = wtatage, fleets = 1:3, year = 2019)
+#===============================================================================
+# 16 Add catch fleets
+#================================================================================
+
+add_catch_fleets <- SS_output(here::here("model", "_bridging", "16_catch_fleets"))
+modelnames <- c(
+  "2023 Base", 
+  "Simplify Ret./Selex. Blocks",
+  "+ Survey Data",
+  "+ Maturity",
+  "+ M Prior", 
+  "+ Age-based selex, ret, discard", 
+  "- Remove discard weights",
+  "+ Foreign Catch Fleets")
+mysummary <- SSsummarize(list(
+  model_2023,
+  blocks,
+  wcgbt,
+  maturity,
+  m_prior,
+  age_based,
+  remove_discard_weights,
+  add_catch_fleets))
+SSplotComparisons(mysummary,
+                  filenameprefix = "0_16_",
+                  legendlabels = modelnames, 
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+SS_plots(add_catch_fleets)
+# The model unexpectedly resulted in the estimate of female Lmin decreasing to
+# 57.5 cm from 59.5 cm and male Lmin decreasing to 53.7 cm from 54.9 cm.
+
+plot_year_selex(
+  replist = male_selex,
+  fleets = 9,
+  year = 2024)
+
+#===============================================================================
+# 17 Fix selectivity bounds
+#================================================================================
+selex_bounds <- SS_output(here::here("model", "_bridging", "17_fix_selex_bounds"))
+modelnames <- c(
+  "2023 Base", 
+  "Simplify Ret./Selex. Blocks",
+  "+ Survey Data",
+  "+ Maturity",
+  "+ M Prior", 
+  "+ Age-based selex, ret, discard", 
+  "- Remove discard weights",
+  "+ Foreign Catch Fleets",
+  "+ Fix Selectivity Bounds")
+mysummary <- SSsummarize(list(
+  model_2023,
+  blocks,
+  wcgbt,
+  maturity,
+  m_prior,
+  age_based,
+  remove_discard_weights,
+  add_catch_fleets,
+  selex_bounds))
+SSplotComparisons(mysummary,
+                  filenameprefix = "0_17_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+SS_plots(selex_bounds)
+
+#===============================================================================
+# 18 Fix male selectivity 
+#================================================================================
+
+male_selex <- SS_output(here::here("model", "_bridging", "18_fix_male_selex"))
+
+r4ss::tune_comps(
+  replist = male_selex, 
+  dir = here::here("model", "_bridging", "18_fix_male_selex"),
+  option = "Francis")
+
+male_selex <- SS_output(here::here("model", "_bridging", "18_fix_male_selex"))
+modelnames <- c(
+  "2023 Base", 
+  "+ Survey Data",
+  "+ Age-based selex, ret, discard", 
+  "- Remove discard weights",
+  "+ Foreign Catch Fleets",
+  "+ Fix Selectivity Bounds",
+  "+ Fix Male Selectivity")
+mysummary <- SSsummarize(list(
+  model_2023,
+  wcgbt,
+  age_based,
+  remove_discard_weights,
+  add_catch_fleets,
+  selex_bounds, 
+  male_selex))
+SSplotComparisons(mysummary,
+                  filenameprefix = "0_18_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+plot_ghostfleets(replist = male_selex)
+plot_age_fits_sexed_only(replist = male_selex)
+SS_plots(male_selex)
+
+#===============================================================================
+# 19 Weight-at-Age 
+#================================================================================
+watage <- SS_output(here::here("model", "_bridging", "19_weight_at_age"))
+
+r4ss::tune_comps(
+  replist = watage, 
+  dir = here::here("model", "_bridging", "19_weight_at_age"),
+  option = "Francis")
+
+watage <- SS_output(here::here("model", "_bridging", "19_weight_at_age"))
+modelnames <- c(
+  "2023 Base", 
+  "+ Survey Data",
+  "+ Age-based selex, ret, discard", 
+  "- Remove discard weights",
+  "+ Foreign Catch Fleets",
+  "+ Fix Selectivity Bounds",
+  "+ Fix Male Selectivity",
+  "+ Weight-at-Age")
+mysummary <- SSsummarize(list(
+  model_2023,
+  wcgbt,
+  age_based,
+  remove_discard_weights,
+  add_catch_fleets,
+  selex_bounds, 
+  male_selex,
+  watage))
+SSplotComparisons(mysummary,
+                  filenameprefix = "0_19_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+plot_ghostfleets(replist = watage)
+plot_age_fits_sexed_only(replist = watage)
+SS_plots(watage)

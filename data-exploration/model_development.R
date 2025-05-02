@@ -726,6 +726,7 @@ SS_writedat(
 new_ages <- SS_output(here::here("model", model_name))
 SS_plots(new_ages)
 
+new_ages_mat_fix <- SS_output(here::here("model", "5.5_add_new_ages_mat_fix"))
 #===============================================================================
 # Compare Models
 #===============================================================================
@@ -733,9 +734,10 @@ modelnames <- c(
   "2023 Base", 
   "14. Age-Based Retention",
   "5.3 Discard Fleet Weight-at-Age",
-  "5.5 + New Ages"
+  "5.5 + New Ages",
+  "5.5 + New Age & Fix Mat."
 )
-mysummary <- SSsummarize(list(model_2023, age_based_ret, remove_len, new_ages))
+mysummary <- SSsummarize(list(model_2023, age_based_ret, remove_len, new_ages, new_ages_mat_fix))
 SSplotComparisons(mysummary,
                   filenameprefix = "5.5_",
                   legendlabels = modelnames, 	
@@ -783,7 +785,7 @@ SS_writedat(
   overwrite = TRUE)
 
 trawl_ret <- SS_output(here::here("model", model_name))
-SS_plots(trawl_ret, plot = 2:25)
+SS_plots(trawl_ret)
 
 #===============================================================================
 # Compare Models
@@ -956,15 +958,18 @@ dw <- r4ss::tune_comps(
   option = "Francis")
 data_weight <- "5.9_data_weight"
 data_weight <- SS_output(here::here("model", model_name))
+
+data_weight_mat_fix <- SS_output(here::here("model", "5.9_data_weight - Copy"))
 SS_plots(data_weight)
 
 modelnames <- c(
   "2023 Base", 
   "14. Age-Based Retention",
   "5.5 Weight-at-Age Discard Fleets",
-  "5.9 Age-Based Retention"
+  "5.9 Age-Based Retention",
+  "5.9 Age-Based w/ Mat. Fix"
 )
-mysummary <- SSsummarize(list(model_2023, age_based_ret, new_ages, data_weight))
+mysummary <- SSsummarize(list(model_2023, age_based_ret, new_ages, data_weight, data_weight_mat_fix))
 SSplotComparisons(mysummary,
                   filenameprefix = "5.9_",
                   legendlabels = modelnames, 	
