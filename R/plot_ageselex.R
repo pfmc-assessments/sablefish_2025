@@ -29,19 +29,20 @@
 #' legend <- cowplot::get_plot_component(sel7_leg, 'guide-box-inside', return_all = TRUE)
 #' (sel1+sel2+sel3+sel4+sel5+sel6+sel7+legend$grob[[2]])+plot_layout(axes="collect")
 #' 
-plot_fleet_selectivity <- function(model_out, model_path, fleet_num){
-    data <- r4ss::SS_readdat(file.path(model_path, "data.ss"))
-    fleet_name <- data$fleetnames[fleet_num]
-    fleet_type <- data$fleetinfo %>% dplyr::filter(fleetname==fleet_name) %>% dplyr::pull(type)
-    if(fleet_type == 1){
-        fleet_years <- data$catch %>% dplyr::filter(fleet==fleet_num) %>% dplyr::pull(year)
-        fleet_active_years <- c(min(fleet_years), max(fleet_years))
-    }else if(fleet_type == 3){
-        fleet_years <- data$CPUE %>% dplyr::filter(index==fleet_num) %>% dplyr::pull(year)
-        fleet_active_years <- c(min(fleet_years), max(fleet_years))
-    }
+plot_fleet_selectivity <- function(model_out, fleet_num){
+  model_path <-  model_out[["inputs"]][["dir"]]
+  data <- r4ss::SS_readdat(file.path(model_path, "data_echo.ss_new"))
+  fleet_name <- data$fleetnames[fleet_num]
+  fleet_type <- data$fleetinfo %>% dplyr::filter(fleetname==fleet_name) %>% dplyr::pull(type)
+  if(fleet_type == 1){
+      fleet_years <- data$catch %>% dplyr::filter(fleet==fleet_num) %>% dplyr::pull(year)
+      fleet_active_years <- c(min(fleet_years), max(fleet_years))
+  }else if(fleet_type == 3){
+      fleet_years <- data$CPUE %>% dplyr::filter(index==fleet_num) %>% dplyr::pull(year)
+      fleet_active_years <- c(min(fleet_years), max(fleet_years))
+  }
 
-    ctl_file <- r4ss::SS_readctl_3.30(file.path(model_path, "control.ss"))
+    ctl_file <- r4ss::SS_readctl_3.30(file.path(model_path, "control.ss_new"))
     tv_selex <- ctl_file$age_selex_parms_tv
     fleet_tv_entry <- rownames(tv_selex[grep(paste0("(",fleet_num,")"), rownames(tv_selex), fixed=TRUE),])
     fleet_end_blocks <- as.vector(sapply(fleet_tv_entry, \(x) stringr::str_extract(x, "\\d+$")))
