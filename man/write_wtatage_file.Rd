@@ -10,7 +10,7 @@ write_wtatage_file(
   data,
   maturity,
   max_age = 70,
-  n_fleet = 9
+  n_fleet = 11
 )
 }
 \arguments{

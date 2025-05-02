@@ -8,7 +8,7 @@ create_model_tables(
   model_name,
   dir = here::here("model"),
   fleetnames = c("Trawl", "Hook-and-Line", "Pot", "Trawl Discards",
-    "Hook-and-Line Discards", "Pot Discard", "Triennial", "AKFSC Slope", "NWFSC Slope",
+    "Hook-and-Line Discards", "Pot Discard", "Triennial", "AFSC Slope", "NWFSC Slope",
     "WCGBT", "Recruitment Index")
 )
 }

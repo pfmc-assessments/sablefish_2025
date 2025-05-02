@@ -5,12 +5,15 @@
 \title{Estimate time-varying weight at age that is biomass weighted}
 \usage{
 estimate_tv_wtatage_weighted(
+  dir = here::here(),
   max_age = 30,
   data_file = "data_weight_at_age_survey",
   do_plots = FALSE
 )
 }
 \arguments{
+\item{dir}{Parent directory for the repository.}
+
 \item{max_age}{An integer specifying the maximum age of the modeled data
 in the Stock Synthesis model. All age data beyond this will be assigned
 to the maximum age. This is typically the age beyond which data are sparse
