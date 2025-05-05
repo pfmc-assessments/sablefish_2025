@@ -376,7 +376,7 @@ knitr::include_graphics(
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "index1_cpuedata_NWFSCSlope.png")
+  file.path(model_dir, "plots", "index1_cpuedata_NWFSC_Slope.png")
 )
 
 ```
