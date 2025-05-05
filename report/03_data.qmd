@@ -6,19 +6,21 @@ A description of each data source is provided below (@fig-data).
 
 ### Landings
 
-Landings for `r spp` were composed various historical landings reconstructions, historical foreign fishery data, data extracted from Pacific Fisheries Information Network (PacFIN, extracted April, 21, 2025), at-sea bycatch estimates (provided by Vanessa Tuttle, NWFSC), and data extracted from Recreational Fisheries Information Network (RecFIN, extracted February, 28, 2025). The landings used in this assessment are shown in @fig-landings and @tbl-landings. 
+Landings for `r spp` were composed various historical landings reconstructions, historical foreign fishery catch data, landings data extracted from Pacific Fisheries Information Network (PacFIN, extracted February, 25, 2025), at-sea catch estimates (provided by Vanessa Tuttle, NWFSC), and landings data extracted from Recreational Fisheries Information Network (RecFIN, extracted February, 28, 2025). The landings used in this assessment are shown in @fig-landings and @tbl-landings. 
 
-For the state of California, commercial landings between 1900 and 1931 were calculated following the approach used in the 2011 and 2019 assessments for `r spp` where 1916 to 1931 landings estimates were available from published California Department of Fish and Game Bulletins back, 1908 to 1916 were based on Fisheries statistics of the U.S., published by the U.S. Fish Commission, and 1900 to 1907 landings were were extrapolated linearly to zero in 1900. For the period 1931-1968 relied on estimates from the recent reconstruction efforts by Southwest Fisheries Science Center and California Department of Fish and Game scientists [@ralston_documentation_2010]. This effort utilized newly available spatial information regarding groundfish landings back to 1931. This method is probably quite reliable for sablefish, since it was identified as a separate market category. Landings between 1969 to 1977 were based on California fish tickets with a ratio estimator approach and between 1978 to 1980 were pulled from CALCOM database. Prior to 1969, gear type associated with landings were not available and were allocated between trawl and hook-and-line gear based upon the proportions starting in 1969 with no landings assumed to be based on pot gear since the landings with pot gear were negligible (e.g., less than 0.5 mt in 1969 and 1970) until 1971. The most recent historical landings from 1981 to 2024 were extracted from PacFIN.
+The model includes six fishery fleets: 1) trawl landings, 2) hook-and-line landings, 3) pot landings, 4) foreign and at-sea trawl catch fleet, 5) foreign hook-and-line catch fleet, and 6) foreign pot catch fleet.  The landings fleets estimated selectivity and retention with discard mortality rates applied to the estimates of discard.  The catch fleets mirrored the selectivity of the corresponding gear for the landings fleets, but did not estimate any additional discard mortality.
 
-Oregon landings reconstructions begins in 1927 through 1986 [@karnowski_historical_2014]. -@low_sablefish_1976 provided total landings from 1915-1926. Prior to 1915 no statistics were available, so a linear extrapolation from the 10 mt estimate for 1915 to 0 mt in 1981 was applied. Again for Oregon the periods with substantial uncertainty in landings had trivial landings levels. Oregon landings from 1987 to 2024 were extracted from PacFIN. 
+For the state of California, commercial landings between 1900 and 1931 were calculated following the approach used in the 2011 and 2019 assessments for `r spp` where 1916 to 1931 landings estimates were available from published California Department of Fish and Game Bulletins back, 1908 to 1916 were based on Fisheries statistics of the U.S., published by the U.S. Fish Commission, and 1900 to 1907 landings were were extrapolated linearly to zero in 1900. For the period 1931-1968 relied on estimates from the recent reconstruction efforts by Southwest Fisheries Science Center and California Department of Fish and Game scientists [@ralston_documentation_2010]. This effort utilized newly available spatial information regarding groundfish landings back to 1931. This method is probably quite reliable for `r spp`, since it was identified as a separate market category. Landings between 1969 to 1977 were based on California fish tickets with a ratio estimator approach and between 1978 to 1980 were pulled from CALCOM database. Prior to 1969, gear type associated with landings were not available and were allocated between trawl and hook-and-line gear based upon the proportions starting in 1969 with no landings assumed to be based on pot gear since the landings with pot gear were negligible (e.g., less than 0.5 mt in 1969 and 1970) until 1971. The most recent historical landings from 1981 to 2024 were extracted from PacFIN. 
+
+Oregon landings reconstructions begins in 1927 through 1986 [@karnowski_historical_2014]. -@low_sablefish_1976 provided total landings from 1915-1926. Prior to 1915 no statistics were available, so a linear extrapolation from the 10 mt estimate for 1915 to 0 mt in 1891 was applied. Oregon landings from 1987 to 2024 were extracted from PacFIN. 
 
 Washington completed a historical landings reconstruction for this 2019 assessment of `r spp` which was used in this assessment. These landings represent the best available information. The following information sources were included in the reconstruction: 1890 to 1908 from U.S. Fish Commission bulletin, 1915 to 1952 from PMFC bulletin 3, appendix (page 130, using a conversion factor of 1.75 for dressed fish), 1953 to 1969 from the Washington Statistical bulletin, and 1970 to 1980 from Washington fish ticket database. Landings area assignments were based on Seattle market reports and Washington Statistical bulletins. Gear type was based on PMFC bulletin 3 (page 44, Table 2) and Washington Statistical bulletins. Landings between 1981 to 1990 were based upon Washington Department of Fish and Wildlife (WDFW) internal estimates due to large descrepancies between PacFIN and WDFW estimates. In 1981 and 1982 the estimates within PacFIN were much higher than those in WDFW database (e.g., PacFIN estimates were 636 and 1,777 mt greater than WDFW estimates), but estimates in WDFW database were greater than PacFIN between 1983 to 1990 (e.g., differences ranging between 21 mt to 171 mt by year). These landings estimates for `r spp` should be investigated to reconcile differences to improve future assessments of `r spp`. Washington landings between 1991 to 2024 were extracted from PacFIN.
 
-This assessment also included data on bycatch of `r spp` by the Pacific hake At-Sea fishery since 1978. These data were not included in the 2019 assessment of `r spp` but landings between 1990 to 2022 were included in the most recent update assessment in 2023. Across most years the bycatch of `r spp` in the Pacific hake at-Sea fishery is relatively low, particularly compared to the landings data from other groundfish sectors contained in PacFIN. However, there have been select years where the bycatch of `r spp` in this fishery has been higher than average. Bycatch was high between 1979 and 1982 ranging between 103 mt to 359 mt. In recent years, high bycatch in the Pacific hake at-sea fishery is likely driven by strong recruitment events with 153 mt and 117 mt of bycatch in 2017 and 2018, respectively, and 306 mt and 161 mt in 2022 and 2023. 
+This assessment also included data on catch of `r spp` by the Pacific hake at-sea fishery since 1978. These data were not included in the 2019 assessment of `r spp` but landings between 1990 to 2022 were included in the most recent update assessment in 2023. This assessment extends the at-sea catches to the first year of available catch data, 1978. Across most years the catch of `r spp` in the Pacific hake at-sea fishery is relatively low, particularly compared to the landings data from other groundfish sectors contained in PacFIN. However, there have been select years where the catch of `r spp` in this fishery has been higher than average. Catch was high between 1979 and 1982 ranging between 103 mt to 359 mt. In recent years, high catch in the Pacific hake at-sea fishery is likely driven by strong recruitment events with 153 mt and 117 mt of bycatch in 2017 and 2018, respectively, and 306 mt and 161 mt in 2022 and 2023. The estimates provided from the at-sea observer program (ASHOP) included both discarded and retained catch of `r spp` and were included in assessment in a separate trawl catch fleet. 
 
-Foreign catches are included in the landings estimates for commercial fleets and were very large in the late 1970s. This assessment assumed the same foreign landings reconstruction used in previous `r spp` assessments based on the records in the historical annotated landings (HAL) database [@lynde_historical_1986].
+Foreign catches are included in gear specific catch fleets. The foreign catch reconstructions were based on the records in the historical annotated landings (HAL) database [@lynde_historical_1986]. The catch by foreign vessels were very large in the late 1970s, relative to domestic fleets at that time. Previous assessments included the foreign catches in the corresponding landings gear fleet which resulted additional mortality being estimated (e.g., treated as if the estimates were landings not catches that accounted for total mortality). Since @lynde_historical_1986 indicates that the values are catches that account for both estimates of landings and discarding, these catches were separated into separate catch fleets for this assessment.    
 
-Total mortality from recreational fisheries were included in this assessment and added to the hook-and-line fleet in the model. Recreational catches of `r spp` were low historically with the average total mortality being less than 3 mt per year between 2001-2022, but have been sharply increased in recent years. In 2023, recreational total mortality coastwide peaked at 34 mt and decreased in 2024 to 29 mt. 
+Recreational fishery landings were included in this assessment and added to the hook-and-line landings fleet in the model. Recreational landings of `r spp` were low historically with the average mortality being less than 3 mt per year between 2001-2022, but have been sharply increased in recent years. In 2023, recreational mortality coastwide peaked at 34 mt and decreased in 2024 to 29 mt. 
 
 ### Discards
 
@@ -32,8 +34,34 @@ The discard rates across all data sources by fleet based on gear type are shown 
 
 ### Composition Data
 
+Data for all states were extracted from PacFIN's Biological Data System (BDS). Broadly, the weighting of commercial biological samples was conducted via the following method using the R package \href{https://github.com/pfmc-assessments/pacfintools}{\texttt{pacfintool}} developed and managed by scientists at the \gls{nwfsc}. The package queries, filters, and expands fishery biological data based on the following steps:
+
+\begin{enumerate} 
+\item Expand the sample weight of lengths or ages from the state recorded sub-sample, consisting of one or more baskets of fish, to the estimated total landings in that market category (or trip for ungraded samples).  When sample weights were unavailable, as is always the case for fish landed in Washington, gender-specific weight-length relationships were used to approximate the weight of the sample. 
+\item Sum the trip-expanded values within model-based gear fleets and state combinations. Data sampled from larger landings thus account for more weight in the sum to better reflect the total landings.
+\item Expand the values to gear-specific landings, ensuring that data by state are expanded based upon the total landings within that state.
+\item Calculate input sample sizes based upon the number of trips and samples.
+\end{enumerate}
+
+The input sample sizes for each fleet in the model were calculated via the Stewart method (Ian Stewart, personal communication):
+
+\begin{centering}
+
+Input N = $N_{\text{trips}} + 0.138 * N_{\text{fish}}$ if $N_{\text{fish}}/N_{\text{trips}}$ is $<$ 44
+
+Input N = $7.06 * N_{\text{trips}}$ if $N_{\text{fish}}/N_{\text{trips}}$ is $\geq$ 44
+
+\end{centering}
+
+\vspace{0.50cm}
 
 
+
+@tbl-twl-age-samples-comp
+@tbl-fixed-age-samples-comp
+@tbl-twl-age-samples
+@tbl-hkl-age-samples
+@tbl-pot-age-samples
 
 ## Fishery-Independent Data
 
@@ -49,7 +77,7 @@ around 1.0) shown in @fig-index-stand.
 
 ### NWFSC West Coast Groundfish Bottom Trawl Survey
 
-The WCGBT survey is based on a random-grid design; covering the coastal waters from a depth
+The \gls{s-wcgbt} is based on a random-grid design; covering the coastal waters from a depth
 of 55 - 1,280 m [@bradburn_2003_2011]. This design generally uses four industry-chartered
 vessels per year assigned to a roughly equal number of randomly selected grid cells and
 divided into two ‘passes’ of the coast. Two vessels fish from north to south during each pass
@@ -58,13 +86,14 @@ differences in catchability, as well as variance associated with selecting a rel
 number (approximately 700) of possible cells from a very large set of possible cells spread
 from the U.S./Mexico to the U.S./Canada borders.
 
-`r Spp` are observed across the full range of depths (Figure XX) and latitudes (Figure XX) sampled by the
-WCGBT survey. A coastwide relative index of abundance was estimated for `r spp` using the Species
-Distribution Modeling platform written in Template Model Builder (TMB) (sdmTMB; Anderson et al. [-@Anderson:2022:SRP]). A delta model with a gamma error distribution was selected over the lognormal distribution based on the quantile-quantile plots (Figure XX). This was the same error distribution selected by the 2019 benchmark and 2023 update assessments. The relative index of abundance for `r spp` decreased to the lowest levels between 2008 and 2010, begun to slowly increase between 2011 and 2019, and then sharply increased in 2021 to 2022 and remained high in 2023 and 2024 (@fig-index-wcgbt).
+`r Spp` are observed across the full range of latitudes (@fig-positive-lat-wcgbt) and depths (@fig-positive-depth-wcgbt) sampled by the \gls{s-wcgbt}. The sex ratio of positive tows is roughly 50-50 between females and males between 55 - 400 m in depth, greater than 50 percent male between 400 -1,100 m, and greater than 50 percent female at the deepest depths sampled (@fig-sex-ratio-wcgbt). 
 
-Length and age samples collected annually during the WCGBT survey were processed using 2 cm length bins
-between 18 cm and 90 cm and age bins between 0 and 50 years. The length compositions were expanded to
-the tow level and strata level. The age data were included as conditional-age-at-length data to better inform the internal estimation of growth than can be done using marginal age data. Input sample size for the length composition were based on the number of positive tows and a multiplier. Input sample sizes for the conditional-age-at-length data were the annual number of fish sampled for both age and length.
+A coastwide relative index of abundance was estimated for `r spp` using the Species
+Distribution Modeling platform written in Template Model Builder (TMB) (sdmTMB; Anderson et al. [-@Anderson:2022:SRP]). A delta model with a gamma error distribution was selected over the lognormal distribution based on the quantile-quantile plots (@fig-qq-wcgbt). This was the same error distribution selected by the 2019 benchmark and 2023 update assessments. The relative index of abundance for `r spp` decreased to the lowest levels between 2008 and 2010, begun to slowly increase between 2011 and 2019, and then sharply increased in 2021 to 2022 and remained high in 2023 and 2024 (@fig-index-wcgbt). The estimated proportion of biomass observed by the \gls{s-wcgbt} north and south of 36$^\circ$ North latitude over the last five years of the survey are shown in @tbl-prop-area.
+
+Length and age samples collected annually during the \gls{s-wcgbt} were processed using 2 cm length bins
+between 18 cm and 90 cm and age bins between 0 and 50 years. The length and marginal age compositions were expanded to
+the tow level and strata level (@tbl-wcgbt-strata). The age data were included as conditional-age-at-length data to better inform the internal estimation of growth than can be done using marginal age data. Input sample size for the length marginal age composition were based on the number of positive tows and a multiplier (@tbl-wcgbt-samples). Input sample sizes for the conditional-age-at-length data were the annual number of fish sampled for both age and length.
 
 The 2021 and 2022 length compositions for fish less than 30 cm indicate potentially multiple above average
 recruitments entering the population (Figure XX). The age data indicate above average
@@ -72,8 +101,8 @@ observations of fish from the 2023, 2021, and 2020 cohorts (Figure XX). Across a
 
 ### NWFSC Slope Survey
 
-The NWFSC Slope Survey covered waters throughout the summer from 183 m to 1,280
-m north of 34\^\circ$ 30$^\prime$ N. latitude, which is near Point Conception, from 1999 and 2002. The
+The \gls{s-nslope} covered waters throughout the summer from 183 m to 1,280
+m north of 34$^\circ$ 30$^\prime$ N. latitude, which is near Point Conception, from 1999 and 2002. The
 survey sampled 80 fixed east - west transects of latitude, separated by 10 minutes of latitude.
 Five stations in each transect were selected from two depth categories: shallow strata (184
 - 549 m) and deep strata (550 - 1,280 m). There were a total of 400 possible stations to
@@ -81,21 +110,29 @@ sample from each year, with 302 - 327 successful tows on average per year. The s
 conducted from mid-August to mid-October in 1998 but was somewhat earlier in 1999 and
 2000 (late-June to late- September).
 
-sdmTMB was used in a similar fashion to that specified for fitting the NWFSC Slope survey. The estimated index shows a relatively flat trajectory over the survey period except for the increase in 2000 (@fig-index-nwslope). Q-Q plots suggested that the gamma distribution (Figure XX) fit the data, better than a log-normal distribution (results not shown). No spatial or spatiotemporal patterns were found in the Pearson residuals (Figures XX). 
+sdmTMB was used in a similar fashion to that specified for fitting the \gls{s-nslope}. The estimated index shows a relatively flat trajectory over the survey period except for the increase in 2000 (@fig-index-nwslope). Q-Q plots suggested that the gamma distribution (@fig-qq-nwfslope) fit the data, better than a log-normal distribution (results not shown). No spatial or spatiotemporal patterns were found in the Pearson residuals. 
+
+@tbl-nwslope-strata
+@tbl-nwslope-samples
 
 
 ### AFSC Slope Survey
 
-The AFSC Slope survey operated during the months of October to November aboard the
+The \gls{s-aslope} operated during the months of October to November aboard the
 R/V Miller Freeman. Partial survey coverage of the U.S. west coast occurred during the years
 1988 - 1996 and complete coverage (north of 34$^\circ$ 30$^\prime$ N. latitude) during the years 1997 and
 1999-2001. Typically, only these four years that are seen as complete surveys are included in
 groundfish stock assessments.
 
+@fig-index-afslope
+@fig-qq-afslope
+@tbl-afslope-strata
+@tbl-afslope-samples
+
 
 ### AFSC/NWFSC West Coast Triennial Shelf Survey
 
-The Triennial survey was first conducted by the AFSC in 1977, and the survey continued
+The \gls{s-tri} was first conducted by the AFSC in 1977, and the survey continued
 until 2004 [@weinberg_estimation_2002]. Its basic design was a series of equally-spaced east-to-west
 transects across the continental shelf from which searches for tows in a specific depth range
 were initiated. The survey design changed slightly over time. In general, all of the surveys
@@ -113,13 +150,22 @@ U.S. west coast south to 36.8$^\circ$ N. latitude and a depth range of 55 - 366 
 1989 and 1992 covered the same depth range but extended the southern range to 34$^\circ$ 50$^\prime$ N.
 latitude (near Point Conception). From 1995 through 2004, the surveys covered the depth
 range 55 - 500 m and surveyed south to 34$^\circ$ 50$^\prime$ N. latitude. In 2004, the final year of the
-Triennial Survey series, the NWFSC Fishery Resource and Monitoring division (FRAM)
+\gls{s-tri} series, the NWFSC Fishery Resource and Monitoring division (FRAM)
 conducted the survey following similar protocols to earlier years. Due to changes in survey
-timing, the Triennial survey data have been split into independent early (1980 - 1992) and
+timing, the \gls{s-tri} data have been split into independent early (1980 - 1992) and
 late (1995 - 2004) survey time series. The split of the time series was done in the base model
 via a shift in catchability (Q) between the 1992 and 1995 survey years.
 
+@fig-qq-tri-early
+@fig-qq-tri-late
+@fig-index-tri
+@tbl-tri-early-strata
+@tbl-tri-late-strata
+@tbl-tri-samples
+
 ## Additional Data Considered
+
+Add text about EFP discard data
 
 ## Biological Data
 
@@ -138,12 +184,16 @@ $M=\frac{5.4}{A_{\text{max}}}$
 
 where $A_{\text{max}}$ is the maximum age. The prior is defined as a lognormal distribution with mean $ln(5.4/A_{\text{max}})$ and standard error = 0.31.  
 
-The maximum age for `r spp` was selected based on available age data from all West Coast data sources. The oldest aged `r spp` was 102 years, captured by the commercial fishery in 2006, not accounting for potential ageing error. Examining all aged fish, a maximum age of 75 was selected. Across all data sources there were limited observation greater than 75 years of age. There are a higher frequency of older males compared to females observed in the data, however, females grow to larger sizes and generally have higher fishery selectivity which may bias the sex-ratio of older individuals. Using a maximum age of , the median of the prior was 0.72 yr$^{-1}$ with a standard error of 0.31.
+The maximum age for `r spp` was selected based on available age data from all West Coast data sources. The oldest aged `r spp` was 102 years, captured by the commercial fishery in 2006, not accounting for potential ageing error. Examining all aged fish, a maximum age of 75 was selected. Across all data sources there were limited observation greater than 75 years of age. There are a higher frequency of older males compared to females observed in the data, however, females grow to larger sizes and generally have higher fishery selectivity which may bias the sex-ratio of older individuals. Using a maximum age of 75, the median of the prior was 0.72 yr$^{-1}$ with a standard error of 0.31.
 
-### Growth/Weight-at-Age
+### Growth and Weight-at-Age
 
 
 ### Maturity and Fecundity
+
+@fig-maturity-data
+@fig-maturity-ogive
+@tbl-maturity-samples
 
 ### Ageing Precision and Bias
 

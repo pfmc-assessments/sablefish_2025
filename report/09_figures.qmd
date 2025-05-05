@@ -9,7 +9,7 @@ rda_dir <- here::here('rda_files')
 ``` 
 
 
-### Data
+## Data
 
 
 ```{r} 
@@ -92,6 +92,113 @@ knitr::include_graphics(
 
 ```
 
+
+\pagebreak
+
+```{r} 
+#| label: fig-data-trawl-1
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt1mkt0_page1.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: fig-data-trawl-2
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt1mkt0_page2.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: fig-data-hkl-1
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt2mkt0_page1.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: fig-data-hkl-2
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt2mkt0_page2.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: fig-data-pot-1
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt3mkt0_page1.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: fig-data-pot-2
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt3mkt0_page2.png")
+)
+
+```
+
+
+\pagebreak
+
+Add catch comparison figure
+
+\pagebreak
+
+
+Add discard length and age figures
+
 \pagebreak
 
 
@@ -137,7 +244,7 @@ knitr::include_graphics(
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "index1_cpuedata_NWCBO.png")
+  file.path(model_dir, "plots", "index1_cpuedata_WCGBT.png")
 )
 
 ```
@@ -210,6 +317,38 @@ knitr::include_graphics(
 
 \pagebreak
 
+```{r} 
+#| label: fig-wcgbt-map-density
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Sampling locations for sablefish collected by the NWFSC West Coast Groundfish Bottom Trawl survey between 2003 and 2024. Standard lengths (rounded down to the nearest cm) are shown on the left and age estimates (yr) are shown on the right. Lighter colors represent smaller or younger individuals and darker colors represent larger or older individuals. Latitudinal and inshore-offshore patterns were similar for males and females, thus sexes were combined."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "wcgbt_length_age_density.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: fig-wcgbt-depth-len-age
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Length (top; cm) and age (bottom; yr) compositions for sablefish collected by the NWFSC West Coast Groundfish Bottom Trawl Survey between 2003 and 2024 by sex and depth (m). Lighter colors represent smaller or younger individuals and darker colors represent larger or older individuals."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "wcgbts_length_age_compositions.png")
+)
+
+```
+
+\pagebreak
+
 
 ```{r} 
 #| label: fig-qq-nwfslope
@@ -237,7 +376,7 @@ knitr::include_graphics(
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "index1_cpuedata_NWSLP.png")
+  file.path(model_dir, "plots", "index1_cpuedata_NWFSC_Slope.png")
 )
 
 ```
@@ -269,9 +408,9 @@ knitr::include_graphics(
 #| fig-cap: "Relative index of abundance for the AFSC Slope survey."
 #| fig-alt: ""
 
-knitr::include_graphics(
-  file.path(model_dir, "plots", "index1_cpuedata_AKSLP.png")
-)
+#knitr::include_graphics(
+#  file.path(model_dir, "plots", "index1_cpuedata_AFSCSlope.png")
+#)
 
 ```
 
@@ -322,7 +461,7 @@ knitr::include_graphics(
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "index1_cpuedata_AKSHLF.png")
+  file.path(model_dir, "plots", "index1_cpuedata_Triennial.png")
 )
 
 ```
