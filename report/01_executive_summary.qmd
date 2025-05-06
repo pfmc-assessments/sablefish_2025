@@ -3,7 +3,7 @@
 
 ## Stock Description {-}
 
-This assessment reports the status of the `r spp` (*Anoplopoma fimbria*, or `black cod') resource off the coast of the United States (U.S.) from southern California to the U.S.-Canadian border using data through `r data_end_year`. The resource is modeled as a single stock, however `r spp` do disperse to and from offshore sea mounts and along the coastal waters of the continental U.S., Canada, and Alaska and across the Aleutian Islands to the western Pacific. Their movement is not explicitly accounted for in this analysis.
+This assessment reports the status of the `r spp` (*Anoplopoma fimbria*, or `black cod') resource off the coast of the United States (U.S.) from southern California to the U.S.-Canadian border using data through `r data_end_year`. The resource is modeled as a single stock, however `r spp` do disperse to and from offshore sea mounts and along the coastal waters of the continental U.S., Canada, and Alaska and across the Aleutian Islands to the western Pacific. Net changes in population size or structure due to movement across the assessment boundary are considered negligible, though alternative assumptions are explored using sensitivity model evaluations.
 
 ## Catches {-}
 
