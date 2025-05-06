@@ -1570,18 +1570,12 @@ SS_plots(remove_discard_weights)
 add_catch_fleets <- SS_output(here::here("model", "_bridging", "16_catch_fleets"))
 modelnames <- c(
   "2023 Base", 
-  "Simplify Ret./Selex. Blocks",
-  "+ Survey Data",
-  "+ Maturity",
   "+ M Prior", 
   "+ Age-based selex, ret, discard", 
   "- Remove discard weights",
   "+ Foreign Catch Fleets")
 mysummary <- SSsummarize(list(
   model_2023,
-  blocks,
-  wcgbt,
-  maturity,
   m_prior,
   age_based,
   remove_discard_weights,
@@ -1606,12 +1600,9 @@ plot_year_selex(
 #===============================================================================
 # 17 Fix selectivity bounds
 #================================================================================
-selex_bounds <- SS_output(here::here("model", "_bridging", "17_fix_selex_bounds"))
+selex_bounds <- SS_output(here::here("model", "_bridging", "17_fix_selex_bounds_fix_cv"))
 modelnames <- c(
   "2023 Base", 
-  "Simplify Ret./Selex. Blocks",
-  "+ Survey Data",
-  "+ Maturity",
   "+ M Prior", 
   "+ Age-based selex, ret, discard", 
   "- Remove discard weights",
@@ -1619,9 +1610,6 @@ modelnames <- c(
   "+ Fix Selectivity Bounds")
 mysummary <- SSsummarize(list(
   model_2023,
-  blocks,
-  wcgbt,
-  maturity,
   m_prior,
   age_based,
   remove_discard_weights,
@@ -1651,7 +1639,6 @@ r4ss::tune_comps(
 male_selex <- SS_output(here::here("model", "_bridging", "18_fix_male_selex"))
 modelnames <- c(
   "2023 Base", 
-  "+ Survey Data",
   "+ Age-based selex, ret, discard", 
   "- Remove discard weights",
   "+ Foreign Catch Fleets",
@@ -1659,7 +1646,6 @@ modelnames <- c(
   "+ Fix Male Selectivity")
 mysummary <- SSsummarize(list(
   model_2023,
-  wcgbt,
   age_based,
   remove_discard_weights,
   add_catch_fleets,
@@ -1676,6 +1662,91 @@ SSplotComparisons(mysummary,
 plot_ghostfleets(replist = male_selex)
 plot_age_fits_sexed_only(replist = male_selex)
 SS_plots(male_selex)
+
+plot_year_selex(
+  replist = male_selex,
+  fleets = 3,
+  year = 2024)
+plot_fleet_selectivity(
+  model_out = male_selex, 
+  fleet_num = 1)
+
+model_mod <- male_selex
+model_mod$agedbase <- model_mod$agedbase |> 
+  dplyr::filter(Sexes == 3, Fleet == 3) 
+SSplotComps(
+  replist = model_mod,
+  subplots = 21,
+  kind = "AGE"
+)
+
+#===============================================================================
+# 19.0 Rec Devs
+#===============================================================================
+
+# The previous model was not inverting the hessian due to a rec dev parameter, 
+# so trying to fix that.
+rec_devs <- SS_output(here::here("model", "_bridging", "19.0_rec_devs"))
+
+modelnames <- c(
+  "2023 Base", 
+  "+ Age-based selex, ret, discard", 
+  "- Remove discard weights",
+  "+ Foreign Catch Fleets",
+  "+ Fix Selectivity Bounds",
+  "+ Fix Male Selectivity",
+  "+ Rec. Devs.")
+mysummary <- SSsummarize(list(
+  model_2023,
+  age_based,
+  remove_discard_weights,
+  add_catch_fleets,
+  selex_bounds, 
+  male_selex,
+  rec_devs))
+SSplotComparisons(mysummary,
+                  filenameprefix = "0_19_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+plot_ghostfleets(replist = rec_devs)
+plot_age_fits_sexed_only(replist = rec_devs)
+SS_plots(rec_devs)
+
+# The recommended data weights have changed substantially
+# Params with very high uncertainty
+# Age_DblN_ascend_se_HKL(2)
+# Age_DblN_descend_se_NWFSC_Slope(9) 
+
+# parameters_with_highest_gradients
+#                                Value Gradient
+# SR_LN(R0)                  9.8142600  7.38112 !!!!!!!!
+# Age_DblN_peak_Pot(3)       2.1213900 -4.67087
+# Age_DblN_peak_TWL(1)       0.9864610 -3.49623
+# NatM_uniform_Fem_GP_1      0.0574724 -1.52421
+# Age_DblN_end_logit_TWL(1) -1.0265100  1.49920
+
+#===============================================================================
+# 19.1 Rec Devs
+#===============================================================================
+
+# Turn off early devs, extend main devs, and fix select params with high sd
+rec_devs_2 <- SS_output(here::here("model", "_bridging", "19.1_rec_devs_early_main"))
+SS_plots(rec_devs_2)
+
+#===============================================================================
+# 20 Data Weight
+#================================================================================
+
+r4ss::tune_comps(
+  replist = male_selex, 
+  dir = here::here("model", "_bridging", "19.1_rec_devs_early_main"),
+  option = "Francis")
+data_weight <- SS_output(here::here("model", "_bridging", "20.0_data_weight"))
+
 
 #===============================================================================
 # 19 Weight-at-Age 
