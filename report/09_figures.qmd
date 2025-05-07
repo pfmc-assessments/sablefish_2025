@@ -60,6 +60,22 @@ text(-115.5, 32.1, "Mexico")
 
 ``` 
 
+\pagebreak
+
+
+```{r} 
+#| label: fig-reg-kobe
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Time series of sablefish biomass-based and fishing-based estimates of status in Alaska, British Columbia, and along the U.S. West Coast from the most recent stock assessments. The arrow indicates estimates for the current year of the stock assessment. Vertical and horizontal axes differ by area due to region-dependent reference point use and specifications."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "regional_Kobe.png")
+)
+
+```
 
 
 ```{r} 
