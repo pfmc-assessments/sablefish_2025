@@ -23,6 +23,7 @@ load(fs::dir_ls(here::here("data-raw", "survey", "trawl"), regex = "bio_")[3])
 nwfsc_slope_bio <- x
 load(fs::dir_ls(here::here("data-raw", "survey", "trawl"), regex = "bio_")[4]) 
 tri_bio <- x
+tri_bio_early <- tri_bio_late <- list()
 tri_bio_early$length_data <- tri_bio$length_data |> dplyr::filter(Year >= 1980, Year <= 1992)
 tri_bio_early$age_data <- tri_bio$age_data |> dplyr::filter(Year >= 1980, Year <= 1992)
 tri_bio_late <- x
