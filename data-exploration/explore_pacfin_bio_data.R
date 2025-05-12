@@ -365,3 +365,10 @@ bds_2019 <- data_2019 |>
   dplyr::summarise(
     n = sum(!is.na(FISH_LENGTH))
   )
+
+
+#==============================================================================
+age_data <- data_commercial_bds |> dplyr::filter(!is.na(age_years))
+table(age_data$geargroup, age_data$sex, age_data$state)
+
+table(data_commercial_bds$geargroup, data_commercial_bds$sex)
