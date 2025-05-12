@@ -22,15 +22,16 @@ process_survey(
   fig_table_dir = here::here("data-raw", "survey", "trawl")
 )
 
-process_survey(
-  catch_data = data_survey_catch$afsc_slope,
-  bds_data = data_survey_bio$afsc_slope,
-  strata = strata_afsc_slope,
-  age_bins = age_bins,
-  length_bins = len_bins,
-  save_dir = "data-processed",
-  fig_table_dir = here::here("data-raw", "survey", "trawl")
-)
+# Removing the AFSC Slope survey due to unrepresentative sampling between lengths and ages
+# process_survey(
+#   catch_data = data_survey_catch$afsc_slope,
+#   bds_data = data_survey_bio$afsc_slope,
+#   strata = strata_afsc_slope,
+#   age_bins = age_bins,
+#   length_bins = len_bins,
+#   save_dir = "data-processed",
+#   fig_table_dir = here::here("data-raw", "survey", "trawl")
+# )
 
 process_survey(
   catch_data = data_survey_catch$triennial_early,
