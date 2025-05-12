@@ -1598,6 +1598,27 @@ plot_year_selex(
   year = 2024)
 
 #===============================================================================
+# 16 Add catch fleets w/ wcgbt length data
+#================================================================================
+
+add_catch_fleets_alt <- SS_output(here::here("model", "_bridging", "16_catch_fleets_w_wcgbt_len"))
+
+modelnames <- c(
+  "+ Foreign Catch Fleets w/o WCGBT Lengths",
+  "+ Foreign Catch Fleets w/ WCGBT Lengths")
+mysummary <- SSsummarize(list(
+  add_catch_fleets,
+  add_catch_fleets_alt))
+SSplotComparisons(mysummary,
+                  filenameprefix = "0_16_only_",
+                  legendlabels = modelnames, 
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+#===============================================================================
 # 17 Fix selectivity bounds
 #================================================================================
 selex_bounds <- SS_output(here::here("model", "_bridging", "17_fix_selex_bounds_fix_cv"))
@@ -1630,13 +1651,14 @@ SS_plots(selex_bounds)
 #================================================================================
 
 male_selex <- SS_output(here::here("model", "_bridging", "18_fix_male_selex"))
+male_selex <- SS_output(here::here("model", "_bridging", "18_fix_male_selex_w_wcgbt_len"))
 
 r4ss::tune_comps(
   replist = male_selex, 
   dir = here::here("model", "_bridging", "18_fix_male_selex"),
   option = "Francis")
 
-male_selex <- SS_output(here::here("model", "_bridging", "18_fix_male_selex"))
+
 modelnames <- c(
   "2023 Base", 
   "+ Age-based selex, ret, discard", 
@@ -1737,54 +1759,343 @@ SS_plots(rec_devs)
 rec_devs_2 <- SS_output(here::here("model", "_bridging", "19.1_rec_devs_early_main"))
 SS_plots(rec_devs_2)
 
-#===============================================================================
-# 20 Data Weight
-#================================================================================
-
-r4ss::tune_comps(
-  replist = male_selex, 
-  dir = here::here("model", "_bridging", "19.1_rec_devs_early_main"),
-  option = "Francis")
-data_weight <- SS_output(here::here("model", "_bridging", "20.0_data_weight"))
-
 
 #===============================================================================
-# 19 Weight-at-Age 
-#================================================================================
-watage <- SS_output(here::here("model", "_bridging", "19_weight_at_age"))
+# 19.1 Rec Devs w/ WCGBT lengths
+#===============================================================================
+
+# Turn off early devs, extend main devs, and fix select params with high sd
+rec_devs <- SS_output(here::here("model", "_bridging", "19.1_rec_devs_early_main_wcgbt_len"))
+SS_plots(rec_devs)
+# Final gradient: 2.66004 is larger than final_conv: 0.001
+# M ~ 0.063 and 0.062
+# Lmax ~ 59.7 and 54.8
+
+# Selex WCGBT peak near lower bound
 
 r4ss::tune_comps(
-  replist = watage, 
-  dir = here::here("model", "_bridging", "19_weight_at_age"),
+  replist = rec_devs, 
+  dir = here::here("model", "_bridging", "19.1_rec_devs_early_main_wcgbt_len"),
   option = "Francis")
 
-watage <- SS_output(here::here("model", "_bridging", "19_weight_at_age"))
+#===============================================================================
+# 20.0 Data - update ageing error and at-sea catch for 2024
+#================================================================================
+
+ageing_error <- SS_output(here::here("model", "_bridging", "20.0_data_ageing_error_atsea_catch"))
+SS_plots(ageing_error)
+
 modelnames <- c(
   "2023 Base", 
-  "+ Survey Data",
   "+ Age-based selex, ret, discard", 
-  "- Remove discard weights",
   "+ Foreign Catch Fleets",
-  "+ Fix Selectivity Bounds",
   "+ Fix Male Selectivity",
-  "+ Weight-at-Age")
+  "+ Rec. Devs.",
+  "+ Ageing Error & At-Sea 2024")
 mysummary <- SSsummarize(list(
   model_2023,
-  wcgbt,
   age_based,
-  remove_discard_weights,
   add_catch_fleets,
-  selex_bounds, 
   male_selex,
-  watage))
+  rec_devs,
+  ageing_error))
 SSplotComparisons(mysummary,
-                  filenameprefix = "0_19_",
+                  filenameprefix = "0_20_data_",
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
                   plotdir = here::here("model", "_bridging", "_plots"),
                   ylimAdj = 1.5,
                   pdf = TRUE)
-plot_ghostfleets(replist = watage)
-plot_age_fits_sexed_only(replist = watage)
-SS_plots(watage)
+
+#===============================================================================
+# 20.1 Data - remove unsexed fish from the slope survey
+#===============================================================================
+
+unsexed_fish <- SS_output(here::here("model", "_bridging", "20.1_data_remove_unsexed_slope"))
+SS_plots(unsexed_fish)
+plot_ghostfleets(replist = unsexed_fish)
+
+#===============================================================================
+# 20.2 Data - combine sexed below 28 cm and age-1
+#================================================================================
+
+combine_sexes <- SS_output(here::here("model", "_bridging", "20.2_data_combine_bins"))
+SS_plots(combine_sexes)
+plot_ghostfleets(replist = combine_sexes)
+
+#===============================================================================
+# 20.3 Param - use a single M value
+#================================================================================
+
+single_m <- SS_output(here::here("model", "_bridging", "20.3_param_single_m"))
+SS_plots(single_m)
+
+r4ss::tune_comps(
+  replist = single_m, 
+  dir = here::here("model", "_bridging", "20.3_param_single_m"),
+  option = "Francis")
+
+
+#===============================================================================
+# Summary
+#================================================================================
+
+# Fix male selex
+# gradient = 0.49
+# NLL = 2476.57
+# R0 = 9.27684
+
+# Rec devs
+# gradient = 2.66004
+# NLL = 2486.5 (Age = 2566.99)
+# R0 = 10.0099
+
+# Ageing Error
+# gradient = 0.138698
+# NLL = 2301.96 (Age = 2384.57)
+# R0 = 10.2508
+
+# Remove unsexed in slope survey
+# gradient = 0.540945
+# NLL = 2296.37 
+# R0 = 10.2498
+
+# Combine below bins
+# gradient = .624544
+# NLL = 2288.23
+# R0 = 10.2643
+# growth estimates are nearly identical
+
+# Single M
+# gradient = 0.275216
+# NLL =  2288.41
+# R0 = 10.225 
+
+#===============================================================================
+# 20.5 Rec Dev Option
+#================================================================================
+
+add_ages <- SS_output(here::here("model", "_bridging", "20.5_data_add_ages"))
+add_ages_dev2 <- SS_output(here::here("model", "_bridging", "20.5_data_add_ages_rec_dev_2"))
+
+modelnames <- c(
+  "2023 Base", 
+  "+ Age-based selex, ret, discard", 
+  "+ Foreign Catch Fleets",
+  "+ Fix Male Selectivity",
+  "+ Rec. Devs.",
+  "+ Ageing Error & At-Sea 2024",
+  "+ Add Recent Ages",
+  "+ Rec. Dev. Option 2")
+mysummary <- SSsummarize(list(
+  model_2023,
+  age_based,
+  add_catch_fleets,
+  male_selex,
+  rec_devs,
+  ageing_error,
+  add_ages, 
+  add_ages_dev2))
+SSplotComparisons(mysummary,
+                  filenameprefix = "0_20.5_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+
+modelnames <- c(
+  "+ Rec. Dev. Option 1",
+  "+ Rec. Dev. Option 2")
+mysummary <- SSsummarize(list(
+  add_ages, 
+  add_ages_dev2))
+SSplotComparisons(mysummary,
+                  filenameprefix = "0_20.5_devs_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+#===============================================================================
+# 20.4 Data Weight
+#================================================================================
+
+data_weight <- SS_output(here::here("model", "_bridging", "20.4_data_weight"))
+data_weight <- SS_output(here::here("model", "_bridging", "20.4_data_weight_hessian"))
+
+#===============================================================================
+# Compare models
+#===============================================================================
+
+modelnames <- c(
+  "2023 Base", 
+  "+ Fix Male Selectivity",
+  "+ Rec. Devs.",
+  "+ Ageing Error",
+  "+ Remove Slope Survey Unsexed Fish",
+  "+ Combine Below Bins",
+  "+ Single M",
+  "+ Data Weight")
+mysummary <- SSsummarize(list(
+  model_2023,
+  male_selex,
+  rec_devs,
+  ageing_error,
+  unsexed_fish,
+  combine_sexes, 
+  single_m,
+  data_weight))
+SSplotComparisons(mysummary,
+                  filenameprefix = "0_20_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+#===============================================================================
+# 20.6 Reduce discard input sample size
+#===============================================================================
+
+discard_input_n <- SS_output(here::here("model", "_bridging", "20.6_reduce_discard_input_n"))
+SS_plots(discard_input_n)
+
+#===============================================================================
+# 20.5 Remove early surveys
+#================================================================================
+
+early_surveys <- SS_output(here::here("model", "_bridging", "20.5_remove_early_surveys"))
+
+modelnames <- c(
+  "20.4 Data Weight",
+  "20.5 Remove Early Surveys")
+mysummary <- SSsummarize(list(
+  data_weight,
+  early_surveys))
+SSplotComparisons(mysummary,
+                  filenameprefix = "0_20.5_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+#===============================================================================
+# 21.0 Fix growth
+#===============================================================================
+
+fix_growth <- SS_output(here::here("model", "_bridging", "21.0_fix_growth_mle"))
+SS_plots(fix_growth)
+plot_age_fits_sexed_only(
+  replist = fix_growth)
+# NLL = 2006.7
+# R0 = 9.924
+# gradient = 0.000916592
+# wants to upweight survey age data (expcept Triennial) and downweight fishery age data
+
+#===============================================================================
+# 21.1_hkl_selex
+#===============================================================================
+
+hkl_blocks <- SS_output(here::here("model", "_bridging", "21.1_hkl_selex"))
+# apply block to peak, top, and ascending 2011 2018 2019 2024
+# 6 extra parameters
+
+# NLL = 1994.23
+#      1890-2010   2011-2018 2019+
+# peak 4.1019700, 3.3811100, 4.1711700
+# top -3.99597,  -9.9999100, 5.8584
+# asc 1.34044,     0.345367, 1.0822700
+
+plot_year_selex(
+ replist = hkl_blocks,
+ fleets = 2,
+ year = 1890)
+plot_year_selex(
+  replist = hkl_blocks,
+  fleets = 2,
+  year = 2011)
+plot_year_selex(
+  replist = hkl_blocks,
+  fleets = 2,
+  year = 2019)
+plot_age_fits_sexed_only(
+  replist = hkl_blocks,
+  years = NULL)
+
+# Does not improve the visual fits to the aggregated composition data
+
+#===============================================================================
+# 21.2_plot_selex
+#===============================================================================
+
+pot_blocks <- SS_output(here::here("model", "_bridging", "21.2_pot_selex"))
+# apply block to peak, top, and ascending 2011 2018 2019 2024
+# 6 extra parameters
+
+# NLL = 1981.57 vs. 2006.7
+#      1890-2010   2011-2018 2019+
+# peak 2.6625500, 3.2089800, 3.6907500
+# top -3.5680400, -5.980750, 1.0472200
+# asc -0.4918930, 0.0863965, 0.2591460
+
+plot_year_selex(
+  replist = pot_blocks,
+  fleets = 3,
+  year = 1890)
+plot_year_selex(
+  replist = pot_blocks,
+  fleets = 3,
+  year = 2011)
+plot_year_selex(
+  replist = pot_blocks,
+  fleets = 3,
+  year = 2019)
+plot_age_fits_sexed_only(
+  replist = pot_blocks,
+  years = NULL)
+
+# Does not improve the visual fits to the aggregated composition data
+
+#===============================================================================
+# Only block the peak parameter for the hkl and pot fleets
+#===============================================================================
+# NLL = 2006.7 no blocks (21.0_fix_growth_mle)
+# NLL = 1995.79 hkl peak blocked 2011-2018 vs. NLL = 1994.23 for peak, top, asc
+# NLL = 1987.66 pot peak blocked 2011-2018 and 2019+ vs. NLL = 1981.57 for peak, top, asc
+
+#===============================================================================
+# 21.5_hkl_pot_male_offset w/ blocks on peak for hkl (1) and pot (2) for males and females
+#===============================================================================
+male_offset <- SS_output(here::here("model", "_bridging", "21.5_hkl_pot_male_offset"))
+# NLL = 1989.79
+plot_age_fits_sexed_only(
+  replist = male_offset)
+SS_plots(male_offset, plot = c(2:5, 17))
+plot_year_selex(
+  replist = male_offset,
+  fleets = 2:3,
+  year = 1890)
+# Does not improve the visual fits to the aggregated composition data
+
+#===============================================================================
+# 21.6_hkl_pot_splines
+#===============================================================================
+splines <- SS_output(here::here("model", "_bridging", "21.6_hkl_pot_splines"))
+# NLL = 2068.94
+# HKL LL =  226.5 (no blocks)
+plot_age_fits_sexed_only(
+  replist = splines)
+plot_age_fits_sexed_only(
+  replist = splines,
+  years = 2011:2024)
+plot_age_fits_sexed_only(
+  replist = splines,
+  years = 1890:2010)
