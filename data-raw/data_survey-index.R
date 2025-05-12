@@ -49,22 +49,22 @@ triennial <- dplyr::bind_rows(
     month, .before = fleet
   )
 
-afsc_slope <- 
-  read.csv(file.path(index_dir, "afsc_slope", "tweedie", "index", "est_by_area.csv")) |>
-  dplyr::filter(area == "Coastwide") |> 
-  dplyr::select(year, est, se) |>
-  dplyr::mutate(
-    month = 7,
-    fleet = recode_fleet_cw("afsc_slope"),
-    est = round(est, 0),
-    se = round(se, 4)
-  ) |>
-  dplyr::relocate(
-    fleet, .before = est
-  ) |>
-  dplyr::relocate(
-    month, .before = fleet
-  )
+#afsc_slope <- 
+#  read.csv(file.path(index_dir, "afsc_slope", "tweedie", "index", "est_by_area.csv")) |>
+#  dplyr::filter(area == "Coastwide") |> 
+#  dplyr::select(year, est, se) |>
+#  dplyr::mutate(
+#    month = 7,
+#    fleet = recode_fleet_cw("afsc_slope"),
+#    est = round(est, 0),
+#    se = round(se, 4)
+#  ) |>
+#  dplyr::relocate(
+#    fleet, .before = est
+#  ) |>
+#  dplyr::relocate(
+#    month, .before = fleet
+#  )
 
 nwfsc_slope <- 
   read.csv(file.path(index_dir, "nwfsc_slope", "delta_lognormal", "index", "est_by_area.csv")) |>
@@ -102,7 +102,6 @@ wcgbt <-
 
 data_survey_indices <- dplyr::bind_rows(
   triennial,
-  afsc_slope,
   nwfsc_slope,
   wcgbt
 )   
