@@ -9,6 +9,7 @@
 
 landings <- model_output[["catch"]] |>
   tibble::as_tibble() |>
+  dplyr::filter(Yr > 1889) |>
    dplyr::select(Fleet_Name, Yr, ret_bio) |>
    dplyr::group_by(Yr) |>
    dplyr::mutate(
@@ -19,12 +20,15 @@ landings <- model_output[["catch"]] |>
      names_from = Fleet_Name,
      values_from = ret_bio
    ) |>
-   dplyr::rename(
-     Year = Yr,
-     `Trawl (mt)` = TWL,
-     `Hook and Line (mt)` = HKL,
-     `Pot (mt)` = Pot
-   ) |>
+  #dplyr::rename(
+  #  Year = Yr,
+  #  `Trawl` = TWL,
+  #  `Hook-and-Line` = HKL,
+  #  `Pot` = Pot,
+  #  `Foreign & At-Sea Trawl` = AtSea_TWL_Foreign,
+  #  `Foreign Hook-and-Line` = HKL_Foreign,
+  #  `Foreign Pot` = Pot_Foreign
+  #) |>
    dplyr::ungroup()
 kableExtra::kable(
   landings, 
@@ -100,11 +104,11 @@ area_management_table |>
 #| label: tbl-discard-rates-twl
 #| warning: false
 #| echo: false
-#| tbl-cap: "Discard rate by year for trawl gear."
+#| tbl-cap: "Observed discard rates by year for trawl gear."
 #| tbl-pos: H
 
 read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
-  dplyr::filter(fleet == 1) |>
+  dplyr::filter(fleet %in% c(1, 4)) |>
   dplyr::select(-month, -fleet) |>
   dplyr::rename(
     Year = year,
@@ -130,11 +134,11 @@ read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
 #| label: tbl-discard-rates-hkl
 #| warning: false
 #| echo: false
-#| tbl-cap: "Discard rate by year for hook-and-line gear."
+#| tbl-cap: "Observed discard rates by year for hook-and-line gear."
 #| tbl-pos: H
 
 read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
-  dplyr::filter(fleet == 2) |>
+  dplyr::filter(fleet %in% c(2, 5)) |>
   dplyr::select(-month, -fleet) |>
   dplyr::rename(
     Year = year,
@@ -160,11 +164,11 @@ read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
 #| label: tbl-discard-rates-pot
 #| warning: false
 #| echo: false
-#| tbl-cap: "Discard rate by year for pot gear."
+#| tbl-cap: "Observed discard rates by year for pot gear."
 #| tbl-pos: H
 
 read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
-  dplyr::filter(fleet == 3) |>
+  dplyr::filter(fleet %in% c(3, 6)) |>
   dplyr::select(-month, -fleet) |>
   dplyr::rename(
     Year = year,
