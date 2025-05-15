@@ -180,6 +180,7 @@ r4ss::tune_comps(
   replist = slope_selex_2011, 
   dir = here::here("model", "_discard_fleets", "growth", "6.3_slope_selex_2011"),
   option = "Francis")
+slope_selex_2011 <- SS_output(here::here("model", "_discard_fleets", "growth", "6.3_slope_selex_2011_dw"))
 
 # This model is just the data weighted model from 6.3 slope survey selectivity
 trawl_slope <- SS_output(here::here("model", "_discard_fleets", "growth", "6.4_trawl_discad_blocks_slope"))
@@ -213,3 +214,241 @@ SS_plots(trawl_slope_2011_mle)
 # Age_DblN_ascend_se_HKL_Discards(5)	9.9995700	
 # Age_DblN_peak_TWL_Discards(4)_BLK2repl_2011	0.0752342	
 # Age_DblN_descend_se_TWL_Discards(4)_BLK2repl_1890	-10.0000000	
+
+#===============================================================================
+# Remove the AFSC Slope survey
+#===============================================================================
+# built from the 6.3_slope_selex_2011_dw
+# gradient =  0.0194295
+# NLL =  2450.68
+# R0 = 10.0515
+
+no_afsc_slope <- SS_output(here::here("model", "_discard_fleets", "growth", "7.0_remove_afsc_survey"))
+SS_plots(no_afsc_slope )
+
+# gradient =  0.0137538
+# NLL =  2350.26
+# NLL Triennial Ages = 273.843
+# R0 = 10.004
+# Triennal Q = 0.73062 and 2.16868
+
+r4ss::tune_comps(
+  replist = no_afsc_slope, 
+  dir = here::here("model", "_discard_fleets", "growth", "7.0_remove_afsc_survey"),
+  option = "Francis")
+# The suggested data weights are nearly identical, so I am not going to data weight yet.
+# no_afsc_slope <- SS_output(here::here("model", "_discard_fleets", "growth", "7.0_remove_afsc_survey_dw"))
+
+
+tri_selex <- SS_output(here::here("model", "_discard_fleets", "growth", "7.1_triennial"))
+# gradient =  0.000144795 
+# NLL = 2448.9
+# NLL Triennial Ages = 362.975
+# R0 = 10.0468 
+# Triennial Q = 0.696297 and 2.1393
+
+modelnames <- c(
+  "6.3",
+  "7.0 Remove AFSC Slope Survey",
+  "7.1 Remove Triennial Sex-Selex")
+mysummary <- SSsummarize(list(
+  slope_selex_2011,
+  no_afsc_slope ,
+  tri_selex))
+SSplotComparisons(mysummary,
+                  filenameprefix = "7.0-7.1_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+r4ss::tune_comps(
+  replist = tri_selex, 
+  dir = here::here("model", "_discard_fleets", "growth", "7.1_triennial"),
+  option = "Francis")
+# The new suggested data weights for the triennial ages is much lower than before:
+# 0.824494 vs. 1.738770
+tri_selex <- SS_output(here::here("model", "_discard_fleets", "growth", "7.1_triennial_dw"))
+plot_ghostfleets(replist = tri_selex)
+plot_age_fits_sexed_only(replist = tri_selex)
+
+modelnames <- c(
+  "6.3",
+  "7.0 Remove AFSC Slope Survey",
+  "7.1 Remove Triennial Sex-Selex")
+mysummary <- SSsummarize(list(
+  slope_selex_2011,
+  no_afsc_slope ,
+  tri_selex))
+SSplotComparisons(mysummary,
+                  filenameprefix = "7.0-7.1_dw_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+
+trawl_selex <- SS_output(here::here("model", "_discard_fleets", "growth", "7.2_remove_sex_trawl_selex"))
+r4ss::tune_comps(
+  replist = trawl_selex, 
+  dir = here::here("model", "_discard_fleets", "growth", "7.2_remove_sex_trawl_selex"),
+  option = "Francis")
+
+# The new suggested data weights for the triennial ages is much lower than before:
+# 0.824494 vs. 1.738770
+trawl_selex <- SS_output(here::here("model", "_discard_fleets", "growth", "7.2_remove_sex_trawl_selex"))
+
+modelnames <- c(
+  "6.3",
+  "7.0 Remove AFSC Slope Survey",
+  "7.1 Remove Triennial Sex-Selex",
+  "7.2 Remove Trawl Sex-Selex")
+mysummary <- SSsummarize(list(
+  slope_selex_2011,
+  no_afsc_slope ,
+  tri_selex,
+  trawl_selex))
+SSplotComparisons(mysummary,
+                  filenameprefix = "7.0-7.2_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+#===============================================================================
+# Mirror the HKL and Pot Landings fleets
+#===============================================================================
+mirror_fixed_gears <- SS_output(here::here("model", "_discard_fleets", "growth", "7.5_mirror_pot_hkl"))
+SS_plots(mirror_fixed_gears)
+# gradient =  0.0151213
+# NLL = 2172.42
+# R0 = 10.0942 
+
+
+#===============================================================================
+# Try to improve the fit to the WCGBT age data
+#===============================================================================
+wcgbt_db <- SS_output(here::here("model", "_discard_fleets", "growth", "7.6_wcgbt_selex_double_normal"))
+plot_ghostfleets(replist = wcgbt_db)
+plot_age_fits_sexed_only(replist = wcgbt_db)
+SS_plots(wcgbt_db)
+# gradient =  0.0370341
+# NLL = 2174.19
+# WCGBT Age NLL = 656.419 (656.274)
+# R0 = 10.0921
+# Q = 1.09601
+# The selectivity is no longer fully asymptotic but very close to ~ 0.90
+# This results in a slight underfit to the oldest ages, but better fits the peak a the
+# youngest ages
+r4ss::tune_comps(
+  replist = wcgbt_db, 
+  dir = here::here("model", "_discard_fleets", "growth", "7.6_wcgbt_selex_double_normal"),
+  option = "Francis")
+# The data weight suggested for this fleet does not change with the new selectivity shape
+
+modelnames <- c(
+  "7.0 Remove AFSC Slope Survey",
+  "7.1 Remove Triennial Sex-Selex",
+  "7.2 Remove Trawl Sex-Selex",
+  "7.5 Mirror HKL & Pot Retention Fleets",
+  "7.6 Adjust WCGBT Selex")
+mysummary <- SSsummarize(list(
+  no_afsc_slope ,
+  tri_selex,
+  trawl_selex,
+  mirror_fixed_gears,
+  wcgbt_db))
+SSplotComparisons(mysummary,
+                  filenameprefix = "7.0-7.6_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+# Try applying a spline to the NWFSC Slope survey
+nwfsc_slope_spline <- SS_output(here::here("model", "_discard_fleets", "growth", "7.7_nwfsc_slope_peak"))
+# gradient =  0.0016718
+# NLL = 2176.89
+# NWFSC Slope Age NLL = 38.8217 (36.5359)
+# R0 = 10.0844
+# Q = 1.24046 (0.515876)
+# The selectivity is a strange S shape that and results in an unrealistic Q
+plot_ghostfleets(replist = nwfsc_slope_spline)
+plot_age_fits_sexed_only(replist = nwfsc_slope_spline)
+SS_plots(nwfsc_slope_spline, plot = 2)
+
+# Try adjusting the double normal peak and other parameters
+# The peak of the distribution occurs at age 4 but generally does not align with the
+# aggregated comps due to the other parameters
+nwfsc_slope_peak <- SS_output(here::here("model", "_discard_fleets", "growth", "7.7_nwfsc_slope_peak_double_normal"))
+# gradient = 0.0290165
+# NLL = 2174.01
+# NWFSC Slope Age NLL = 36.1292 (36.5359)
+# R0 = 10.0922
+# Q = 0.626377 (0.515876)
+
+plot_ghostfleets(replist = nwfsc_slope_peak)
+plot_age_fits_sexed_only(replist = nwfsc_slope_peak)
+SS_plots(nwfsc_slope_peak)
+
+
+r4ss::tune_comps(
+  replist = nwfsc_slope_spline, 
+  dir = here::here("model", "_discard_fleets", "growth", "7.7_nwfsc_slope_peak"),
+  option = "Francis")
+# The data weight suggested for this fleet does not change with the new selectivity shape
+
+modelnames <- c(
+  "7.0 Remove AFSC Slope Survey",
+  "7.1 Remove Triennial Sex-Selex",
+  "7.2 Remove Trawl Sex-Selex",
+  "7.5 Mirror HKL & Pot Retention Fleets",
+  "7.6 Adjust WCGBT Selex",
+  "7.7 NWFSC Slope Change Peak")
+mysummary <- SSsummarize(list(
+  no_afsc_slope ,
+  tri_selex,
+  trawl_selex,
+  mirror_fixed_gears,
+  wcgbt_db,
+  nwfsc_slope_peak))
+SSplotComparisons(mysummary,
+                  filenameprefix = "7.0-7.7_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+# Explore the CV or SD options around growth
+cv_fa <- SS_output(here::here("model", "_discard_fleets", "growth", "7.8_growth_cv_f(a)"))
+# gradient = 0.014328
+# NLL = 2176.94
+# R0 = 10.0994
+# Lmax = 60.3097 and 55.6329 (60.5149 and 55.4477)
+# -----------sd(laa)-----------------------------------
+sd_laa <- SS_output(here::here("model", "_discard_fleets", "growth", "7.8_growth_sd_f(laa)"))
+SS_plots(sd_laa , plot = 26)
+# gradient = 0.0362911
+# NLL = 2174.55
+# R0 = 10.0994
+# Lmax = 60.5562 and 55.4564 (60.5149 and 55.4477)
+# -----------sd(a)-----------------------------------
+# gradient = 783.989
+# NLL = 2240.4
+# -----------log-sd-----------------------------------
+# gradient = 0.000418152
+# NLL = 2174.49
+# R0 = 10.0934
+# Lmax = 60.6601 and 56.0224 (60.5149 and 55.4477)
+log_sd <- SS_output(here::here("model", "_discard_fleets", "growth", "7.8_growth_sd_log"))
+SS_plots(log_sd)
