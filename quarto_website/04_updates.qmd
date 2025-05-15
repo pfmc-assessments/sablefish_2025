@@ -1,0 +1,14 @@
+
+
+## General Updates 
+
+Updates are provided below on the available data and modeling decisions that may have changed since the pre-assessment data workshop.
+
+### Fishery Data
+
+
+### Survey Data
+
+
+### Modeling 
+

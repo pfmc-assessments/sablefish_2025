@@ -17,6 +17,8 @@ website:
         href: 03_survey_data.qmd
       - text: "Biology"
         href: 04_biology.qmd
+      - text: "Updates"
+        href: 04_updates.qmd
       - text: "Contact Us"
         href: 05_contact_us.qmd
 
