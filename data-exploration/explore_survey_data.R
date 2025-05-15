@@ -413,3 +413,81 @@ ggplot2::ggsave(
   height = 10
 )
 
+#===============================================================================
+# Look at the data by sex and age
+#===============================================================================
+
+sex_ratio  <- data_survey_bio$nwfsc_combo |>
+  dplyr::filter(Sex != "U") |>
+  dplyr::group_by(Age_years) |>
+  dplyr::summarise(
+    female = sum(Sex == "F"),
+    male = sum(Sex == "M"),
+    ratio = female / (female + male)
+  )
+ggplot(sex_ratio |> dplyr::filter(Age_years <= 50), aes(x = Age_years, y = ratio)) +
+  geom_line() + ylim(c(0, 1)) +
+  ylab("Ratio Female")
+
+
+sex_ratio_length  <- data_survey_bio$nwfsc_combo |>
+  dplyr::filter(Sex != "U", 
+                !is.na(Length_cm), 
+                Length_cm < 70, Length_cm >= 30) |>
+  dplyr::group_by(Length_cm) |>
+  dplyr::summarise(
+    female = sum(Sex == "F"),
+    male = sum(Sex == "M"),
+    ratio = female / (female + male)
+  )
+ggplot(sex_ratio_length, aes(x = Length_cm, y = ratio)) +
+  geom_line() + ylim(c(0, 1)) +
+  ylab("Ratio Female")
+
+
+#===============================================================================
+# Plot the AFSC Slope lengths and lengths with ages
+#===============================================================================
+
+length_data <- data_survey_bio$afsc_slope$length_data |> dplyr::filter(Sex != "U")
+age_data <- data_survey_bio$afsc_slope$age_data |> dplyr::filter(Sex != "U")
+
+data <- dplyr::bind_rows(
+  length_data[, c("Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Lengthed Fished"),
+  age_data[, c("Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Aged Fished")
+) |>
+  dplyr::mutate(length_round = round(Length_cm, 0)) |>
+  dplyr::group_by(length_round, Type) |>
+  dplyr::mutate(
+    Female = sum(Sex == "F"),
+    Male = sum(Sex == "M"),
+    Ratio = Female / (Female + Male)
+  )
+
+data |>
+  dplyr::group_by(Type) |>
+  dplyr::summarise(sex_ratio = sum(Sex == "F") / length(Sex))
+
+ggplot(data, aes(Length_cm, color = Type)) +
+  geom_density(size = 1) +
+  theme_bw() + xlim(c(0, 90)) +
+  xlab("Length (cm)") + ylab("Density") +
+  facet_grid("Sex")
+
+ggplot(data, aes(x = length_round, y = Ratio, color = Type, linetype = Type)) +
+  geom_line(linewidth = 1)  +
+  theme_bw() + xlim(c(30, 90)) +
+  xlab("Length (cm)") + ylab("Density") 
+table(data$Sex, data$Type)
+
+data_survey_catch$afsc_slope |>
+  dplyr::mutate(positive = dplyr::case_when(total_catch_numbers == 0 ~ 0, .default = 1)) |>
+  dplyr::summarize(percent_positive = sum(positive) / length(Tow)) 
+
+data_survey_catch$nwfsc_slope |>
+  dplyr::mutate(positive = dplyr::case_when(total_catch_numbers == 0 ~ 0, .default = 1)) |>
+  dplyr::summarize(percent_positive = sum(positive) / length(Tow)) 
+
+ggplot(data_survey_bio$nwfsc_slope, aes(x = Age_years, color = Sex)) +
+  geom_density() + 
+  geom_vline(xintercept = 4)
