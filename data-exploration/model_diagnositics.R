@@ -4,8 +4,8 @@ path <- here::here("model", "_discard_fleets", "growth")
 
 get <- get_settings_profile(
   parameters = c("NatM_uniform_Fem_GP_1",  "SR_BH_steep", "SR_LN(R0)"),
-  low = c(0.06, 0.50, -0.25),
-  high = c(0.10, 0.95, 0.25),
+  low = c(0.06, 0.50, -0.35),
+  high = c(0.10, 0.95, 0.35),
   step_size = c(0.005, 0.05, 0.05),
   param_space = c("real", "real", "relative")
 )
@@ -13,12 +13,11 @@ get <- get_settings_profile(
 model_settings <- get_settings(
   mydir = path,
   settings = list(
-    base_name = "6.3_slope_selex_2011_dw",
+    base_name = "7.8_growth_sd_log",
     profile_details = get,
     Njitter = 50
   )
 )
-Sys.sleep(60*90)
 run_diagnostics(mydir = path, model_settings = model_settings)
 
 
