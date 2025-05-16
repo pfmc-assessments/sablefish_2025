@@ -116,20 +116,6 @@ sdmTMB was used in a similar fashion to that specified for fitting the \gls{s-ns
 @tbl-nwslope-samples
 
 
-### AFSC Slope Survey
-
-The \gls{s-aslope} operated during the months of October to November aboard the
-R/V Miller Freeman. Partial survey coverage of the U.S. west coast occurred during the years
-1988 - 1996 and complete coverage (north of 34$^\circ$ 30$^\prime$ N. latitude) during the years 1997 and
-1999-2001. Typically, only these four years that are seen as complete surveys are included in
-groundfish stock assessments.
-
-@fig-index-afslope
-@fig-qq-afslope
-@tbl-afslope-strata
-@tbl-afslope-samples
-
-
 ### AFSC/NWFSC West Coast Triennial Shelf Survey
 
 The \gls{s-tri} was first conducted by the AFSC in 1977, and the survey continued
@@ -165,6 +151,19 @@ via a shift in catchability (Q) between the 1992 and 1995 survey years.
 
 ## Additional Data Considered
 
+### AFSC Slope Survey
+
+The \gls{s-aslope} operated during the months of October to November aboard the
+R/V Miller Freeman. Partial survey coverage of the U.S. west coast occurred during the years
+1988 - 1996 and complete coverage (north of 34$^\circ$ 30$^\prime$ N. latitude) during the years 1997 and
+1999-2001. Typically, only these four years that are seen as complete surveys are included in
+groundfish stock assessments.
+
+@fig-index-afslope
+@fig-qq-afslope
+@tbl-afslope-strata
+@tbl-afslope-samples
+
 Add text about EFP discard data
 
 ## Biological Data
@@ -186,7 +185,10 @@ where $A_{\text{max}}$ is the maximum age. The prior is defined as a lognormal d
 
 The maximum age for `r spp` was selected based on available age data from all West Coast data sources. The oldest aged `r spp` was 102 years, captured by the commercial fishery in 2006, not accounting for potential ageing error. Examining all aged fish, a maximum age of 75 was selected. Across all data sources there were limited observation greater than 75 years of age. There are a higher frequency of older males compared to females observed in the data, however, females grow to larger sizes and generally have higher fishery selectivity which may bias the sex-ratio of older individuals. Using a maximum age of 75, the median of the prior was 0.72 yr$^{-1}$ with a standard error of 0.31.
 
-### Growth and Weight-at-Age
+### Growth
+
+
+### Weight-at-Age
 
 
 ### Maturity and Fecundity
