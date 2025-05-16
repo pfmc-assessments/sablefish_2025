@@ -452,3 +452,89 @@ SS_plots(sd_laa , plot = 26)
 # Lmax = 60.6601 and 56.0224 (60.5149 and 55.4477)
 log_sd <- SS_output(here::here("model", "_discard_fleets", "growth", "7.8_growth_sd_log"))
 SS_plots(log_sd)
+
+# Jitter found a better fit for this model 
+# gradient = 0.000767795
+# NLL = 2160.81
+# R0 = 10.0786
+# Lmax = 60.7417 and 56.0595 (60.5149 and 55.4477)
+
+# Parameters on the bounds
+# Age_DblN_descend_se_NWFSC_Slope(8)	-9.9999900	4	-10.000	10.00	-10.0000000	LO	2.53969e-0
+# Age_DblN_peak_TWL_Discards(4)_BLK2repl_2011	0.0751665	6	0.010	20.00	0.0908572	LO	1.11627e-02
+
+# Parameters with high stdev
+# Age_DblN_top_logit_NWFSC_Slope(8)	-8.4695500	4	-10.000	10.00	-8.4698100	OK	2.79418e+00	
+# Age_DblN_ascend_se_TWL(1)_BLK3repl_1890	-9.4794700	4	-10.000	10.00	-1.5308400	OK	3.20646e+03
+# Age_DblN_ascend_se_WCGBT(9)	-7.5258800	4	-10.000	10.00	-8.0662300	OK	1.37120e+04
+# Age_DblN_descend_se_WCGBT(9)	-8.3353500	4	-10.000	10.00	-5.4483900	OK	9.65190e+03
+
+#===============================================================================
+# Revisit triennial selectivity
+#===============================================================================
+
+# Block width, descending, and final
+# NLL = 2126.1
+# Tri Ages = 148.75
+# Q = 1.22368 and 1.5126
+
+# Block width and final
+# NLL = 2123.02
+# Tri Age = 145.524
+# Q = 1.08517 and 1.48642
+triennial_width_final <- SS_output(here::here("model", "_discard_fleets", "growth", "7.9_triennial_block_width_final"))
+
+# Block final
+# NLL = 2159.95
+# Tri Ages = 170.862
+# Q = 1.20858 and 1.78026
+
+# Hard Split the Triennial
+# NLL = 2119.88
+# Tri Ages = 11.3899 + 133.648
+# Q = 1.12868 and 1.47007
+# SD = 0.00100006 and 0.165875
+
+# Each of these increase the Q from the sd(log) model for the early period of 0.668905 
+# but decreases the late period Q from 2.06023
+
+split_triennial <- SS_output(here::here("model", "_discard_fleets", "growth", "7.9_triennial_block_width_final_extra_sd_dw"))
+r4ss::tune_comps(
+  replist = split_triennial, 
+  dir = here::here("model", "_discard_fleets", "growth", "7.9_triennial_block_width_final_extra_sd_dw"),
+  option = "Francis")
+# Data weighting suggests a bonker upweight to early triennial ages of 79!!! and late ages of 1.60.  There is 
+# a slight increase to the suggested NWFSC Slope ages as well of 0.159 from 0.093.
+# Changed the input sample size to the number of age samples and set the data weight to 1.0 for both periods.
+# After data weighting the Qs are 1.17 and 1.40
+
+modelnames <- c(
+  "7.8 log(SD) Growth",
+  "7.9 Triennial Select Blocks (width, final)",
+  "7.9 Hard Split Triennial with input N change")
+mysummary <- SSsummarize(list(
+  log_sd,
+  triennial_width_final,
+  split_triennial))
+SSplotComparisons(mysummary,
+                  filenameprefix = "7.8_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+#===============================================================================
+# Explore deviations in k
+#===============================================================================
+k <- SS_output(here::here("model", "_discard_fleets", "growth", "7.10_growth_sd_log_k"))
+SS_plots(k)
+# gradient = 0.000376514
+# NLL = 2117.08  (2160.81)
+# R0 = 10.105 (10.0786)
+
+# gradient = 0.000767795
+# NLL = 2160.81
+# R0 = 10.0786
+# historical k = 0.45055 and 0.450196 (0.344845 and 0.35354)
