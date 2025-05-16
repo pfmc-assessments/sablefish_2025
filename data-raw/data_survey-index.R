@@ -31,14 +31,28 @@
 # Read in the estimated index for each survey
 index_dir <- here::here("data-raw", "survey", "trawl", "indices")
 
-triennial <- dplyr::bind_rows(
-  read.csv(file.path(index_dir, "triennial_early", "delta_gamma", "index", "est_by_area.csv")),
-  read.csv(file.path(index_dir, "triennial_late", "delta_gamma", "index", "est_by_area.csv"))) |>
+triennial_early <- read.csv(file.path(index_dir, "triennial_early", "delta_gamma", "index", "est_by_area.csv")) |>
   dplyr::filter(area == "Coastwide") |> 
   dplyr::select(year, est, se) |>
   dplyr::mutate(
     month = 7,
-    fleet = recode_fleet_cw("triennial"),
+    fleet = recode_fleet_cw("triennial_early"),
+    est = round(est, 0),
+    se = round(se, 4)
+  ) |>
+  dplyr::relocate(
+    fleet, .before = est
+  ) |>
+  dplyr::relocate(
+    month, .before = fleet
+  )
+
+triennial_late <- read.csv(file.path(index_dir, "triennial_late", "delta_gamma", "index", "est_by_area.csv")) |>
+  dplyr::filter(area == "Coastwide") |> 
+  dplyr::select(year, est, se) |>
+  dplyr::mutate(
+    month = 7,
+    fleet = recode_fleet_cw("triennial_late"),
     est = round(est, 0),
     se = round(se, 4)
   ) |>
@@ -101,7 +115,8 @@ wcgbt <-
   )
 
 data_survey_indices <- dplyr::bind_rows(
-  triennial,
+  triennial_early,
+  triennial_late,
   nwfsc_slope,
   wcgbt
 )   
