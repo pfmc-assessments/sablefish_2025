@@ -116,7 +116,6 @@ plot_fleet_selectivity <- function(model_out, fleet_num){
 #' fleet. Plots show selectivity curves for all model timeblocks.
 #' 
 #' @param model_out model object created by [r4ss::SS_output()]
-#' @param model_path path to model directory containing control.ss file
 #' @param fleet_num the fleet for which to plot selectivity
 #' 
 #' @return ggplot plot object
@@ -133,8 +132,9 @@ plot_fleet_selectivity <- function(model_out, fleet_num){
 #' ret3 <- plot_fleet_retention(model_out, 3)
 #' (ret1+ret2+ret3)+plot_layout(axes="collect")
 #' 
-plot_fleet_retention <- function(model_out, model_path, fleet_num){
-    data <- r4ss::SS_readdat(file.path(model_path, "data.ss"))
+plot_fleet_retention <- function(model_out, fleet_num) {
+  model_path <-  model_out[["inputs"]][["dir"]]
+    data <- r4ss::SS_readdat(file.path(model_path, "data_echo.ss_new"))
     fleet_name <- data$fleetnames[fleet_num]
     fleet_type <- data$fleetinfo %>% dplyr::filter(fleetname==fleet_name) %>% dplyr::pull(type)
     if(fleet_type == 1){
@@ -145,12 +145,12 @@ plot_fleet_retention <- function(model_out, model_path, fleet_num){
         fleet_active_years <- c(min(fleet_years), max(fleet_years))
     }
 
-    ctl_file <- SS_readctl_3.30(file.path(model_path, "control.ss"))
+    ctl_file <- SS_readctl_3.30(file.path(model_path, "control.ss_new"))
     tv_selex <- ctl_file$age_selex_parms_tv
     fleet_tv_entry <- rownames(tv_selex[grep(paste0("(",fleet_num,")"), rownames(tv_selex), fixed=TRUE),])
     fleet_end_blocks <- as.vector(sapply(fleet_tv_entry, \(x) stringr::str_extract(x, "\\d+$")))
 
-    age_selex <- model_out$ageselex %>% as_tibble() %>% dplyr::filter(Factor == "Aret")
+    age_selex <- model_out$ageselex %>% tibble::as_tibble() %>% dplyr::filter(Factor == "Aret")
 
     all_timeblock_years <- age_selex %>% dplyr::filter(!(Yr %in% c(min(Yr), max(Yr)))) %>% dplyr::pull(Yr) %>% unique %>% as.numeric %>% sort
     fleet_timeblock_years <- all_timeblock_years[which(all_timeblock_years %in% c(all_timeblock_years, fleet_end_blocks))]
