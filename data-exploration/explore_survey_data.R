@@ -491,3 +491,169 @@ data_survey_catch$nwfsc_slope |>
 ggplot(data_survey_bio$nwfsc_slope, aes(x = Age_years, color = Sex)) +
   geom_density() + 
   geom_vline(xintercept = 4)
+
+#===============================================================================
+# Triennial 
+#===============================================================================
+triennial_len <- dplyr::bind_rows(
+  data_survey_bio$triennial_early$length_data,
+  data_survey_bio$triennial_late$length_data
+) 
+
+triennial_age <- dplyr::bind_rows(
+  data_survey_bio$triennial_early$age_data,
+  data_survey_bio$triennial_late$age_data
+) 
+
+data <- dplyr::bind_rows(
+  triennial_len[, c("Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Lengthed Fished"),
+  triennial_age [, c("Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Aged Fished")
+) |>
+  dplyr::mutate(length_round = round(Length_cm, 0)) |>
+  dplyr::group_by(length_round, Type) |>
+  dplyr::mutate(
+    Female = sum(Sex == "F"),
+    Male = sum(Sex == "M"),
+    Ratio = Female / (Female + Male)
+  )
+data |>
+  dplyr::group_by(Type) |>
+  dplyr::summarise(sex_ratio = sum(Sex == "F") / length(Sex))
+
+ggplot(data, aes(Length_cm, color = Type)) +
+  geom_density(size = 1) +
+  theme_bw() + xlim(c(0, 90)) +
+  xlab("Length (cm)") + ylab("Density") +
+  facet_grid("Sex")
+
+ggplot(data, aes(x = length_round, y = Ratio, color = Type, linetype = Type)) +
+  geom_line(linewidth = 1)  +
+  theme_bw() + xlim(c(30, 90)) +
+  xlab("Length (cm)") + ylab("Density") 
+
+
+data_year <- dplyr::bind_rows(
+  triennial_len[, c("Year", "Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Lengthed Fished"),
+  triennial_age [, c("Year", "Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Aged Fished")
+  ) |>
+  dplyr::filter(Sex != "U") |>
+  dplyr::mutate(length_round = round(Length_cm, 0)) |>
+  dplyr::group_by(Year, length_round, Type) |>
+  dplyr::summarize(
+    Female = sum(Sex == "F"),
+    Male = sum(Sex == "M"),
+    Ratio = Female / (Female + Male)
+  )
+ggplot(data_year, aes(x = length_round, y = Ratio, color = Type, linetype = Type)) +
+  geom_line(linewidth = 1)  +
+  theme_bw() + ylim(c(0,1)) + 
+  xlab("Length (cm)") + ylab("Density") + 
+  facet_grid("Year")
+
+data_year <- dplyr::bind_rows(
+  triennial_len[, c("Year", "Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Lengthed Fished"),
+  triennial_age[, c("Year", "Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Aged Fished")
+) |>
+  dplyr::filter(Sex != "U", Year != 1980) |>
+  dplyr::mutate(length_round = round(Length_cm, 0)) |>
+  dplyr::group_by(Year, length_round, Type) |>
+  dplyr::mutate(
+    Female = sum(Sex == "F"),
+    Male = sum(Sex == "M"),
+    Ratio = Female / (Female + Male)
+  )
+
+ggplot(data_year, aes(Length_cm, color = Type)) +
+  geom_density(size = 1) +
+  theme_bw() + xlim(c(0, 90)) +
+  xlab("Length (cm)") + ylab("Density") +
+  facet_wrap(facets = "Year", nrow = 3)
+
+tows <- triennial_age[, c("Trawl_id", "Year", "Sex", "Length_cm")] |> 
+  dplyr::filter(!is.na(Length_cm)) |> 
+  dplyr::group_by(Year) |>
+  dplyr::summarise(n = length(unique(Trawl_id)))
+
+
+data_year <- dplyr::bind_rows(
+  triennial_len[, c("Year", "Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Lengthed Fished"),
+  triennial_age [, c("Year", "Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Aged Fished")
+) |>
+  dplyr::filter(Sex != "U") 
+
+
+triennial_test <- list()
+for (y in sort(unique(data_year$Year))[-1]) {
+  temp <- wilcox.test(Length_cm ~ Type, data = data_year[which(data_year$Year == y), ])
+  triennial_test <- rbind(triennial_test, c(y, round(temp$p.value, 3)))
+}
+
+
+#===============================================================================
+# WCGBT
+#===============================================================================
+
+data <- data_survey_bio$nwfsc_combo[, c("Sex", "Length_cm", "Age_years")] |>
+  dplyr::mutate(
+    length_round = round(Length_cm, 0),
+    Type = dplyr::case_when(!is.na(Age_years) ~ "Aged Fish", .default = "Lengthed Fish")
+  ) |>
+  dplyr::group_by(length_round, Type) |>
+  dplyr::mutate(
+    Female = sum(Sex == "F"),
+    Male = sum(Sex == "M"),
+    Ratio = Female / (Female + Male)
+  )
+data |>
+  dplyr::group_by(Type) |>
+  dplyr::summarise(sex_ratio = sum(Sex == "F") / length(Sex))
+
+ggplot(data, aes(Length_cm, color = Type)) +
+  geom_density(size = 1) +
+  theme_bw() + xlim(c(0, 90)) +
+  xlab("Length (cm)") + ylab("Density") +
+  facet_grid("Sex")
+
+ggplot(data, aes(x = length_round, y = Ratio, color = Type, linetype = Type)) +
+  geom_line(linewidth = 1)  +
+  theme_bw() + xlim(c(30, 90)) +
+  xlab("Length (cm)") + ylab("Density") 
+
+
+data_year <- data_survey_bio$nwfsc_combo[, c("Year", "Sex", "Length_cm", "Age_years")] |>
+  dplyr::mutate(
+    length_round = round(Length_cm, 0),
+    Type = dplyr::case_when(!is.na(Age_years) ~ "Aged Fish", .default = "Lengthed Fish")
+  ) |>
+  #dplyr::filter(Sex != "U") |>
+  dplyr::group_by(Year, length_round, Type) |>
+  dplyr::mutate(
+    Female = sum(Sex == "F"),
+    Male = sum(Sex == "M"),
+    Ratio = Female / (Female + Male)
+  )
+
+ggplot(data_year, aes(Length_cm, color = Type)) +
+  geom_density(size = 1) +
+  theme_bw() + xlim(c(0, 90)) +
+  xlab("Length (cm)") + ylab("Density") +
+  facet_wrap(facets = "Year", nrow = 3)
+
+ggplot(data_year, aes(Length_cm, color = Type)) +
+  geom_density(size = 1) +
+  theme_bw() + xlim(c(0, 90)) +
+  xlab("Length (cm)") + ylab("Density") +
+  facet_wrap(facets = "Year", nrow = 3)
+
+data_year <- data_survey_bio$nwfsc_combo[, c("Year", "Sex", "Length_cm", "Age_years")] |>
+  dplyr::mutate(
+    length_round = round(Length_cm, 0),
+    Type = dplyr::case_when(!is.na(Age_years) ~ "Aged Fish", .default = "Lengthed Fish")
+  ) |>
+  dplyr::filter(Sex != "U")
+
+wcgbt_test <- list()
+for (y in sort(unique(data_year$Year))) {
+  temp <- wilcox.test(Length_cm ~ Type, data = data_year[which(data_year$Year == y), ])
+  wcgbt_test <- rbind(wcgbt_test, c(y, round(temp$p.value, 3)))
+}
