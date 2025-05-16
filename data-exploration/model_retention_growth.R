@@ -164,6 +164,26 @@ SS_plots(growth_sd_log_dw)
 # NLL = 1601.34
 # R0 = 10.0616
 
+devtools::load_all("C:/Users/chantel.wetzel/Documents/github/nwfscDiag")
+path <- here::here("model", "_retention_model", "_growth")
+get <- get_settings_profile(
+  parameters = c("NatM_uniform_Fem_GP_1",  "SR_BH_steep", "SR_LN(R0)"),
+  low = c(0.06, 0.50, -0.35),
+  high = c(0.10, 0.95, 0.35),
+  step_size = c(0.005, 0.05, 0.05),
+  param_space = c("real", "real", "relative")
+)
+
+model_settings <- get_settings(
+  mydir = path,
+  settings = list(
+    base_name = "21.6_growth_sd_log_dw",
+    profile_details = get,
+    Njitter = 50
+  )
+)
+run_diagnostics(mydir = path, model_settings = model_settings)
+
 #===============================================================================
 # Turn on early rec. devs
 #===============================================================================
@@ -171,6 +191,7 @@ early_devs <- SS_output(here::here("model", "_retention_model", "_growth", "21.7
 # gradient = 0.000684109
 # NLL = 1596.97
 # R0 = 10.0271
+# Error: Estimated variance of parameter 178 is -212200, failed to invert Hessian.
 
 modelnames <- c(
   "21.2 Mirror HKL & Pot",
@@ -198,5 +219,41 @@ SSplotComparisons(mysummary,
 #===============================================================================
 # Mirror only selectivity between hkl and pot
 #===============================================================================
-early_devs <- SS_output(here::here("model", "_retention_model", "_growth", "21.7_early_devs"))
+mirror_selex <- SS_output(here::here("model", "_retention_model", "_growth", "21.8_mirror_only_selex_hkl_pot"))
+SS_plots(mirror_selex)
+# gradient = 0.000293945
+# NLL = 1531.45
+# R0 = 10.0299
 
+modelnames <- c(
+  "21.2 Mirror HKL & Pot Selex and Retention",
+  "21.3 Reduce Discard Input N",
+  "21.4 Split Triennial", 
+  "21.5 WCGBT Selectivity",
+  "21.6 Growth Log SD - Data Weighted",
+  "21.7 Add Early Rec. Devs.",
+  "21.8 Mirror HKL & Pot Selex")
+mysummary <- SSsummarize(list(
+  mirror_fixed_gear,
+  discard_input_n,
+  split_tri,
+  wcgbt_selex,
+  growth_sd_log_dw,
+  early_devs,
+  mirror_selex))
+SSplotComparisons(mysummary,
+                  filenameprefix = "21.2-8_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_retention_model", "_growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+#===============================================================================
+# HKL and Pot Retention Blocks
+#===============================================================================
+ret_blocks <- SS_output(here::here("model", "_retention_model", "_growth", "21.9_hkl_pot_ret_blocks"))
+SS_plots(ret_blocks)
+# gradient = 0.000813843 
+# NLL = 1519.95
+# R0 = 10.0385
