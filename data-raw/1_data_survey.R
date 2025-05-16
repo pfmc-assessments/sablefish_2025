@@ -26,9 +26,14 @@ tri_bio <- x
 tri_bio_early <- tri_bio_late <- list()
 tri_bio_early$length_data <- tri_bio$length_data |> dplyr::filter(Year >= 1980, Year <= 1992)
 tri_bio_early$age_data <- tri_bio$age_data |> dplyr::filter(Year >= 1980, Year <= 1992)
+tri_bio_early$length_data$Project <- "triennial_early"
+tri_bio_early$age_data$Project <- "triennial_early"
+
 tri_bio_late <- x
 tri_bio_late$length_data <- tri_bio$length_data |> dplyr::filter(Year > 1992)
 tri_bio_late$age_data <- tri_bio$age_data |> dplyr::filter(Year > 1992)
+tri_bio_late$length_data$Project <- "triennial_late"
+tri_bio_late$age_data$Project <- "triennial_late"
 load(fs::dir_ls(here::here("data-raw", "survey", "trawl"), regex = "bio_")[1]) 
 afsc_bio <- x
 afsc_bio$length_data <- afsc_bio$length_data |> dplyr::filter(Year >= 1997)

@@ -14,7 +14,7 @@ process_survey(
 
 process_survey(
   catch_data = data_survey_catch$nwfsc_slope,
-  bds_data = data_survey_bio$nwfsc_slope,
+  bds_data = data_survey_bio$nwfsc_slope |> dplyr::filter(Sex != "U"),
   strata = strata_nwfsc_slope,
   age_bins = age_bins,
   length_bins = len_bins,

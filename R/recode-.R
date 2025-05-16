@@ -10,6 +10,8 @@ recode_project <- function(x, gls = FALSE) {
     "Groundfish Slope and Shelf Combination Survey" ~ "wcgbt",
     "Groundfish Slope Survey" ~ "nwfscslope",
     "Groundfish Triennial Shelf Survey" ~ "triennial",
+    "triennial_early" ~ "triennial-early",
+    "triennial_late" ~ "triennial-late",
     .default = NA_character_
   )
   if (gls) {
@@ -39,10 +41,11 @@ recode_fleet_cw <- function(x) {
     x %in% c("twl", "trawl") ~ "1",
     x %in% c("hkl", "fixed-gear") ~ "2",
     x %in% c("pot") ~ "3",
-    x %in% c("akshlf", "triennial", "triennial_early", "triennial_late", "tri", "groundfish triennial shelf survey") ~ "7",
-    x %in% c("nwslp", "nwfsc.slope", "nwfsc_slope", "nslope", "nwfsc slope", "groundfish slope survey") ~ "8",
-    x %in% c("nwcbo", "nwfsc.combo", "wcgbt", "wcgbts", "groundfish slope and shelf combination survey") ~ "9",
-    x %in% c("env", "env. index") ~ "10",
+    x %in% c("triennial_early") ~ "7",
+    x %in% c("triennial_late") ~ "8",
+    x %in% c("nwslp", "nwfsc.slope", "nwfsc_slope", "nslope", "nwfsc slope", "groundfish slope survey") ~ "9",
+    x %in% c("nwcbo", "nwfsc.combo", "wcgbt", "wcgbts", "groundfish slope and shelf combination survey") ~ "10",
+    x %in% c("env", "env. index") ~ "11",
     TRUE ~ NA_character_
   ) |>
     as.numeric()
