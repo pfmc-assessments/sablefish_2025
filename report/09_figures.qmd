@@ -391,9 +391,9 @@ knitr::include_graphics(
 #| fig-cap: "Relative index of abundance for the NWFSC Slope survey."
 #| fig-alt: ""
 
-knitr::include_graphics(
-  file.path(model_dir, "plots", "index1_cpuedata_NWFSC_Slope.png")
-)
+#knitr::include_graphics(
+#  file.path(model_dir, "plots", "index1_cpuedata_NWFSC_Slope.png")
+#)
 
 ```
 

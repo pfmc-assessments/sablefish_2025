@@ -187,19 +187,24 @@ The maximum age for `r spp` was selected based on available age data from all We
 
 ### Growth
 
+Range-wide investigations of `r spp` growth suggest that growth varies across the northeastern Pacific, with a generally increasing cline in length-at-age with latitude [@mcdevitt1987sablefish, @echave2012fishbullinterdecadal, @gertseva2017icesjmsspatial, @kapur2020]. Break points in growth have been identified at around $50^\circ$N (approximately the northern end of Vancouver Island, Canada), where north of this breakpoint female asymptotic-length estimates were consistently over 70 cm and south of this breakpoint female asymptotic-length estimates were below 66 cm [@kapur2020]. A second break point was identified by [-kapur2020] at 36$^\circ$ N. latitude (approximately Monterey, California), where asymptotic size for females and males to the south were 60 cm and 55 cm, respectively. 
+
+Female `r spp` generally reach larger sizes compared to males. For example, the  female `r spp` the upper 95 percent confidence interval of all observed lengths from the \gls{s-wcgbt} is 70 cm compared to 62 cm for males. However, the size at age for the oldest `r spp` is quite variable leading to uncertainty in the estimated maximum size for both females and males across assessments depending upon the data used to inform estimates. 
 
 ### Weight-at-Age
 
 
 ### Maturity and Fecundity
 
-@fig-maturity-data
-@fig-maturity-ogive
-@tbl-maturity-samples
+New maturity reads and analysis was conducted by Melissa Head (NWFSC) and Dr. Eric Ward (NWFSC) to support this assessment. A total of `r dim(maturity_data)[1]` sablefish maturity samples were collected during the annual \gls{s-wcgbt} in 2010, 2015, 2018, 2021, and 2022 @tbl-maturity-samples. The maturity samples were evaluated for functional maturity that classifies maturity with developing oocytes as mature or immature. The maturity-at-age or -length estimates were evaluated north and south of 36$^\circ$ N. latitude. Of the samples processed, sablefish were identified to be mature as early as age `r min(maturity_data[which(maturity_data$Area == "North" & maturity_data$functional_maturity == 1), "age"])` and `r min(maturity_data[which(maturity_data$Area == "South" & maturity_data$functional_maturity == 1), "age"])` in the north and south, respectively.  Generally, across samples, sablefish matured at younger ages more frequently in the north compared to the south @fig-maturity-data. 
+
+Maturity-at-age was estimated using a spatiotemporal model that explored the impacts of temperature, temporal changes in maturity, day of year, and location. Only sample location was determined to be significant in the model with the maturity curve right shifted (e.g., less probability of being mature at age) compared to fish in the north. A coastwide maturity curve was estimated by weighting the area specific curves using a biomass weighted prediction grid from the \gls{s-wcgbt}. The assessment uses the biomass weighted maturity curve (Spatial) @fig-maturity-ogive.
+
+Available data suggests that `r spp` are determinate spawners (i.e., total oocytes at the beginning of the spawning season is equivalent to total annual spawning output) and spawn three to four times per year [@hunter1989; @macewicz1994]. The total number of oocytes at the beginning of the spawning season appears to be linearly proportional to weight [@hunter1989], implying that spawning output for a mature female is also proportional to weight. This assumption has been used in previous `r spp` stock assessments and is retained here in the absence of new information. Data on skipped spawning are unavailable, as are data on environmental effects or other factors that could cause fecundity to vary non-linearly with weight.
 
 ### Ageing Precision and Bias
 
-Uncertainty surrounding the age-reading error process for `r spp` was incorporated by estimating ageing error by age. Age composition data used in the model were from break-and-burn otolith reads.  
+Observed `r spp` ages are derived from visually counting rings on otoliths using 'break-and-burn' methods. These counts can be large because `r spp` are long-lived and the repeatability of individual age estimates is imperfect, especially for older fish. Age-reading staff have indicated that `r spp` can be difficult to age. The observed age can differ, sometimes substantially, from the true age of a fish (i.e., "reading error"). Ageing error can be decomposed into the difference between true age and average-read age (bias) and variability around that average read age (precision).  
 
 The large majority of aged `r spp` used in the assessment were aged by the Cooperative Ageing Project (CAP).  Within-lab ageing error was estimated for CAP. Break-and-burn double reads of more than 12,000 otoliths were provided by the CAP lab (unpublished data).  An ageing error estimate was made based on these double reads using a computational tool specifically developed for estimating ageing error [@punt_quantifying_2008] and using release 2.02. of the R package \href{https://github.com/nwfsc-assess/nwfscAgeingError}{AgeingError} for input and output diagnostics. A linear standard error was estimated by age where there is more variability in the age of older fish (Figure XX). Sensitivities to alternative ageing error estimates (curvilinear relationship with age) were conducted during model development and the model was relatively insensitive to alternative ageing error assumptions. 
 

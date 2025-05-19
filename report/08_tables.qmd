@@ -651,11 +651,12 @@ strata_triennial_early |>
 dplyr::bind_rows(
   read.csv(here::here("data-processed", "data-survey-triennial-early-n.csv")),
   read.csv(here::here("data-processed", "data-survey-triennial-late-n.csv"))) |>
-  dplyr::select(-N.Lengthed, -Survey) |>
+  dplyr::select(-N.Lengthed, -Sampled.Tows.Lengths, -Survey) |>
   dplyr::rename(
     Tows = N.Tows,
     `Positive Tows` = Positive.Tows,
     `Prop. Positive` = Proportion.Positive,
+    `Sampled Tows` = Sampled.Tows.Ages,
     Aged = N.Aged
   ) |>
   gt::gt() |>
@@ -675,8 +676,6 @@ dplyr::bind_rows(
 #| warning: false
 #| echo: false
 #| tbl-cap: "Maturity samples collected by the NWFSC West Coast Groundfish Bottom Trawl survey by year and area where north and south of 36 degress north latitude."
-
-load(here::here("data", "maturity_data.rda"))
 
 maturity_data |>
   dplyr::mutate(
