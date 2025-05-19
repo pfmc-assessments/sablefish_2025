@@ -1,9 +1,9 @@
-"Survey","Year","N Tows","Positive Tows","Proportion Positive","N Lengthed","N Aged"
-"Triennial",1995,441,338,0.766,NA,363
-"Triennial",1998,468,268,0.573,NA,432
-"Triennial",2001,466,371,0.796,NA,435
-"Triennial",2004,383,296,0.773,NA,490
-NA,1995,NA,NA,NA,7673,363
-NA,1998,NA,NA,NA,7442,432
-NA,2001,NA,NA,NA,12790,435
-NA,2004,NA,NA,NA,8753,490
+"Survey","Year","N Tows","Positive Tows","Proportion Positive","Sampled Tows Lengths","N Lengthed","Sampled Tows Ages","N Aged"
+"Triennial",1995,441,338,0.766,NA,NA,110,363
+"Triennial",1998,468,268,0.573,NA,NA,85,432
+"Triennial",2001,466,371,0.796,NA,NA,138,435
+"Triennial",2004,383,296,0.773,NA,NA,279,490
+NA,1995,NA,NA,NA,334,7673,110,363
+NA,1998,NA,NA,NA,267,7442,85,432
+NA,2001,NA,NA,NA,369,12790,138,435
+NA,2004,NA,NA,NA,296,8753,279,490

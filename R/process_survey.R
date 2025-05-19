@@ -88,7 +88,9 @@ process_survey <- function(
       y = bds_data$length_data |>
         dplyr::group_by(Project, Year) |>
         dplyr::summarise(
+          `Sampled Tows Lengths` = length(unique(Trawl_id)),
           `N Lengthed` = sum(!is.na(Length_cm)),
+          `Sampled Tows Ages` = 0,
           `N Aged` = 0
         ),
       by = c("Project", "Year")
@@ -106,11 +108,13 @@ process_survey <- function(
     ages_samples <- bds_data$age_data |>
       dplyr::group_by(Year) |>
       dplyr::summarise(
+        `Sampled Tows Ages` = length(unique(Trawl_id)),
         `N Aged` = sum(!is.na(Age))
       ) |>
       as.data.frame()
     find <- which(samples[, "Year"] %in% ages_samples[, "Year"])
     samples[find, "N Aged"] <- ages_samples[, "N Aged"]
+    samples[find, "Sampled Tows Ages"] <- ages_samples[, "Sampled Tows Ages"]
   }
   
   utils::write.csv(
