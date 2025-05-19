@@ -525,6 +525,26 @@ SSplotComparisons(mysummary,
                   ylimAdj = 1.5,
                   pdf = TRUE)
 
+split_triennial <- SS_output(here::here("model", "_discard_fleets", "growth", "7.9_triennial_block_width_final_extra_sd_dw_mle"))
+SS_plots(split_triennial)
+
+
+plot_year_selex(
+ replist = split_triennial,
+ fleets = 1:3,
+ year = 1890)
+plot_year_selex(
+  replist = split_triennial,
+  fleets = 4:6,
+  year = 1890)
+plot_year_selex(
+  replist = split_triennial,
+  fleets = 4:6,
+  year = 2011)
+plot_year_selex(
+  replist = split_triennial,
+  fleets = 4:6,
+  year = 2019)
 #===============================================================================
 # Explore deviations in k
 #===============================================================================
@@ -538,3 +558,31 @@ SS_plots(k)
 # NLL = 2160.81
 # R0 = 10.0786
 # historical k = 0.45055 and 0.450196 (0.344845 and 0.35354)
+
+k_short <- SS_output(here::here("model", "_discard_fleets", "growth", "7.10_growth_sd_log_k_shorter"))
+SS_plots(k_short)
+
+#===============================================================================
+# Split the triennial and reorganize the fleets
+#===============================================================================
+init <- SS_output(here::here("model", "_discard_fleets", "growth", "7.9_triennial_block_width_final_extra_sd_dw_mle"))
+fleet_structure <- SS_output(here::here("model", "_discard_fleets", "growth", "8.0_revised_fleet_structure_dw"))
+modelnames <- c(
+  "7.9 Split",
+  "8.0 Reorganize fleets")
+mysummary <- SSsummarize(list(
+  init,
+  fleet_structure))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.0_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+r4ss::tune_comps(
+  replist = fleet_structure, 
+  dir = here::here("model", "_discard_fleets", "growth", "8.0_revised_fleet_structure"),
+  option = "Francis")

@@ -221,9 +221,9 @@ SSplotComparisons(mysummary,
 #===============================================================================
 mirror_selex <- SS_output(here::here("model", "_retention_model", "_growth", "21.8_mirror_only_selex_hkl_pot"))
 SS_plots(mirror_selex)
-# gradient = 0.000293945
-# NLL = 1531.45
-# R0 = 10.0299
+# gradient = 2.36977 <------ TERRIBLE GRADIENT but the hessian inverted
+# NLL = 1527.73
+# R0 = 10.0176
 
 modelnames <- c(
   "21.2 Mirror HKL & Pot Selex and Retention",
@@ -232,7 +232,8 @@ modelnames <- c(
   "21.5 WCGBT Selectivity",
   "21.6 Growth Log SD - Data Weighted",
   "21.7 Add Early Rec. Devs.",
-  "21.8 Mirror HKL & Pot Selex")
+  "21.8 Mirror HKL & Pot Selex", 
+  "21.9 Add Extra HKL & Pot Retention Blocks")
 mysummary <- SSsummarize(list(
   mirror_fixed_gear,
   discard_input_n,
@@ -240,9 +241,10 @@ mysummary <- SSsummarize(list(
   wcgbt_selex,
   growth_sd_log_dw,
   early_devs,
-  mirror_selex))
+  mirror_selex,
+  ret_blocks))
 SSplotComparisons(mysummary,
-                  filenameprefix = "21.2-8_",
+                  filenameprefix = "21.2-9_",
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
@@ -252,8 +254,87 @@ SSplotComparisons(mysummary,
 #===============================================================================
 # HKL and Pot Retention Blocks
 #===============================================================================
+# This model has early deviations
 ret_blocks <- SS_output(here::here("model", "_retention_model", "_growth", "21.9_hkl_pot_ret_blocks"))
 SS_plots(ret_blocks)
-# gradient = 0.000813843 
-# NLL = 1519.95
-# R0 = 10.0385
+# gradient = 0.000607893
+# NLL = 1509.72
+# R0 = 10.0423
+# Triennial Q 1.29558 and 1.57412
+# NWFSC Slope 0.474568
+# WCGBT 1.12921
+
+# Turn off early devs for comparison
+ret_blocks_no_early_devs <- SS_output(here::here("model", "_retention_model", "_growth", "21.9_hkl_pot_ret_blocks_no_early_devs"))
+SS_plots(ret_blocks_no_early_devs)
+# gradient = 0.000410984
+# NLL = 1518.74
+# R0 = 10.0689 
+# The age NLL increases by ~ 15 units
+# Triennial Q 1.18993 and 1.45155
+# NWFSC Slope 0.425314
+# WCGBT 1.05427
+
+modelnames <- c(
+  "21.9 Add Extra HKL & Pot Retention Blocks",
+  "21.9 - No Early Devs")
+mysummary <- SSsummarize(list(
+  ret_blocks,
+  ret_blocks_no_early_devs))
+SSplotComparisons(mysummary,
+                  filenameprefix = "21.9_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_retention_model", "_growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+#===============================================================================
+# Match the blocks for the discard fleet model for the model w/o early devs.
+# Selectivity 1890-2001 2002-2024
+# Retention: 1890-1941, 1942-1946, 1947-2010, 2011-2018, and 2019-2024
+#===============================================================================
+blocks <- SS_output(here::here("model", "_retention_model", "_growth", "21.10_add_selex_ret_blocks"))
+SS_plots(blocks)
+# gradient = 0.000577689
+# NLL = 1512.69
+# R0 = 10.1154
+# Decrease Age NLL by ~ 3 from previous model but added 5 parameters
+# Triennial Q 1.24934 and 1.45136
+# NWFSC Slope 0.418786
+# WCGBT 1.05678
+plot_fleet_selectivity(model_out = blocks, fleet_num = 1)
+plot_fleet_selectivity(model_out = blocks, fleet_num = 2)
+plot_fleet_selectivity(model_out = blocks, fleet_num = 3)
+plot_fleet_retention(model_out = blocks, fleet_num = 1)
+plot_fleet_retention(model_out = blocks, fleet_num = 2)
+plot_fleet_retention(model_out = blocks, fleet_num = 3)
+# Selectivity
+# Keep trawl block and removel hkl/pot blocks
+# Retention
+# Trawl: 2002-2010 and 2019-2024 similar
+# Pot: all similar
+
+#===============================================================================
+# Split the triennial and reorganize the fleets
+#===============================================================================
+fleet_structure_ret <- SS_output(here::here("model", "_retention_model", "_growth", "22.0_revised_fleet_structure_dw"))
+modelnames <- c(
+  "21.10",
+  "22.0 Revise fleet order")
+mysummary <- SSsummarize(list(
+  blocks,
+  fleet_structure_ret ))
+SSplotComparisons(mysummary,
+                  filenameprefix = "22.0_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_retention_model", "_growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+r4ss::tune_comps(
+  replist = fleet_structure_ret, 
+  dir = here::here("model", "_retention_model", "_growth", "22.0_revised_fleet_structure"),
+  option = "Francis")
