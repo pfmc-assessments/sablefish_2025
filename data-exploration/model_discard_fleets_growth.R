@@ -567,6 +567,13 @@ SS_plots(k_short)
 #===============================================================================
 init <- SS_output(here::here("model", "_discard_fleets", "growth", "7.9_triennial_block_width_final_extra_sd_dw_mle"))
 fleet_structure <- SS_output(here::here("model", "_discard_fleets", "growth", "8.0_revised_fleet_structure_dw"))
+# Parameters with high SD
+# Age_DblN_descend_se_Triennial_Early(7)	-9.4333100	4	-10.000	10.00	-9.4333100	OK	3.48252e+03	-4.46516e-07
+# Age_DblN_descend_se_Triennial_Late(8)	-9.1357400	4	-10.000	10.00	-9.1357400	OK	5.20723e+03	-3.52776e-07
+# Age_DblN_ascend_se_WCGBT(10)	-8.0659500	4	-10.000	10.00	-8.0659500	OK	1.10492e+04	-2.14344e-07
+# Age_DblN_descend_se_WCGBT(10)	-5.4489500	4	-10.000	10.00	-5.4489500	OK	1.52485e+03	3.01472e-07
+# Age_DblN_descend_se_TWL_Discards(4)_BLK2repl_2011	-9.2289700	7	-10.000	10.00	-9.2289700	OK	4.68843e+03	-3.76495e-07
+
 modelnames <- c(
   "7.9 Split",
   "8.0 Reorganize fleets")
@@ -586,3 +593,286 @@ r4ss::tune_comps(
   replist = fleet_structure, 
   dir = here::here("model", "_discard_fleets", "growth", "8.0_revised_fleet_structure"),
   option = "Francis")
+
+#===============================================================================
+# Change initial maturity age to 1
+#===============================================================================
+min_mat_age <- SS_output(here::here("model", "_discard_fleets", "growth", "8.1_min_maturity"))
+# gradiant = 0.000371443
+# NLL = 2369.24
+# R0 = 10.0189
+# M = 0.0842056
+# Triennial Q = 1.18333 and 1.40101 
+# NWFSC Slope Q =  0.525045
+# WCGBT Q = 1.0741
+
+modelnames <- c(
+  "8.0 Reorganize fleets",
+  "8.1 Min Maturity Age = 1")
+mysummary <- SSsummarize(list(
+  fleet_structure,
+  min_mat_age))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.0-1_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+#===============================================================================
+# Turn on early devs
+#===============================================================================
+early_devs <- SS_output(here::here("model", "_discard_fleets", "growth", "8.2_add_early_rec_devs_dw"))
+# gradiant = 0.0009636
+# NLL = 2360.6
+# R0 = 9.94548
+# M = 0.0787157
+# Triennial Q = 1.26221 and 1.48155
+# NWFSC Slope Q =  0.55361 
+# WCGBT Q = 1.12716
+SS_plots(early_devs)
+r4ss::tune_comps(
+  replist = early_devs, 
+  dir = here::here("model", "_discard_fleets", "growth", "8.2_add_early_rec_devs"),
+  option = "Francis")
+modelnames <- c(
+  "8.0 Reorganize fleets",
+  "8.1 Min Maturity Age = 1",
+  "8.1 Turn on Early Rec. Devs.")
+mysummary <- SSsummarize(list(
+  fleet_structure,
+  min_mat_age,
+  early_devs))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.0-2_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+#===============================================================================
+# Remove the triennial index and age
+#===============================================================================
+remove_tri <- SS_output(here::here("model", "_discard_fleets", "growth", "8.3_early_devs_no_triennial"))
+SS_plots(remove_tri)
+r4ss::tune_comps(
+  replist = remove_tri, 
+  dir = here::here("model", "_discard_fleets", "growth", "8.3_early_devs_no_triennial"),
+  option = "Francis")
+modelnames <- c(
+  "8.1 Turn on Early Rec. Devs.",
+  "8.3 Remove the Triennial")
+mysummary <- SSsummarize(list(
+  early_devs, remove_tri))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.1-3_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+#===============================================================================
+# Triennial Explorations
+#===============================================================================
+triennial_all <- SS_output(here::here("model", "_discard_fleets", "growth", "9.0_min_maturity_fix_uncertain_selex_pars"))
+SS_plots(triennial_all)
+r4ss::tune_comps(
+  replist = triennial_all, 
+  dir = here::here("model", "_discard_fleets", "growth", "9.0_min_maturity_fix_uncertain_selex_pars"),
+  option = "Francis")
+# R0 = 10.1091 
+# Survey NLL = -9.85654 -3.34772
+# Age NLL = 14.4943 178.16
+# Q = 1.10736 and 1.44768
+
+# Remove 1986 samples 
+triennial_remove_1986 <- SS_output(here::here("model", "_discard_fleets", "growth", "9.1_triennial_remove_1986"))
+# R0 = 10.1087
+# Survey NLL = -9.85779 -3.34694
+# Age NLL = 13.7526 178.054
+# Q = 1.13712 and 1.44913
+
+# Remove 1986 and 1992 samples 
+triennial_remove_1986_1992 <- SS_output(here::here("model", "_discard_fleets", "growth", "9.2_triennial_remove_1986_1992"))
+# R0 = 10.1064
+# Survey NLL = -9.6626 -3.05
+# Age NLL = 9.96398 175.216
+# Q = 1.10462 and 1.44887
+
+# Remove all issue years
+triennial_remove_mult_years <- SS_output(here::here("model", "_discard_fleets", "growth", "9.3_triennial_remove_1986_1992_1998_2001"))
+# R0 = 10.1142 
+# Survey NLL = 9.23474 -5.02791
+# Age NLL = 10.0614 80.4806
+# Q = 1.14623 and 1.81153
+
+# Mirror the selectivity to the trawl fishery and remove all triennial age data
+triennial_mirror_selex <- SS_output(here::here("model", "_discard_fleets", "growth", "9.4_triennial_mirror_trawl_selex"))
+SS_plots(triennial_mirror_selex)
+# R0 = 10.1511
+# Survey NLL = -2.01469 -0.276122
+# Q = 0.153293 and 0.511559
+
+# Length based selectivity for the Triennial survey and remove the ages
+triennial_len_selex <- SS_output(here::here("model", "_discard_fleets", "growth", "9.5_triennial_length_selex"))
+# R0 = 10.1249
+# Survey NLL = -5.13752 -1.3133
+# Length NLL = 17.0901 10.7331
+# Q = 1.12159 and 1.29998
+r4ss::tune_comps(
+  replist = triennial_len_selex, 
+  dir = here::here("model", "_discard_fleets", "growth", "9.5_triennial_length_selex"),
+  option = "Francis")
+
+remove_triennial <- SS_output(here::here("model", "_discard_fleets", "growth", "9.6_remove_triennial"))
+SS_plots(remove_triennial)
+# R0 = 10.1945
+
+r4ss::tune_comps(
+  replist = remove_triennial, 
+  dir = here::here("model", "_discard_fleets", "growth", "9.6_remove_triennial"),
+  option = "Francis")
+
+modelnames <- c(
+  "9.0 All Triennial Data",
+  "9.1 Remove 1986 Triennial Ages",
+  "9.2 Remove 1986 and 1992 Triennial Ages",
+  "9.3 Remove 1986, 1992, 1998, 2001 Triennial Ages",
+  "9.4 Mirror Triennial Selex to Trawl Fishery",
+  "9.5 Length-based selectivity for Triennial (no ages)",
+  "9.6 Remove the Triennial Survey"
+  )
+mysummary <- SSsummarize(list(
+  triennial_all, 
+  triennial_remove_1986,
+  triennial_remove_1986_1992,
+  triennial_remove_mult_years,
+  triennial_mirror_selex,
+  triennial_len_selex,
+  remove_triennial))
+SSplotComparisons(mysummary,
+                  filenameprefix = "9.0-9.6_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.65,
+                  pdf = TRUE)
+
+
+# Compare to the early dev model
+early_devs_tri_mirror_selex <- SS_output(here::here("model", "_discard_fleets", "growth", "9.7_early_devs_triennial_mirror_trawl_selex"))
+early_devs_tri_len_selex <- SS_output(here::here("model", "_discard_fleets", "growth", "9.8_early_devs_triennial_length_selex"))
+
+modelnames <- c(
+  "9.0 No Early Rec. Devs",
+  "8.1 Turn on Early Rec. Devs.",
+  "8.3 Remove the Triennial",
+  "9.8 Length-based selectivity for Triennial (no ages)",
+  "9.7 Mirror Triennial Selex to Trawl Fishery"
+  )
+mysummary <- SSsummarize(list(
+  triennial_all,
+  early_devs, 
+  remove_tri,
+  early_devs_tri_mirror_selex,
+  early_devs_tri_len_selex))
+SSplotComparisons(mysummary,
+                  filenameprefix = "9.7-9.8_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+#===============================================================================
+# Selectivity checks for the varying block periods
+#===============================================================================
+full_block_model <- SS_output(here::here("model", "_discard_fleets", "growth", "9.0_min_maturity_fix_uncertain_selex_pars"))
+# assumed inital blocks
+# Discard Fleets = 1890 2010 2011 2018
+# Landings Fleets = 1890 2001
+plot_fleet_selectivity(model_out = triennial_all, fleet_num = 2)
+plot_fleet_selectivity(model_out = triennial_all, fleet_num = 6)
+
+plot_year_selex(
+  replist = full_block_model,
+  fleets = 1:3,
+  year = 1890)
+plot_year_selex(
+  replist = full_block_model,
+  fleets = 1:3,
+  year = 2024)
+
+plot_year_selex(
+  replist = sfull_block_model,
+  fleets = 4:6,
+  year = 1890)
+plot_year_selex(
+  replist = full_block_model,
+  fleets = 4:6,
+  year = 2011)
+plot_year_selex(
+  replist = full_block_model,
+  fleets = 4:6,
+  year = 2019)
+
+#===============================================================================
+# Curvlinear Ageing Error
+#===============================================================================
+curv_age_error <- SS_output(here::here("model", "_discard_fleets", "growth", "9.9_curvlinear_ageing_errror"))
+SS_plots(curv_age_error)
+modelnames <- c(
+  "9.0 Linear Ageing Error",
+  "9.9 Curvlinear Ageing Error"
+)
+mysummary <- SSsummarize(list(
+  triennial_all,
+  curv_age_error))
+SSplotComparisons(mysummary,
+                  filenameprefix = "9.0-9.9_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+#===============================================================================
+# Remove unsexed HKL & Pot, Triennial select year, bias adj, and steepness
+#===============================================================================
+steep_bias_adj <- SS_output(here::here("model", "_discard_fleets", "growth", "9.10_linear_ae_bias_adj_steepness"))
+r4ss::tune_comps(
+  replist = steep_bias_adj, 
+  dir = here::here("model", "_discard_fleets", "growth", "9.10_linear_ae_bias_adj_steepness"),
+  option = "Francis")
+steep_bias_adj <- SS_output(here::here("model", "_discard_fleets", "growth", "9.10_linear_ae_bias_adj_steepness_dw"))
+SS_plots(steep_bias_adj)
+# gradient = 0.000678344
+# NLL = 1860.69
+# R0 = 10.2518
+
+# The new MLE after jitter
+base <- SS_output(here::here("model", "_discard_fleets", "growth", "9.11_fix_beta"))
+SS_plots(base)
+# gradient = 0.000885819
+# NLL = 1879.60 <-- the jitter lowest NLL (37) was 1877.77 but had a gradient of 0.182771
+# so I used the par from the next best fit (43) which had a NLL of 1897.60
+# R0 = 10.1353 (37 = 10.1594; 43 = 10.1353) 37 2025 depl ~ 30% and 43 2025 depl ~ 31%
+# Triennial Q = 1.11177 and 1.85021
+# NWFSC Slope =  0.510465 selectivity looks similar to the WCGBT but peak at age 7
+# WCGBT Q = 1.04503 selectivity peak at age 1 and ~ 0.90 for older ages
+
+# Tasks: Need to fix final male selectivity for HKL and Pot
+# Parameters on bounds
+# Age_DblN_peak_TWL_Discards(4)	0.2074520	4	0.010	20.00	0.2073330	LO
+
+# Parameters with high stdev
+# Age_DblN_descend_se_WCGBT(10)                     -9.7867700     4 -10.000 10.00 -5.4489600     OK 1334.18000000
+
