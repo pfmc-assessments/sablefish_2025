@@ -657,3 +657,72 @@ for (y in sort(unique(data_year$Year))) {
   temp <- wilcox.test(Length_cm ~ Type, data = data_year[which(data_year$Year == y), ])
   wcgbt_test <- rbind(wcgbt_test, c(y, round(temp$p.value, 3)))
 }
+
+#===============================================================================
+# How many unique trawls in the Trienial in 1986
+#===============================================================================
+data <- data_survey_bio$triennial_early$age_data |>
+  dplyr::filter(Year == 1986)
+length(unique(data$Trawl_id))
+aggregate(Trawl_id ~ Sex, data, function(x) length(unique(x)))
+
+age_data <- data_survey_bio$triennial_early$age_data |>
+  dplyr::filter(!is.na(Age_years)) |> 
+  dplyr::rename_with(.fn = tolower) 
+aggregate(trawl_id~year, age_data, function(x) length(unique(x)))
+plot(data_86$latitude_dd, data_86$depth_m)
+
+#===============================================================================
+# What ages were observed by year for the Triennial
+#===============================================================================
+all_tri_bio <- dplyr::bind_rows(
+  data_survey_bio$triennial_early$age_data,
+  data_survey_bio$triennial_late$age_data
+) |>
+  dplyr::filter(!is.na(Age_years))
+
+counts <- all_tri_bio  |>
+  dplyr::group_by(Year) |>
+  dplyr::mutate(total = dplyr::n()) |>
+  dplyr::group_by(Year, Age_years) |>
+  dplyr::summarise(
+    n = dplyr::n(),
+    proportion = n / unique(total))
+
+ggplot(counts, aes(x = Age_years, y = proportion)) +
+  geom_bar(position="stack", stat="identity") +
+  facet_wrap(facets = "Year", ncol = 2, dir = "v")
+
+catch_pos <- dplyr::bind_rows(
+  data_survey_catch$triennial_early,
+  data_survey_catch$triennial_late) |>
+  dplyr::mutate(
+    positive = dplyr::case_when(total_catch_numbers > 0 ~ 1, .default = 0))
+
+ggplot() +
+  geom_point(data = catch_pos[catch_pos$positive == 1, ], aes(x = Latitude_dd, y = Depth_m), shape = 1, size = 1) +
+  geom_point(data = all_tri_bio, 
+             aes(x = Latitude_dd, y = Depth_m), color = "red", shape = 17) +
+  theme_bw() +
+  facet_wrap(facets = "Year", ncol = 2, dir = "v")
+
+
+#===============================================================================
+# What are the number of age-0 fish observed in the survey in 2022
+#===============================================================================
+
+age_0 <- data_survey_bio$nwfsc_combo |>
+  dplyr::filter(Age_years < 2) |>
+  dplyr::group_by(Year, Age_years) |>
+  dplyr::summarise(
+    n = dplyr::n())
+# 2022 had 27 age-0 fish
+# 2023 had 36 age-1 fish
+
+unsexed_fish <- data_survey_bio$nwfsc_combo |>
+  dplyr::filter(Sex == "U", !is.na(Age_years)) |>
+  dplyr::group_by(Year) |>
+  dplyr::summarise(
+    age_0 = sum(Age_years == 0),
+    age_older = sum(Age_years != 0)
+  )

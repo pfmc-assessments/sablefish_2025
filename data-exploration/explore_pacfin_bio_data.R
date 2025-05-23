@@ -424,3 +424,54 @@ ggplot(age_only, aes(x = year, y = depth_avg_m, group = year)) +
   facet_grid(c("geargroup"))
 sum(!is.na(age_only$depth_avg_m))
 # 18,072
+
+
+#===============================================================================
+# Look at the average age by sex, gear, and year
+#===============================================================================
+age_data <- data_commercial_bds |> 
+  dplyr::filter(!is.na(age_years), sex != "U") |>
+  dplyr::group_by(geargroup, year, sex) |>
+  dplyr::summarise(
+    ave_age = mean(age_years)
+  )
+ggplot(age_data, aes(x = year, y = ave_age, color = sex)) +
+  geom_point() + 
+  theme_bw() +
+  ylim(c(0, 25)) +
+  facet_grid("geargroup")
+
+
+age_data <- data_commercial_bds |> 
+  dplyr::filter(!is.na(age_years), sex != "U") |>
+  dplyr::group_by(year) |>
+  dplyr::summarise(
+    ave_age = mean(age_years)
+  )
+ggplot(age_data, aes(x = year, y = ave_age)) +
+  geom_point() + 
+  ylim(c(0, 20)) +
+  theme_bw() 
+
+#===============================================================================
+# What is the frequency of 2020 and 2021 cohorts across years
+#===============================================================================
+age_data <- data_commercial_bds |> 
+  dplyr::filter(year >= 2017, age_years < 11) |>
+  dplyr::group_by(year, geargroup) |>
+  dplyr::mutate(total_n = dplyr::n()) |>
+  dplyr::group_by(year, geargroup, age_years) |>
+  dplyr::summarise(
+    n = dplyr::n(),
+    prop = n / unique(total_n)
+  )
+
+ggplot(age_data, aes(x = age_years, y = n)) +
+  geom_bar(position="stack", stat="identity") +
+  facet_grid(c("year", "geargroup"))
+ggplot(age_data, aes(x = age_years, y = prop)) +
+  geom_bar(position="stack", stat="identity") +
+  facet_grid(c("year", "geargroup"))
+  
+table(data_commercial_bds[!is.na(data_commercial_bds$age_years), "year"])  
+  
