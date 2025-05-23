@@ -186,6 +186,22 @@ bias_adj <- SS_output(here::here("model", "_discard_fleets", "watage", "8.7_bias
 # R0 = 10.0713
 SS_plots(bias_adj)
 
-# Explore HKL/Pot Selectivity
+# The new MLE after jitter
+base <- SS_output(here::here("model", "_discard_fleets", "watage", "8.8_fix_beta"))
+SS_plots(base)
+# gradient = 0.000816109
+# NLL = 1395.83 
+# R0 = 10.0834000 
+# Triennial Q = 1.04797 and 2.63568
+# NWFSC Slope = 0.414383 (asymptotic selectivity)
+# WCGBT Q = 1.17875 (peak at age 1 and constant ~ 0.80 for older ages)
+
+# Tasks: Need to fix final male selectivity for HKL and Pot
+# Parameters on bounds
+# None
+
+# Parameters with high stdev
+# Age_DblN_top_logit_NWFSC_Slope(9)                 -8.1086000     4 -10.000 10.00  1.484160     OK 3313.12000000
+# Age_DblN_descend_se_WCGBT(10)                     -5.5927400     4 -10.000 10.00 -7.346140     OK 1637.95000000
 
 
