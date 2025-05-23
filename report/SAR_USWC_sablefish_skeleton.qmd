@@ -65,7 +65,7 @@ format:
 output-file: 'sablfefish_SAR_2025' 
 params:
    office: 'NWFSC'
-   species: 'sablfefish'
+   species: 'sablefish'
    spp_latin: 'Anoplopoma fimbria'
    region: 'U.S. West Coast'
 bibliography: 
@@ -348,6 +348,15 @@ area_harvest_spex <- read.csv(here::here("data-processed", "harvest_spex.csv")) 
   dplyr::filter(AREA_NAME != "CW", YEAR %in% es_12_years) |>
   dplyr::mutate(
     VAL = round(VAL, 0)
+  )
+
+# read in maturity data
+load(here::here("data", "maturity_data.rda"))
+load(here::here("data", "maturity.rda"))
+load(here::here("data", "spatial_maturity.rda"))
+maturity_data <- maturity_data  |>
+  dplyr::mutate(
+    Area = dplyr::case_when(latitude >= 36 ~ "North", .default = "South")
   )
 
 ``` 
