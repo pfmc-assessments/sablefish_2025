@@ -62,7 +62,9 @@ process_survey <- function(
       y = bds_data |>
         dplyr::group_by(Project, Year) |>
         dplyr::summarise(
+          `Sampled Tows Lengths` = length(unique(Trawl_id[!is.na(Length_cm)])),
           `N Lengthed` = sum(!is.na(Length_cm)),
+          `Sampled Tows Ages` = length(unique(Trawl_id[!is.na(Age)])),
           `N Aged` = sum(!is.na(Age))
         ),
       by = c("Project", "Year")
