@@ -192,10 +192,228 @@ mod = AgeingError::DoApplyAgeError(Species = "Sablefish",
                                    ModelSpecsInp = spc,
                                    AprobWght = 1e-06,
                                    SlopeWght = 0.01,
-                                   SaveDir = getwd(),
+                                   SaveDir = "default",
                                    verbose = F)
 
 out = AgeingError::ProcessResults(Species = "Sablefish", 
+                                  SaveDir = "default", 
+                                  CalcEff = F, # T generates a 'subscript out of bounds' error
+                                  verbose = F)
+
+
+# Specifications from Chantel Wetzel:
+  # combinations: bias=0,sd=1; bias=0,sd=2; bias=1,sd=1; bias=1,sd=2
+spc.1 = read.delim("specifications_bias=0_sd=1 (2024_09_13 13_44_01 UTC).dat")
+spc.2 = read.delim("specifications_bias=0_sd=2 (2024_09_13 13_44_01 UTC).dat")
+spc.3 = read.delim("specifications_bias=1_sd=1 (2024_09_13 13_44_01 UTC).dat")
+spc.4 = read.delim("specifications_bias=1_sd=2 (2024_09_13 13_44_01 UTC).dat")
+
+## ageing error matrix, bias=0, sd=1:
+write_files(dat=age_matrix.between, 
+            dir=getwd(),
+            file_dat = "data_bias0_sig1.dat",
+            file_specs = "data_bias0_sig1.spc",
+            minage = 1,
+            maxage = 70,
+            refage = 4,
+            minusage = 1,
+            plusage = 50,
+            biasopt = c(0,0), # unbiased 
+            sigopt = c(1,-1), # constant CV shared among readers
+            knotages = NULL)
+
+dat_bias0_sig1 = AgeingError::CreateData(file.path(getwd(), "data_bias0_sig1.dat"),
+  NDataSet = 1,
+  verbose = T, 
+  EchoFile = "SableEcho_bias0_sig1.out")
+spc_bias0_sig1 = AgeingError::CreateSpecs(file.path(getwd(), "data_bias0_sig1.spc"),
+  DataSpecs = dat, 
+  verbose = T)
+
+mod_bias0_sig1 = AgeingError::DoApplyAgeError(Species = "Sablefish",
+                                   DataSpecs = dat_bias0_sig1,
+                                   ModelSpecsInp = spc_bias0_sig1,
+                                   AprobWght = 1e-06,
+                                   SlopeWght = 0.01,
+                                   SaveDir = "bias0_sig1",
+                                   verbose = F)
+
+out_bias0_sig1 = AgeingError::ProcessResults(Species = "Sablefish", 
+                                  SaveDir = "bias0_sig1", 
+                                  CalcEff = F, # T generates a 'subscript out of bounds' error
+                                  verbose = F)
+
+## ageing error matrix, bias=0, sd=2:
+write_files(dat=age_matrix.between, 
+            dir=getwd(),
+            file_dat = "data_bias0_sig2.dat",
+            file_specs = "data_bias0_sig2.spc",
+            minage = 1,
+            maxage = 70,
+            refage = 4,
+            minusage = 1,
+            plusage = 50,
+            biasopt = c(0,0), # unbiased 
+            sigopt = c(2,-1), # curvilinear standard deviation
+            knotages = NULL)
+
+dat_bias0_sig2 = AgeingError::CreateData(file.path(getwd(), "data_bias0_sig2.dat"),
+  NDataSet = 1,
+  verbose = T, 
+  EchoFile = "SableEcho_bias0_sig2.out")
+spc_bias0_sig2 = AgeingError::CreateSpecs(file.path(getwd(), "data_bias0_sig2.spc"),
+  DataSpecs = dat, 
+  verbose = T)
+
+mod_bias0_sig2 = AgeingError::DoApplyAgeError(Species = "Sablefish",
+                                   DataSpecs = dat_bias0_sig2,
+                                   ModelSpecsInp = spc_bias0_sig2,
+                                   AprobWght = 1e-06,
+                                   SlopeWght = 0.01,
+                                   SaveDir = "bias0_sig2",
+                                   verbose = F)
+
+out_bias0_sig2 = AgeingError::ProcessResults(Species = "Sablefish", 
+                                  SaveDir = "bias0_sig2", 
+                                  CalcEff = F, # T generates a 'subscript out of bounds' error
+                                  verbose = F)
+
+## ageing error matrix, bias=1, sd=1:
+write_files(dat=age_matrix.between, 
+            dir=getwd(),
+            file_dat = "data_bias1_sig1.dat",
+            file_specs = "data_bias1_sig1.spc",
+            minage = 1,
+            maxage = 70,
+            refage = 4,
+            minusage = 1,
+            plusage = 50,
+            biasopt = c(0,1), # 0 = unbiased, 1 = constant CV
+            sigopt = c(1,-1), # constant CV
+            knotages = NULL)
+
+dat_bias1_sig1 = AgeingError::CreateData(file.path(getwd(), "data_bias1_sig1.dat"),
+  NDataSet = 1,
+  verbose = T, 
+  EchoFile = "SableEcho_bias1_sig1.out")
+spc_bias1_sig1 = AgeingError::CreateSpecs(file.path(getwd(), "data_bias1_sig1.spc"),
+  DataSpecs = dat, 
+  verbose = T)
+
+mod_bias1_sig1 = AgeingError::DoApplyAgeError(Species = "Sablefish",
+                                   DataSpecs = dat_bias1_sig1,
+                                   ModelSpecsInp = spc_bias1_sig1,
+                                   AprobWght = 1e-06,
+                                   SlopeWght = 0.01,
+                                   SaveDir = "bias1_sig1",
+                                   verbose = F)
+
+out_bias1_sig1 = AgeingError::ProcessResults(Species = "Sablefish", 
+                                  SaveDir = "bias1_sig1", 
+                                  CalcEff = F, # T generates a 'subscript out of bounds' error
+                                  verbose = F)
+
+## ageing error matrix, bias=1, sd=2:
+write_files(dat=age_matrix.between, 
+            dir=getwd(),
+            file_dat = "data_bias1_sig2.dat",
+            file_specs = "data_bias1_sig2.spc",
+            minage = 1,
+            maxage = 64, # had to change here...why?
+            refage = 4,
+            minusage = 1,
+            plusage = 50,
+            biasopt = c(0,1), # 0 = unbiased, 1 = constant CV
+            sigopt = c(2,-1), # curvilinear standard deviation
+            knotages = NULL)
+
+dat_bias1_sig2 = AgeingError::CreateData(file.path(getwd(), "data_bias1_sig2.dat"),
+  NDataSet = 1,
+  verbose = T, 
+  EchoFile = "SableEcho_bias1_sig2.out")
+spc_bias1_sig2 = AgeingError::CreateSpecs(file.path(getwd(), "data_bias1_sig2.spc"),
+  DataSpecs = dat, 
+  verbose = T)
+
+mod_bias1_sig2 = AgeingError::DoApplyAgeError(Species = "Sablefish",
+                                   DataSpecs = dat_bias1_sig2,
+                                   ModelSpecsInp = spc_bias1_sig2,
+                                   AprobWght = 1e-06,
+                                   SlopeWght = 0.01,
+                                   SaveDir = "bias1_sig2",
+                                   verbose = F)
+
+out_bias1_sig2 = AgeingError::ProcessResults(Species = "Sablefish", 
+                                  SaveDir = "bias1_sig2", 
+                                  CalcEff = F, # T generates a 'subscript out of bounds' error
+                                  verbose = F)
+
+## ageing error matrix, bias=2, sd=1:
+write_files(dat=age_matrix.between, 
+            dir=getwd(),
+            file_dat = "data_bias2_sig1.dat",
+            file_specs = "data_bias2_sig1.spc",
+            minage = 1,
+            maxage = 70, 
+            refage = 4,
+            minusage = 1,
+            plusage = 50,
+            biasopt = c(0,2), # 0 = unbiased, 1 = curvilinear std dev.
+            sigopt = c(1,-1), # constant CV
+            knotages = NULL)
+
+dat_bias2_sig1 = AgeingError::CreateData(file.path(getwd(), "data_bias2_sig1.dat"),
+  NDataSet = 1,
+  verbose = T, 
+  EchoFile = "SableEcho_bias2_sig1.out")
+spc_bias2_sig1 = AgeingError::CreateSpecs(file.path(getwd(), "data_bias2_sig1.spc"),
+  DataSpecs = dat, 
+  verbose = T)
+
+mod_bias2_sig1 = AgeingError::DoApplyAgeError(Species = "Sablefish",
+                                   DataSpecs = dat_bias2_sig1,
+                                   ModelSpecsInp = spc_bias2_sig1,
+                                   AprobWght = 1e-06,
+                                   SlopeWght = 0.01,
+                                   SaveDir = getwd(),
+                                   verbose = F)
+
+out_bias2_sig1 = AgeingError::ProcessResults(Species = "Sablefish", 
+                                  SaveDir = getwd(), 
+                                  CalcEff = F, # T generates a 'subscript out of bounds' error
+                                  verbose = F)
+
+## ageing error matrix, bias=2, sd=2:
+write_files(dat=age_matrix.between, 
+            dir=getwd(),
+            file_dat = "data_bias2_sig2.dat",
+            file_specs = "data_bias2_sig2.spc",
+            minage = 1,
+            maxage = 70,
+            refage = 4,
+            minusage = 1,
+            plusage = 50,
+            biasopt = c(0,2), # 0 = unbiased, 1 = curvilinear std dev.
+            sigopt = c(2,-1), # curvilinear std dev.
+            knotages = NULL)
+
+dat_bias2_sig2 = AgeingError::CreateData(file.path(getwd(), "data_bias2_sig2.dat"),
+  NDataSet = 1,
+  verbose = T, 
+  EchoFile = "SableEcho_bias2_sig2.out")
+spc_bias2_sig1 = AgeingError::CreateSpecs(file.path(getwd(), "data_bias2_sig2.spc"),
+  DataSpecs = dat, 
+  verbose = T)
+
+mod_bias2_sig2 = AgeingError::DoApplyAgeError(Species = "Sablefish",
+                                   DataSpecs = dat_bias2_sig2,
+                                   ModelSpecsInp = spc_bias2_sig2,
+                                   AprobWght = 1e-06,
+                                   SlopeWght = 0.01,
+                                   SaveDir = getwd(),
+                                   verbose = F)
+
+out_bias2_sig2 = AgeingError::ProcessResults(Species = "Sablefish", 
                                   SaveDir = getwd(), 
                                   CalcEff = F, # T generates a 'subscript out of bounds' error
                                   verbose = F)
