@@ -204,4 +204,332 @@ SS_plots(base)
 # Age_DblN_top_logit_NWFSC_Slope(9)                 -8.1086000     4 -10.000 10.00  1.484160     OK 3313.12000000
 # Age_DblN_descend_se_WCGBT(10)                     -5.5927400     4 -10.000 10.00 -7.346140     OK 1637.95000000
 
+rec_dev2 <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.8_fix_beta_rec_dev_2"))
+# gradient = 0.000781141
+# NLL = 1398.59
+# R0 = 10.0259
+# Age_DblN_top_logit_NWFSC_Slope(9)                  1.4642700     4 -10.000 10.00  1.484160     OK   223.12400000
+# Age_DblN_descend_se_WCGBT(10)                     -7.3460000     4 -10.000 10.00 -7.346140     OK 14557.90000000
+modelnames <- c(
+  "8.8 Rec Dev Option = 1",
+  "8.8 Rec Dev Option = 2")
+mysummary <- SSsummarize(list(
+  base,
+  rec_dev2))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.8_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
 
+# Explore using option 3 for male selectivity
+male_selex <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.9_fishery_selex"))
+# gradient = 8.51217e-07
+# NLL = 1393.83
+# R0 = 10.0855
+SS_plots(male_selex, plot = 2)
+
+# Estimate all the parameters (except init) for the NWFSC Slope survey
+slope_selex <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.10_nwfsc_slope_selex_hessian"))
+SS_plots(slope_selex)
+# gradient = 0.000100399
+# NLL = 1391.15
+# R0 = 10.0863
+# Slope Q ~ 0.50
+# Age_DblN_descend_se_NWFSC_Slope(9)                -7.6848300     4 -10.000 10.00 -7.685450     OK 48.97550000
+
+
+# Estimate all the parameters (except init) for the WCGBT while keeping the same NWFSC Slope parameters active
+wcgbt_selex <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.11_wcgbt_selex"))
+SS_plots(wcgbt_selex)
+# gradient = 6.14422e-05
+# NLL = 1388.12
+# R0 = 10.088
+# Estimated variance of parameter 108 is -20630.5, failed to invert Hessian
+
+# Use WCGBT comps with sex ratio applied
+wcgbt_comps <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.12_wcgbt_selex_sexed"))
+# gradient = 0.00077529
+# NLL = 1336.55
+# R0 = 10.083
+# WCGBT Q = 1.09494
+r4ss::tune_comps(
+  replist = wcgbt_comps, 
+  dir = here::here("model", "_discard_fleets", "watage", "8.12_wcgbt_selex_sexed"),
+  option = "Francis")
+wcgbt_comps_dw <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.12_wcgbt_selex_sexed_dw"))
+
+modelnames <- c(
+  "8.8 Rec Dev Option = 1",
+  "8.9 Fishery Male Selex",
+  "8.10 NWFSC Slope Selex",
+  "8.11 WCGBT Selex",
+  "8.12 WCGBT Sexed Comps.",
+  "8.12 Update Data Weight")
+mysummary <- SSsummarize(list(
+  base,
+  male_selex,
+  slope_selex,
+  wcgbt_selex,
+  wcgbt_comps,
+  wcgbt_comps_dw))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.8-12_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+blocks_selex <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.13_blocks"))
+# gradient = 2.94688e-05
+# NLL = 1389.51
+# R0 = 10.0784
+# 106 parameters
+SS_plots(blocks_selex)
+
+blocks_survey_selex <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.14_blocks_survey"))
+# gradient = 0.000329736
+# NLL = 1392.45
+# R0 = 10.0766
+# 104 parameters
+r4ss::tune_comps(
+  replist = blocks_survey_selex, 
+  dir = here::here("model", "_discard_fleets", "watage", "8.14_blocks_survey"),
+  option = "Francis")
+blocks_survey_selex <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.14_blocks_survey_dw"))
+SS_plots(blocks_survey_selex)
+# gradient = 0.000669563
+# NLL = 1430.38
+# R0 = 10.0713
+# Age_DblN_descend_se_NWFSC_Slope(9)                -6.9421400     4 -10.000 10.00 -7.174190     OK 10.91150000
+modelnames <- c(
+  "8.8 Rec Dev Option = 1",
+  "8.14 Selectivity Refinements")
+mysummary <- SSsummarize(list(
+  base,
+  blocks_survey_selex))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.8-8.14_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+
+# WCGBT all data (sexed and unsexed)
+# NLL = 1520.89
+# 102 parameters
+
+retain_asc_block <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.16_retain_asc_block"))
+SS_plots(retain_asc_block)
+# gradient = 2.33859e-05
+# NLL = 1518.68
+# R0 = 10.0765
+# 103 parameters
+
+retain_add_block <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.17_retain_add_block"))
+# gradient = 0.000772292
+# NLL = 1517.82
+# R0 = 10.0737
+# 106 parameters
+SS_plots(retain_add_block)
+
+all_blocks <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.18_all_blocks"))
+SS_plots(all_blocks, plot = c(2, 17))
+# gradient = 8.4481e-05
+# NLL = 1515.72
+# R0 = 10.0498
+# 117 parameters
+
+# Add blocks for the male parameters
+male_selex_asc <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.19_male_asc_selex"))
+SS_plots(all_blocks, plot = c(2, 17))
+# gradient = 0.000443977
+# NLL = 1513.89
+# R0 = 10.0785
+# 109 parameters
+# Opting to not add additional blocks since the improved fit is minor given the additional parameters and
+# that none of these changes improved the female residuals in recent years (observed > expected)
+
+base_watage <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.15_wcgbt_all_data"))
+SS_plots(base_watage)
+plot_age_fits_sexed_only(replist = base_watage, years = 1890:2001)
+plot_age_fits_sexed_only(replist = base_watage, years = 2002:2024)
+modelnames <- c(
+  "8.15",
+  "8.16 Add HKL/Pot Block to Asc.",
+  "8.17 Add HKL/Pot 2019-2024 Block",
+  "8.19 Add HKL/Pot 2019-2024 Block and Male Param")
+mysummary <- SSsummarize(list(
+  base_watage,
+  retain_asc_block,
+  retain_add_block,
+  male_selex_asc))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.15-19_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+# Move to F-type option 4
+f_type <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.20_f_type"))
+# This results in a large increase in the number of parameters with many of the early year parameters on the lower bound
+
+# WCGBT all data (sexed and unsexed)
+# NLL = 1520.89
+# NWFSC Slope Age NLL = 34.9079
+# WCGBT Age NLL = 328.358
+# Survey NLL = -9.58574 -5.00984 -4.8089 -11.3201
+# 102 parameters
+# NWFSC Slope Q = 0.491442
+# WCGBT Q = 1.16648
+asym_survey_selex <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.21_slope_wcgbt_asym_selex"))
+SS_plots(asym_survey_selex)
+# gradient = 0.000623913
+# NLL = 1530.66
+# NWFSC Slope Age NLL = 35.3877
+# WCGBT Age NLL = 340.656
+# Survey NLL = -9.50006 -4.88126 -4.79483 -13.8312
+# R0 = 10.1035
+# NWFSC Slope Q = 0.393668
+# WCGBT Q = 0.878335
+# 100 parameters
+plot_age_fits_sexed_only(replist = asym_survey_selex)
+
+asym_survey_selex <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.21_slope_wcgbt_asym_selex_dw"))
+r4ss::tune_comps(
+  replist = asym_survey_selex, 
+  dir = here::here("model", "_discard_fleets", "watage", "8.21_slope_wcgbt_asym_selex_dw"),
+  option = "Francis")
+SS_plots(asym_survey_selex)
+
+modelnames <- c(
+  "8.15 Slight Dome Selectivity",
+  "8.21 Asym. Selectivity NWFSC Slope & WCGBT")
+mysummary <- SSsummarize(list(
+  base_watage,
+  asym_survey_selex))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.21_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+trawl_block <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.22_trawl_blocks"))
+SS_plots(trawl_block, plot = c(2, 17))
+# gradient = 0.000554751
+# NLL = 1518.72
+# R0 = 10.0719
+# 103 parameters
+plot_age_fits_sexed_only(replist = trawl_block, years = 1890:2001)
+plot_age_fits_sexed_only(replist = trawl_block, years = 2002:2024)
+
+base_watage <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.23_preliminary_base"))
+r4ss::tune_comps(
+  replist = base_watage, 
+  dir = here::here("model", "_discard_fleets", "watage", "8.23_preliminary_base"),
+  option = "Francis")
+SS_plots(base_watage)
+
+# Revisit turning on extra SD for two models
+extra_sd_domed_survey <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.24_wcgbt_extra_sd"))
+# Q_extraSD_WCGBT(10) 0.0999995
+# R0 = 10.1101
+# NLL = 1402.92 (vs. 1434.13)
+# Survey NLL = -48.46 (vs. -30.8828)
+extra_sd_asym_survey <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.21_slope_wcgbt_asym_selex_dw_est_extra_sd"))
+# Q_extraSD_WCGBT(10) 0.0902852
+# R0 = 10.137
+# NLL = 1506.47 (vs. 1530.66)
+# Survey NLL = -45.96 (vs. -33.0073)
+modelnames <- c(
+  "8.23 Slight Dome Selctivity NWFSC Slope & WCGBT",
+  "8.23 Slight Dome Selctivity NWFSC Slope & WCGBT w/ Extra SD",
+  "8.21 Asym. Selectivity NWFSC Slope & WCGBT",
+  "8.21 Asym. Selectivity NWFSC Slope & WCGBT w/ Extra SD")
+mysummary <- SSsummarize(list(
+  base_watage,
+  extra_sd_domed_survey,
+  asym_survey_selex, 
+  extra_sd_asym_survey))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.23_vs_8.21_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+extra_sd_domed_survey <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.24_wcgbt_extra_sd_dw"))
+r4ss::tune_comps(
+  replist = extra_sd_domed_survey, 
+  dir = here::here("model", "_discard_fleets", "watage", "8.24_wcgbt_extra_sd_dw"),
+  option = "Francis")
+ageing_error <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.25_ageing_error"))
+modelnames <- c(
+  "8.24 Slight Dome Selctivity NWFSC Slope & WCGBT w/ Extra SD",
+  "8.25 2019 Ageing Error")
+mysummary <- SSsummarize(list(
+  extra_sd_domed_survey,
+  ageing_error))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.24-5_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+extra_sd_domed_survey <-  SS_output(here::here("model", "_discard_fleets", "watage", "8.24_wcgbt_extra_sd_dw_fix_bound"))
+r4ss::tune_comps(
+  replist = extra_sd_domed_survey, 
+  dir = here::here("model", "_discard_fleets", "watage", "8.24_wcgbt_extra_sd_dw_fix_bound"),
+  option = "Francis")
+modelnames <- c(
+  "8.23",
+  "8.24 WCGBT w/ Extra SD")
+mysummary <- SSsummarize(list(
+  base_watage,
+  extra_sd_domed_survey))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.24_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+
+francis <- SS_output(here::here("model", "_discard_fleets", "watage", "8.25_data_weight"))
+mi <- SS_output(here::here("model", "_discard_fleets", "watage", "8.26_mi_data_weight"))
+SS_plots(mi)
+modelnames <- c(
+  "8.25 Francis Data Weight",
+  "8.26 McAllister-Ianelli Data Weight")
+mysummary <- SSsummarize(list(
+  francis,
+  mi))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.25-6_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)

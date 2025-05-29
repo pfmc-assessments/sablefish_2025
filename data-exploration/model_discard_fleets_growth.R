@@ -859,7 +859,7 @@ SS_plots(steep_bias_adj)
 # R0 = 10.2518
 
 # The new MLE after jitter
-base <- SS_output(here::here("model", "_discard_fleets", "growth", "9.11_fix_beta"))
+base_growth <- SS_output(here::here("model", "_discard_fleets", "growth", "9.11_fix_beta"))
 SS_plots(base)
 # gradient = 0.000885819
 # NLL = 1879.60 <-- the jitter lowest NLL (37) was 1877.77 but had a gradient of 0.182771
@@ -876,3 +876,97 @@ SS_plots(base)
 # Parameters with high stdev
 # Age_DblN_descend_se_WCGBT(10)                     -9.7867700     4 -10.000 10.00 -5.4489600     OK 1334.18000000
 
+rec_dev2 <-  SS_output(here::here("model", "_discard_fleets", "growth", "9.11_fix_beta_rec_dev_2"))
+modelnames <- c(
+  "9.11 Rec Dev Option = 1",
+  "9.11 Rec Dev Option = 2")
+mysummary <- SSsummarize(list(
+  base,
+  rec_dev2))
+SSplotComparisons(mysummary,
+                  filenameprefix = "9.11_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+# Explore using option 3 for male selectivity
+male_selex_growth <-  SS_output(here::here("model", "_discard_fleets", "growth", "9.13_fishery_selex"))
+# gradient = 0.000294189
+# NLL = 1864.82
+# R0 = 10.1576
+SS_plots(male_selex_growth, plot = 2)
+
+slope_selex_growth <-  SS_output(here::here("model", "_discard_fleets", "growth", "9.14_nwfsc_slope_selex"))
+# gradient = 0.000464244
+# NLL = 1868.4
+# R0 = 10.1605
+
+wcgbt_selex_growth <-  SS_output(here::here("model", "_discard_fleets", "growth", "9.15_wcgbt_selex"))
+# gradient = 0.000499167
+# NLL = 1868.4
+# R0 = 10.1605
+
+blocks_growth <-  SS_output(here::here("model", "_discard_fleets", "growth", "9.16_blocks"))
+# gradient = 0.000552739
+# NLL = 1868.93
+# R0 = 10.1628
+
+modelnames <- c(
+  "9.11 ",
+  "9.13 Fishery Male Selex",
+  "9.14 NWFSC Slope Selex",
+  "9.15 WCGBT Selex",
+  "9.16 Fishery Blocks")
+mysummary <- SSsummarize(list(
+  base_growth,
+  male_selex_growth,
+  slope_selex_growth,
+  wcgbt_selex_growth,
+  blocks_growth))
+SSplotComparisons(mysummary,
+                  filenameprefix = "9.11-16_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+blocks_survey_growth <-  SS_output(here::here("model", "_discard_fleets", "growth", "9.17_blocks_survey"))
+# gradient = 0.000442573
+# NLL = 1869.59
+# R0 = 10.162
+# 114 parameters
+r4ss::tune_comps(
+  replist = blocks_survey_growth, 
+  dir = here::here("model", "_discard_fleets", "growth", "9.17_blocks_survey"),
+  option = "Francis")
+modelnames <- c(
+  "9.11 ",
+  "9.17 Block Adj.")
+mysummary <- SSsummarize(list(
+  base_growth,
+  blocks_survey_growth))
+SSplotComparisons(mysummary,
+                  filenameprefix = "9.11-9.17_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+match_watage <-  SS_output(here::here("model", "_discard_fleets", "growth", "9.18_match_watage_8.25"))
+r4ss::tune_comps(
+  replist = match_watage, 
+  dir = here::here("model", "_discard_fleets", "growth", "9.18_match_watage_8.25"),
+  option = "Francis")
+match_watage <-  SS_output(here::here("model", "_discard_fleets", "growth", "9.18_match_watage_8.25"))
+# gradient = 0.00224541
+# NLL = 2101.84
+# R0 = 10.13
+# 113 parameters
+SS_plots(match_watage)

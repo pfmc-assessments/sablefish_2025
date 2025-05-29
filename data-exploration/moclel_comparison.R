@@ -153,3 +153,42 @@ SSplotComparisons(
   plotdir = here::here("model", "_plots"),
   ylimAdj = 1.25,
   pdf = TRUE)
+
+model_2019 <- SS_output(here::here("model", "_bridging",  "0_2019_base_model"))
+model_2023 <- SS_output(here::here("model", "_bridging",  "0_2023_model"))
+discard_watage <- SS_output(here::here("model", "_discard_fleets", "watage", "8.25_data_weight"))
+discard_growth <-  SS_output(here::here("model", "_discard_fleets", "growth", "9.18_match_watage_8.25"))
+modelnames <- c(
+  "2019 Base Model",
+  "2023 Base Model",
+  "Discard Fleets - Growth (9.18)",
+  "Discard Fleets - Weight-at-Age (8.25)")
+mysummary <- SSsummarize(list(
+  model_2019,
+  model_2023,
+  discard_growth,
+  discard_watage))
+SSplotComparisons(
+  mysummary,
+  filenameprefix = "compare_discard_growth_watage_05282025_",
+  legendlabels = modelnames, 	
+  btarg = 0.40,
+  minbthresh = 0.25,
+  plotdir = here::here("model", "_plots"),
+  ylimAdj = 1.25,
+  pdf = TRUE)
+modelnames <- c(
+  "Discard Fleets - Growth (9.18)",
+  "Discard Fleets - Weight-at-Age (8.25)")
+mysummary <- SSsummarize(list(
+  discard_growth,
+  discard_watage))
+SSplotComparisons(
+  mysummary,
+  filenameprefix = "compare_discard_growth_watage_05282025_",
+  legendlabels = modelnames, 	
+  btarg = 0.40,
+  minbthresh = 0.25,
+  plotdir = here::here("model", "_plots"),
+  ylimAdj = 1.25,
+  pdf = TRUE)
