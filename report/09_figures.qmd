@@ -60,6 +60,22 @@ text(-115.5, 32.1, "Mexico")
 
 ``` 
 
+\pagebreak
+
+
+```{r} 
+#| label: fig-reg-kobe
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Time series of sablefish biomass-based and fishing-based estimates of status in Alaska, British Columbia, and along the U.S. West Coast from the most recent stock assessments. The arrow indicates estimates for the current year of the stock assessment. Vertical and horizontal axes differ by area due to region-dependent reference point use and specifications."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "regional_Kobe.png")
+)
+
+```
 
 
 ```{r} 
@@ -83,8 +99,8 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Landings in metric tons (mt) by year for trawl, pot, and hook-and line gears."
-#| fig-alt: "Landings before the 1970s were less than 5,000 mt by year with landings sharply increasing in the 1970s and early 1980s and landings since ranging between approximately 5,000 to 7,500 mt by year."
+#| fig-cap: "Removals in metric tons (mt) by year and gear."
+#| fig-alt: "Removalsbefore the 1970s were less than 5,000 mt by year with removals sharply increasing in the 1970s and early 1980s and removals since ranging between approximately 5,000 to 7,500 mt by year."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "catch2_landings_stacked.png")
@@ -385,32 +401,33 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: fig-qq-afslope
+#| label: fig-data-nwfsc-slope
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "QQ plot for the AFSC Slope survey."
+#| fig-cap: ""
 #| fig-alt: ""
 
 knitr::include_graphics(
-  here::here("report", "figures", "afsc_slope_qq.png")
+  file.path(model_dir, "plots", "comp_agedat_flt9mkt0.png")
 )
 
 ```
 
 \pagebreak
 
+
 ```{r} 
-#| label: fig-index-afslope
+#| label: fig-data-nwfsc-slope-mean-age
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Relative index of abundance for the AFSC Slope survey."
+#| fig-cap: ""
 #| fig-alt: ""
 
-#knitr::include_graphics(
-#  file.path(model_dir, "plots", "index1_cpuedata_AFSCSlope.png")
-#)
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_data_weighting_TA1-8_NWFSC Slope.png")
+)
 
 ```
 
@@ -453,15 +470,99 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: fig-index-tri
+#| label: fig-index-tri-early
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Relative index of abundance for the Triennial survey."
+#| fig-cap: "Relative index of abundance for the Triennial survey 1980-1992."
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "index1_cpuedata_Triennial.png")
+  file.path(model_dir, "plots", "index1_cpuedata_Triennial_Early.png")
+)
+
+```
+
+\pagebreak
+
+
+```{r} 
+#| label: fig-index-tri-late
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Relative index of abundance for the Triennial survey 1995-2005."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "index1_cpuedata_Triennial_Late.png")
+)
+
+```
+
+\pagebreak
+
+
+```{r} 
+#| label: fig-data-tri-early
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt7mkt0.png")
+)
+
+```
+
+\pagebreak
+
+
+```{r} 
+#| label: fig-data-tri-late
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt8mkt0.png")
+)
+
+```
+
+\pagebreak
+
+
+```{r} 
+#| label: fig-data-tri-early-mean-age
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_data_weighting_TA1-8_Triennial_Early.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: fig-data-tri-late-mean-age
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_data_weighting_TA1-8_Triennial_Late.png")
 )
 
 ```
@@ -525,7 +626,7 @@ ggplot2::ggplot(spatial_maturity, ggplot2::aes(x = age, y = p, color = Model)) +
 ## Biology
 
 
-### Selectivity
+## Selectivity
 
 
 ## Fits to Data

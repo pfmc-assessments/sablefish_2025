@@ -1,1 +1,13 @@
 # Appendices {#sec-appendix}
+
+## Fournier Transform Near Infrared Spectroscopy Age Data
+
+## Detailed Fit to Length Composition Data
+
+## Detailed Fit to Age Composition Data
+
+## Detailed Fit to Conditional-Age-at-Length Composition Data
+
+## Detailed Implied Fit to Composition Data Not Included
+
+

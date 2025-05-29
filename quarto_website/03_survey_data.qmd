@@ -27,7 +27,7 @@ wcgbt_catch <- data_survey_catch$nwfsc_combo |>
 
 wcgbt_bio <- data_survey_bio$nwfsc_combo
 
-wcgbt_area <- read.csv(here::here("figures", "est_by_area.csv")) |>
+wcgbt_area <- read.csv(file.path(project_dir, "quarto_website", "figures", "est_by_area.csv")) |>
   dplyr::filter(area %in%  c("North of Monterey Bay", "South of Monterey Bay")) |>
   dplyr::group_by(year) |>
   dplyr::mutate(
@@ -37,7 +37,7 @@ wcgbt_area <- read.csv(here::here("figures", "est_by_area.csv")) |>
     prop = est / total_est
   )
 
-wcgbt <- read.csv(here::here("figures", "est_by_area.csv")) |>
+wcgbt <- read.csv(file.path(project_dir, "quarto_website", "figures", "est_by_area.csv")) |>
   dplyr::filter(area == "Coastwide") |>
   dplyr::mutate(
     ave_index = mean(est),

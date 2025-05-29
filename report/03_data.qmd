@@ -1,36 +1,38 @@
 # Data
 
-A description of each data source is provided below (@fig-data).
+A description of each data source used in this assessment (@fig-data) is provided below .
 
 ## Fishery-dependent data
 
 ### Landings
 
-Landings for `r spp` were composed various historical landings reconstructions, historical foreign fishery catch data, landings data extracted from Pacific Fisheries Information Network (PacFIN, extracted February, 25, 2025), at-sea catch estimates (provided by Vanessa Tuttle, NWFSC), and landings data extracted from Recreational Fisheries Information Network (RecFIN, extracted February, 28, 2025). The landings used in this assessment are shown in @fig-landings and @tbl-landings. 
+Landings for `r spp` were composed various historical landings reconstructions, historical foreign fishery catch data, landings data extracted from Pacific Fisheries Information Network (PacFIN, extracted February, 25, 2025),  Pacific hake at-sea fishery catch estimates (provided by Vanessa Tuttle, NWFSC), and landings data extracted from Recreational Fisheries Information Network (RecFIN, extracted February, 28, 2025). The landings used in this assessment are shown in @fig-landings and @tbl-landings. 
 
-The model includes six fishery fleets: 1) trawl landings, 2) hook-and-line landings, 3) pot landings, 4) foreign and at-sea trawl catch fleet, 5) foreign hook-and-line catch fleet, and 6) foreign pot catch fleet.  The landings fleets estimated selectivity and retention with discard mortality rates applied to the estimates of discard.  The catch fleets mirrored the selectivity of the corresponding gear for the landings fleets, but did not estimate any additional discard mortality.
+The model includes six fishery fleets: 1) trawl, 2) hook-and-line, 3) pot landings, 4) trawl discards, 5) hook-and-line discards, and 6) pot discards. The trawl fleet includes mortality from the domestic historical (pre-1981 in California and Washington, pre-1987 in Oregon) and current landings available in PacFIN, estimated foreign trawl catch, and  Pacific hake at-sea fishery total mortality estimates.  The hook-and-line fleet includes mortality from the domestic historical (pre-1981 in California and Washington, pre-1987 in Oregon) and current landings available in PacFIN, estimated foreign hook-and-line total mortality, and recreational fisheries total mortality estimates. The pot fleet includes mortality from the domestic historical (pre-1981 in California and Washington, pre-1987 in Oregon) and current landings available in PacFIN and estimated foreign pot catch. The discard fleets estimated discards for the domestic historical and current landings using available information on discard rates with gear-specific discard mortality rates.
 
 For the state of California, commercial landings between 1900 and 1931 were calculated following the approach used in the 2011 and 2019 assessments for `r spp` where 1916 to 1931 landings estimates were available from published California Department of Fish and Game Bulletins back, 1908 to 1916 were based on Fisheries statistics of the U.S., published by the U.S. Fish Commission, and 1900 to 1907 landings were were extrapolated linearly to zero in 1900. For the period 1931-1968 relied on estimates from the recent reconstruction efforts by Southwest Fisheries Science Center and California Department of Fish and Game scientists [@ralston_documentation_2010]. This effort utilized newly available spatial information regarding groundfish landings back to 1931. This method is probably quite reliable for `r spp`, since it was identified as a separate market category. Landings between 1969 to 1977 were based on California fish tickets with a ratio estimator approach and between 1978 to 1980 were pulled from CALCOM database. Prior to 1969, gear type associated with landings were not available and were allocated between trawl and hook-and-line gear based upon the proportions starting in 1969 with no landings assumed to be based on pot gear since the landings with pot gear were negligible (e.g., less than 0.5 mt in 1969 and 1970) until 1971. The most recent historical landings from 1981 to 2024 were extracted from PacFIN. 
 
 Oregon landings reconstructions begins in 1927 through 1986 [@karnowski_historical_2014]. -@low_sablefish_1976 provided total landings from 1915-1926. Prior to 1915 no statistics were available, so a linear extrapolation from the 10 mt estimate for 1915 to 0 mt in 1891 was applied. Oregon landings from 1987 to 2024 were extracted from PacFIN. 
 
-Washington completed a historical landings reconstruction for this 2019 assessment of `r spp` which was used in this assessment. These landings represent the best available information. The following information sources were included in the reconstruction: 1890 to 1908 from U.S. Fish Commission bulletin, 1915 to 1952 from PMFC bulletin 3, appendix (page 130, using a conversion factor of 1.75 for dressed fish), 1953 to 1969 from the Washington Statistical bulletin, and 1970 to 1980 from Washington fish ticket database. Landings area assignments were based on Seattle market reports and Washington Statistical bulletins. Gear type was based on PMFC bulletin 3 (page 44, Table 2) and Washington Statistical bulletins. Landings between 1981 to 1990 were based upon Washington Department of Fish and Wildlife (WDFW) internal estimates due to large descrepancies between PacFIN and WDFW estimates. In 1981 and 1982 the estimates within PacFIN were much higher than those in WDFW database (e.g., PacFIN estimates were 636 and 1,777 mt greater than WDFW estimates), but estimates in WDFW database were greater than PacFIN between 1983 to 1990 (e.g., differences ranging between 21 mt to 171 mt by year). These landings estimates for `r spp` should be investigated to reconcile differences to improve future assessments of `r spp`. Washington landings between 1991 to 2024 were extracted from PacFIN.
+Washington completed a historical landings reconstruction for this 2019 assessment of `r spp` which was used in this assessment. These landings represent the best available information. The following information sources were included in the reconstruction: 1890 to 1908 from U.S. Fish Commission bulletin, 1915 to 1952 from PMFC bulletin 3, appendix (page 130, using a conversion factor of 1.75 for dressed fish), 1953 to 1969 from the Washington Statistical bulletin, and 1970 to 1980 from Washington fish ticket database. Landings area assignments were based on Seattle market reports and Washington Statistical bulletins. Gear type was based on PMFC bulletin 3 (page 44, Table 2) and Washington Statistical bulletins. Washington landings between 1981 to 2024 were extracted from PacFIN.
 
-This assessment also included data on catch of `r spp` by the Pacific hake at-sea fishery since 1978. These data were not included in the 2019 assessment of `r spp` but landings between 1990 to 2022 were included in the most recent update assessment in 2023. This assessment extends the at-sea catches to the first year of available catch data, 1978. Across most years the catch of `r spp` in the Pacific hake at-sea fishery is relatively low, particularly compared to the landings data from other groundfish sectors contained in PacFIN. However, there have been select years where the catch of `r spp` in this fishery has been higher than average. Catch was high between 1979 and 1982 ranging between 103 mt to 359 mt. In recent years, high catch in the Pacific hake at-sea fishery is likely driven by strong recruitment events with 153 mt and 117 mt of bycatch in 2017 and 2018, respectively, and 306 mt and 161 mt in 2022 and 2023. The estimates provided from the at-sea observer program (ASHOP) included both discarded and retained catch of `r spp` and were included in assessment in a separate trawl catch fleet. 
+This assessment also included data on catch of `r spp` by the Pacific hake at-sea fishery since 1978. These data were not included in the 2019 assessment of `r spp` but landings between 1990 to 2022 were included in the most recent update assessment in 2023. This assessment extends the at-sea catches to the first year of available catch data, 1978. Across most years the catch of `r spp` in the Pacific hake at-sea fishery is relatively low, particularly compared to the landings data from other groundfish sectors contained in PacFIN. However, there have been select years where the catch of `r spp` in this fishery has been higher than average. Catch was high between 1979 and 1982 ranging between 103 mt to 359 mt. In recent years, high catch in the Pacific hake at-sea fishery is likely driven by strong recruitment events with 153 mt and 117 mt of bycatch in 2017 and 2018, respectively, and 306 mt and 161 mt in 2022 and 2023. The estimates provided from the \gls{ashop} included both discarded and retained catch of `r spp` and were included in assessment in a separate trawl catch fleet. 
 
-Foreign catches are included in gear specific catch fleets. The foreign catch reconstructions were based on the records in the historical annotated landings (HAL) database [@lynde_historical_1986]. The catch by foreign vessels were very large in the late 1970s, relative to domestic fleets at that time. Previous assessments included the foreign catches in the corresponding landings gear fleet which resulted additional mortality being estimated (e.g., treated as if the estimates were landings not catches that accounted for total mortality). Since @lynde_historical_1986 indicates that the values are catches that account for both estimates of landings and discarding, these catches were separated into separate catch fleets for this assessment.    
+Foreign catches are included in gear specific fleets. The foreign catch reconstructions were based on the records in the historical annotated landings (HAL) database [@lynde_historical_1986]. The catch by foreign vessels were very large in the late 1970s, relative to domestic fleets at that time. Previous assessments included the foreign catches in the corresponding landings gear fleet which resulted additional mortality being estimated (e.g., treated as if the estimates were landings not catches that accounted for total mortality). Since @lynde_historical_1986 indicates that the values are catches that account for both estimates of landings and discarding, these catches were separated into separate catch fleets for this assessment.    
 
 Recreational fishery landings were included in this assessment and added to the hook-and-line landings fleet in the model. Recreational landings of `r spp` were low historically with the average mortality being less than 3 mt per year between 2001-2022, but have been sharply increased in recent years. In 2023, recreational mortality coastwide peaked at 34 mt and decreased in 2024 to 29 mt. 
 
+This assessment also included discard fleets for each gear type. The estimates for discard mortality were based on information about historical, when available, and current discarding practices by fleet.  Discard mortality was estimated for the domestic historical and current landings only.  The method used to estimate discards by fleet are described below.  
+
 ### Discards
 
-Data on discards of `r spp` are available from multiple sources. 
+Data on discards of `r spp` are available from multiple sources. A trawl discard study conducted in 1985 to 1987, referred to as the "Pikitch study", organized by Ellen Pikitch resulted in discard rates and length observations for various groundfish species including `r spp`  [@pikitch_evaluation_1988]. The northern and southern boundaries of the study were $48^\circ 42^\prime$ N. latitude and $48^\circ 42^\prime$ N. latitude respectively, which is primarily within the Columbia INPFC area, falling within Oregon/Washington waters [@pikitch_evaluation_1988; @rogers_numerical_1992]. Participation in the study was voluntary and included vessels using bottom, midwater, and shrimp trawl gears. Observers on commercial vessels collected the data, estimated the total weight of the catch by tow, and recorded the weight of species retained and discarded in the sample. Results of the Pikitch discard study were processed and provided by John Wallace (personal communication, Northwest Fishery Science Center, NOAA) in the form of ratios of discard weight to retained weight of `r spp`. 
 
-A trawl discard study conducted in 1985 to 1987, referred to as the Pikitch study, organized by Ellen Pikitch resulted in discard rates and length observations for various groundfish species including `rs spp`  [@pikitch_evaluation_1988]. The northern and southern boundaries of the study were $48^\circ 42^\prime$ N. latitude and $48^\circ 42^\prime$ N. latitude respectively, which is primarily within the Columbia INPFC area, falling within Oregon/Washington waters [@pikitch_evaluation_1988; @rogers_numerical_1992]. Participation in the study was voluntary and included vessels using bottom, midwater, and shrimp trawl gears. Observers on commercial vessels collected the data, estimated the total weight of the catch by tow, and recorded the weight of species retained and discarded in the sample. Results of the Pikitch discard study were processed and provided by John Wallace (personal communication, Northwest Fishery Science Center, NWFSC, NOAA) in the form of ratios of discard weight to retained weight of `r spp` and sex-specific length frequencies. The observed discard length observations by year and sex for `r spp` from the Pikitch study were limited. In order to reduce the noise in these data sex-specific observations were combined based on the assumption that discarding of small fish was not sex-specific (there was no indication of this in the data).
+The second source for discard data is from \gls{wcgop}. This program is part of the NWFSC and has been recording discard observations starting in 2002. Since 2011, when the IFQ program was implemented, observer coverage rates increased to nearly 100 percent for all the limited entry trawl vessels in the program and discard rates declined compared to pre-2011 rates. Discard rates were obtained for both the IFQ catch-share (observed and electronic monitored vessels) and the non-catch share sector for `r spp`. A single discard rate was calculated by weighting discard rates based on the commercial discards by each sector and gear type based on estimates from the \gls{gemm} report. Coefficient of variations were calculated for the non-catch shares sector and pre-catch share years by bootstrapping vessels within ports because the observer program randomly chooses vessels within ports to be observed. Post trawl rationalization, all catch-share vessels have 100 percent observer coverage and discarding is assumed to be known. The discard rates from both data sources by fleet based on gear type are shown in @tbl-discard-rates-twl -- @tbl-discard-rates-pot.  
 
-The final data for discard rates, mean body weight of discarded fish, and length observations is from the West Coast Groundfish Observer Program (WCGOP). This program is part of the NWFSC and has been recording discard observations starting in 2002. Since 2011, when the IFQ program was implemented, observer coverage rates increased to nearly 100 percent for all the limited entry trawl vessels in the program and discard rates declined compared to pre-2011 rates. Discard rates were obtained for both the IFQ catch-share (observed and electronic monitored vessels) and the non-catch share sector for `r spp`. A single discard rate was calculated by weighting discard rates based on the commercial discards by each sector and gear type based on estimates from the Groundfish Expanded Multi-year Mortality (GEMM) report. Coefficient of variations were calculated for the non-catch shares sector and pre-catch share years by bootstrapping vessels within ports because the observer program randomly chooses vessels within ports to be observed. Post trawl rationalization, all catch-share vessels have 100 percent observer coverage and discarding is assumed to be known.
 
-The discard rates across all data sources by fleet based on gear type are shown in @tbl-discard-rates-twl -- @tbl-discard-rates-pot and Figures XX - XX. The mean weights of discarded `r spp` from WCGCOP data are shown in Figures XX and XX. The discard length observations from the Pikitch study and WCGOP are shown in Figures XX and XX. ADD TEXT ABOUT CONVERTING LENGTHS TO AGES.
+
+ADD TEXT ABOUT CONVERTING LENGTHS TO AGES.
 
 ### Composition Data
 
@@ -54,7 +56,6 @@ Input N = $7.06 * N_{\text{trips}}$ if $N_{\text{fish}}/N_{\text{trips}}$ is $\g
 \end{centering}
 
 \vspace{0.50cm}
-
 
 
 @tbl-twl-age-samples-comp
@@ -116,20 +117,6 @@ sdmTMB was used in a similar fashion to that specified for fitting the \gls{s-ns
 @tbl-nwslope-samples
 
 
-### AFSC Slope Survey
-
-The \gls{s-aslope} operated during the months of October to November aboard the
-R/V Miller Freeman. Partial survey coverage of the U.S. west coast occurred during the years
-1988 - 1996 and complete coverage (north of 34$^\circ$ 30$^\prime$ N. latitude) during the years 1997 and
-1999-2001. Typically, only these four years that are seen as complete surveys are included in
-groundfish stock assessments.
-
-@fig-index-afslope
-@fig-qq-afslope
-@tbl-afslope-strata
-@tbl-afslope-samples
-
-
 ### AFSC/NWFSC West Coast Triennial Shelf Survey
 
 The \gls{s-tri} was first conducted by the AFSC in 1977, and the survey continued
@@ -158,12 +145,24 @@ via a shift in catchability (Q) between the 1992 and 1995 survey years.
 
 @fig-qq-tri-early
 @fig-qq-tri-late
-@fig-index-tri
+@fig-index-tri-early
+@fig-index-tri-late
+@fig-data-tri-early
+@fig-data-tri-late
 @tbl-tri-early-strata
 @tbl-tri-late-strata
 @tbl-tri-samples
 
 ## Additional Data Considered
+
+### AFSC Slope Survey
+
+The \gls{s-aslope} operated during the months of October to November aboard the
+R/V Miller Freeman. Partial survey coverage of the U.S. west coast occurred during the years
+1988 - 1996 and complete coverage (north of 34$^\circ$ 30$^\prime$ N. latitude) during the years 1997 and
+1999-2001. Typically, only these four years that are seen as complete surveys are included in
+groundfish stock assessments.
+
 
 Add text about EFP discard data
 
@@ -186,18 +185,26 @@ where $A_{\text{max}}$ is the maximum age. The prior is defined as a lognormal d
 
 The maximum age for `r spp` was selected based on available age data from all West Coast data sources. The oldest aged `r spp` was 102 years, captured by the commercial fishery in 2006, not accounting for potential ageing error. Examining all aged fish, a maximum age of 75 was selected. Across all data sources there were limited observation greater than 75 years of age. There are a higher frequency of older males compared to females observed in the data, however, females grow to larger sizes and generally have higher fishery selectivity which may bias the sex-ratio of older individuals. Using a maximum age of 75, the median of the prior was 0.72 yr$^{-1}$ with a standard error of 0.31.
 
-### Growth and Weight-at-Age
+### Growth
+
+Range-wide investigations of `r spp` growth suggest that growth varies across the northeastern Pacific, with a generally increasing cline in length-at-age with latitude [@mcdevitt1987sablefish, @echave2012fishbullinterdecadal, @gertseva2017icesjmsspatial, @kapur2020]. Break points in growth have been identified at around $50^\circ$N (approximately the northern end of Vancouver Island, Canada), where north of this breakpoint female asymptotic-length estimates were consistently over 70 cm and south of this breakpoint female asymptotic-length estimates were below 66 cm [@kapur2020]. A second break point was identified by [-kapur2020] at 36$^\circ$ N. latitude (approximately Monterey, California), where asymptotic size for females and males to the south were 60 cm and 55 cm, respectively. 
+
+Female `r spp` generally reach larger sizes compared to males. For example, the  female `r spp` the upper 95 percent confidence interval of all observed lengths from the \gls{s-wcgbt} is 70 cm compared to 62 cm for males. However, the size at age for the oldest `r spp` is quite variable leading to uncertainty in the estimated maximum size for both females and males across assessments depending upon the data used to inform estimates. 
+
+### Weight-at-Age
 
 
 ### Maturity and Fecundity
 
-@fig-maturity-data
-@fig-maturity-ogive
-@tbl-maturity-samples
+New maturity reads and analysis was conducted by Melissa Head (NWFSC) and Dr. Eric Ward (NWFSC) to support this assessment. A total of `r dim(maturity_data)[1]` sablefish maturity samples were collected during the annual \gls{s-wcgbt} in 2010, 2015, 2018, 2021, and 2022 @tbl-maturity-samples. The maturity samples were evaluated for functional maturity that classifies maturity with developing oocytes as mature or immature. The maturity-at-age or -length estimates were evaluated north and south of 36$^\circ$ N. latitude. Of the samples processed, sablefish were identified to be mature as early as age `r min(maturity_data[which(maturity_data$Area == "North" & maturity_data$functional_maturity == 1), "age"])` and `r min(maturity_data[which(maturity_data$Area == "South" & maturity_data$functional_maturity == 1), "age"])` in the north and south, respectively.  Generally, across samples, sablefish matured at younger ages more frequently in the north compared to the south @fig-maturity-data. 
+
+Maturity-at-age was estimated using a spatiotemporal model that explored the impacts of temperature, temporal changes in maturity, day of year, and location. Only sample location was determined to be significant in the model with the maturity curve right shifted (e.g., less probability of being mature at age) compared to fish in the north. A coastwide maturity curve was estimated by weighting the area specific curves using a biomass weighted prediction grid from the \gls{s-wcgbt}. The assessment uses the biomass weighted maturity curve (Spatial) @fig-maturity-ogive.
+
+Available data suggests that `r spp` are determinate spawners (i.e., total oocytes at the beginning of the spawning season is equivalent to total annual spawning output) and spawn three to four times per year [@hunter1989; @macewicz1994]. The total number of oocytes at the beginning of the spawning season appears to be linearly proportional to weight [@hunter1989], implying that spawning output for a mature female is also proportional to weight. This assumption has been used in previous `r spp` stock assessments and is retained here in the absence of new information. Data on skipped spawning are unavailable, as are data on environmental effects or other factors that could cause fecundity to vary non-linearly with weight.
 
 ### Ageing Precision and Bias
 
-Uncertainty surrounding the age-reading error process for `r spp` was incorporated by estimating ageing error by age. Age composition data used in the model were from break-and-burn otolith reads.  
+Observed `r spp` ages are derived from visually counting rings on otoliths using 'break-and-burn' methods. These counts can be large because `r spp` are long-lived and the repeatability of individual age estimates is imperfect, especially for older fish. Age-reading staff have indicated that `r spp` can be difficult to age. The observed age can differ, sometimes substantially, from the true age of a fish (i.e., "reading error"). Ageing error can be decomposed into the difference between true age and average-read age (bias) and variability around that average read age (precision).  
 
 The large majority of aged `r spp` used in the assessment were aged by the Cooperative Ageing Project (CAP).  Within-lab ageing error was estimated for CAP. Break-and-burn double reads of more than 12,000 otoliths were provided by the CAP lab (unpublished data).  An ageing error estimate was made based on these double reads using a computational tool specifically developed for estimating ageing error [@punt_quantifying_2008] and using release 2.02. of the R package \href{https://github.com/nwfsc-assess/nwfscAgeingError}{AgeingError} for input and output diagnostics. A linear standard error was estimated by age where there is more variability in the age of older fish (Figure XX). Sensitivities to alternative ageing error estimates (curvilinear relationship with age) were conducted during model development and the model was relatively insensitive to alternative ageing error assumptions. 
 

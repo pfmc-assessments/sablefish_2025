@@ -413,3 +413,316 @@ ggplot2::ggsave(
   height = 10
 )
 
+#===============================================================================
+# Look at the data by sex and age
+#===============================================================================
+
+sex_ratio  <- data_survey_bio$nwfsc_combo |>
+  dplyr::filter(Sex != "U") |>
+  dplyr::group_by(Age_years) |>
+  dplyr::summarise(
+    female = sum(Sex == "F"),
+    male = sum(Sex == "M"),
+    ratio = female / (female + male)
+  )
+ggplot(sex_ratio |> dplyr::filter(Age_years <= 50), aes(x = Age_years, y = ratio)) +
+  geom_line() + ylim(c(0, 1)) +
+  ylab("Ratio Female")
+
+
+sex_ratio_length  <- data_survey_bio$nwfsc_combo |>
+  dplyr::filter(Sex != "U", 
+                !is.na(Length_cm), 
+                Length_cm < 70, Length_cm >= 30) |>
+  dplyr::group_by(Length_cm) |>
+  dplyr::summarise(
+    female = sum(Sex == "F"),
+    male = sum(Sex == "M"),
+    ratio = female / (female + male)
+  )
+ggplot(sex_ratio_length, aes(x = Length_cm, y = ratio)) +
+  geom_line() + ylim(c(0, 1)) +
+  ylab("Ratio Female")
+
+
+#===============================================================================
+# Plot the AFSC Slope lengths and lengths with ages
+#===============================================================================
+
+length_data <- data_survey_bio$afsc_slope$length_data |> dplyr::filter(Sex != "U")
+age_data <- data_survey_bio$afsc_slope$age_data |> dplyr::filter(Sex != "U")
+
+data <- dplyr::bind_rows(
+  length_data[, c("Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Lengthed Fished"),
+  age_data[, c("Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Aged Fished")
+) |>
+  dplyr::mutate(length_round = round(Length_cm, 0)) |>
+  dplyr::group_by(length_round, Type) |>
+  dplyr::mutate(
+    Female = sum(Sex == "F"),
+    Male = sum(Sex == "M"),
+    Ratio = Female / (Female + Male)
+  )
+
+data |>
+  dplyr::group_by(Type) |>
+  dplyr::summarise(sex_ratio = sum(Sex == "F") / length(Sex))
+
+ggplot(data, aes(Length_cm, color = Type)) +
+  geom_density(size = 1) +
+  theme_bw() + xlim(c(0, 90)) +
+  xlab("Length (cm)") + ylab("Density") +
+  facet_grid("Sex")
+
+ggplot(data, aes(x = length_round, y = Ratio, color = Type, linetype = Type)) +
+  geom_line(linewidth = 1)  +
+  theme_bw() + xlim(c(30, 90)) +
+  xlab("Length (cm)") + ylab("Density") 
+table(data$Sex, data$Type)
+
+data_survey_catch$afsc_slope |>
+  dplyr::mutate(positive = dplyr::case_when(total_catch_numbers == 0 ~ 0, .default = 1)) |>
+  dplyr::summarize(percent_positive = sum(positive) / length(Tow)) 
+
+data_survey_catch$nwfsc_slope |>
+  dplyr::mutate(positive = dplyr::case_when(total_catch_numbers == 0 ~ 0, .default = 1)) |>
+  dplyr::summarize(percent_positive = sum(positive) / length(Tow)) 
+
+ggplot(data_survey_bio$nwfsc_slope, aes(x = Age_years, color = Sex)) +
+  geom_density() + 
+  geom_vline(xintercept = 4)
+
+#===============================================================================
+# Triennial 
+#===============================================================================
+triennial_len <- dplyr::bind_rows(
+  data_survey_bio$triennial_early$length_data,
+  data_survey_bio$triennial_late$length_data
+) 
+
+triennial_age <- dplyr::bind_rows(
+  data_survey_bio$triennial_early$age_data,
+  data_survey_bio$triennial_late$age_data
+) 
+
+data <- dplyr::bind_rows(
+  triennial_len[, c("Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Lengthed Fished"),
+  triennial_age [, c("Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Aged Fished")
+) |>
+  dplyr::mutate(length_round = round(Length_cm, 0)) |>
+  dplyr::group_by(length_round, Type) |>
+  dplyr::mutate(
+    Female = sum(Sex == "F"),
+    Male = sum(Sex == "M"),
+    Ratio = Female / (Female + Male)
+  )
+data |>
+  dplyr::group_by(Type) |>
+  dplyr::summarise(sex_ratio = sum(Sex == "F") / length(Sex))
+
+ggplot(data, aes(Length_cm, color = Type)) +
+  geom_density(size = 1) +
+  theme_bw() + xlim(c(0, 90)) +
+  xlab("Length (cm)") + ylab("Density") +
+  facet_grid("Sex")
+
+ggplot(data, aes(x = length_round, y = Ratio, color = Type, linetype = Type)) +
+  geom_line(linewidth = 1)  +
+  theme_bw() + xlim(c(30, 90)) +
+  xlab("Length (cm)") + ylab("Density") 
+
+
+data_year <- dplyr::bind_rows(
+  triennial_len[, c("Year", "Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Lengthed Fished"),
+  triennial_age [, c("Year", "Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Aged Fished")
+  ) |>
+  dplyr::filter(Sex != "U") |>
+  dplyr::mutate(length_round = round(Length_cm, 0)) |>
+  dplyr::group_by(Year, length_round, Type) |>
+  dplyr::summarize(
+    Female = sum(Sex == "F"),
+    Male = sum(Sex == "M"),
+    Ratio = Female / (Female + Male)
+  )
+ggplot(data_year, aes(x = length_round, y = Ratio, color = Type, linetype = Type)) +
+  geom_line(linewidth = 1)  +
+  theme_bw() + ylim(c(0,1)) + 
+  xlab("Length (cm)") + ylab("Density") + 
+  facet_grid("Year")
+
+data_year <- dplyr::bind_rows(
+  triennial_len[, c("Year", "Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Lengthed Fished"),
+  triennial_age[, c("Year", "Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Aged Fished")
+) |>
+  dplyr::filter(Sex != "U", Year != 1980) |>
+  dplyr::mutate(length_round = round(Length_cm, 0)) |>
+  dplyr::group_by(Year, length_round, Type) |>
+  dplyr::mutate(
+    Female = sum(Sex == "F"),
+    Male = sum(Sex == "M"),
+    Ratio = Female / (Female + Male)
+  )
+
+ggplot(data_year, aes(Length_cm, color = Type)) +
+  geom_density(size = 1) +
+  theme_bw() + xlim(c(0, 90)) +
+  xlab("Length (cm)") + ylab("Density") +
+  facet_wrap(facets = "Year", nrow = 3)
+
+tows <- triennial_age[, c("Trawl_id", "Year", "Sex", "Length_cm")] |> 
+  dplyr::filter(!is.na(Length_cm)) |> 
+  dplyr::group_by(Year) |>
+  dplyr::summarise(n = length(unique(Trawl_id)))
+
+
+data_year <- dplyr::bind_rows(
+  triennial_len[, c("Year", "Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Lengthed Fished"),
+  triennial_age [, c("Year", "Sex", "Length_cm")] |> dplyr::filter(!is.na(Length_cm)) |> dplyr::mutate(Type = "Aged Fished")
+) |>
+  dplyr::filter(Sex != "U") 
+
+
+triennial_test <- list()
+for (y in sort(unique(data_year$Year))[-1]) {
+  temp <- wilcox.test(Length_cm ~ Type, data = data_year[which(data_year$Year == y), ])
+  triennial_test <- rbind(triennial_test, c(y, round(temp$p.value, 3)))
+}
+
+
+#===============================================================================
+# WCGBT
+#===============================================================================
+
+data <- data_survey_bio$nwfsc_combo[, c("Sex", "Length_cm", "Age_years")] |>
+  dplyr::mutate(
+    length_round = round(Length_cm, 0),
+    Type = dplyr::case_when(!is.na(Age_years) ~ "Aged Fish", .default = "Lengthed Fish")
+  ) |>
+  dplyr::group_by(length_round, Type) |>
+  dplyr::mutate(
+    Female = sum(Sex == "F"),
+    Male = sum(Sex == "M"),
+    Ratio = Female / (Female + Male)
+  )
+data |>
+  dplyr::group_by(Type) |>
+  dplyr::summarise(sex_ratio = sum(Sex == "F") / length(Sex))
+
+ggplot(data, aes(Length_cm, color = Type)) +
+  geom_density(size = 1) +
+  theme_bw() + xlim(c(0, 90)) +
+  xlab("Length (cm)") + ylab("Density") +
+  facet_grid("Sex")
+
+ggplot(data, aes(x = length_round, y = Ratio, color = Type, linetype = Type)) +
+  geom_line(linewidth = 1)  +
+  theme_bw() + xlim(c(30, 90)) +
+  xlab("Length (cm)") + ylab("Density") 
+
+
+data_year <- data_survey_bio$nwfsc_combo[, c("Year", "Sex", "Length_cm", "Age_years")] |>
+  dplyr::mutate(
+    length_round = round(Length_cm, 0),
+    Type = dplyr::case_when(!is.na(Age_years) ~ "Aged Fish", .default = "Lengthed Fish")
+  ) |>
+  #dplyr::filter(Sex != "U") |>
+  dplyr::group_by(Year, length_round, Type) |>
+  dplyr::mutate(
+    Female = sum(Sex == "F"),
+    Male = sum(Sex == "M"),
+    Ratio = Female / (Female + Male)
+  )
+
+ggplot(data_year, aes(Length_cm, color = Type)) +
+  geom_density(size = 1) +
+  theme_bw() + xlim(c(0, 90)) +
+  xlab("Length (cm)") + ylab("Density") +
+  facet_wrap(facets = "Year", nrow = 3)
+
+ggplot(data_year, aes(Length_cm, color = Type)) +
+  geom_density(size = 1) +
+  theme_bw() + xlim(c(0, 90)) +
+  xlab("Length (cm)") + ylab("Density") +
+  facet_wrap(facets = "Year", nrow = 3)
+
+data_year <- data_survey_bio$nwfsc_combo[, c("Year", "Sex", "Length_cm", "Age_years")] |>
+  dplyr::mutate(
+    length_round = round(Length_cm, 0),
+    Type = dplyr::case_when(!is.na(Age_years) ~ "Aged Fish", .default = "Lengthed Fish")
+  ) |>
+  dplyr::filter(Sex != "U")
+
+wcgbt_test <- list()
+for (y in sort(unique(data_year$Year))) {
+  temp <- wilcox.test(Length_cm ~ Type, data = data_year[which(data_year$Year == y), ])
+  wcgbt_test <- rbind(wcgbt_test, c(y, round(temp$p.value, 3)))
+}
+
+#===============================================================================
+# How many unique trawls in the Trienial in 1986
+#===============================================================================
+data <- data_survey_bio$triennial_early$age_data |>
+  dplyr::filter(Year == 1986)
+length(unique(data$Trawl_id))
+aggregate(Trawl_id ~ Sex, data, function(x) length(unique(x)))
+
+age_data <- data_survey_bio$triennial_early$age_data |>
+  dplyr::filter(!is.na(Age_years)) |> 
+  dplyr::rename_with(.fn = tolower) 
+aggregate(trawl_id~year, age_data, function(x) length(unique(x)))
+plot(data_86$latitude_dd, data_86$depth_m)
+
+#===============================================================================
+# What ages were observed by year for the Triennial
+#===============================================================================
+all_tri_bio <- dplyr::bind_rows(
+  data_survey_bio$triennial_early$age_data,
+  data_survey_bio$triennial_late$age_data
+) |>
+  dplyr::filter(!is.na(Age_years))
+
+counts <- all_tri_bio  |>
+  dplyr::group_by(Year) |>
+  dplyr::mutate(total = dplyr::n()) |>
+  dplyr::group_by(Year, Age_years) |>
+  dplyr::summarise(
+    n = dplyr::n(),
+    proportion = n / unique(total))
+
+ggplot(counts, aes(x = Age_years, y = proportion)) +
+  geom_bar(position="stack", stat="identity") +
+  facet_wrap(facets = "Year", ncol = 2, dir = "v")
+
+catch_pos <- dplyr::bind_rows(
+  data_survey_catch$triennial_early,
+  data_survey_catch$triennial_late) |>
+  dplyr::mutate(
+    positive = dplyr::case_when(total_catch_numbers > 0 ~ 1, .default = 0))
+
+ggplot() +
+  geom_point(data = catch_pos[catch_pos$positive == 1, ], aes(x = Latitude_dd, y = Depth_m), shape = 1, size = 1) +
+  geom_point(data = all_tri_bio, 
+             aes(x = Latitude_dd, y = Depth_m), color = "red", shape = 17) +
+  theme_bw() +
+  facet_wrap(facets = "Year", ncol = 2, dir = "v")
+
+
+#===============================================================================
+# What are the number of age-0 fish observed in the survey in 2022
+#===============================================================================
+
+age_0 <- data_survey_bio$nwfsc_combo |>
+  dplyr::filter(Age_years < 2) |>
+  dplyr::group_by(Year, Age_years) |>
+  dplyr::summarise(
+    n = dplyr::n())
+# 2022 had 27 age-0 fish
+# 2023 had 36 age-1 fish
+
+unsexed_fish <- data_survey_bio$nwfsc_combo |>
+  dplyr::filter(Sex == "U", !is.na(Age_years)) |>
+  dplyr::group_by(Year) |>
+  dplyr::summarise(
+    age_0 = sum(Age_years == 0),
+    age_older = sum(Age_years != 0)
+  )

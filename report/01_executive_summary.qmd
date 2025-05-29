@@ -19,9 +19,14 @@ Check to see if referencing works @tbl-es-catches
 #| tbl-pos: H
 
 catches_es_table |>
+  dplyr::rename(
+    `TWL Discards (mt)` = `TWL_Discards (mt)`,
+    `HKL Discards (mt)` = `HKL_Discards (mt)`,
+    `Pot Discards (mt)` = `Pot_Discard (mt)`
+  ) |>
   gt::gt() |>
   gt::fmt_number(
-    columns = 2:6,
+    columns = 2:8,
     decimals = 0
   ) |>
   gt::tab_options(
@@ -32,9 +37,9 @@ catches_es_table |>
   gt::cols_align(
     align = "center"
   ) |>
-  #cols_width(
-  #  everything() ~ px(75)
-  #) |>
+  cols_width(
+    everything() ~ px(75)
+  ) |>
   gt::as_latex()
 
 ```
@@ -135,6 +140,7 @@ knitr::include_graphics(
 #| tbl-pos: H
 
 recr_es_table |>
+  dplyr::filter(Year < 2025) |>
   gt::gt() |>
   gt::fmt_number(
     columns = 2:4,
@@ -380,6 +386,9 @@ cat(a, sep = '\n')
 #| eval: !expr eval_tables 
 #| tbl-cap: !expr if(eval_tables) projections_cap 
 #| tbl-pos: H
+
+# Note to self: the ABC for 2027 and 2028 is not provided due to the HCR
+# need to add those in to the table.
 
 projections_table |>
   gt::gt() |>

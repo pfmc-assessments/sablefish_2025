@@ -42,72 +42,71 @@ plot_fleet_selectivity <- function(model_out, fleet_num){
       fleet_active_years <- c(min(fleet_years), max(fleet_years))
   }
 
-    ctl_file <- r4ss::SS_readctl_3.30(file.path(model_path, "control.ss_new"))
-    tv_selex <- ctl_file$age_selex_parms_tv
-    fleet_tv_entry <- rownames(tv_selex[grep(paste0("(",fleet_num,")"), rownames(tv_selex), fixed=TRUE),])
-    fleet_end_blocks <- as.vector(sapply(fleet_tv_entry, \(x) stringr::str_extract(x, "\\d+$")))
+  ctl_file <- r4ss::SS_readctl_3.30(file.path(model_path, "control.ss_new"))
+  tv_selex <- ctl_file$age_selex_parms_tv
+  fleet_tv_entry <- rownames(tv_selex[grep(paste0("(",fleet_num,")"), rownames(tv_selex), fixed=TRUE),])
+  fleet_end_blocks <- as.vector(sapply(fleet_tv_entry, \(x) stringr::str_extract(x, "\\d+$")))
 
-    age_selex <- model_out$ageselex %>% dplyr::as_tibble() %>% dplyr::filter(Factor == "Asel")
+  age_selex <- model_out$ageselex %>% dplyr::as_tibble() %>% dplyr::filter(Factor == "Asel")
 
-    all_timeblock_years <- age_selex %>% dplyr::filter(!(Yr %in% c(min(Yr), max(Yr)))) %>% dplyr::pull(Yr) %>% unique %>% as.numeric %>% sort
-    fleet_timeblock_years <- all_timeblock_years[which(all_timeblock_years %in% c(min(all_timeblock_years), fleet_end_blocks, max(fleet_active_years)))]
-    fleet_timeblock_years_names <- fleet_timeblock_years
-    fleet_timeblock_years_names[1] <- max(fleet_timeblock_years[1], fleet_active_years[1])
-    fleet_timeblock_years_names[length(fleet_timeblock_years_names)] <- min(fleet_timeblock_years[length(fleet_timeblock_years)], fleet_active_years[2])
+  all_timeblock_years <- age_selex %>% dplyr::filter(!(Yr %in% c(min(Yr), max(Yr)))) %>% dplyr::pull(Yr) %>% unique %>% as.numeric %>% sort
+  fleet_timeblock_years <- all_timeblock_years[which(all_timeblock_years %in% c(min(all_timeblock_years), fleet_end_blocks, max(fleet_active_years)))]
+  fleet_timeblock_years_names <- fleet_timeblock_years
+  fleet_timeblock_years_names[1] <- max(fleet_timeblock_years[1], fleet_active_years[1])
+  fleet_timeblock_years_names[length(fleet_timeblock_years_names)] <- min(fleet_timeblock_years[length(fleet_timeblock_years)], fleet_active_years[2])
+  timeblock_names <- sapply(1:(length(fleet_timeblock_years_names)-1), function(i){
+    paste0(fleet_timeblock_years_names[i], "-",fleet_timeblock_years_names[i+1])
+  })
 
-    timeblock_names <- sapply(1:(length(fleet_timeblock_years_names)-1), function(i){
-        paste0(fleet_timeblock_years_names[i], "-",fleet_timeblock_years_names[i+1])
+  # Correct timeblock names by reducing the block end year by 1 for all blocks
+  # except for the last one (so that the last block goes to the final model year).
+  if(length(timeblock_names) > 1){
+    timeblock_names[1:(length(timeblock_names)-1)] <- sapply(1:(length(timeblock_names)-1), function(i){
+        block_start_year <- as.numeric(stringr::str_extract(timeblock_names[i], "^\\d+"))
+        block_end_year <- as.numeric(stringr::str_extract(timeblock_names[i], "\\d+$"))
+        return(paste0(block_start_year,"-",block_end_year-1))
     })
-
-    # Correct timeblock names by reducing the block end year by 1 for all blocks
-    # except for the last one (so that the last block goes to the final model year).
-    if(length(timeblock_names) > 1){
-        timeblock_names[1:(length(timeblock_names)-1)] <- sapply(1:(length(timeblock_names)-1), function(i){
-            block_start_year <- as.numeric(stringr::str_extract(timeblock_names[i], "^\\d+"))
-            block_end_year <- as.numeric(stringr::str_extract(timeblock_names[i], "\\d+$"))
-            return(paste0(block_start_year,"-",block_end_year-1))
-        })
-    }
+  }
     
-    available_tb <- age_selex %>% dplyr::pull(Yr) %>% unique %>% as.numeric %>% sort
-    filter_years <- fleet_timeblock_years 
-    if(!(fleet_timeblock_years[1] %in% available_tb)){
-        filter_years <- 2024
-    }
+  available_tb <- age_selex %>% dplyr::pull(Yr) %>% unique %>% as.numeric %>% sort
+  filter_years <- fleet_timeblock_years 
+  if(!(fleet_timeblock_years[1] %in% available_tb)){
+      filter_years <- 2024
+  }
 
-    timeblock_key <- data.frame(Yr=fleet_timeblock_years, timeblock=c(timeblock_names, timeblock_names[length(timeblock_names)]))
+  timeblock_key <- data.frame(Yr=fleet_timeblock_years, timeblock=c(timeblock_names, timeblock_names[length(timeblock_names)]))
 
-    data <- age_selex %>% 
-        tidyr::pivot_longer(`0`:`70`, names_to="age", values_to="sel") %>% 
-        dplyr::filter(Yr %in% filter_years, Fleet==fleet_num) %>%
-        dplyr::mutate(
-            age=as.integer(age),
-            sex = factor(ifelse(Sex==1, "Female", "Male")),
-            Fleet = factor(Fleet, labels=fleet_name)
-        ) %>%
-        dplyr::left_join(timeblock_key, by="Yr")
-        
+  data <- age_selex %>% 
+      tidyr::pivot_longer(`0`:`70`, names_to="age", values_to="sel") %>% 
+      dplyr::filter(Yr %in% filter_years, Fleet==fleet_num) %>%
+      dplyr::mutate(
+          age=as.integer(age),
+          sex = factor(ifelse(Sex==1, "Female", "Male")),
+          Fleet = factor(Fleet, labels=fleet_name)
+      ) %>%
+      dplyr::left_join(timeblock_key, by="Yr")
+      
 
-    plot <- ggplot2::ggplot(data, aes(x=age, y=sel, color=factor(timeblock), linetype=sex, shape=sex, group=interaction(sex, timeblock)))+
-        ggplot2::geom_line()+
-        ggplot2::geom_point(size=2)+
-        ggplot2::labs(x="Age", y="Selectivity", color="Time Block", linetype="Sex", shape="Sex")+
-        ggplot2::guides(shape="none", linetype="none")+
-        ggplot2::scale_y_continuous(limits=c(0, 1), breaks=seq(0,1, 0.25), labels=seq(0,1,0.25))+
-        ggplot2::scale_shape_manual(values=c(16, 1))+
-        ggplot2::facet_wrap(~Fleet)+
-        ggplot2::theme_bw()+
-        ggplot2::theme(
-            legend.position = "inside",
-            legend.position.inside = c(0.65, 0.8),
-            legend.text = element_text(size=12),
-            legend.title = element_text(size=14),
-            axis.title = element_text(size=14),
-            axis.text = element_text(size=12),
-            strip.text = element_text(size=16)
-        )
+  plot <- ggplot2::ggplot(data, aes(x=age, y=sel, color=factor(timeblock), linetype=sex, shape=sex, group=interaction(sex, timeblock)))+
+      ggplot2::geom_line()+
+      ggplot2::geom_point(size=2)+
+      ggplot2::labs(x="Age", y="Selectivity", color="Time Block", linetype="Sex", shape="Sex")+
+      ggplot2::guides(shape="none", linetype="none")+
+      ggplot2::scale_y_continuous(limits=c(0, 1), breaks=seq(0,1, 0.25), labels=seq(0,1,0.25))+
+      ggplot2::scale_shape_manual(values=c(16, 1))+
+      ggplot2::facet_wrap(~Fleet)+
+      ggplot2::theme_bw()+
+      ggplot2::theme(
+          legend.position = "inside",
+          legend.position.inside = c(0.65, 0.8),
+          legend.text = element_text(size=12),
+          legend.title = element_text(size=14),
+          axis.title = element_text(size=14),
+          axis.text = element_text(size=12),
+          strip.text = element_text(size=16)
+      )
 
-    return(plot)
+  return(plot)
 }
 
 
@@ -117,7 +116,6 @@ plot_fleet_selectivity <- function(model_out, fleet_num){
 #' fleet. Plots show selectivity curves for all model timeblocks.
 #' 
 #' @param model_out model object created by [r4ss::SS_output()]
-#' @param model_path path to model directory containing control.ss file
 #' @param fleet_num the fleet for which to plot selectivity
 #' 
 #' @return ggplot plot object
@@ -134,8 +132,9 @@ plot_fleet_selectivity <- function(model_out, fleet_num){
 #' ret3 <- plot_fleet_retention(model_out, 3)
 #' (ret1+ret2+ret3)+plot_layout(axes="collect")
 #' 
-plot_fleet_retention <- function(model_out, model_path, fleet_num){
-    data <- r4ss::SS_readdat(file.path(model_path, "data.ss"))
+plot_fleet_retention <- function(model_out, fleet_num) {
+  model_path <-  model_out[["inputs"]][["dir"]]
+    data <- r4ss::SS_readdat(file.path(model_path, "data_echo.ss_new"))
     fleet_name <- data$fleetnames[fleet_num]
     fleet_type <- data$fleetinfo %>% dplyr::filter(fleetname==fleet_name) %>% dplyr::pull(type)
     if(fleet_type == 1){
@@ -146,12 +145,12 @@ plot_fleet_retention <- function(model_out, model_path, fleet_num){
         fleet_active_years <- c(min(fleet_years), max(fleet_years))
     }
 
-    ctl_file <- SS_readctl_3.30(file.path(model_path, "control.ss"))
+    ctl_file <- SS_readctl_3.30(file.path(model_path, "control.ss_new"))
     tv_selex <- ctl_file$age_selex_parms_tv
     fleet_tv_entry <- rownames(tv_selex[grep(paste0("(",fleet_num,")"), rownames(tv_selex), fixed=TRUE),])
     fleet_end_blocks <- as.vector(sapply(fleet_tv_entry, \(x) stringr::str_extract(x, "\\d+$")))
 
-    age_selex <- model_out$ageselex %>% as_tibble() %>% dplyr::filter(Factor == "Aret")
+    age_selex <- model_out$ageselex %>% tibble::as_tibble() %>% dplyr::filter(Factor == "Aret")
 
     all_timeblock_years <- age_selex %>% dplyr::filter(!(Yr %in% c(min(Yr), max(Yr)))) %>% dplyr::pull(Yr) %>% unique %>% as.numeric %>% sort
     fleet_timeblock_years <- all_timeblock_years[which(all_timeblock_years %in% c(all_timeblock_years, fleet_end_blocks))]

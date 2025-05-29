@@ -41,7 +41,7 @@ process_survey <- function(
   fs::dir_create(fig_table_dir)
   
   survey_name <- recode_project(unique(catch_data$Project), gls = FALSE)
-  if (survey_name == "triennial") {
+  if (survey_name %in% c("triennial")) {
     survey_name <- ifelse(
       1980 %in% unique(catch_data[, "Year"]),
       "triennial-early",
@@ -88,7 +88,9 @@ process_survey <- function(
       y = bds_data$length_data |>
         dplyr::group_by(Project, Year) |>
         dplyr::summarise(
+          `Sampled Tows Lengths` = length(unique(Trawl_id)),
           `N Lengthed` = sum(!is.na(Length_cm)),
+          `Sampled Tows Ages` = 0,
           `N Aged` = 0
         ),
       by = c("Project", "Year")
@@ -106,11 +108,13 @@ process_survey <- function(
     ages_samples <- bds_data$age_data |>
       dplyr::group_by(Year) |>
       dplyr::summarise(
+        `Sampled Tows Ages` = length(unique(Trawl_id)),
         `N Aged` = sum(!is.na(Age))
       ) |>
       as.data.frame()
     find <- which(samples[, "Year"] %in% ages_samples[, "Year"])
     samples[find, "N Aged"] <- ages_samples[, "N Aged"]
+    samples[find, "Sampled Tows Ages"] <- ages_samples[, "Sampled Tows Ages"]
   }
   
   utils::write.csv(
@@ -147,7 +151,7 @@ process_survey <- function(
   #============================================================================
   if (survey_name %in% c("afscslope", "triennial-early", "triennial-late")) {
     bds_length <- bds_data$length_data
-    bds_age <- bds_data$age_data
+    bds_age <- bds_data$age_data |> dplyr::filter(Sex != "U")
   } else {
     bds_length <- bds_age <- bds_data
   }
@@ -161,25 +165,29 @@ process_survey <- function(
     month = 7,
     verbose = FALSE
   )
-  comps_out <- bind_compositions(compositions)
+  if (dim(compositions$unsexed)[1] > 1) {
+    comps_out <- bind_compositions(compositions)
+  } else {
+    comps_out <- compositions$sexed
+  }
   utils::write.csv(
     comps_out,
     file = here::here(save_dir, paste0("data-survey-comps-lengths-", survey_name, ".csv")),
     row.names = FALSE
   )
   
-  nwfscSurvey::plot_comps(
-    data = compositions$sexed,
-    add_save_name = survey_name,
-    dir = fig_table_dir
-  )
-  if ("unsexed" %in% names(compositions)) {
-    nwfscSurvey::plot_comps(
-      data = compositions$unsexed,
-      add_save_name = survey_name,
-      dir = fig_table_dir
-    )
-  }
+  #nwfscSurvey::plot_comps(
+  #  data = compositions$sexed,
+  #  add_save_name = survey_name,
+  #  dir = fig_table_dir
+  #)
+  #if ("unsexed" %in% names(compositions)) {
+  #  nwfscSurvey::plot_comps(
+  #    data = compositions$unsexed,
+  #    add_save_name = survey_name,
+  #    dir = fig_table_dir
+  #  )
+  #}
   
   # Marginal ages
   compositions <- nwfscSurvey::get_expanded_comps(
@@ -193,25 +201,30 @@ process_survey <- function(
     ageerr = 1,
     verbose = FALSE
   )
-  comps_out <- bind_compositions(compositions)
+  if (dim(compositions$unsexed)[1] > 1) {
+    comps_out <- bind_compositions(compositions)
+  } else {
+    comps_out <- compositions$sexed
+  }
+  
   utils::write.csv(
     comps_out,
     file = here::here(save_dir, paste0("data-survey-comps-ages-", survey_name, ".csv")),
     row.names = FALSE
   )
   
-  nwfscSurvey::plot_comps(
-    data = compositions$sexed,
-    add_save_name = survey_name,
-    dir = fig_table_dir
-  )
-  if ("unsexed" %in% names(compositions)) {
-    nwfscSurvey::plot_comps(
-      data = compositions$unsexed,
-      add_save_name = survey_name,
-      dir = fig_table_dir
-    )
-  }
+  #nwfscSurvey::plot_comps(
+  #  data = compositions$sexed,
+  #  add_save_name = survey_name,
+  #  dir = fig_table_dir
+  #)
+  #if ("unsexed" %in% names(compositions)) {
+  #  nwfscSurvey::plot_comps(
+  #    data = compositions$unsexed,
+  #    add_save_name = survey_name,
+  #    dir = fig_table_dir
+  #  )
+  #}
   
   #=============================================================================
   # CAAL age composition data

@@ -10,6 +10,8 @@ recode_project <- function(x, gls = FALSE) {
     "Groundfish Slope and Shelf Combination Survey" ~ "wcgbt",
     "Groundfish Slope Survey" ~ "nwfscslope",
     "Groundfish Triennial Shelf Survey" ~ "triennial",
+    "triennial_early" ~ "triennial-early",
+    "triennial_late" ~ "triennial-late",
     .default = NA_character_
   )
   if (gls) {
@@ -39,8 +41,8 @@ recode_fleet_cw <- function(x) {
     x %in% c("twl", "trawl") ~ "1",
     x %in% c("hkl", "fixed-gear") ~ "2",
     x %in% c("pot") ~ "3",
-    x %in% c("akshlf", "triennial", "triennial_early", "triennial_late", "tri", "groundfish triennial shelf survey") ~ "7",
-    x %in% c("akslp", "afsc.slope", "afsc_slope", "aslope", "ak slope", "afsc/race slope survey") ~ "8",
+    x %in% c("triennial_early") ~ "7",
+    x %in% c("triennial_late") ~ "8",
     x %in% c("nwslp", "nwfsc.slope", "nwfsc_slope", "nslope", "nwfsc slope", "groundfish slope survey") ~ "9",
     x %in% c("nwcbo", "nwfsc.combo", "wcgbt", "wcgbts", "groundfish slope and shelf combination survey") ~ "10",
     x %in% c("env", "env. index") ~ "11",
@@ -60,10 +62,9 @@ recode_fleet_text_cw <- function(x, case = FALSE) {
     x == 5 ~ "hkl discard",
     x == 6 ~ "pot discard",
     x == 7 ~ "\\glsentryshort{s-tri}",
-    x == 8 ~ "\\glsentryshort{s-aslope}",
-    x == 9 ~ "\\glsentryshort{s-nslope}",
-    x == 10 ~ "\\glsentryshort{s-wcgbt}",
-    x == 11 ~ "environmental survey",
+    x == 8 ~ "\\glsentryshort{s-nslope}",
+    x == 9 ~ "\\glsentryshort{s-wcgbt}",
+    x == 10 ~ "environmental survey",
   )
   if (case == "title") {
     out <- stringi::stri_trans_totitle(out)
@@ -78,10 +79,9 @@ recode_fleet_figure_cw <- function(x) {
     x == 2 ~ "Hook-and-Line",
     x == 3 ~ "Pot",
     x == 7 ~ "Triennial",
-    x == 8 ~ "AFSC Slope",
-    x == 9 ~ "NWFSC Slope",
-    x == 10 ~ "WCGBT",
-    x == 11 ~ "Env. Index"
+    x == 8 ~ "NWFSC Slope",
+    x == 9 ~ "WCGBT",
+    x == 10 ~ "Env. Index"
   )
 }
 

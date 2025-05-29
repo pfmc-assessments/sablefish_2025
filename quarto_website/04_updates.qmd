@@ -1,0 +1,233 @@
+```{r}
+#| label: load-fishery-data
+#| echo: false
+#| warning: false
+library(ggplot2)
+library(dplyr)
+library(gt)
+# this needs to be fixed to use relative directories
+# project_dir <- here::here()
+project_dir <- "C:/Assessments/2025/sablefish_2025"
+data_proc <- file.path(project_dir, "data-processed")
+data <- file.path(project_dir , "data")
+
+load(file.path(data, "data_commercial_landings.rda"))
+load(file.path(data, "data_commercial_discards.rda"))
+landings <- dplyr::bind_rows(
+  data_commercial_landings,
+  data_commercial_discards) |>
+  dplyr::mutate(
+    Fleet = dplyr::case_when(
+      fleet == 1 ~ "Trawl",
+      fleet == 2 ~ "Hook & Line",
+      fleet == 3 ~ "Pot",
+      fleet == 4 ~ "Trawl Discard",
+      fleet == 5 ~ "Hook & Line Discard",
+      fleet == 6 ~ "Pot Discard",)
+  ) 
+
+load(file.path(data, "data_commercial_bds.rda"))
+bds_data <- data_commercial_bds |> 
+  as_tibble() |>
+  mutate(
+    area = case_when(
+      state %in% c("WA", "OR") ~ state,
+      TRUE ~ paste(area, state)
+    ),
+    period = case_when(
+      year > 2018 ~ "2019-2024",
+      year < 2011 ~ "1980-2010",
+      TRUE ~ "2011-2018"
+    ),
+    area = factor(area, levels=c("South CA", "North CA", "OR", "WA"))
+  )
+
+```
+
+## General Updates 
+
+Updates are provided below on the available data and modeling decisions that may have changed since the pre-assessment data workshop.
+
+### Fishery Data
+
+#### Fleets Proposed for the Assessment
+
+Since the pre-assessment data workshop, the stock assessment team has modified the landings and the proposed model structure to correct incorrect assumptions from previous assessments and to support a more stable model. Previous assessments of West Coast sablefish have added historical foreign fleet removals current gear-specific landings fleets with the model estimating additional mortality from discarding (i.e., using estimates of retention and the mortality of discarded sablefish by gear type).  When reviewing the historical documentation that provides estimates of historical removals by foreign fleets in U.S. waters, it was determined that the reported totals by gear type and year represented total catches (landings plus discards) meaning it would be inaccurate to estimate additional discard mortality from these catch totals which was done in both the 2011 and 2019 benchmark assessments.  
+
+The other factor that had led to the stock assessment team modifying the catch streams has been driven by model stability and transparency.  Groundfish assessment had applied one of the two following approaches to estimate total mortality (landings plus dead discards): 1) estimate selectivity and retention with assumptions about discard mortality within the model using available discard data (discard rates and lengths or ages of discarded fish) or 2) include separate landings and discard fleets in the model with discard mortality being estimated external to the model. These two approaches, when the models are parameterized in a comparable fashion, should result in similar to nearly identical estimates. Previous sablefish assessments have opted to estimate selectivity and retention within the model. However, during model development the stock assessment team determined that this model structure appearred to be unstable, created challenges in estimating discard mortality that aligned with estimates by gear with the Groundfish Expanded Multiyear Mortality 
+report, and was overall less transparent when the model was producing reasonable estimates of selectivity and retention.  Given these challenges, the stock assessment team, opted to move to a model with separate discard fleets.  
+
+The new fleets used in the model will increase from three (trawl, hook & line, and pot) to a total of six fishery fleets with the additional three fleets that represent estimated discard mortality.  The discard mortality was estimated based upon the gear using historical discard studies (e.g., Pikitch) and current discard information collected by the West Coast Groundfish Observer Program (WCGOP). In summary, the proposed fleets are now:
+
+- Trawl: Includes domestic historical and current landings, historical foreign fleet total mortality, and total mortality estimates from the at-sea fishery.
+- Hook & Line: Includes domestic historical and current landings, historical foreign fleet total mortality, and recreational total mortality.
+- Pot: Includes domestic historical and current landings and historical foreign fleet total mortality.
+- Trawl Discards: Externally estimated discard mortality based on the domestic historical and current landings informed by discard rate data (Pikitch and WCGOP) with an assumed mortality rate of 50%.
+- Hook & Line Discards: Externally estimated discard mortality based on the domestic historical and current landings informed by discard rate data (WCGOP) with an assumed mortality rate of 20%.
+- Pot Discards: Externally estimated discard mortality based on the domestic historical and current landings informed by discard rate data (WCGOP) with an assumed mortality rate of 20%.
+
+The revised removals that will be used in the assessment are provided below.
+
+```{r}
+#| label: landings-all-years
+#| echo: false
+#| warning: false
+#| fig-cap: "Coastwide landings and discads (mt) of sablefish by gear."
+#| fig-cap-location: margin
+
+ggplot(landings, aes(x = year, y = catch_mt, fill = Fleet)) +
+  geom_bar(stat = 'identity') +
+  theme_bw() +
+  xlab("Year") + ylab("Landings & Discards (mt)") +
+  scale_y_continuous(
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  scale_fill_viridis_d()
+
+```
+
+
+```{r}
+#| label: landings-recent
+#| echo: false
+#| warning: false
+#| fig-cap: "Coastwide landings and discards (mt) of sablefish by gear since 1981. "
+#| fig-cap-location: margin
+
+ggplot(landings |> dplyr::filter(year >= 1981), aes(x = year, y = catch_mt, fill = Fleet)) +
+  geom_bar(stat = 'identity') +
+  theme_bw() +
+  xlab("Year") + ylab("Landings & Discards (mt)") +
+  scale_y_continuous(
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  scale_fill_viridis_d()
+
+```
+
+```{r}
+#| label: landings-table
+#| warning: false
+#| echo: false
+#| tbl-cap: "Coastwide landings (mt) by gear and total mortality for the last ten years.  Note, the landings for 2024 are incomplete."
+#| tbl-cap-location: margin
+
+landings |>
+  dplyr::filter(year >= 2015) |>
+  dplyr::group_by(year, Fleet) |>
+  dplyr::summarise(
+    mt = sum(catch_mt),
+  ) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    total = sum(mt)
+  ) |>
+  dplyr::select(year, Fleet, mt, total) |>
+  tidyr::pivot_wider(
+    names_from = Fleet,
+    values_from = mt
+  ) |>
+  dplyr::relocate(total, .after = `Trawl Discard`) |>
+  dplyr::rename(
+    Year = year,
+    `Total Mortality (mt)` = total
+  ) |>
+  dplyr::ungroup() |>
+  gt() |>
+  tab_header(
+    title = "Coastwide landings and discards (mt) by gear and total landings for the last ten years. "
+  ) |>
+  fmt_number(
+    columns = 2:8,
+    decimals = 0
+  ) |>
+  cols_align(
+    align = "center"
+  ) |>
+  tab_options(
+    table.font.size = 20,
+    table.align = "right"
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "white"),
+      cell_text(color = "black")
+    ),
+    locations = cells_body(
+      columns = everything()
+    )
+  ) 
+
+```
+
+#### Fishery Age Data
+
+At the time of the pre-assessment data workshop, recent ages were not available for discussion.  The Cooperative Ageing Lab has since completed ageing work to support this assessment.  A table with the number of ages by fleet for the most recent 10 years and age distribution plots representing all available age data are provided below.
+
+```{r}
+#| label: nsamples-age
+#| echo: false
+#| warning: false
+#| tbl-cap: "Number of available ages over time, grouped by gear type (TWL = trawl, HKL = hook-and-line, POT = pot) and state. Note, this does not include unread otoliths."
+#| tbl-cap-location: margin
+
+bds_data |> 
+  dplyr::filter(year >= 2015) |>
+  dplyr::group_by(year, geargroup) |>
+  dplyr::summarise(Ages = sum(!is.na(age_years))) |>
+  dplyr::mutate(
+    geargroup = dplyr::case_when(
+      geargroup == "TWL" ~ "Trawl", geargroup == "HKL" ~ "Hook & Line", .default = "Pot")
+  ) |>
+  tidyr::pivot_wider(
+    names_from = geargroup,
+    values_from = Ages
+  ) |>
+  dplyr::rename(Year = year) |>
+  dplyr::ungroup() |>
+  gt() |>
+  tab_header(
+    title = "Number of age samples by gear type for the last 10 years. "
+  ) |>
+  cols_align(
+    align = "center"
+  ) |>
+  tab_options(
+    table.font.size = 20,
+    table.align = "right"
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "white"),
+      cell_text(color = "black")
+    ),
+    locations = cells_body(
+      columns = everything()
+    )
+  ) 
+```
+
+```{r}
+#| label: age-by-gear-region
+#| echo: false
+#| warning: false
+#| fig-cap: "Distribution of all age samples between 1986-2024 by gear type and state."
+#| fig-cap-location: margin
+
+bds_data |>
+  group_by(area, geargroup) |>
+  mutate(area = factor(area)) |>
+  select(sex, age_years, area, geargroup) |>
+  ggplot(aes(x = age_years, fill = area))+
+    ggridges::geom_density_ridges(aes(y = geargroup), alpha = 0.5, scale = 1)+
+    labs(y = "Gear", x = "Age (years)", fill = "Area")+
+    scale_x_continuous(limits = c(0, 30), expand = c(0, 0))+
+    scale_fill_viridis_d()+
+    theme_bw()
+```
+
+
+### Survey Data
+
+Since the pre-assessment data workshop, the stock assessment team investigated the data from the AFSC Slope survey in depth.  During these investigations it was determined that aged fish for sablefish did not appear to be a representative sample of the lengths
+observed. A similar issue for the biological data collected by this survey was also observed for Dover sole. Additionally, this survey had an unusually high rate of positive tows for sablefish (e.g., ~ 98% of tows observed sablefish), particularly compared to the NWFSC Slope survey (~ 86%) that was conducted across similar years and depths. Given the concerns about the data collected by the AFSC Slope survey for sablefish, and the fact that there was a comparable survey data set during these years, the stock assessment team decided to not include data from the AFSC Slope survey in this assessment.
+
+

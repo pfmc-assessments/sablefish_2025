@@ -978,3 +978,11 @@ SSplotComparisons(mysummary,
                   minbthresh = 0.25,
                   plotdir = here::here("model", "_plots"),
                   pdf = TRUE)
+
+#==============================================================================
+# 6.0 Weight-at-age model with catch fleets
+#===============================================================================
+
+model_name <- "6.0_bridging_19_weight_at_age_mle"
+weight_at_age  <- SS_output(here::here("model", model_name))
+SS_plots(weight_at_age)

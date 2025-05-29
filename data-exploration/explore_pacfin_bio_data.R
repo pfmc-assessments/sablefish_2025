@@ -365,3 +365,113 @@ bds_2019 <- data_2019 |>
   dplyr::summarise(
     n = sum(!is.na(FISH_LENGTH))
   )
+
+
+#==============================================================================
+age_data <- data_commercial_bds |> dplyr::filter(!is.na(age_years))
+table(age_data$geargroup, age_data$sex, age_data$state)
+
+table(data_commercial_bds$geargroup, data_commercial_bds$sex)
+
+#===============================================================================
+# Look at the data by gear, sex, and age
+#===============================================================================
+age_data <- data_commercial_bds |> dplyr::filter(!is.na(age_years))
+
+ggplot(age_data |> dplyr::filter(sex != "U"), aes(x = age_years, y = geargroup, color = sex)) +
+  ggridges::geom_density_ridges(scale = 0.9) +
+  scale_x_continuous(limits = c(0, 50), expand=c(0, 0), breaks=seq(0, 50, 1))
+
+sex_ratio  <- age_data |>
+  dplyr::filter(sex != "U") |>
+  dplyr::group_by(geargroup, age_years) |>
+  dplyr::summarise(
+    female = sum(sex == "F"),
+    male = sum(sex == "M"),
+    ratio = female / (female + male)
+  )
+ggplot(sex_ratio |> dplyr::filter(age_years <= 30), aes(x = age_years, y = ratio, color = geargroup)) +
+  geom_line() + ylim(c(0, 1)) +
+  ylab("Ratio Female")
+
+
+sex_ratio_length  <- data_commercial_bds |>
+  dplyr::filter(sex != "U", !is.na(length_cm), length_cm < 70, length_cm >= 30) |>
+  dplyr::group_by(geargroup, length_cm) |>
+  dplyr::summarise(
+    female = sum(sex == "F"),
+    male = sum(sex == "M"),
+    ratio = female / (female + male)
+  )
+ggplot(sex_ratio_length, aes(x = length_cm, y = ratio, color = geargroup)) +
+  geom_line() + ylim(c(0, 1)) +
+  ylab("Ratio Female")
+
+#===============================================================================
+# Check depth fishing
+#===============================================================================
+cleaned_pacfin_bds <- readRDS("C:/Assessments/2025/sablefish_2025/data-raw/bds/cleaned_pacfin_bds.rds")
+cleaned_pacfin_bds$depth_avg_m <- cleaned_pacfin_bds$DEPTH_AVG * 1.8288
+ggplot(cleaned_pacfin_bds, aes(x = year, y = depth_avg_m, group = year)) +
+  geom_boxplot() +
+  facet_grid(c("geargroup"))
+dim(cleaned_pacfin_bds)
+sum(!is.na(cleaned_pacfin_bds$depth_avg_m))
+
+age_only <- cleaned_pacfin_bds |> dplyr::filter(!is.na(Age))
+ggplot(age_only, aes(x = year, y = depth_avg_m, group = year)) +
+  geom_boxplot() +
+  facet_grid(c("geargroup"))
+sum(!is.na(age_only$depth_avg_m))
+# 18,072
+
+
+#===============================================================================
+# Look at the average age by sex, gear, and year
+#===============================================================================
+age_data <- data_commercial_bds |> 
+  dplyr::filter(!is.na(age_years), sex != "U") |>
+  dplyr::group_by(geargroup, year, sex) |>
+  dplyr::summarise(
+    ave_age = mean(age_years)
+  )
+ggplot(age_data, aes(x = year, y = ave_age, color = sex)) +
+  geom_point() + 
+  theme_bw() +
+  ylim(c(0, 25)) +
+  facet_grid("geargroup")
+
+
+age_data <- data_commercial_bds |> 
+  dplyr::filter(!is.na(age_years), sex != "U") |>
+  dplyr::group_by(year) |>
+  dplyr::summarise(
+    ave_age = mean(age_years)
+  )
+ggplot(age_data, aes(x = year, y = ave_age)) +
+  geom_point() + 
+  ylim(c(0, 20)) +
+  theme_bw() 
+
+#===============================================================================
+# What is the frequency of 2020 and 2021 cohorts across years
+#===============================================================================
+age_data <- data_commercial_bds |> 
+  dplyr::filter(year >= 2017, age_years < 11) |>
+  dplyr::group_by(year, geargroup) |>
+  dplyr::mutate(total_n = dplyr::n()) |>
+  dplyr::group_by(year, geargroup, age_years) |>
+  dplyr::summarise(
+    n = dplyr::n(),
+    prop = n / unique(total_n)
+  )
+
+ggplot(age_data, aes(x = age_years, y = n)) +
+  geom_bar(position="stack", stat="identity") +
+  facet_grid(c("year", "geargroup"))
+ggplot(age_data, aes(x = age_years, y = prop)) +
+  geom_bar(position="stack", stat="identity") +
+  facet_grid(c("year", "geargroup"))
+  
+table(data_commercial_bds[!is.na(data_commercial_bds$age_years), "year"])  
+  
