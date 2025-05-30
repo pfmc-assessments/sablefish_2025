@@ -11,6 +11,9 @@ process_weight_at_age_fishery(savedir = here::here())
 # create a prediction grid to biomass weight the weight-at-age model
 # estimates.
 wtatage <- estimate_tv_wtatage_weighted(
+  data = read.csv(here::here("data-processed", "data_weight_at_age_survey.csv")) |>
+    dplyr::filter(source == "Groundfish Slope and Shelf Combination Survey") |> 
+    dplyr::mutate(data_type = "wcgbt"),
   max_age = 30)
 
 format_wtatage <- pad_weight_at_age(
@@ -39,8 +42,11 @@ ggplot(wtatage, aes(x = age, y = year, z = pred_weight)) +
 #=======================================================================
 
 wtatage <- estimate_tv_wtatage_weighted(
+  data = dplyr::bind_rows(
+    read.csv(here::here("data-processed", "data_weight_at_age_survey.csv")),
+    read.csv(here::here("data-processed", "data_weight_at_age_fishery.csv"))) |> 
+    dplyr::mutate(data_type = "all_fishery_survey"), 
   max_age = 30,
-  data_file = c("data_weight_at_age_survey", "data_weight_at_age_fishery"),
   do_plots = FALSE)
 
 format_wtatage <- pad_weight_at_age(

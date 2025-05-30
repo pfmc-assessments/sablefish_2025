@@ -7,44 +7,27 @@
 #' (weight ~ 1 + s(age, by = sex) + (1|fcohort) + (1|fyear) + sex + area). The
 #' model estimated weight-at-age parameters by sex, cohort, year, and area are
 #' then biomass weighted via a prediction grid based on a sdmTMB index.
+#' @param data Dataframe of year, weights, sex, and ages.  The data object can be 
+#'   created by `process_weight_at_age_survey` and/or `process_weight_at_age_fishery`.
 #' @param dir Parent directory for the repository.
 #' @param max_age An integer specifying the maximum age of the modeled data
 #'   in the Stock Synthesis model. All age data beyond this will be assigned
 #'   to the maximum age. This is typically the age beyond which data are sparse
 #'   and weight and length are essentially the same across ages. 
-#' @param data_file Character string name of file with the weight at age data
-#'   to use. This file is expected to be a csv file stored in the "data-processed"
-#'   folder. Default is "data_weight_at_age_survey", but the option of 
-#'   c("data_weight_at_age_survey", "data_weight_at_age_fishery") will include
-#'   both fishery and survey data.
 #' @param do_plots TRUE/FALSE to create plots from the model
 #' @return
 #' A data frame in long format with time-varying weight-at-age data.
 #' @author Kelli F. Johnson, Chantel Wetzel, and Eric Ward
 #' 
 estimate_tv_wtatage_weighted <- function(
+  data,
   dir = here::here(),
   max_age = 30,
-  data_file = "data_weight_at_age_survey",
   do_plots = FALSE) {
-  if (length(data_file) == 2) {
-    add_name = "_fishery_survey"
-  } else {
-    add_name = "_survey"
-  }
-  files_weights <- fs::path(
-    ext = "csv",
-    dir,
-    "data-processed",
-    data_file
-  )
   
+  data_type <- unique(data$data_type)
   # Load in data
-  weight_at_age_data <- purrr::map_df(
-    files_weights,
-    utils::read.csv,
-    .id = "path"
-  ) |>
+  weight_at_age_data <- data |>
     dplyr::mutate(
       age = ifelse(age_years > max_age, max_age, age_years),
       cohort = year - age,
@@ -56,7 +39,6 @@ estimate_tv_wtatage_weighted <- function(
       weight = weight_kg
     ) |>
     dplyr::rename_with(.fn = tolower) |>
-    dplyr::select(-path) |>
     dplyr::filter(weight > 0, outlier == FALSE)
   
   remove <- which(weight_at_age_data$sex == "U" & weight_at_age_data$age != 0)
@@ -82,7 +64,7 @@ estimate_tv_wtatage_weighted <- function(
   )
   saveRDS(
     m1,
-    file = here::here("data-raw", "weight_at_age", paste0("tv_watage_fit", add_name, ".rds"))
+    file = here::here("data-raw", "weight_at_age", paste0("tv_watage_fit_", data_type, "_", Sys.Date(), ".rds"))
   )
 
   # extract random effects for plotting
@@ -107,7 +89,7 @@ estimate_tv_wtatage_weighted <- function(
     ggsave(
       gridExtra::grid.arrange(p1, p2, ncol = 1),
       width = 7, height = 7, units = "in",
-      filename = here::here("data-raw", "weight_at_age",  "plots", paste0("cohort_and_year_effects", add_name, ".png"))
+      filename = here::here("data-raw", "weight_at_age",  "plots", paste0("cohort_and_year_effects_", data_type, "_", Sys.Date(), ".png"))
     )
   }
 
@@ -122,11 +104,6 @@ estimate_tv_wtatage_weighted <- function(
   pred_grid$cohort <- pred_grid$year - pred_grid$age
   pred_grid$fyear <- as.factor(pred_grid$year)
   pred_grid$fcohort <- as.factor(pred_grid$cohort)
-
-  # add state based on lat boundaries
-  # pred_grid$state <- "CA"
-  # pred_grid$state[which(pred_grid$Y > 4650)] <- "OR" # 42 deg lat
-  # pred_grid$state[which(pred_grid$Y > 5094)] <- "WA" # 46 deg lat
   pred_grid$area <- "south"
   pred_grid$area[which(pred_grid$Y > 3983)] <- "north" # 36 deg lat
   
@@ -159,7 +136,7 @@ estimate_tv_wtatage_weighted <- function(
     ggplot2::ggsave(
       gg,
       width = 10, height = 7, units = "in",
-      filename = here::here("data-raw", "weight_at_age", "plots", paste0("year_wt_at_age_estimate", add_name, ".png"))
+      filename = here::here("data-raw", "weight_at_age", "plots", paste0("year_wt_at_age_estimate_", data_type, "_", Sys.Date(), ".png"))
     )
   }
   
@@ -174,7 +151,7 @@ estimate_tv_wtatage_weighted <- function(
     ggplot2::ggsave(
       gg2,
       width = 10, height = 7, units = "in",
-      filename = here::here("data-raw", "weight_at_age", "plots", paste0("weighted_wtatage_heatmap", add_name, ".png"))
+      filename = here::here("data-raw", "weight_at_age", "plots", paste0("weighted_wtatage_heatmap_", data_type, "_", Sys.Date(), ".png"))
     )
   }
 
@@ -183,7 +160,7 @@ estimate_tv_wtatage_weighted <- function(
   
   utils::write.csv(
     ewaa_long,
-    fs::path(here::here("data-processed"), paste0("weight-at-age-ogives", add_name, ".csv")),
+    fs::path(here::here("data-processed"), paste0("weight-at-age-ogives_", data_type, ".csv")),
     row.names = FALSE
   )
   return(ewaa_long)  
