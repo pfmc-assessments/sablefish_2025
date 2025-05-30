@@ -533,3 +533,127 @@ SSplotComparisons(mysummary,
                   plotdir = here::here("model", "_discard_fleets", "watage"),
                   ylimAdj = 1.5,
                   pdf = TRUE)
+
+est_steepness <- SS_output(here::here("model", "_discard_fleets", "watage", "8.27_est_steepness"))
+modelnames <- c(
+  "8.25 Original Weight-at-Age w/ Extra SD",
+  "8.27 Estimate Steepness w/ Extra SD")
+mysummary <- SSsummarize(list(
+  francis,
+  est_steepness))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.25-8.27_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+fix_watage <- SS_output(here::here("model", "_discard_fleets", "watage", "8.28_fixed_watage"))
+modelnames <- c(
+  "8.25 Original Weight-at-Age",
+  "8.28 Revised Weight-at-Age")
+mysummary <- SSsummarize(list(
+  francis,
+  fix_watage))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.25-8.28_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+
+watage_rec_dev_2 <- SS_output(here::here("model", "_discard_fleets", "watage", "8.29_fixed_watage_no_extra_sd_rec_dev_2"))
+SS_plots(watage_rec_dev_2)
+
+#===============================================================================
+# Turn off extra sd for the WCGBT survey with the fixed weight-at-age
+#===============================================================================
+watage <- SS_output(here::here("model", "_discard_fleets", "watage", "8.29_fixed_watage_no_extra_sd"))
+# gradient = 5.02957e-07
+# NLL = 1523.65
+# R0 = 10.1582
+# 102 parameters
+SS_plots(watage)
+
+remove_hkl_disc_desc <- SS_output(here::here("model", "_discard_fleets", "watage", "8.29_remove_hkl_disc_desc_block"))
+# gradient = 0.000762993
+# NLL = 1524.78
+# R0 = 10.1582
+# 101 parameters
+SS_plots(remove_hkl_disc_desc)
+plot_fleet_selectivity(model_out = remove_hkl_disc_desc, fleet_num = 1)
+plot_year_selex(
+    replist = remove_hkl_disc_desc,
+    fleets = 1:3,
+    year = 2002)
+
+remove_disc_desc <- SS_output(here::here("model", "_discard_fleets", "watage", "8.31_remove_disc_desc"))
+# gradient = 0.000266743
+# NLL = 1529.86
+# R0 = 10.1569
+# 101 parameters
+SS_plots(remove_disc_desc, plot = 17)
+
+remove_fixed_disc_desc <- SS_output(here::here("model", "_discard_fleets", "watage", "8.32_remove_disc_desc_block_hkl_pot"))
+# gradient = 0.000206439
+# NLL = 1524.94
+# R0 = 10.1587
+# 101 parameters
+r4ss::tune_comps(
+  replist = remove_fixed_disc_desc, 
+  dir = here::here("model", "_discard_fleets", "watage", "8.32_remove_disc_desc_block_hkl_pot"),
+  option = "Francis")
+
+
+modelnames <- c(
+  "8.29 Rec Dev Option = 1",
+  "8.29 Rec Dev Option = 2")
+mysummary <- SSsummarize(list(
+  watage,
+  watage_rec_dev_2))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.29_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+data_weight_wtatage <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_data_weight"))
+SS_plots(data_weight_wtatage)
+# gradient = 5.01888e-06
+# NLL = 1341.02
+# R0 = 10.1751
+# 101 parameters
+
+# Apply the same blocks to all fishery fleets 
+same_blocks <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_same_blocks"))
+# gradient = 0.000309307
+# NLL = 1369.87
+# R0 = 10.166
+# 114 parameters
+SS_plots(same_blocks)
+
+modelnames <- c(
+  "8.33",
+  "8.33 + Apply the Same Blocks")
+mysummary <- SSsummarize(list(
+  data_weight_wtatage ,
+  same_blocks))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.33_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+add_enviro <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_enviro_index"))
+SS_plots(add_enviro)

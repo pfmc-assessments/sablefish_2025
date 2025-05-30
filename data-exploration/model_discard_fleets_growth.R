@@ -970,3 +970,36 @@ match_watage <-  SS_output(here::here("model", "_discard_fleets", "growth", "9.1
 # R0 = 10.13
 # 113 parameters
 SS_plots(match_watage)
+
+growth_fix_sd <-  SS_output(here::here("model", "_discard_fleets", "growth", "9.19_no_extra_sd"))
+growth_fix_sd_rec_dev_2 <-  SS_output(here::here("model", "_discard_fleets", "growth", "9.19_no_extra_sd_rec_dev_2"))
+modelnames <- c(
+  "9.19 Rec. Dev. Option = 1",
+  "9.19 Rec. Dev. Option = 2")
+mysummary <- SSsummarize(list(
+  growth_fix_sd ,
+  growth_fix_sd_rec_dev_2))
+SSplotComparisons(mysummary,
+                  filenameprefix = "9.19_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+SS_plots(growth_fix_sd)
+
+fix_disc_desc_blocks <-  SS_output(here::here("model", "_discard_fleets", "growth", "9.20_remove_fixed_disc_desc_blocks"))
+fix_disc_desc_blocks_rec_dev_2 <-  SS_output(here::here("model", "_discard_fleets", "growth", "9.20_remove_fixed_disc_desc_blocks_rec_dev_2"))
+
+r4ss::tune_comps(
+  replist = remove_fixed_disc_desc, 
+  dir = here::here("model", "_discard_fleets", "growth", "9.20_remove_fixed_disc_desc_blocks"),
+  option = "Francis")
+
+data_weight_growth <- SS_output(here::here("model", "_discard_fleets", "growth", "9.21_data_weight"))
+# gradient = 0.000340719
+# NLL = 1861.03
+# R0 = 10.1642
+# 101 parameters
+SS_plots(data_weight_growth)

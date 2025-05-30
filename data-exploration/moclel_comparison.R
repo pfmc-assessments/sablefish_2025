@@ -192,3 +192,46 @@ SSplotComparisons(
   plotdir = here::here("model", "_plots"),
   ylimAdj = 1.25,
   pdf = TRUE)
+
+data_weight_growth <- SS_output(here::here("model", "_discard_fleets", "growth", "9.20_remove_fixed_disc_desc_blocks"))
+data_weight_wtatage <- SS_output(here::here("model", "_discard_fleets", "watage", "8.32_remove_disc_desc_block_hkl_pot"))
+data_weight_growth_dev <- SS_output(here::here("model", "_discard_fleets", "growth", "9.20_remove_fixed_disc_desc_blocks_rec_dev_2"))
+data_weight_wtatage_dev <- SS_output(here::here("model", "_discard_fleets", "watage", "8.32_remove_disc_desc_block_hkl_pot_rec_dev_2"))
+modelnames <- c(
+  "Discard Fleets - Growth (9.20) Rec. Dev = 1",
+  "Discard Fleets - Growth (9.20) Rec. Dev = 2",
+  "Discard Fleets - Weight-at-Age (8.33) Rec. Dev. = 1",
+  "Discard Fleets - Weight-at-Age (8.33) Rec. Dev. = 2")
+mysummary <- SSsummarize(list(
+  data_weight_growth,
+  data_weight_growth_dev,
+  data_weight_wtatage,
+  data_weight_wtatage_dev))
+SSplotComparisons(
+  mysummary,
+  filenameprefix = "compare_discard_growth_watage_05302025_",
+  legendlabels = modelnames, 	
+  btarg = 0.40,
+  minbthresh = 0.25,
+  plotdir = here::here("model", "_plots"),
+  ylimAdj = 1.25,
+  pdf = TRUE)
+
+
+data_weight_growth <- SS_output(here::here("model", "_discard_fleets", "growth", "9.21_data_weight"))
+data_weight_wtatage <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_data_weight"))
+modelnames <- c(
+  "Discard Fleets - Growth (9.21)",
+  "Discard Fleets - Weight-at-Age (8.33)")
+mysummary <- SSsummarize(list(
+  data_weight_growth,
+  data_weight_wtatage))
+SSplotComparisons(
+  mysummary,
+  filenameprefix = "compare_discard_growth_watage_05302025_",
+  legendlabels = modelnames, 	
+  btarg = 0.40,
+  minbthresh = 0.25,
+  plotdir = here::here("model", "_plots"),
+  ylimAdj = 1.25,
+  pdf = TRUE)
