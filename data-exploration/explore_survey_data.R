@@ -726,3 +726,71 @@ unsexed_fish <- data_survey_bio$nwfsc_combo |>
     age_0 = sum(Age_years == 0),
     age_older = sum(Age_years != 0)
   )
+
+#===============================================================================
+# Plot the age distribution for the NWFSC Slope and WCGBT
+#===============================================================================
+data <- dplyr::bind_rows(
+  data_survey_bio$nwfsc_combo,
+  data_survey_bio$nwfsc_slope
+) |>
+  dplyr::filter(!is.na(Age_years)) |>
+  dplyr::group_by(Project) |>
+  dplyr::mutate(
+    total = sum(!is.na(Age_years))
+  ) |>
+  dplyr::group_by(Project, Age_years) |>
+  dplyr::summarize(
+    count = dplyr::n(),
+    prop = count / unique(total))
+
+ggplot(data, aes(x = Age_years, y = count)) +
+  geom_bar(position="stack", stat="identity") +
+  theme_bw() + 
+  facet_grid("Project")
+
+ggplot(data, aes(x = Age_years, y = prop)) +
+  geom_bar(position="stack", stat="identity") +
+  theme_bw() + 
+  xlim(c(0, 75)) +
+  ylab("Proportion by Age") +
+  xlab("Age (years)") +
+  facet_grid("Project")
+
+
+data_deep <- dplyr::bind_rows(
+  data_survey_bio$nwfsc_combo,
+  data_survey_bio$nwfsc_slope
+) |>
+  dplyr::filter(!is.na(Age_years), Depth_m >= 183, Sex != "U") |>
+  dplyr::group_by(Project) |>
+  dplyr::mutate(
+    total = sum(!is.na(Age_years))
+  ) |>
+  dplyr::group_by(Project, Age_years, Sex) |>
+  dplyr::summarize(
+    count = dplyr::n(),
+    prop = count / unique(total))
+
+ggplot(data_deep, aes(x = Age_years, y = count)) +
+  geom_bar(position="stack", stat="identity") +
+  theme_bw() + 
+  facet_grid("Project")
+
+ggplot(data_deep, aes(x = Age_years, y = prop, fill = Sex)) +
+  geom_bar(position="stack", stat="identity") +
+  theme_bw() + 
+  xlim(c(0, 75)) + 
+  scale_fill_viridis_d(begin = 0, end = 0.5) +
+  ylab("Proportion by Age at Depths > 183 m") +
+  xlab("Age (years)") +
+  facet_grid(c("Project"))
+
+ggplot(data_deep |> dplyr::filter(Age_years > 4), aes(x = Age_years, y = prop, fill = Sex)) +
+  geom_bar(position="stack", stat="identity") +
+  theme_bw() + 
+  xlim(c(0, 75)) + 
+  scale_fill_viridis_d(begin = 0, end = 0.5) +
+  ylab("Proportion by Age at Depths > 183 m") +
+  xlab("Age (years)") +
+  facet_grid(c("Project"))
