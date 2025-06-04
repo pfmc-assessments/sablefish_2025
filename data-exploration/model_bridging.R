@@ -28,6 +28,7 @@ if (run_r4ss_output){
   wcgbt <- SS_output(here::here("model", "_bridging", "11_wcgbt"))
   maturity <- SS_output(here::here("model", "_bridging", "12_maturity"))
   m_prior <- SS_output(here::here("model", "_bridging", "13_m_prior"))
+  ageing_error <- SS_output(here::here("model", "_bridging", "14_ageing_error"))
   age_based <- SS_output(here::here("model", "_bridging", "14m_fix_survey_selex_params"))
 
   
@@ -1401,6 +1402,259 @@ SSplotComparisons(mysummary,
 SS_plots(m_prior)
 
 
+#===============================================================================
+# 15-16 Rec Devs
+#================================================================================
+
+main_rec_devs <- SS_output(here::here("model", "_bridging", "15_rec_devs_main"))
+r4ss::tune_comps(
+  replist = main_rec_devs, 
+  dir = here::here("model", "_bridging", "15_rec_devs_main"),
+  option = "Francis")
+
+
+early_rec_devs <- SS_output(here::here("model", "_bridging", "16_no_early_devs"))
+r4ss::tune_comps(
+  replist = early_rec_devs, 
+  dir = here::here("model", "_bridging", "16_no_early_devs"),
+  option = "Francis")
+
+modelnames <- c(
+  "Ageing Error",
+  "Main Rec. Devs. 1975",
+  "No Early Rec. Devs.")
+mysummary <- SSsummarize(list(
+  ageing_error,
+  main_rec_devs,
+  early_rec_devs))
+SSplotComparisons(mysummary,
+                  filenameprefix = "14-16_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+#===============================================================================
+# 17 Foreign Fleets
+#================================================================================
+foreign_fleets <- SS_output(here::here("model", "_bridging", "17_foreign_fleets_2023_rec_devs"))
+r4ss::tune_comps(
+  replist = foreign_fleets, 
+  dir = here::here("model", "_bridging", "17_foreign_fleets"),
+  option = "Francis")
+SS_plots(foreign_fleets)
+
+#===============================================================================
+# 18 Age Based Retention
+#================================================================================
+age_based_retention <- SS_output(here::here("model", "_bridging", "18_age_based_retention"))
+r4ss::tune_comps(
+  replist = age_based_retention, 
+  dir = here::here("model", "_bridging", "18_age_based_retention"),
+  option = "Francis")
+SS_plots(age_based_retention)
+
+
+#===============================================================================
+# 19 Selectivity Blocks and Parameters
+#===============================================================================
+ret_blocks_parameters <- SS_output(here::here("model", "_bridging", "19_blocks_parameters"))
+r4ss::tune_comps(
+  replist = ret_blocks_parameters, 
+  dir = here::here("model", "_bridging", "19_blocks_parameters"),
+  option = "Francis")
+SS_plots(ret_blocks_parameters)
+
+
+#===============================================================================
+# Coming at the bridging from the final model and working down
+#===============================================================================
+base <- SS_output(here::here("model", "_bridging", "30_8.33_enviro_index_mle"))
+r4ss::tune_comps(
+  replist = base, 
+  dir = here::here("model", "_bridging", "30_8.33_enviro_index_mle"),
+  option = "Francis")
+
+watage <- SS_output(here::here("model", "_bridging", "29_add_watage"))
+r4ss::tune_comps(
+  replist = watage, 
+  dir = here::here("model", "_bridging", "29_add_watage"),
+  option = "Francis")
+
+sex_specific_m <- SS_output(here::here("model", "_bridging", "28_single_m"))
+steepness <- SS_output(here::here("model", "_bridging", "27_steepness"))
+r4ss::tune_comps(
+  replist = steepness, 
+  dir = here::here("model", "_bridging", "27_steepness"),
+  option = "Francis")
+
+discard_fleets <- SS_output(here::here("model", "_bridging", "26_discard_fleets_age_based_selectivity"))
+r4ss::tune_comps(
+  replist = discard_fleets, 
+  dir = here::here("model", "_bridging", "26_discard_fleets_age_based_selectivity"),
+  option = "Francis")
+
+rec_devs_1975_no_early <- SS_output(here::here("model", "_bridging", "25_no_early_devs_1975_main_devs"))
+rec_devs_1975 <- SS_output(here::here("model", "_bridging", "25_1975_main_devs"))
+rec_devs_2023 <- SS_output(here::here("model", "_bridging", "25_2023_rec_devs"))
+r4ss::tune_comps(
+  replist = rec_devs_2023, 
+  dir = here::here("model", "_bridging", "25_rec_devs"),
+  option = "Francis")
+
+triennial <- SS_output(here::here("model", "_bridging", "24_triennial_dw"))
+r4ss::tune_comps(
+  replist = triennial, 
+  dir = here::here("model", "_bridging", "24_triennial_dw"),
+  option = "Francis")
+
+afsc_slope <- SS_output(here::here("model", "_bridging", "23_afsc_slope"))
+r4ss::tune_comps(
+  replist = afsc_slope, 
+  dir = here::here("model", "_bridging", "23_afsc_slope"),
+  option = "Francis")
+
+#retention <- SS_output(here::here("model", "_bridging", "25_foreign_fleets_age_based_retention"))
+#r4ss::tune_comps(
+#  replist = retention, 
+#  dir = here::here("model", "_bridging", "25_foreign_fleets_age_based_retention"),
+#  option = "Francis")
+#
+#retention_w_devs <- SS_output(here::here("model", "_bridging", "24_foreign_fleets_age_based_retention"))
+#r4ss::tune_comps(
+#  replist = retention_w_devs, 
+#  dir = here::here("model", "_bridging", "24_foreign_fleets_age_based_retention"),
+#  option = "Francis")
+
+modelnames <- c(
+  "2023 Base Model",
+  "Ageing Error",
+  "Include AFSC Slope Survey")
+mysummary <- SSsummarize(list(
+  model_2023,
+  ageing_error,
+  afsc_slope))
+SSplotComparisons(mysummary,
+                  filenameprefix = "23_comparison",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+modelnames <- c(
+  "+ Include AFSC Slope Survey",
+  "+ 2023 Triennial Set-up",
+  "+ 2023 Rec. Dev. Set-up",
+  "+ Main Period = 1975 & No Early Devs.",
+  "+ Discard Fleets",
+  "+ Steepness",
+  "+ Single M",
+  "+ Weight-at-Age",
+  "+ Environmental Index")
+mysummary <- SSsummarize(list(
+  afsc_slope,
+  triennial,
+  rec_devs_2023,
+  rec_devs_1975_no_early,
+  discard_fleets,
+  steepness,
+  sex_specific_m,
+  watage, 
+  base))
+SSplotComparisons(mysummary,
+                  filenameprefix = "24-30_base_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+modelnames <- c(
+  #"+ Foreign Fleets Age-Based Retention",
+  "+ 2023 Rec Dev Set-up",
+  "+ Main Period = 1975",
+  "+ Main Period = 1975 & No Early Devs.",
+  "+ Discard Fleets",
+  "+ Steepness",
+  "+ Single M",
+  "+ Weight-at-Age",
+  "+ Environmental Index")
+mysummary <- SSsummarize(list(
+  #retention,
+  rec_devs_2023,
+  rec_devs_1975,
+  rec_devs_1975_no_early,
+  discard_fleets,
+  steepness,
+  sex_specific_m,
+  watage, 
+  base))
+SSplotComparisons(mysummary,
+                  filenameprefix = "25-30_base_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+
+# Discard fleet model with 2023 rec. dev. set-up, AFSC slope survey and 2023 Triennial survey
+discard_fleets <- SS_output(here::here("model", "_bridging", "23_discard_fleets_age_based_selectivity_2023_rec_devs_2023_afsc_triennial"))
+# Discard fleet model with 2023 rec. dev. set-up and 2023 Triennial survey
+remove_afsc_slope <- SS_output(here::here("model", "_bridging", "24_discard_fleets_age_based_selectivity_2023_rec_devs_2023_triennial"))
+# Discard fleet model with 2023 rec. dev. set-up with split Triennial survey
+split_triennial <- SS_output(here::here("model", "_bridging", "25_discard_fleets_age_based_selectivity_2023_rec_devs_2023_split_triennial"))
+# Discard fleet model with main rec. devs. starting in 1975 with split Triennial survey
+main_devs <- SS_output(here::here("model", "_bridging", "25_discard_fleets_age_based_selectivity_main_devs_1975"))
+# Discard fleet model with main rec. devs. starting in 1975 and no early devs with split Triennial survey
+no_early_devs <- SS_output(here::here("model", "_bridging", "26_discard_fleets_age_based_selectivity_main_devs_1975_no_early"))
+
+steepness <- SS_output(here::here("model", "_bridging", "27_steepness"))
+sex_specific_m <- SS_output(here::here("model", "_bridging", "28_single_m"))
+watage <- SS_output(here::here("model", "_bridging", "29_add_watage"))
+base <- SS_output(here::here("model", "_bridging", "30_8.33_enviro_index_mle"))
+
+
+modelnames <- c(
+  "Ageing Error & Length-Based Retention & Age-Based Retention",
+  "Age-Based Retention & Selectivity",
+  "Discard Fleets",
+  "Remove AFSC Slope Survey",
+  "Split Triennial Survey",
+  "Main Rec. Devs = 1975",
+  "No Early Rec. Devs. & Main Rec. Devs = 1975",
+  "Steepness = 0.72",
+  "Single M",
+  "Weight-at-Age",
+  "2025 Base Model")
+mysummary <- SSsummarize(list(
+  ageing_error,
+  retention_ages,
+  discard_fleets,
+  remove_afsc_slope,
+  split_triennial,
+  main_devs,
+  no_early_devs,
+  steepness,
+  sex_specific_m,
+  watage, 
+  base))
+SSplotComparisons(mysummary,
+                  filenameprefix = "23-30_base_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+# OLD RUNS =====================================================================
 #===============================================================================
 # 14. Biology
 #================================================================================
