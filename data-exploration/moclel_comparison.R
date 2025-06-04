@@ -235,3 +235,30 @@ SSplotComparisons(
   plotdir = here::here("model", "_plots"),
   ylimAdj = 1.25,
   pdf = TRUE)
+
+#===============================================================================
+# Final Model Comparison
+#===============================================================================
+
+growth <- SS_output(here::here("model", "_discard_fleets", "growth", "9.22_enviro_index"))
+wtatage <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_enviro_index_mle"))
+ret_growth <- SS_output(here::here("model", "_retention_model", "_growth", "22.2_fix_survey_selectivities"))
+
+modelnames <- c(
+  "Discard Fleets - Growth (9.22)",
+  "Discard Fleets - Weight-at-Age (8.33)",
+  "Retention Fleets - Growth (22.2)")
+mysummary <- SSsummarize(list(
+  growth,
+  wtatage,
+  ret_growth))
+SSplotComparisons(
+  mysummary,
+  filenameprefix = "compare_discard_retention_0604025_",
+  legendlabels = modelnames, 	
+  btarg = 0.40,
+  minbthresh = 0.25,
+  plotdir = here::here("model", "_plots"),
+  ylimAdj = 1.25,
+  pdf = TRUE)
+

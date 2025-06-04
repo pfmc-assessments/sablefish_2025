@@ -654,6 +654,81 @@ SSplotComparisons(mysummary,
                   plotdir = here::here("model", "_discard_fleets", "watage"),
                   ylimAdj = 1.5,
                   pdf = TRUE)
+data_weight_rec_option_2 <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_data_weight_rec_dev_2"))
+SS_plots(data_weight_rec_option_2)
+
+modelnames <- c(
+  "8.33 No Enviro Index & Rec Dev Option = 1",
+  "8.33 No Enviro Index & Rec Dev Option = 2")
+mysummary <- SSsummarize(list(
+  data_weight_wtatage,
+  data_weight_rec_option_2 ))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.33_no_enviro_index_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.15,
+                  pdf = TRUE)
 
 add_enviro <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_enviro_index"))
 SS_plots(add_enviro)
+# gradient = 9.40391e-05
+# NLL = 1342.2
+# R0 = 10.1733
+# active parameters = 102
+
+# Parameters that hit the bounds in the jitter the most frequently
+# Age_DblN_peak_HKL_Discards(5)                4.4824800     4   0.010 20.00  4.553810     OK 0.40348400
+# Age_DblN_ascend_se_Pot_Discard(6)            0.0183923     5 -10.000 10.00  0.114341     OK 0.59197900
+# Age_DblN_end_logit_Pot_Discard(6)            2.1574200     4 -10.000 10.00  1.484330     OK 1.50029000
+# Age_DblN_peak_Pot_Discard(6)_BLK1repl_1890   2.2713600     6   1.000 20.00  2.285200     OK 0.34297900
+#
+# Parameters with the highest correlations
+# Age_DblN_peak_Pot_Discard(6)_BLK1repl_2011	Age_DblN_ascend_se_Pot_Discard(6)	0.919106
+# Age_DblN_ascend_se_HKL(2)	Age_DblN_peak_HKL(2)	0.91807
+# Age_DblN_ascend_se_TWL(1)	Age_DblN_peak_TWL(1)	0.915924
+# Age_DblN_ascend_se_Pot_Discard(6)	Age_DblN_peak_Pot_Discard(6)	0.892136
+
+additional_simplications <- SS_output(here::here("model", "_discard_fleets", "watage", "8.34_fix_additional_selex_param"))
+# gradient = 9.63052e-05
+# NLL = 1344.18
+# R0 = 10.1738
+# active parameters = 99
+# Age_DblN_ascend_se_Pot_Discard(6)           -0.6313840     4 -10.000 10.00 -0.567118     OK 1.00428000
+# Age_DblN_end_logit_Pot_Discard(6)            2.5790600     4 -10.000 10.00  2.676390     OK 1.97631000
+# Age_DblN_end_logit_Triennial_Early(7)       -5.3227600     4 -10.000 10.00 -5.324070     OK 1.58515000
+# Age_DblN_end_logit_NWFSC_Slope(9)            1.2732600     4 -10.000 10.00  1.281270     OK 1.10952000
+
+modelnames <- c(
+  "8.33",
+  "8.34")
+mysummary <- SSsummarize(list(
+  add_enviro,
+  additional_simplications))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.33-.34_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
+
+additional_simplications <- SS_output(here::here("model", "_discard_fleets", "watage", "8.34_fix_additional_selex_param"))
+additional_simplications_rec_option_2 <- SS_output(here::here("model", "_discard_fleets", "watage", "8.34_fix_additional_selex_param_rec_dev_2"))
+modelnames <- c(
+  "8.34 Rec Dev Option = 1",
+  "8.34 Rec Dev Option = 2")
+mysummary <- SSsummarize(list(
+  additional_simplications,
+  additional_simplications_rec_option_2))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.34_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.5,
+                  pdf = TRUE)
