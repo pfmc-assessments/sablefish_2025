@@ -40,13 +40,14 @@ mysummary <- SSsummarize(list(
   model_2023, 
   exe))
 SSplotComparisons(mysummary,
+                  subplots = c(2, 4),
                   filenameprefix = "0_bridging_",
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
+                  print = TRUE,
                   plotdir = here::here("model", "_bridging", "_plots"),
-                  ylimAdj = 1.2,
-                  pdf = TRUE)
+                  ylimAdj = 1.0)
 
 # Data
 modelnames <- c(
@@ -67,12 +68,23 @@ mysummary <- SSsummarize(list(
   split_fleets))
 SSplotComparisons(mysummary,
                   filenameprefix = "1_data_bridging_",
+                  subplots = 2,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
                   plotdir = here::here("model", "_bridging", "_plots"),
-                  ylimAdj = 1.5,
-                  pdf = TRUE)
+                  ylimAdj = 1.25,
+                  print = TRUE)
+
+SSplotComparisons(mysummary,
+                  filenameprefix = "1_data_bridging_",
+                  subplots = 4,
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.25,
+                  print = TRUE)
 
 modelnames <- c(
   "Split Fixed Gear",
@@ -92,12 +104,23 @@ mysummary <- SSsummarize(list(
   ageing_error))
 SSplotComparisons(mysummary,
                   filenameprefix = "2_data_bridging_",
+                  subplots = 2,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
                   plotdir = here::here("model", "_bridging", "_plots"),
-                  ylimAdj = 1.5,
-                  pdf = TRUE)
+                  ylimAdj = 1.25,
+                  print = TRUE)
+
+SSplotComparisons(mysummary,
+                  filenameprefix = "2_data_bridging_",
+                  subplots = 4,
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.25,
+                  print = TRUE)
 
 # Structure
 main_rec_devs <- SS_output(here::here("model", "_bridging", "15_rec_devs_main"))
@@ -108,40 +131,62 @@ foreign_fleets_age_ret <- SS_output(here::here("model", "_retention_model", "_gr
 
 modelnames <- c(
   "Ageing Error",
-  "+ Adj. Main Rec. Dev. Period",
-  "+ Adj. Main Period and No Early Rec. Devs.")
+  "Adj. Main Rec. Dev. Period",
+  "Adj. Main Period and No Early Rec. Devs.")
 mysummary <- SSsummarize(list(
   ageing_error,
   main_rec_devs,
   early_rec_devs))
 SSplotComparisons(mysummary,
-                  filenameprefix = "3_structure_bridging_",
+                  filenameprefix = "3_structure_",
+                  subplots = 1,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
                   plotdir = here::here("model", "_bridging", "_plots"),
-                  ylimAdj = 1.5,
-                  pdf = TRUE)
+                  ylimAdj = 1.25,
+                  print = TRUE)
+
+SSplotComparisons(mysummary,
+                  filenameprefix = "3_structure_",
+                  subplots = 3,
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.25,
+                  print = TRUE)
 
 
 modelnames <- c(
-  "+ Adj. Main Period and No Early Rec. Devs.", 
-  "- AFSC Slope Survey",
-  "+ Single M",
-  "+ Foreign Fleets & Age-Based Retention")
+  "Adj. Main Period and No Early Rec. Devs.", 
+  "Remove AFSC Slope Survey",
+  "Female & Male Natural Mortality Equal",
+  "Add Foreign Fleets with Age-Based Retention")
 mysummary <- SSsummarize(list(
   early_rec_devs,
   remove_afsc_slope,
   single_m,
   foreign_fleets_age_ret))
 SSplotComparisons(mysummary,
-                  filenameprefix = "4_structure_bridging_",
+                  filenameprefix = "4_structure_",
+                  subplots = 1,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
                   plotdir = here::here("model", "_bridging", "_plots"),
-                  ylimAdj = 1.5,
-                  pdf = TRUE)
+                  ylimAdj = 1.25,
+                  print = TRUE)
+
+SSplotComparisons(mysummary,
+                  filenameprefix = "4_structure_",
+                  subplots = 3,
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.25,
+                  print = TRUE)
 
 split_triennial_age_ret <- SS_output(here::here("model", "_retention_model", "_growth", "21.4_split_tri"))
 fix_wcgbt_selex <- SS_output(here::here("model", "_retention_model", "_growth", "21.5_wcgbt_selex"))
@@ -152,30 +197,41 @@ watage <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_data_
 add_enviro <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_enviro_index")) 
 
 modelnames <- c(
-  "Foreign Fleets & Age-Based Retention",
-  "+ Split Triennial Survey",
-  "+ Fix WCGBT Selectivity",
-  "+ Adjust Selectivity Blocks")
+  "Foreign Fleets with Age-Based Retention",
+  "Split Triennial Survey",
+  "Revise WCGBT Selectivity",
+  "Adjust Fishery Selectivity Blocks")
 mysummary <- SSsummarize(list(
   foreign_fleets_age_ret,
   split_triennial_age_ret,
   fix_wcgbt_selex,
   adjust_selex_blocks))
 SSplotComparisons(mysummary,
-                  filenameprefix = "5_structure_bridging_",
+                  filenameprefix = "5_structure_",
+                  subplots = 1,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
                   plotdir = here::here("model", "_bridging", "_plots"),
-                  ylimAdj = 1.5,
-                  pdf = TRUE)
+                  ylimAdj = 1.25,
+                  print = TRUE)
+
+SSplotComparisons(mysummary,
+                  filenameprefix = "5_structure_",
+                  subplots = 3,
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.25,
+                  print = TRUE)
 
 modelnames <- c(
   "Adjust Selectivity Blocks",
-  "+ Discard Fleets",
-  "+ Steepness = 0.75",
-  "+ Add Weight-at-Age",
-  "+ Add Environmental Index")
+  "Add Discard Fleets",
+  "Steepness = 0.75",
+  "Add Weight-at-Age",
+  "Add Environmental Index")
 mysummary <- SSsummarize(list(
   adjust_selex_blocks,
   discard_fleets,
@@ -183,11 +239,22 @@ mysummary <- SSsummarize(list(
   watage,
   add_enviro))
 SSplotComparisons(mysummary,
-                  filenameprefix = "6_structure_bridging_",
+                  filenameprefix = "6_structure_",
+                  subplots = 1,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
                   plotdir = here::here("model", "_bridging", "_plots"),
-                  ylimAdj = 1.5,
-                  pdf = TRUE)
+                  ylimAdj = 1.25,
+                  print = TRUE)
+
+SSplotComparisons(mysummary,
+                  filenameprefix = "6_structure_",
+                  subplots = 3,
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_bridging", "_plots"),
+                  ylimAdj = 1.25,
+                  print = TRUE)
 
