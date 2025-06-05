@@ -1363,7 +1363,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: fig-depl
+#| label: fig-total-biomass
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1494,10 +1494,200 @@ knitr::include_graphics(
 ```
 
 
-## Sensitivity Analyse and Retrospectives
+## Sensitivity Analyses and Retrospectives
 
+
+
+```{r} 
+#| label: retro-sb
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Change in the estimate of spawning output when the most recent 10 years of data are removed sequentially."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(retro_dir, paste0(model_name, "_retro_10_yr_peel"), "compare2_spawnbio_uncertainty.png")
+)
+
+```
+
+
+```{r} 
+#| label: retro-depl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Change in the estimate of fraction unfished when the most recent 10 years of data are removed sequentially."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(retro_dir, paste0(model_name, "_retro_10_yr_peel"), "compare4_Bratio_uncertainty.png")
+)
+
+```
+
+
+```{r} 
+#| label: squid-plot
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Change in the estimate annual recruitment deviations when the most recent 10 years of data are removed sequentially."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(retro_dir, paste0(model_name, "_retro_10_yr_peel"), "recruitment_retrospective_squid.png")
+)
+
+```
 
 ## Likelihood Profiles
+
+
+```{r} 
+#| label: r0-profile
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: "Change in the negative log-likelihood across a range of log(R0) values."
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(profile_dir, paste0(model_name, "_profile_SR_LN(R0)"), "piner_panel_SR_LN(R0).png")
+)
+
+```
+
+```{r} 
+#| label: r0-profile-ssb
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Change in the spawning output across a range of log(R0) values."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(profile_dir, paste0(model_name, "_profile_SR_LN(R0)"), "SR_LN(R0)_trajectories_compare1_spawnbio.png")
+)
+
+```
+
+
+```{r} 
+#| label: r0-profile-depl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Change in the fraction unfished across a range of log(R0) values."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(profile_dir, paste0(model_name, "_profile_SR_LN(R0)"), "SR_LN(R0)_trajectories_compare3_Bratio.png")
+)
+
+```
+
+
+```{r} 
+#| label: m-profile
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Change in the negative log-likelihood across a range of natural mortality (M) values."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(profile_dir, paste0(model_name, "_profile_NatM_uniform_Fem_GP_1"), "piner_panel_NatM_uniform_Fem_GP_1.png")
+)
+
+```
+
+```{r} 
+#| label: m-profile-ssb
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Change in the spawning output across a range of natural mortality (M) values."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(profile_dir, paste0(model_name, "_profile_NatM_uniform_Fem_GP_1"), "NatM_uniform_Fem_GP_1_trajectories_compare1_spawnbio.png")
+)
+
+```
+
+
+```{r} 
+#| label: m-profile-depl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Change in the fraction unfished across a range of natural mortality (M) values."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(profile_dir, paste0(model_name, "_profile_NatM_uniform_Fem_GP_1"), "NatM_uniform_Fem_GP_1_trajectories_compare3_Bratio.png")
+)
+
+```
+
+
+
+```{r} 
+#| label: h-profile
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Change in the negative log-likelihood across a range of steepness (h) values."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(profile_dir, paste0(model_name, "_profile_SR_BH_steep"), "piner_panel_SR_BH_steep.png")
+)
+
+```
+
+```{r} 
+#| label: h-profile-ssb
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Change in the spawning output across a range of steepness (h) values."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(profile_dir, paste0(model_name, "_profile_SR_BH_steep"), "SR_BH_steep_trajectories_compare1_spawnbio.png")
+)
+
+```
+
+
+```{r} 
+#| label: h-profile-depl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Change in the fraction unfished across a range of steepness (h) values."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(profile_dir, paste0(model_name, "_profile_SR_BH_steep"), "SR_BH_steep_trajectories_compare3_Bratio.png")
+)
+
+```
 
 
 ## Reference Points and Forecasts
