@@ -30,15 +30,14 @@ Data on discards of `r spp` are available from multiple sources. A trawl discard
 
 The second source for discard data is from \gls{wcgop}. This program is part of the NWFSC and has been recording discard observations starting in 2002. Since 2011, when the IFQ program was implemented, observer coverage rates increased to nearly 100 percent for all the limited entry trawl vessels in the program and discard rates declined compared to pre-2011 rates. Discard rates were obtained for both the IFQ catch-share (observed and electronic monitored vessels) and the non-catch share sector for `r spp`. A single discard rate was calculated by weighting discard rates based on the commercial discards by each sector and gear type based on estimates from the \gls{gemm} report. Coefficient of variations were calculated for the non-catch shares sector and pre-catch share years by bootstrapping vessels within ports because the observer program randomly chooses vessels within ports to be observed. Post trawl rationalization, all catch-share vessels have 100 percent observer coverage and discarding is assumed to be known. The discard rates from both data sources by fleet based on gear type are shown in @tbl-discard-rates-twl -- @tbl-discard-rates-pot.  
 
-
-ADD TEXT ABOUT CONVERTING LENGTHS TO AGES.
+\gls{wcop} collects biological data for observed discards from the commercial fishery.  For sablefish, only length data were available from \gls{wcgop}. However, this assessment is using a empirical weight-at-age approach to account for time-varying changes in growth requiring all composition data to be age-based  (see section \ref{watage} for details). The observed discard length data were converted to an estimated age based on a year and area (north or south of 36$^circ$ N. latitude) length-age key. The `FSA` package in R was used to convert lengths to ages. The package calculates probabilities of a fish being an age given length.  Data from the \gls{s-wcgbt} was used to inform the estimated age-length probabilities since annual data were available that included spatial information. The estimated ages were then used to inform the estimation of selectivity for each of the gear-specific discard fleets.  
 
 ### Composition Data
 
 Data for all states were extracted from PacFIN's Biological Data System (BDS). Broadly, the weighting of commercial biological samples was conducted via the following method using the R package \href{https://github.com/pfmc-assessments/pacfintools}{\texttt{pacfintool}} developed and managed by scientists at the \gls{nwfsc}. The package queries, filters, and expands fishery biological data based on the following steps:
 
 \begin{enumerate} 
-\item Expand the sample weight of lengths or ages from the state recorded sub-sample, consisting of one or more baskets of fish, to the estimated total landings in that market category (or trip for ungraded samples).  When sample weights were unavailable, as is always the case for fish landed in Washington, gender-specific weight-length relationships were used to approximate the weight of the sample. 
+\item Expand the sample weight of lengths or ages from the state recorded sub-sample, consisting of one or more baskets of fish, to the estimated total landings in that market category (or trip for ungraded samples). When sample weights were unavailable, as is always the case for fish landed in Washington, gender-specific weight-length relationships were used to approximate the weight of the sample. 
 \item Sum the trip-expanded values within model-based gear fleets and state combinations. Data sampled from larger landings thus account for more weight in the sum to better reflect the total landings.
 \item Expand the values to gear-specific landings, ensuring that data by state are expanded based upon the total landings within that state.
 \item Calculate input sample sizes based upon the number of trips and samples.
@@ -55,6 +54,7 @@ Input N = $7.06 * N_{\text{trips}}$ if $N_{\text{fish}}/N_{\text{trips}}$ is $\g
 \end{centering}
 
 \vspace{0.50cm}
+
 
 
 @tbl-twl-age-samples-comp
@@ -191,7 +191,7 @@ Range-wide investigations of `r spp` growth suggest that growth varies across th
 
 Female `r spp` generally reach larger sizes compared to males. For example, the  female `r spp` the upper 95 percent confidence interval of all observed lengths from the \gls{s-wcgbt} is 70 cm compared to 62 cm for males. However, the size at age for the oldest `r spp` is quite variable leading to uncertainty in the estimated maximum size for both females and males across assessments depending upon the data used to inform estimates. 
 
-### Weight-at-Age
+### Weight-at-Age {#watage}
 
 
 ### Maturity and Fecundity
