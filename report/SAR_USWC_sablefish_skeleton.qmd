@@ -173,8 +173,8 @@ spp <- "sablefish"
 Spp <- "Sablefish"
 
 # Define the location and name of the base model
-model_name <- "8.34_fix_additional_selex_param"
-general_dir <- here::here("model", "_discard_fleets", "watage")
+model_name <- "8.34_fix_additional_selex_param_rec_dev_2"
+general_dir <- here::here("model", "base_model")
 model_dir <- file.path(general_dir, model_name)
 
 if (any(c(
