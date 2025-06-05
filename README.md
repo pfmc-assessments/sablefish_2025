@@ -58,6 +58,9 @@ following guidelines for the placement of files.
 │   └───figures
 ├───man
 ├───model (git ignored)
+│   └───base_model
+│     └─── folder with the current base model
+│     └───_sensitivities
 ├───R
 └───report
 │   └───figures
