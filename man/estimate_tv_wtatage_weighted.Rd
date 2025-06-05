@@ -5,25 +5,22 @@
 \title{Estimate time-varying weight at age that is biomass weighted}
 \usage{
 estimate_tv_wtatage_weighted(
+  data,
   dir = here::here(),
   max_age = 30,
-  data_file = "data_weight_at_age_survey",
   do_plots = FALSE
 )
 }
 \arguments{
+\item{data}{Dataframe of year, weights, sex, and ages.  The data object can be
+created by \code{process_weight_at_age_survey} and/or \code{process_weight_at_age_fishery}.}
+
 \item{dir}{Parent directory for the repository.}
 
 \item{max_age}{An integer specifying the maximum age of the modeled data
 in the Stock Synthesis model. All age data beyond this will be assigned
 to the maximum age. This is typically the age beyond which data are sparse
 and weight and length are essentially the same across ages.}
-
-\item{data_file}{Character string name of file with the weight at age data
-to use. This file is expected to be a csv file stored in the "data-processed"
-folder. Default is "data_weight_at_age_survey", but the option of
-c("data_weight_at_age_survey", "data_weight_at_age_fishery") will include
-both fishery and survey data.}
 
 \item{do_plots}{TRUE/FALSE to create plots from the model}
 }

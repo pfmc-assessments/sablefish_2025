@@ -4,12 +4,10 @@
 \alias{plot_fleet_retention}
 \title{Plot Length-Based Retention Curve}
 \usage{
-plot_fleet_retention(model_out, model_path, fleet_num)
+plot_fleet_retention(model_out, fleet_num)
 }
 \arguments{
 \item{model_out}{model object created by \code{\link[r4ss:SS_output]{r4ss::SS_output()}}}
-
-\item{model_path}{path to model directory containing control.ss file}
 
 \item{fleet_num}{the fleet for which to plot selectivity}
 }
