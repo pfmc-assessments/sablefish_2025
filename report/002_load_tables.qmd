@@ -1,4 +1,5 @@
 ```{r}
+#| label: 'load-tables'
 #| echo: false
 
 if (file.exists(table_dir)) {
@@ -70,6 +71,7 @@ if (file.exists(table_dir)) {
 
 
 ```{r}
+#| label: 'modify-loaded-tables'
 #| echo: false
 
 # Special modification to the management and projection tables to add quantities
@@ -166,8 +168,9 @@ if (file.exists(table_dir)) {
                              .default = "OR"))
   wcgbt_bio <- data_survey_bio$nwfsc_combo
   
-  time_series_table[, "Spawning Biomass (mt)"] <- 
-    round(time_series_table[, "Spawning Biomass (mt)"], 0)
+  colname <- colnames(time_series_table) %in% c("Spawning output", "Spawning Biomass (mt)")
+  time_series_table[, colname] <- 
+    round(time_series_table[, colname], 0)
   time_series_table[, "Fraction Unfished"] <- 
     round(time_series_table[, "Fraction Unfished"], 3)
   time_series_table[, "Age-0 Recruits (1,000s)"] <- 
