@@ -110,28 +110,14 @@ cat(a, sep = '\n')
 #'
 create_model_plots <- function(
   model_name,
-  dir = here::here("model"),
-  fleetnames = c(
-    "Trawl", 
-    "Hook-and-Line", 
-    "Pot",
-    "Trawl Discards", 
-    "Hook-and-Line Discards",
-    "Pot Discard",
-    "Triennial", 
-    "AFSC Slope", 
-    "NWFSC Slope", 
-    "WCGBT",
-    "Recruitment Index"
-    )
+  dir = here::here("model")
   ) {
 
   model_dir <- file.path(dir, model_name)
   model_output <- r4ss::SS_output(model_dir)
   save(model_output, file = file.path(model_dir, "model_output.rda"))
   r4ss::SS_plots(
-    replist = model_output,
-    fleetnames = fleetnames
+    replist = model_output
   )
 }
 #'
@@ -157,8 +143,8 @@ create_model_tables <- function(
       "Trawl Discards", 
       "Hook-and-Line Discards",
       "Pot Discard",
-      "Triennial", 
-      "AFSC Slope", 
+      "Triennial Early", 
+      "Triennial Late", 
       "NWFSC Slope", 
       "WCGBT",
       "Recruitment Index"
@@ -187,8 +173,8 @@ spp <- "sablefish"
 Spp <- "Sablefish"
 
 # Define the location and name of the base model
-model_name <- "9.11_fix_beta"
-general_dir <- here::here("model", "_discard_fleets", "growth")
+model_name <- "8.34_fix_additional_selex_param"
+general_dir <- here::here("model", "_discard_fleets", "watage")
 model_dir <- file.path(general_dir, model_name)
 
 if (any(c(
