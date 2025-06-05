@@ -624,7 +624,7 @@ ggplot2::ggplot(spatial_maturity, ggplot2::aes(x = age, y = p, color = Model)) +
 ## Model Bridging
 
 ```{r} 
-#| label: ss3-version
+#| label: fig-ss3-version
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -640,7 +640,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: data-bridge-ssb-1
+#| label: fig-data-bridge-ssb-1
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -656,7 +656,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: data-bridge-depl-1
+#| label: fig-data-bridge-depl-1
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -672,7 +672,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: data-bridge-ssb-2
+#| label: fig-data-bridge-ssb-2
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -688,7 +688,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: data-bridge-depl-2
+#| label: fig-data-bridge-depl-2
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -705,7 +705,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: structure-bridge-ssb-3
+#| label: fig-structure-bridge-ssb-3
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -721,7 +721,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: structure-bridge-depl-3
+#| label: fig-structure-bridge-depl-3
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -736,7 +736,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: structure-bridge-ssb-4
+#| label: fig-structure-bridge-ssb-4
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -752,7 +752,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: structure-bridge-depl-4
+#| label: fig-structure-bridge-depl-4
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -767,7 +767,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: structure-bridge-ssb-5
+#| label: fig-structure-bridge-ssb-5
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -783,7 +783,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: structure-bridge-depl-5
+#| label: fig-structure-bridge-depl-5
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -800,7 +800,7 @@ knitr::include_graphics(
 \pagebreak
 
 ```{r} 
-#| label: structure-bridge-ssb-6
+#| label: fig-structure-bridge-ssb-6
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -817,7 +817,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: structure-bridge-depl-6
+#| label: fig-structure-bridge-depl-6
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -838,7 +838,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: weight-at-age-female
+#| label: fig-weight-at-age-female
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -854,7 +854,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: weight-at-age-male
+#| label: fig-weight-at-age-male
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -870,7 +870,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: fecundity-maturity
+#| label: fig-fecundity-maturity
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -894,7 +894,7 @@ ADD CUSTOM SELECTIVITY FIGURES
 ## Fits to Data
 
 ```{r} 
-#| label: index-fit-early-triennial
+#| label: fig-index-fit-early-triennial
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -911,7 +911,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: index-fit-late-triennial
+#| label: fig-index-fit-late-triennial
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -928,7 +928,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: index-fit-nwfsc-slope
+#| label: fig-index-fit-nwfsc-slope
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -945,7 +945,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: index-fit-wcgbt
+#| label: fig-index-fit-wcgbt
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -961,7 +961,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: index-fit-enviro
+#| label: fig-index-fit-enviro
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -978,7 +978,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: aggregate-age-fit
+#| label: fig-aggregate-age-fit
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -995,7 +995,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: pearson-trawl
+#| label: fig-pearson-trawl
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1013,7 +1013,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: mean-age-trawl
+#| label: fig-mean-age-trawl
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1030,7 +1030,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: pearson-hkl
+#| label: fig-pearson-hkl
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1048,7 +1048,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: mean-age-hkl
+#| label: fig-mean-age-hkl
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1064,7 +1064,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: pearson-pot
+#| label: fig-pearson-pot
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1080,7 +1080,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: mean-age-pot
+#| label: fig-mean-age-pot
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1098,7 +1098,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: pearson-trawl-discards
+#| label: fig-pearson-trawl-discards
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1114,7 +1114,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: mean-age-trawl-discards
+#| label: fig-mean-age-trawl-discards
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1131,7 +1131,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: pearson-hkl-discards
+#| label: fig-pearson-hkl-discards
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1147,7 +1147,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: mean-age-hkl-discards
+#| label: fig-mean-age-hkl-discards
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1164,7 +1164,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: pearson-pot-discards
+#| label: fig-pearson-pot-discards
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1180,7 +1180,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: mean-age-pot-discards
+#| label: fig-mean-age-pot-discards
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1197,7 +1197,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: pearson-tri-early
+#| label: fig-pearson-tri-early
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1213,7 +1213,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: mean-age-tri-early
+#| label: fig-mean-age-tri-early
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1229,7 +1229,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: pearson-tri-late
+#| label: fig-pearson-tri-late
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1245,7 +1245,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: mean-age-tri-late
+#| label: fig-mean-age-tri-late
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1261,7 +1261,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: pearson-nwfsc-slope
+#| label: fig-pearson-nwfsc-slope
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1277,7 +1277,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: mean-age-nwfsc-slope
+#| label: fig-mean-age-nwfsc-slope
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1293,7 +1293,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: pearson-wcgbt
+#| label: fig-pearson-wcgbt
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1309,7 +1309,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: mean-age-wcgbt
+#| label: fig-mean-age-wcgbt
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1499,7 +1499,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: retro-sb
+#| label: fig-retro-sb
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1515,7 +1515,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: retro-depl
+#| label: fig-retro-depl
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1531,7 +1531,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: squid-plot
+#| label: fig-squid-plot
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1549,7 +1549,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: r0-profile
+#| label: fig-r0-profile
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1564,7 +1564,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: r0-profile-ssb
+#| label: fig-r0-profile-ssb
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1580,7 +1580,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: r0-profile-depl
+#| label: fig-r0-profile-depl
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1596,7 +1596,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: m-profile
+#| label: fig-m-profile
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1611,7 +1611,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: m-profile-ssb
+#| label: fig-m-profile-ssb
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1627,7 +1627,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: m-profile-depl
+#| label: fig-m-profile-depl
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1644,7 +1644,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: h-profile
+#| label: fig-h-profile
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1659,7 +1659,7 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: h-profile-ssb
+#| label: fig-h-profile-ssb
 #| echo: false 
 #| warning: false 
 #| eval: true 
@@ -1675,7 +1675,7 @@ knitr::include_graphics(
 
 
 ```{r} 
-#| label: h-profile-depl
+#| label: fig-h-profile-depl
 #| echo: false 
 #| warning: false 
 #| eval: true 
