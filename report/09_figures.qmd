@@ -426,7 +426,7 @@ knitr::include_graphics(
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agedat_data_weighting_TA1-8_NWFSC Slope.png")
+  file.path(model_dir, "plots", "comp_agedat_data_weighting_TA1-8_NWFSC_Slope.png")
 )
 
 ```
@@ -623,13 +623,708 @@ ggplot2::ggplot(spatial_maturity, ggplot2::aes(x = age, y = p, color = Model)) +
 
 ## Model Bridging
 
+```{r} 
+#| label: ss3-version
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Comparison of estimated spawning biomass between Stock Synthesis executable versions."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  here::here("report", "figures", "0_bridging_compare2_spawnbio_uncertainty.png")
+)
+
+```
+
+
+```{r} 
+#| label: data-bridge-ssb-1
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Comparison of estimated spawning biomass when adding new data."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  here::here("report", "figures", "1_data_bridging_compare2_spawnbio_uncertainty.png")
+)
+
+```
+
+
+```{r} 
+#| label: data-bridge-depl-1
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Comparison of estimated fraction unfished when adding new data."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  here::here("report", "figures", "1_data_bridging_compare4_Bratio_uncertainty.png")
+)
+
+```
+
+
+```{r} 
+#| label: data-bridge-ssb-2
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Comparison of estimated spawning biomass when adding new data."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  here::here("report", "figures", "2_data_bridging_compare2_spawnbio_uncertainty.png")
+)
+
+```
+
+
+```{r} 
+#| label: data-bridge-depl-2
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Comparison of estimated fraction unfished when adding new data."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  here::here("report", "figures", "2_data_bridging_compare4_Bratio_uncertainty.png")
+)
+
+```
+
+
+
+```{r} 
+#| label: structure-bridge-ssb-3
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Comparison of estimated spawning biomass when the estimation of annual recruitment deviations is revised."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  here::here("report", "figures", "3_structure_compare1_spawnbio.png")
+)
+
+```
+
+
+```{r} 
+#| label: structure-bridge-depl-3
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Comparison of estimated fraction unfished when the estimation of annual recruitment deviations is revised."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  here::here("report", "figures", "3_structure_compare3_Bratio.png")
+)
+
+```
+
+```{r} 
+#| label: structure-bridge-ssb-4
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Comparison of estimated spawning biomass when the model structure is revised."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  here::here("report", "figures", "4_structure_compare1_spawnbio.png")
+)
+
+```
+
+
+```{r} 
+#| label: structure-bridge-depl-4
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Comparison of estimated fraction unfished when the model structure is revised."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  here::here("report", "figures", "4_structure_compare3_Bratio.png")
+)
+
+```
+
+```{r} 
+#| label: structure-bridge-ssb-5
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Comparison of estimated spawning biomass when the model structure is revised."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  here::here("report", "figures", "5_structure_compare1_spawnbio.png")
+)
+
+```
+
+
+```{r} 
+#| label: structure-bridge-depl-5
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Comparison of estimated fraction unfished when the model structure is revised."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  here::here("report", "figures", "5_structure_compare3_Bratio.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: structure-bridge-ssb-6
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Comparison of estimated spawning biomass when the model structure is revised."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  here::here("report", "figures", "6_structure_compare1_spawnbio.png")
+)
+
+```
+
+
+```{r} 
+#| label: structure-bridge-depl-6
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Comparison of estimated fraction unfished when the model structure is revised."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  here::here("report", "figures", "6_structure_compare3_Bratio.png")
+)
+
+```
+
+\pagebreak
+
 ## Biology
+
+
+```{r} 
+#| label: weight-at-age-female
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Female weight-at-age by year."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "bio5_weightatsize.png")
+)
+
+```
+
+```{r} 
+#| label: weight-at-age-male
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Male weight-at-age by year."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "bio5_weightatsize2.png")
+)
+
+```
+
+```{r} 
+#| label: fecundity-maturity
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Spawning output at age based upon maturity and fecundity."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "bio6_maturity.png")
+)
+
+```
 
 
 ## Selectivity
 
+ADD CUSTOM SELECTIVITY FIGURES
+
 
 ## Fits to Data
+
+```{r} 
+#| label: index-fit-early-triennial
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Fit to index data for Triennial Shelf Slope Survey (1980-1992)."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "index2_cpuefit_Triennial_Early.png")
+)
+
+```
+
+
+```{r} 
+#| label: index-fit-late-triennial
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Fit to index data for Triennial Shelf Slope Survey (1995-2004)."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "index2_cpuefit_Triennial_Late.png")
+)
+
+```
+
+
+```{r} 
+#| label: index-fit-nwfsc-slope
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Fit to index data for NWFSC Slope Survey."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "index2_cpuefit_NWFSC_Slope.png")
+)
+
+```
+
+
+```{r} 
+#| label: index-fit-wcgbt
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Fit to index data for the NWFSC West Coast Groundfish Bottom Trawl Survey."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "index2_cpuefit_WCGBT.png")
+)
+
+```
+
+```{r} 
+#| label: index-fit-enviro
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Fit to index data for the recuitment index."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "index2_cpuefit_ENV.png")
+)
+
+```
+
+
+```{r} 
+#| label: aggregate-age-fit
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Aggregated fit to the age composition data across all years by fleet."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit__aggregated_across_time.png")
+)
+
+```
+
+
+```{r} 
+#| label: pearson-trawl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Pearsons residuals to age composition data from the trawl fleet. Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_residsflt1mkt0_page2.png")
+)
+
+```
+
+
+
+```{r} 
+#| label: mean-age-trawl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Mean age by year with confidence intervals for sexed and unsexed ages from the trawl fleet."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_TWL.png")
+)
+
+```
+
+
+```{r} 
+#| label: pearson-hkl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Pearsons residuals to age composition data from the hook-and-line fleet. Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_residsflt2mkt0_page2.png")
+)
+
+```
+
+
+
+```{r} 
+#| label: mean-age-hkl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Mean age by year with confidence intervals for sexed and unsexed ages from the hook-and-line fleet."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_HKL.png")
+)
+
+```
+
+```{r} 
+#| label: pearson-pot
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Pearsons residuals to age composition data from the pot fleet. Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_residsflt3mkt0_page2.png")
+)
+
+```
+
+```{r} 
+#| label: mean-age-pot
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Mean age by year with confidence intervals for sexed and unsexed ages from the pot fleet."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_Pot.png")
+)
+
+```
+
+
+
+```{r} 
+#| label: pearson-trawl-discards
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Pearsons residuals to age composition data from the trawl discard fleet. Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_residsflt4mkt0.png")
+)
+
+```
+
+```{r} 
+#| label: mean-age-trawl-discards
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Mean age by year with confidence intervals for sexed and unsexed ages from the trawl discard fleet."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_TWL_Discards.png")
+)
+
+```
+
+
+```{r} 
+#| label: pearson-hkl-discards
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Pearsons residuals to age composition data from the hook-and-line discard fleet. Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_residsflt5mkt0.png")
+)
+
+```
+
+```{r} 
+#| label: mean-age-hkl-discards
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Mean age by year with confidence intervals for sexed and unsexed ages from the hook-and-line discard fleet."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_HKL_Discards.png")
+)
+
+```
+
+
+```{r} 
+#| label: pearson-pot-discards
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Pearsons residuals to age composition data from the pot discard fleet. Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_residsflt6mkt0.png")
+)
+
+```
+
+```{r} 
+#| label: mean-age-pot-discards
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Mean age by year with confidence intervals for sexed and unsexed ages from the pot discard fleet."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_Pot_Discard.png")
+)
+
+```
+
+
+```{r} 
+#| label: pearson-tri-early
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Pearsons residuals to age composition data from the Triennial Survey (1980-1992). Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_residsflt7mkt0.png")
+)
+
+```
+
+```{r} 
+#| label: mean-age-tri-early
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Mean age by year with confidence intervals for sexed and unsexed ages from the Triennial Survey (1980-1992)."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_Triennial_Early.png")
+)
+
+```
+
+```{r} 
+#| label: pearson-tri-late
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Pearsons residuals to age composition data from the Triennial Survey (1995-2004). Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_residsflt8mkt0.png")
+)
+
+```
+
+```{r} 
+#| label: mean-age-tri-late
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Mean age by year with confidence intervals for sexed and unsexed ages from the Triennial Survey (1995-2004)."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_Triennial_Late.png")
+)
+
+```
+
+```{r} 
+#| label: pearson-nwfsc-slope
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Pearsons residuals to age composition data from the NWFSC Slope Survey. Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_residsflt8mkt0.png")
+)
+
+```
+
+```{r} 
+#| label: mean-age-nwfsc-slope
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Mean age by year with confidence intervals for sexed and unsexed ages from the NWFSC Slope Survey."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_NWFSC_Slope.png")
+)
+
+```
+
+```{r} 
+#| label: pearson-wcgbt
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Pearsons residuals to age composition data from the WCGBT Survey. Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_residsflt10mkt0.png")
+)
+
+```
+
+```{r} 
+#| label: mean-age-wcgbt
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Mean age by year with confidence intervals for sexed and unsexed ages from the WCGBT Survey."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_WCGBT.png")
+)
+
+```
+
+
 
 
 ## Time-series
@@ -640,7 +1335,7 @@ ggplot2::ggplot(spatial_maturity, ggplot2::aes(x = age, y = p, color = Model)) +
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Estimated time series of spawning biomass for the base model."
+#| fig-cap: "Estimated time series of spawning output for the base model."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -656,12 +1351,28 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Estimated time series of fraction of unfished spawning biomass for the base model."
+#| fig-cap: "Estimated time series of fraction of unfished spawning output for the base model."
 #| fig-alt: ""
 #| fig-pos: H
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "ts9_Relative_spawning_biomass_intervals.png")
+  file.path(model_dir, "plots", "ts9_Relative_spawning_output_intervals.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-depl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated time series of total biomass for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "ts1_Total_biomass_(t).png")
 )
 
 ```

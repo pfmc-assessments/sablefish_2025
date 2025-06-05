@@ -103,7 +103,7 @@ ssb_es_table |>
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Estimated time series of spawning biomass for the base model."
+#| fig-cap: "Estimated time series of spawning output for the base model."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -119,12 +119,12 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Estimated time series of fraction of unfished spawning biomass for the base model."
+#| fig-cap: "Estimated time series of fraction of unfished spawning output for the base model."
 #| fig-alt: ""
 #| fig-pos: H
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "ts9_Relative_spawning_biomass_intervals.png")
+  file.path(model_dir, "plots", "ts9_Relative_spawning_output_intervals.png")
 )
 
 ```
@@ -444,4 +444,4 @@ a <- knitr::knit_child(here::here("report", "shared_text", "research_data_needs.
 cat(a, sep = '\n')
 ```
 
-
+## Risk Table {-}
