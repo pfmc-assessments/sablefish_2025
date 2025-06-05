@@ -213,7 +213,65 @@ Add catch comparison figure
 \pagebreak
 
 
-Add discard length and age figures
+```{r} 
+#| label: fig-alk
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Length and age comparison for lengths converted to sex using the age-length key with the average length by age (blue line)."
+#| fig-alt: ""
+
+knitr::include_graphics(
+   here::here("report", "figures", "compare_data_alk_all_years.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-discard-ages-trawl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Ages by year for the trawl discard fleet."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt4mkt0.png")
+)
+
+```
+
+
+
+```{r} 
+#| label: fig-discard-ages-hkl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Ages by year for the hook-and-line discard fleet."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt5mkt0.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-discard-ages-pot
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Ages by year for the pot discard fleet."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt6mkt0.png")
+)
+
+```
 
 \pagebreak
 
