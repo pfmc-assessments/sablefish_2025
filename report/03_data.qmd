@@ -22,14 +22,13 @@ Foreign catches are included in gear specific fleets. The foreign catch reconstr
 
 Recreational fishery landings were included in this assessment and added to the hook-and-line landings fleet in the model. Recreational landings of `r spp` were low historically with the average mortality being less than 3 mt per year between 2001-2022, but have been sharply increased in recent years. In 2023, recreational mortality coastwide peaked at 34 mt and decreased in 2024 to 29 mt. 
 
-This assessment also included discard fleets for each gear type. The estimates for discard mortality were based on information about historical, when available, and current discarding practices by fleet.  Discard mortality was estimated for the domestic historical and current landings only.  The method used to estimate discards by fleet are described below.  
+This assessment also included discard fleets for each gear type. The estimates for discard mortality were based on information about historical, when available, and current discarding practices by fleet.  Discard mortality was estimated for the domestic historical and current landings only.  The discard fleet mortality was calculated for the domestic commercial landings only (e.g., historical commercial reconstructions and landings in PacFIN). The calculated discard used \gls{wcgop} gear-specific annual discard rates between 2002 to 2023.  The discard mortality prior to 2002 for hook-and-line and pot gear was calculated based upon the average gear-specific discard rate between 2002-2010 applied to the year-specific landings from 1890-2001.  The discard mortality for trawl gear prior to 2002 was based upon the average of discard rates observed in the Pikitch data for 1985-1987 applied to the year-specific landings from 1890-2001.  The 2023 discard rate for each gear was used to externally estimate the discard mortality for 2024. No discard mortality was assumed between 1942-1946 during World War II.  The estimation of the gear-specific annual discard rates is described below.    
 
 ### Discards
 
 Data on discards of `r spp` are available from multiple sources. A trawl discard study conducted in 1985 to 1987, referred to as the "Pikitch study", organized by Ellen Pikitch resulted in discard rates and length observations for various groundfish species including `r spp`  [@pikitch_evaluation_1988]. The northern and southern boundaries of the study were $48^\circ 42^\prime$ N. latitude and $48^\circ 42^\prime$ N. latitude respectively, which is primarily within the Columbia INPFC area, falling within Oregon/Washington waters [@pikitch_evaluation_1988; @rogers_numerical_1992]. Participation in the study was voluntary and included vessels using bottom, midwater, and shrimp trawl gears. Observers on commercial vessels collected the data, estimated the total weight of the catch by tow, and recorded the weight of species retained and discarded in the sample. Results of the Pikitch discard study were processed and provided by John Wallace (personal communication, Northwest Fishery Science Center, NOAA) in the form of ratios of discard weight to retained weight of `r spp`. 
 
 The second source for discard data is from \gls{wcgop}. This program is part of the NWFSC and has been recording discard observations starting in 2002. Since 2011, when the IFQ program was implemented, observer coverage rates increased to nearly 100 percent for all the limited entry trawl vessels in the program and discard rates declined compared to pre-2011 rates. Discard rates were obtained for both the IFQ catch-share (observed and electronic monitored vessels) and the non-catch share sector for `r spp`. A single discard rate was calculated by weighting discard rates based on the commercial discards by each sector and gear type based on estimates from the \gls{gemm} report. Coefficient of variations were calculated for the non-catch shares sector and pre-catch share years by bootstrapping vessels within ports because the observer program randomly chooses vessels within ports to be observed. Post trawl rationalization, all catch-share vessels have 100 percent observer coverage and discarding is assumed to be known. The discard rates from both data sources by fleet based on gear type are shown in @tbl-discard-rates-twl -- @tbl-discard-rates-pot.  
-
 
 
 ADD TEXT ABOUT CONVERTING LENGTHS TO AGES.
@@ -163,8 +162,9 @@ R/V Miller Freeman. Partial survey coverage of the U.S. west coast occurred duri
 1999-2001. Typically, only these four years that are seen as complete surveys are included in
 groundfish stock assessments.
 
+### Fournier Transform Near Infrared Spectroscopy Age Data
 
-Add text about EFP discard data
+### Enhanced Data Collection Program (EDCP) Discard Rates
 
 ## Biological Data
 
