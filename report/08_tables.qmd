@@ -21,16 +21,17 @@ landings <- model_output[["catch"]] |>
      names_from = Fleet_Name,
      values_from = ret_bio
    ) |>
-  #dplyr::rename(
-  #  Year = Yr,
-  #  `Trawl` = TWL,
-  #  `Hook-and-Line` = HKL,
-  #  `Pot` = Pot,
-  #  `Foreign & At-Sea Trawl` = AtSea_TWL_Foreign,
-  #  `Foreign Hook-and-Line` = HKL_Foreign,
-  #  `Foreign Pot` = Pot_Foreign
-  #) |>
-   dplyr::ungroup()
+  dplyr::rename(
+    Year = Yr,
+    `TWL` = TWL,
+    `HKL` = HKL,
+    `Pot` = Pot,
+    `TWL Discard` = TWL_Discards,
+    `HKL Discard` = HKL_Discards,
+    `Pot Discard` = Pot_Discard
+  ) |>
+  dplyr::relocate(`Total (mt)`, .after = `Pot Discard`) |>
+  dplyr::ungroup()
 kableExtra::kable(
   landings, 
   format = "latex", 
