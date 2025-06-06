@@ -23,14 +23,14 @@ main_rec_devs <- SS_output(here::here("model", "_bridging", "15_rec_devs_main"))
 early_rec_devs <- SS_output(here::here("model", "_bridging", "16_no_early_devs"))
 remove_afsc_slope <- SS_output(here::here("model", "_bridging", "17_afsc_slope"))
 single_m <- SS_output(here::here("model", "_bridging", "18_single_m"))
-foreign_fleets_age_ret <- SS_output(here::here("model", "_retention_model", "growth", "21.3_input_n_mirror_selex_only"))
-split_triennial_age_ret <- SS_output(here::here("model", "_retention_model", "growth", "21.4_split_tri"))
-fix_wcgbt_selex <- SS_output(here::here("model", "_retention_model", "growth", "21.5_wcgbt_selex"))
-adjust_selex_blocks <- SS_output(here::here("model", "_retention_model", "growth", "22.0_revised_fleet_structure"))
-discard_fleets <- SS_output(here::here("model", "_bridging", "26_discard_fleets_age_based_selectivity_main_devs_1975_no_early"))
-steepness <- SS_output(here::here("model", "_bridging", "28_single_m")) # the steepness run has sex-specific M values
-watage <- SS_output(here::here("model", "_bridging", "29_add_watage")) 
-add_enviro <- SS_output(here::here("model", "_bridging", "30_8.33_enviro_index_mle")) 
+foreign_fleets_age_ret <- SS_output(here::here("model", "_retention_model", "_growth", "21.3_input_n_mirror_selex_only"))
+split_triennial_age_ret <- SS_output(here::here("model", "_retention_model", "_growth", "21.4_split_tri"))
+fix_wcgbt_selex <- SS_output(here::here("model", "_retention_model", "_growth", "21.5_wcgbt_selex"))
+adjust_selex_blocks <- SS_output(here::here("model", "_retention_model", "_growth", "22.0_revised_fleet_structure"))
+discard_fleets <- SS_output(here::here("model", "_discard_fleets", "growth", "9.19_no_extra_sd"))
+steepness <- SS_output(here::here("model", "_discard_fleets", "growth", "9.19_no_extra_sd_steepness=0.70")) # the steepness run has sex-specific M values
+watage <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_data_weight")) 
+add_enviro <- SS_output(here::here("model", "_discard_fleets", "watage", "8.34_fix_additional_selex_param_rec_dev_2")) 
 
 # Executable
 modelnames <- c(
@@ -46,7 +46,7 @@ SSplotComparisons(mysummary,
                   btarg = 0.40,
                   minbthresh = 0.25,
                   print = TRUE,
-                  plotdir = here::here("model", "_bridging", "_plots"),
+                  plotdir = here::here("report", "figures"),
                   ylimAdj = 1.0)
 
 # Data
@@ -72,7 +72,7 @@ SSplotComparisons(mysummary,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
-                  plotdir = here::here("model", "_bridging", "_plots"),
+                  plotdir = here::here("report", "figures"),
                   ylimAdj = 1.25,
                   print = TRUE)
 
@@ -82,7 +82,7 @@ SSplotComparisons(mysummary,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
-                  plotdir = here::here("model", "_bridging", "_plots"),
+                  plotdir = here::here("report", "figures"),
                   ylimAdj = 1.25,
                   print = TRUE)
 
@@ -108,7 +108,7 @@ SSplotComparisons(mysummary,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
-                  plotdir = here::here("model", "_bridging", "_plots"),
+                  plotdir = here::here("report", "figures"),
                   ylimAdj = 1.25,
                   print = TRUE)
 
@@ -118,16 +118,10 @@ SSplotComparisons(mysummary,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
-                  plotdir = here::here("model", "_bridging", "_plots"),
+                  plotdir = here::here("report", "figures"),
                   ylimAdj = 1.25,
                   print = TRUE)
 
-# Structure
-main_rec_devs <- SS_output(here::here("model", "_bridging", "15_rec_devs_main"))
-early_rec_devs <- SS_output(here::here("model", "_bridging", "16_no_early_devs"))
-remove_afsc_slope <- SS_output(here::here("model", "_bridging", "17_afsc_slope"))
-single_m <- SS_output(here::here("model", "_bridging", "18_single_m"))
-foreign_fleets_age_ret <- SS_output(here::here("model", "_retention_model", "_growth", "21.3_input_n_mirror_selex_only"))
 
 modelnames <- c(
   "Ageing Error",
@@ -143,7 +137,7 @@ SSplotComparisons(mysummary,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
-                  plotdir = here::here("model", "_bridging", "_plots"),
+                  plotdir = here::here("report", "figures"),
                   ylimAdj = 1.25,
                   print = TRUE)
 
@@ -153,7 +147,7 @@ SSplotComparisons(mysummary,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
-                  plotdir = here::here("model", "_bridging", "_plots"),
+                  plotdir = here::here("report", "figures"),
                   ylimAdj = 1.25,
                   print = TRUE)
 
@@ -174,7 +168,7 @@ SSplotComparisons(mysummary,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
-                  plotdir = here::here("model", "_bridging", "_plots"),
+                  plotdir = here::here("report", "figures"),
                   ylimAdj = 1.25,
                   print = TRUE)
 
@@ -184,17 +178,9 @@ SSplotComparisons(mysummary,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
-                  plotdir = here::here("model", "_bridging", "_plots"),
+                  plotdir = here::here("report", "figures"),
                   ylimAdj = 1.25,
                   print = TRUE)
-
-split_triennial_age_ret <- SS_output(here::here("model", "_retention_model", "_growth", "21.4_split_tri"))
-fix_wcgbt_selex <- SS_output(here::here("model", "_retention_model", "_growth", "21.5_wcgbt_selex"))
-adjust_selex_blocks <- SS_output(here::here("model", "_retention_model", "_growth", "22.0_revised_fleet_structure"))
-discard_fleets <- SS_output(here::here("model", "_discard_fleets", "growth", "9.19_no_extra_sd"))
-steepness <- SS_output(here::here("model", "_discard_fleets", "growth", "9.19_no_extra_sd_steepness=0.70")) # the steepness run has sex-specific M values
-watage <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_data_weight")) 
-add_enviro <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_enviro_index")) 
 
 modelnames <- c(
   "Foreign Fleets with Age-Based Retention",
@@ -212,7 +198,7 @@ SSplotComparisons(mysummary,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
-                  plotdir = here::here("model", "_bridging", "_plots"),
+                  plotdir = here::here("report", "figures"),
                   ylimAdj = 1.25,
                   print = TRUE)
 
@@ -222,7 +208,7 @@ SSplotComparisons(mysummary,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
-                  plotdir = here::here("model", "_bridging", "_plots"),
+                  plotdir = here::here("report", "figures"),
                   ylimAdj = 1.25,
                   print = TRUE)
 
@@ -240,21 +226,21 @@ mysummary <- SSsummarize(list(
   add_enviro))
 SSplotComparisons(mysummary,
                   filenameprefix = "6_structure_",
-                  subplots = 1,
+                  subplots = 2,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
-                  plotdir = here::here("model", "_bridging", "_plots"),
+                  plotdir = here::here("report", "figures"),
                   ylimAdj = 1.25,
                   print = TRUE)
 
 SSplotComparisons(mysummary,
                   filenameprefix = "6_structure_",
-                  subplots = 3,
+                  subplots = 4,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
-                  plotdir = here::here("model", "_bridging", "_plots"),
+                  plotdir = here::here("report", "figures"),
                   ylimAdj = 1.25,
                   print = TRUE)
 
