@@ -146,3 +146,17 @@ ggsave(gg4,
        file = here::here("data-raw", "discard", "wcgop", "figures", "compare_data_alk_all_years.png"),
        height = 12, width = 12)
 
+
+a <- ggplot(wcgop_age_est[!is.na(wcgop_age_est$age), ], aes(x = age, y = length)) +
+  geom_point() +
+  ylim(c(0, 85)) +
+  ylab("Length (cm)") + xlab("Estimated Age") + 
+  theme_bw() + 
+  theme(
+    strip.text = element_text(size = 14),
+    axis.text=element_text(size = 12),
+    axis.title=element_text(size = 14)) + 
+  facet_wrap("gear_groups", nrow = 3)
+ggsave(a,
+       file = here::here("report", "figures", "compare_data_alk_all_years.png"),
+       height = 12, width = 12)
