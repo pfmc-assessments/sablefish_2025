@@ -173,7 +173,7 @@ spp <- "sablefish"
 Spp <- "Sablefish"
 
 # Define the location and name of the base model
-model_name <- "8.34_fix_additional_selex_param_rec_dev_2"
+model_name <- "8.36_base_model"
 general_dir <- here::here("model", "base_model")
 model_dir <- file.path(general_dir, model_name)
 
