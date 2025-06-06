@@ -717,7 +717,7 @@ SSplotComparisons(mysummary,
                   pdf = TRUE)
 
 additional_simplications <- SS_output(here::here("model", "_discard_fleets", "watage", "8.34_fix_additional_selex_param"))
-additional_simplications_rec_option_2 <- SS_output(here::here("model", "_discard_fleets", "watage", "8.34_fix_additional_selex_param_rec_dev_2"))
+
 modelnames <- c(
   "8.34 Rec Dev Option = 1",
   "8.34 Rec Dev Option = 2")
@@ -732,3 +732,11 @@ SSplotComparisons(mysummary,
                   plotdir = here::here("model", "_discard_fleets", "watage"),
                   ylimAdj = 1.5,
                   pdf = TRUE)
+
+base_model <- SS_output(here::here("model", "_discard_fleets", "watage", "8.34_fix_additional_selex_param_rec_dev_2"))
+r4ss::tune_comps(
+  replist = base_model, 
+  dir = here::here("model", "_discard_fleets", "watage", "8.34_fix_additional_selex_param_rec_dev_2"),
+  option = "Francis")
+
+base_model <- SS_output(here::here("model", "_discard_fleets", "watage", "8.36_base_model"))
