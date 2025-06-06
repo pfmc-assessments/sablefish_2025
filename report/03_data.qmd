@@ -2,7 +2,7 @@
 
 A description of each data source used in this assessment (@fig-data) is provided below .
 
-## Fishery-dependent data
+## Fishery-Dependent data
 
 ### Landings
 
@@ -22,7 +22,11 @@ Foreign catches are included in gear specific fleets. The foreign catch reconstr
 
 Recreational fishery landings were included in this assessment and added to the hook-and-line landings fleet in the model. Recreational landings of `r spp` were low historically with the average mortality being less than 3 mt per year between 2001-2022, but have been sharply increased in recent years. In 2023, recreational mortality coastwide peaked at 34 mt and decreased in 2024 to 29 mt. 
 
-This assessment also included discard fleets for each gear type. The estimates for discard mortality were based on information about historical, when available, and current discarding practices by fleet.  Discard mortality was estimated for the domestic historical and current landings only.  The discard fleet mortality was calculated for the domestic commercial landings only (e.g., historical commercial reconstructions and landings in PacFIN). The calculated discard used \gls{wcgop} gear-specific annual discard rates between 2002 to 2023.  The discard mortality prior to 2002 for hook-and-line and pot gear was calculated based upon the average gear-specific discard rate between 2002-2010 applied to the year-specific landings from 1890-2001.  The discard mortality for trawl gear prior to 2002 was based upon the average of discard rates observed in the Pikitch data for 1985-1987 applied to the year-specific landings from 1890-2001.  The 2023 discard rate for each gear was used to externally estimate the discard mortality for 2024. No discard mortality was assumed between 1942-1946 during World War II.  The estimation of the gear-specific annual discard rates is described below.    
+This assessment also included discard fleets for each gear type. The estimates for discard mortality were based on information about historical, when available, and current discarding practices by fleet.  Discard mortality was estimated for the domestic historical and current landings only using \gls{pfmc} adopted gear-specific discard mortality rates of 20 percent for fixed gear and 50 percent for trawl gear. Previous assessments of sablefish have assumed these same discard mortality rates. The discard fleet mortality was calculated for the domestic commercial landings only (e.g., historical commercial reconstructions and landings in PacFIN). 
+
+The calculated discard mortality for each gear between 2002 -- 2023 used \gls{wcgop} gear-specific annual discard rates and discard mortality rates multiplied by the corresponding domestic landings in PacFIN. The discard mortality prior to 2002 for hook-and-line and pot gear was calculated using the average gear-specific discard rate between 2002-2010 and discard mortality rate multiplied by the domestic year-specific landings from 1890-2001 (e.g., landings in PacFIN and the historical catch reconstructions).  The discard mortality for trawl gear prior to 2002 was based upon the average of discard rates observed in the Pikitch data for 1985-1987 and discard mortality rate multiplied by the domestic year-specific landings from 1890-2001.  The discard mortality in 2024 was calculated by using the gear-specific discard rate for 2023. No discard mortality was assumed between 1942-1946 during World War II.  The estimation of the gear-specific annual discard rates is described below. 
+
+A comparison between the total mortality from this assessment and the estimated total mortality from the previous assessment is shown in @fig-landings-comparison. 
 
 ### Discards
 
@@ -30,12 +34,9 @@ Data on discards of `r spp` are available from multiple sources. A trawl discard
 
 The second source for discard data is from \gls{wcgop}. This program is part of the NWFSC and has been recording discard observations starting in 2002. Since 2011, when the IFQ program was implemented, observer coverage rates increased to nearly 100 percent for all the limited entry trawl vessels in the program and discard rates declined compared to pre-2011 rates. Discard rates were obtained for both the IFQ catch-share (observed and electronic monitored vessels) and the non-catch share sector for `r spp`. A single discard rate was calculated by weighting discard rates based on the commercial discards by each sector and gear type based on estimates from the \gls{gemm} report. Coefficient of variations were calculated for the non-catch shares sector and pre-catch share years by bootstrapping vessels within ports because the observer program randomly chooses vessels within ports to be observed. Post trawl rationalization, all catch-share vessels have 100 percent observer coverage and discarding is assumed to be known. The discard rates from both data sources by fleet based on gear type are shown in @tbl-discard-rates-twl -- @tbl-discard-rates-pot.  
 
-\gls{wcgop} collects biological data for observed discards from the commercial fishery.  For sablefish, only length data were available from \gls{wcgop}. However, this assessment is using a empirical weight-at-age approach to account for time-varying changes in growth requiring all composition data to be age-based  (see section \ref{watage} for details). The observed discard length data were converted to an estimated age based on a year and area (north or south of 36$^circ$ N. latitude) length-age key. The `FSA` package in R was used to convert lengths to ages. The package calculates probabilities of a fish being an age given length.  Data from the \gls{s-wcgbt} was used to inform the estimated age-length probabilities since annual data were available that included spatial information. The estimated ages were then used to inform the estimation of selectivity for each of the gear-specific discard fleets. The estimated ages by gear where then expanded to the tow level and aggregated annually for each gear type.  
+\gls{wcgop} collects biological data for observed discards from the commercial fishery.  For sablefish, only length data were available from \gls{wcgop}. However, this assessment is using a empirical weight-at-age approach to account for time-varying changes in growth requiring all composition data to be age-based  (see section \ref{watage} for details). The observed discard length data were converted to an estimated age based on a year and area (north or south of 36$\circ$ N. latitude) length-age key. The `FSA` package in R was used to convert lengths to ages. The package calculates probabilities of a fish being an age given length.  Data from the \gls{s-wcgbt} was used to inform the estimated age-length probabilities since annual data were available that included spatial information (@fig-alk). The estimated ages were then used to inform the estimation of selectivity for each of the gear-specific discard fleets. The estimated ages by gear where then expanded to the tow level and aggregated annually for each gear type.  
 
-@fig-alk
-@fig-discard-ages-trawl
-@fig-discard-ages-hkl
-@fig-discard-ages-pot
+The aggregated estimated discard ages by gear type are shown in @fig-data-agg-ages. Discard ages by gear and year are shown in @fig-discard-ages-trawl -- @fig-discard-ages-pot. Generally, the trawl discards younger fish with both hook-and-line and pot gear discarding a wider range of ages compared to trawl.  
 
 ### Composition Data
 
@@ -60,13 +61,10 @@ Input N = $7.06 * N_{\text{trips}}$ if $N_{\text{fish}}/N_{\text{trips}}$ is $\g
 
 \vspace{0.50cm}
 
+Commercial length and age data were queried from PacFIN. Commercial length data are available in PacFIN starting in 1974 and 1983 for age data.  This assessment incorporated only commercial age data to estimate the age distribution of removal by gear type.  Initial investigation to the available age data identified a number of age samples that were not incorporated in the 2019 assessment.  Comparisons between the number of age samples by year for trawl and fixed gear (e.g., hook-and-line and pot combined based on the previous assessment) are shown in @tbl-twl-age-samples-comp -- @tbl-fixed-age-samples-comp. 
 
-
-@tbl-twl-age-samples-comp
-@tbl-fixed-age-samples-comp
-@tbl-twl-age-samples
-@tbl-hkl-age-samples
-@tbl-pot-age-samples
+The total number of age samples, trips samples, and the calculated input sample size by year and gear type are shown in @tbl-twl-age-samples, @tbl-hkl-age-samples, and @tbl-pot-age-samples.  Across all years, 28 percent, 50 percent, and 22 percent of all age data arise from California, Oregon, and Washington, respectively. By gear, 57 percent of available age data are from the trawl fleet, 32 percent from hook-and-line, and 11 percent from pot. The trawl fleet catches younger fish compared to hook-and-line and pot (@fig-data-agg-ages). The age data from retained landing by hook-and-line and pot gear are similar with each fleet having a larger proportion of female fish compared to male fish. The age data by year from the trawl fleet are shown in @fig-data-trawl-1 -- @fig-data-trawl-2, hook-and-line in @fig-data-hkl-1 -- @fig-data-hkl-2, and pot in 
+@fig-data-pot-1 -- @fig-data-pot-2.
 
 ## Fishery-Independent Data
 

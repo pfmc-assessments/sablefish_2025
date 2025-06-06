@@ -200,7 +200,7 @@ read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
 
 readr::read_csv(here::here("data-processed", "document_sample_sizes_comparison_2019_2025.csv")) |>
   dplyr::select(-`Lengths (2019)`, - `Lengths (2024)`) |>
-  dplyr::filter(Year < 2019) |>
+  dplyr::filter(Year > 1982, Year < 2019) |>
   dplyr::filter(dplyr::case_when(Fishery == "Fixed" ~ Year >= 1986, Fishery == "Trawl" ~ Year >= 1974)) |>
   dplyr::filter(Fishery == "Trawl") |>
   dplyr::arrange(Fishery) |>

@@ -157,6 +157,20 @@ knitr::include_graphics(
 
 ```
 
+```{r} 
+#| label: fig-data-agg-ages
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Aggregated ages across all years by fleet."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat__aggregated_across_time.png")
+)
+
+```
+
 
 ```{r} 
 #| label: fig-discard-ages-trawl
