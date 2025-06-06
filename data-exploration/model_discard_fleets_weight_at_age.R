@@ -717,7 +717,7 @@ SSplotComparisons(mysummary,
                   pdf = TRUE)
 
 additional_simplications <- SS_output(here::here("model", "_discard_fleets", "watage", "8.34_fix_additional_selex_param"))
-
+additional_simplications_rec_option_2 <- SS_output(here::here("model", "_discard_fleets", "watage", "8.34_fix_additional_selex_param_rec_dev_2"))
 modelnames <- c(
   "8.34 Rec Dev Option = 1",
   "8.34 Rec Dev Option = 2")
@@ -740,3 +740,19 @@ r4ss::tune_comps(
   option = "Francis")
 
 base_model <- SS_output(here::here("model", "_discard_fleets", "watage", "8.36_base_model"))
+modelnames <- c(
+  "8.34 Rec Dev Option = 1",
+  "8.34 Rec Dev Option = 2", 
+  "+ Updated Data Weights")
+mysummary <- SSsummarize(list(
+  additional_simplications,
+  additional_simplications_rec_option_2,
+  base_model))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.34_data_weight_rec_dev_2_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.25,
+                  pdf = TRUE)
