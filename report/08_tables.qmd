@@ -445,6 +445,8 @@ read.csv(here::here("data-processed", "data-survey-wcgbt-n.csv")) |>
     `Prop. Positive` = Proportion.Positive,
     Aged = N.Aged
   ) |>
+  dplyr::select(-Sampled.Tows.Lengths) |>
+  dplyr::rename(`Sampled Tows` = Sampled.Tows.Ages) |>
   gt::gt() |>
   gt::tab_options(
     table.font.size = 12,

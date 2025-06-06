@@ -68,15 +68,9 @@ The total number of age samples, trips samples, and the calculated input sample 
 
 ## Fishery-Independent Data
 
-Data from four research surveys have been used in this assessment to provide fishery-independent information about the abundance, distribution, and biological characteristics
-of `r spp`. The longest time series of fishery-independent data arises from the NWFSC
-West Coast Groundfish Bottom Trawl (WCGBT) survey which began in 2003. This survey
-samples the shelf and slope off the U.S. West Coast covering depths from 30--700 fathoms (55--1,280 meters) on an annual basis (excluding 2020 due to COVID-19). This assessment also
-used data from three additional fishery-independent surveys: NWFSC Slope survey, Alaska Fisheries Science Center (AFSC) Slope survey, and the AFSC/NWFSC West Coast Triennial Shelf survey (Triennial Survey). 
+Historically, data from four research surveys have been used to assess sablefish providing fishery-independent information about the abundance, distribution, and biological characteristics of `r spp`. The longest time series of fishery-independent data arises from the \gls{s-wcgbt} survey which began in 2003. This survey samples the shelf and slope off the U.S. West Coast covering depths from 30 --700 fathoms (55--1,280 meters) on an annual basis (excluding 2020 due to COVID-19). This assessment also used data from two additional fishery-independent surveys: \gls{s-nslope} and the \gls{s-tri}.  Data from the \gls{s-aslope} has been used in previous assessments of sablefish, but due to issues found in the age data, this survey was not included in this assessment (see \ref{data-not-used} for additional information). 
 
-The indices from each fishery-independent source were standardized for comparison. Each
-index of abundance was re-scaled relative its mean index value (i.e., each index centered
-around 1.0) shown in @fig-index-stand.
+The indices from each fishery-independent source were standardized for comparison. Each index of abundance was re-scaled relative its mean index value (i.e., each index centered around 1.0) shown in @fig-index-stand.
 
 ### NWFSC West Coast Groundfish Bottom Trawl Survey
 
@@ -89,18 +83,13 @@ differences in catchability, as well as variance associated with selecting a rel
 number (approximately 700) of possible cells from a very large set of possible cells spread
 from the U.S./Mexico to the U.S./Canada borders.
 
-`r Spp` are observed across the full range of latitudes (@fig-positive-lat-wcgbt) and depths (@fig-positive-depth-wcgbt) sampled by the \gls{s-wcgbt}. The sex ratio of positive tows is roughly 50-50 between females and males between 55 - 400 m in depth, greater than 50 percent male between 400 -1,100 m, and greater than 50 percent female at the deepest depths sampled (@fig-sex-ratio-wcgbt). 
+`r Spp` are observed across the full range of latitudes (@fig-positive-lat-wcgbt) and depths (@fig-positive-depth-wcgbt) sampled by the \gls{s-wcgbt}. The sex ratio of positive tows is roughly 50-50 between females and males between 55--400 m in depth, greater than 50 percent male between 400--1,100 m, and greater than 50 percent female at the deepest depths sampled (@fig-sex-ratio-wcgbt). The size and age of sablefish observed by latitude and depth are shown in @fig-wcgbt-map-density. Generally, older sablefish for both sexes are found at the deeper compared to younger fish that are more commonly observed between 55 -- 500 m (@fig-wcgbt-depth-len-age). 
 
 A coastwide relative index of abundance was estimated for `r spp` using the Species
-Distribution Modeling platform written in Template Model Builder (TMB) (sdmTMB; Anderson et al. [-@Anderson:2022:SRP]). A delta model with a gamma error distribution was selected over the lognormal distribution based on the quantile-quantile plots (@fig-qq-wcgbt). This was the same error distribution selected by the 2019 benchmark and 2023 update assessments. The relative index of abundance for `r spp` decreased to the lowest levels between 2008 and 2010, begun to slowly increase between 2011 and 2019, and then sharply increased in 2021 to 2022 and remained high in 2023 and 2024 (@fig-index-wcgbt). The estimated proportion of biomass observed by the \gls{s-wcgbt} north and south of 36$^\circ$ North latitude over the last five years of the survey are shown in @tbl-prop-area.
+Distribution Modeling platform written in Template Model Builder (TMB) (`sdmTMB`; Anderson et al. [-@Anderson:2022:SRP]). `sdmTMB` is an R package for fitting spatial and spatiotemporal generalized linear mixed effect models. A hurdle model (e.g., delta model) that incorporates  a binomial model for zero and non-zero data and a second component for the positive observations. The delta model with a gamma error distribution was selected over the lognormal distribution based on the quantile-quantile plots (@fig-qq-wcgbt). This was the same error distribution selected by the 2019 benchmark and 2023 update assessments. The relative index of abundance for `r spp` decreased to the lowest levels between 2008 and 2010, begun to slowly increase between 2011 and 2019, and then sharply increased in 2021 to 2022 and remained high in 2023 and 2024 (@fig-index-wcgbt). The estimated proportion of biomass observed by the \gls{s-wcgbt} north and south of 36$^\circ$ North latitude over the last five years of the survey are shown in @tbl-prop-area.
 
-Length and age samples collected annually during the \gls{s-wcgbt} were processed using 2 cm length bins
-between 18 cm and 90 cm and age bins between 0 and 50 years. The length and marginal age compositions were expanded to
-the tow level and strata level (@tbl-wcgbt-strata). The age data were included as conditional-age-at-length data to better inform the internal estimation of growth than can be done using marginal age data. Input sample size for the length marginal age composition were based on the number of positive tows and a multiplier (@tbl-wcgbt-samples). Input sample sizes for the conditional-age-at-length data were the annual number of fish sampled for both age and length.
+Length and age data are collected by the samples \gls{s-wcgbt}. The length data were not used in this assessment and the age data were processed into age data bins between 0 and 50 years. The marginal age compositions were expanded to the tow level and strata level (@tbl-wcgbt-strata).  Input sample size for the marginal age composition were calculated using a multiplier (e.g., 2.38) by on the number of positive tows with age samples (@tbl-wcgbt-samples). The ages aggregated over all years are shown in @fig-data-agg-ages and by year in @fig-data-wcgbt. The mean age by year with 95 percent confidence intervals based on current sample sizes is shown in @fig-data-wcgbt-mean-age. The data include observations of sablefish ranging from 0 -- 91 years of age. The majority of unsexed fish in these data are age 0 fish where sex cannot often be reliably determined.  
 
-The 2021 and 2022 length compositions for fish less than 30 cm indicate potentially multiple above average
-recruitments entering the population (Figure XX). The age data indicate above average
-observations of fish from the 2023, 2021, and 2020 cohorts (Figure XX). Across all years, age-0 fish were observed more frequently during the second pass of the survey compared to the first pass, with age-0 fish generally measuring less than 30 cm (Figure XX). The size of age-1 fish generally ranged between 30 cm and 45 cm, with sizes increasing from pass 1 to pass 2. The distribution of age-1 fish size observed in 2021 and 2022 was more variable compared to most other years. Additionally, the distribution of sizes in age-1 fish varied between 2021 and 2022, with age-1 fish being slightly smaller by pass in 2022 compared to 2021.
 
 ### NWFSC Slope Survey
 
@@ -117,6 +106,10 @@ sdmTMB was used in a similar fashion to that specified for fitting the \gls{s-ns
 
 @tbl-nwslope-strata
 @tbl-nwslope-samples
+@fig-qq-nwfslope
+@fig-index-nwslope
+@fig-data-nwfsc-slope
+@fig-data-nwfsc-slope-mean-age
 
 
 ### AFSC/NWFSC West Coast Triennial Shelf Survey
@@ -149,13 +142,19 @@ via a shift in catchability (Q) between the 1992 and 1995 survey years.
 @fig-qq-tri-late
 @fig-index-tri-early
 @fig-index-tri-late
-@fig-data-tri-early
-@fig-data-tri-late
+
 @tbl-tri-early-strata
 @tbl-tri-late-strata
 @tbl-tri-samples
 
-## Additional Data Considered
+@fig-data-tri-len-age
+@fig-data-tri-tows
+@fig-data-tri-early
+@fig-data-tri-late
+@fig-data-tri-early-mean-age
+@fig-data-tri-late-mean-age
+
+## Additional Data Considered {#data-not-used}
 
 ### AFSC Slope Survey
 
@@ -164,6 +163,9 @@ R/V Miller Freeman. Partial survey coverage of the U.S. west coast occurred duri
 1988 - 1996 and complete coverage (north of 34$^\circ$ 30$^\prime$ N. latitude) during the years 1997 and
 1999-2001. Typically, only these four years that are seen as complete surveys are included in
 groundfish stock assessments.
+
+@fig-data-afslope-index
+@fig-data-afslope-len-age
 
 ### Fournier Transform Near Infrared Spectroscopy Age Data
 
@@ -196,6 +198,8 @@ Female `r spp` generally reach larger sizes compared to males. For example, the 
 
 ### Weight-at-Age {#watage}
 
+@fig-data-watage
+
 
 ### Maturity and Fecundity
 
@@ -213,4 +217,7 @@ The large majority of aged `r spp` used in the assessment were aged by the Coope
 
 ## Environmental/Ecosystem Indicator Data
 
+NEED TO GET THE UPDATED FIGURES FROM NICK
+@fig-rec-index-pred
+@fig-rec-index
 <!-- Describe the environmental/ecosystem indicator data. If none are considered, include a blanket statement. -->

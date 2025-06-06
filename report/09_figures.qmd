@@ -334,38 +334,6 @@ knitr::include_graphics(
 
 \pagebreak
 
-```{r} 
-#| label: fig-qq-wcgbt
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "QQ plot for the NWFSC WCGBT survey."
-#| fig-alt: ""
-
-knitr::include_graphics(
-  here::here("report", "figures", "wcgbt_qq.png")
-)
-
-```
-
-\pagebreak
-
-
-```{r} 
-#| label: fig-index-wcgbt
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Relative index of abundance for the NWFSC WCGBT survey."
-#| fig-alt: ""
-
-knitr::include_graphics(
-  file.path(model_dir, "plots", "index1_cpuedata_WCGBT.png")
-)
-
-```
-
-\pagebreak
 
 
 ```{r} 
@@ -464,6 +432,67 @@ knitr::include_graphics(
 ```
 
 \pagebreak
+
+```{r} 
+#| label: fig-qq-wcgbt
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "QQ plot for the NWFSC WCGBT survey."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "wcgbt_qq.png")
+)
+
+```
+
+\pagebreak
+
+
+```{r} 
+#| label: fig-index-wcgbt
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Relative index of abundance for the NWFSC WCGBT survey."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "index1_cpuedata_WCGBT.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: fig-data-wcgbt
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Age composition data by year from the NWFSC WCGBT survey."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_flt10mkt0.png")
+)
+
+```
+
+```{r} 
+#| label: fig-data-wcgbt-mean-age
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_data_weighting_TA1-8_WCGBT.png")
+)
+
+```
 
 
 ```{r} 
@@ -604,6 +633,35 @@ knitr::include_graphics(
 
 
 ```{r} 
+#| label: fig-data-tri-len-age
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "triennial_length_age_comparison.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-data-tri-tows
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "triennial_positive_tow_bds.png")
+)
+
+```
+
+```{r} 
 #| label: fig-data-tri-early
 #| echo: false 
 #| warning: false 
@@ -669,8 +727,53 @@ knitr::include_graphics(
 
 \pagebreak
 
+```{r} 
+#| label: fig-data-afslope-index
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "index1_cpuedata_AKFSC_SLOPE.png")
+)
+
+```
+
+```{r} 
+#| label: fig-data-afslope-len-age
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "afsc_slope_length_age_comparison.png")
+)
+
+```
+
 
 ## Biology
+
+```{r} 
+#| label: fig-data-watage
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "year_wt_at_age_estimate_survey.png")
+)
+
+```
+
+\pagebreak
+
 
 ```{r} 
 #| label: fig-maturity-data
@@ -719,6 +822,36 @@ ggplot2::ggplot(spatial_maturity, ggplot2::aes(x = age, y = p, color = Model)) +
 ```
 
 \newpage
+
+
+```{r} 
+#| label: fig-rec-index-pred
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "rec_dev_index_pred.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-rec-index
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Recruitment deviation index."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "index1_cpuedata_ENV.png")
+)
+
+```
 
 
 ## Model Bridging
