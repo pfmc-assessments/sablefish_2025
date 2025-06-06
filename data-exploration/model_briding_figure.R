@@ -30,7 +30,8 @@ adjust_selex_blocks <- SS_output(here::here("model", "_retention_model", "_growt
 discard_fleets <- SS_output(here::here("model", "_discard_fleets", "growth", "9.19_no_extra_sd"))
 steepness <- SS_output(here::here("model", "_discard_fleets", "growth", "9.19_no_extra_sd_steepness=0.70")) # the steepness run has sex-specific M values
 watage <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_data_weight")) 
-add_enviro <- SS_output(here::here("model", "_discard_fleets", "watage", "8.34_fix_additional_selex_param_rec_dev_2")) 
+add_enviro <- SS_output(here::here("model", "_discard_fleets", "watage", "8.34_fix_additional_selex_param")) 
+rec_option_2 <- SS_output(here::here("model", "_discard_fleets", "watage", "8.36_base_model")) 
 
 # Executable
 modelnames <- c(
@@ -217,13 +218,15 @@ modelnames <- c(
   "Add Discard Fleets",
   "Steepness = 0.75",
   "Add Weight-at-Age",
-  "Add Environmental Index")
+  "Add Environmental Index",
+  "Simple Rec. Deviations")
 mysummary <- SSsummarize(list(
   adjust_selex_blocks,
   discard_fleets,
   steepness,
   watage,
-  add_enviro))
+  add_enviro,
+  rec_option_2))
 SSplotComparisons(mysummary,
                   filenameprefix = "6_structure_",
                   subplots = 2,
