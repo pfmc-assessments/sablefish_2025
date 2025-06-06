@@ -30,26 +30,30 @@ The [STAR Panel Report](https://www.pcouncil.org/documents/2019/10/sablefish-sta
 **Recommendation**: To understand whether regional differences in growth, and associated size or age composition,
 are behind the strong tensions observed in age and length composition data, future assessment models should evaluate having separate fixed gear fleets north and south of 36$^\circ$ N (as discussed in unresolved problems and major uncertainties). The potential merits of other regional differences in fleet structure could also be explored. 
 
-**Response**:
+**Response**: The STAT explored using regional based fleet, however, there are limited age data available south of 36$^\circ$ N. latitude which prevented further exploration of this approach. The STAT attempted to account for time-varying growth and regional growth by using a empirical weight-at-age approach with the annual weight-at-age applying a biomass weighted approach to estimate a weight-at-age that account for biomass and weight-at-age north and south of 36$^\circ$ N. latitude.
 
 
 **Recommendation**: Future assessments should consider the use of empirical weights-at-age. One approach would be to begin with the WCGBT data and use it to fit (outside model) a smoother outside the model (see Jim Ianelli for code that uses a random effects model to estimate weights using empirical
 data by cohort and year). This would avoids confounding weight at age with growth estimates (e.g., Lee et al. 2019, Whitten et al. 2013), should allow the model to run faster, and should enable the model to better accommodate variability in growth (in both age and over time). Another advantage is that somatic body masses are based on actual measurements instead of model estimates which predicts mean length and then converts length to mass via a fixed set of length-weight parameters
 
-**Response**:
+**Response**: The STAT agreed with this recommendation and is now using a empirical weight-at-age approach in this assessment.
 
 
 **Recommendation**: Consider (and potentially adopt) length based selectivity for the WCGBTS, as selectivity bias could lead to observed age zero fish not being a good representation of mean length at age 0 (which could affect estimates of growth). [Figure 13](https://www.pcouncil.org/documents/2019/10/sablefish-star-panel-report-july-8-12-2019.pdf/#page = 28) shows some summary results of this issue, including the lack of apparent growth of age 0 sablefish during the period of the survey. A related issue is that specifying the size at age 0.5 (or 1.5), as well as the CV, should be in common by sex. Dimorphic growth presumably occurs at older ages. Future assessments should consider configuring “offsets” for sex differences in the growth. The rationale for this change is that differences between sexes at such young ages seem unlikely and re-configuring the model in this way will reduce the number of parameters needed.
 
-**Response**: Examine age-specific selectivity that is fixed at a “plus group” age (or have a reasonable
+**Response**: This assessment retained age-based selectivity for the \gls{s-wcgbt} in order to incorporate an empirical weight-at-age approach.  The weight-at-age was informed using data from the \gls{s-wcgbt} and should better capture the variation in size-at-age across time.
+
+**Recommendation**: Examine age-specific selectivity that is fixed at a “plus group” age (or have a reasonable
 rationale as to why selectivity might be changing over those ages).
+
+**Response**: The selectivities for all fleets in the model estimated a fixed selectivity for older ages.
 
 
 **Recommendation**: Provide estimates of retention external to the model and evaluate if the approach of doing it
 within the model (and then fixing the values because of discard length composition data affecting
 model results other than the shape of the retention curve).
 
-**Response**:
+**Response**: This assessment moved to a discard fleet approach because there were concerns about model stability with retention being estimated within the model. The discard totals were estimated external to the model and the selectivity for the discard fleets were estimated using estimated discard ages.
 
 
 **Recommendation**: Reconsider spline or some other non-parametric selectivity forms, as there are unexpected
@@ -61,26 +65,26 @@ selectivity and the document provided little justification to choose one over th
 parameters” is a poor reason if performance overall is so much worse. The convergence
 problems did seem to be largely resolved after the STAT fixed the CV of young ages.
 
-**Response**:
+**Response**:  The STAT explored splines for fishery and survey fleets in the model, but were not found to improve the fits to the data compared to the double-normal selectivity.  
 
 
 **Recommendation**: The CAAL plots suggest that in the early years of the WCGBTS the residuals of the biggest fish
 were generally “young” and in the more recent years the pattern of observed and predicted were more consistent. This could be due to changes in growth and/or size (or age) based selectivity/availability changes and should be investigated. 
 
-**Response**:
+**Response**: The STAT agrees that there appeared to be periods where the conditional-age-at-length residuals were generally positive or negative.  The empirical weight-at-age approach explicitly accounts for potential time-varying growth by year.
 
 **Recommendation**: Developing diagnostics that better evaluate sex ratio observations against model predictions
 would be useful, especially given some of the differences observed in the fisheries selectivities
 estimates and in sex specific natural mortality configurations compared to combined sexes
 natural mortality.
 
-**Response**:
+**Response**: The `r4ss` package now includes improved sex ratio figures. Additionally, the sex ratio of observed ages for all fishing and survey fleets were evaluated to determine whether sex-specific selectivity was occurring. The hook-and-line and pot gear have greater selectivity for females compared to males which could lead to changes in sex ratios of selected fish over time.  The STAT did not find clear evidence for differing natural mortality rates by sex and a single natural mortality for both sexes.  
 
 
 **Recommendation**: Reducing the number of ages should be considered, as the plus group information and dynamics
 beyond some ages are unlikely to change (as shown in [Figure 14]((https://www.pcouncil.org/documents/2019/10/sablefish-star-panel-report-july-8-12-2019.pdf/#page = 29))).
 
-**Response**:
+**Response**: The STAT agrees that the data plus group of age-50 may be larger than necessary and future assessments should continue to evaluate this, but given the other extensive model structure changes in this assessment a data plus group of age-50 was retained.
 
 
 **Recommendation**: Continuing to evaluate the use of sea level and/or other environmental indicators as drivers of
@@ -88,7 +92,7 @@ both historic and future recruitments is strongly encouraged, and future assessm
 to clearly convey how such data explicitly relate to recruitment as well as to convey the logic and
 presumed mechanisms behind the relationship.
 
-**Response**:
+**Response**:  The assessment opted to use a recruitment index that covered the last five years of the model given that there are significant survey and fishery data to inform recruitment estimation for earlier years.  Additionally, preliminary research conducted by Dr. Kiva Oken (Northwest Fisheries Science Center) determined that including longer time series of recruitment indices may bias estimates of stock size and recommended that these indices be isolated to periods where there are little to no information about recruitment from other data sources in the model.
 
 
 *Medium and Long Term*
@@ -101,7 +105,7 @@ notes that it is worth reflecting on whether a somewhat different modeling appro
 better (in the longer term). The nature of the issues in the data may be stretching the capacity of
 the analytical framework and software to do what needs to be done.
 
-**Response**:
+**Response**: The STAT agrees that estimating growth, natural mortality, selectivity, and retention with this assessment could lead to an unstable model (e.g., variable estimates across sensitivities, and/or inability to invert the hessian).  To address these issues this assessment made significant efforts to simplify the model structure and to improve paramaterization of key processes.
 
 
 **Recommendation**: The STAT provided very helpful updates on ongoing efforts to evaluate life history
@@ -112,7 +116,7 @@ framework, be pursued. This is based on strong indications that current stock bo
 likely to be inappropriate, and that a transboundary assessment would likely improve the ability
 to estimate the scale of the population.
 
-**Response**:
+**Response**: This STAT agrees that work should continue to evaluate coherence of sablefish across the Northeast Pacific, emigration, and migration rates across assessment boundaries.
 
 **Recommendation**: As the WCGBTS is highly informative in the model, maintaining full coastwide survey effort is
 essential. However, currently the survey does not include a large fraction of the habitat south of
@@ -127,20 +131,18 @@ potential for local depletion elsewhere as well, given the concentration of traw
 Oregon and Washington and the decline in fishing effort and catches of both trawl and fished
 gear in California north of 36$^\circ$ N.
 
-**Response**:
+**Response**:  The STAT attempted to evaluate the proportion of trawlable habitat south of 34$^\circ$ 47$^\prime$ N. latitude but did not have time to complete this analysis. The STAT notes that a spatio-temporal model is currently used to estimated the index of abundance for the \gls{s-wcgbt} which can incorporate spatial and temporal information to smooth estiamtes across sampled and unsampled areas. However, composition data are limited by areas sampled and if there are differences in sablefish abundance, size or age structured in unsampled areas these will not be accounted for in the biological data.   
 
 **Recommendation**: For the WCGBTS, evaluate cohort total mortality ($Z$) for consistency and as a check with model
 values. Comparing the survey estimate numbers at age over time (e.g., relative abundance at age
 2 in year $y$ compared to abundance at age 3 in year $y+1$). 
 
-**Response**:
+**Response**: The STAT did not have sufficient time to address this recommendation and agrees that future STAT should work to understand cohort mortality.
 
 **Recommendation**: Better estimates of aging error, bias and continued efforts to improve on age validation remain
 high research priorities. 
 
-**Response**:
-
-
+**Response**: This assessment incorporated an updated ageing error estimate of uncertainty and bias using Template Model Builder which can account for random effects.  The STAT agrees that future work should be done to improve age validation which can improve our understanding of the population and age-structure for sablefish off the U.S. West Coast.
 
 
 ## Bridging Analysis
