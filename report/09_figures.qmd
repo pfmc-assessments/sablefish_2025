@@ -868,7 +868,7 @@ knitr::include_graphics(
 #| fig-height: 4
 
 knitr::include_graphics(
-  here::here("report", "figures", "6_structure_compare1_spawnbio.png")
+  here::here("report", "figures", "6_structure_compare2_spawnbio_uncertainty.png")
 )
 
 ```
@@ -885,7 +885,7 @@ knitr::include_graphics(
 #| fig-height: 4
 
 knitr::include_graphics(
-  here::here("report", "figures", "6_structure_compare3_Bratio.png")
+  here::here("report", "figures", "6_structure_compare4_Bratio_uncertainty.png")
 )
 
 ```
@@ -1552,56 +1552,9 @@ knitr::include_graphics(
 ```
 
 
-## Sensitivity Analyses and Retrospectives
+## Sensitivity Analyses
 
 
-
-```{r} 
-#| label: fig-retro-sb
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Change in the estimate of spawning output when the most recent 10 years of data are removed sequentially."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  file.path(retro_dir, paste0(model_name, "_retro_10_yr_peel"), "compare2_spawnbio_uncertainty.png")
-)
-
-```
-
-
-```{r} 
-#| label: fig-retro-depl
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Change in the estimate of fraction unfished when the most recent 10 years of data are removed sequentially."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  file.path(retro_dir, paste0(model_name, "_retro_10_yr_peel"), "compare4_Bratio_uncertainty.png")
-)
-
-```
-
-
-```{r} 
-#| label: fig-squid-plot
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Change in the estimate annual recruitment deviations when the most recent 10 years of data are removed sequentially."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  file.path(retro_dir, paste0(model_name, "_retro_10_yr_peel"), "recruitment_retrospective_squid.png")
-)
-
-```
 
 ## Likelihood Profiles
 
@@ -1747,6 +1700,56 @@ knitr::include_graphics(
 
 ```
 
+## Retrospecitve Analysis
 
-## Reference Points and Forecasts
+```{r} 
+#| label: fig-retro-sb
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Change in the estimate of spawning output when the most recent 10 years of data are removed sequentially."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(retro_dir, paste0(model_name, "_retro_10_yr_peel"), "compare2_spawnbio_uncertainty.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-retro-depl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Change in the estimate of fraction unfished when the most recent 10 years of data are removed sequentially."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(retro_dir, paste0(model_name, "_retro_10_yr_peel"), "compare4_Bratio_uncertainty.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-squid-plot
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Change in the estimate annual recruitment deviations when the most recent 10 years of data are removed sequentially."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(retro_dir, paste0(model_name, "_retro_10_yr_peel"), "recruitment_retrospective_squid.png")
+)
+
+```
+
+## Historical Analysis
+
+
 

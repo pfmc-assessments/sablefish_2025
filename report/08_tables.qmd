@@ -1,5 +1,6 @@
 # Tables 
 
+## Data
 
 ```{r}
 #| label: tbl-landings
@@ -702,6 +703,8 @@ maturity_data |>
 
  {{< pagebreak >}} 
  
+## Assessment and Modeling 
+ 
 ```{r}
 #| label: tbl-model-config
 #| warning: false
@@ -788,6 +791,9 @@ par_table |>
 ::: 
 
  {{< pagebreak >}} 
+ 
+ 
+## Management 
  
 
 ```{r, results = "asis"}
