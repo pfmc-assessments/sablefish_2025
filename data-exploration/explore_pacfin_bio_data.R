@@ -475,3 +475,9 @@ ggplot(age_data, aes(x = age_years, y = prop)) +
   
 table(data_commercial_bds[!is.na(data_commercial_bds$age_years), "year"])  
   
+by_state <- table(data_commercial_bds$state[!is.na(data_commercial_bds$age_years)])
+total <- sum(!is.na(data_commercial_bds$age_years))
+by_state / total
+by_gear <- table(data_commercial_bds$geargroup[!is.na(data_commercial_bds$age_years)])
+by_gear / total
+table(data_commercial_bds$state[!is.na(data_commercial_bds$age_years)], data_commercial_bds$geargroup[!is.na(data_commercial_bds$age_years)])
