@@ -345,6 +345,8 @@ maturity_data <- maturity_data  |>
   dplyr::mutate(
     Area = dplyr::case_when(latitude >= 36 ~ "North", .default = "South")
   )
+# load the previous model ouptut
+load(here::here("data", "model_output_2023.rda"))
 
 ``` 
 
