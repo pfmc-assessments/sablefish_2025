@@ -311,6 +311,16 @@ k <- model_output$parameters |>
   as.numeric() |>
   round(3)
 
+sigma_r <- model_output$parameters |>
+  dplyr::filter(Label == "SR_sigmaR") |>
+  dplyr::select(Label, Value) |>
+  tidyr::pivot_wider(
+    names_from = Label,
+    values_from = Value
+  ) |>
+  as.numeric() |>
+  round(2)
+
 # Survey catchabilities and added sd
 find <- grep("LnQ_base", model_output$parameters$Label)
 q <- model_output$parameters[find, ] |>

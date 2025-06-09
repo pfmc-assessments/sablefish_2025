@@ -16,9 +16,9 @@ Several important changes were made to the `r spp` assessment in 2005 [@schirrip
 
 The 2007 assessment [@schirripa2007sablefish] included newly available data and changed the treatment of the sea level index of recruitment within the stock assessment model to be a survey index of recruitment with observation error, rather than an explicit offset in the population dynamics to expected recruitment. The assessment made the explicit assumption that catchability for the \gls{s-wcgbt} was equal to 0.56, which was modeled by using only the shelf region. Uncertainty was investigated and reported primarily through alternate values for catchability.
 
-The 2011 stock assessment [@stewart2011sablefish] reduced the number of parameters used to model fishery dynamics. Historical management actions were condensed to those that had a strong influence on fishery behavior (e.g., sorting and retention, selectivity, or both). Previously fixed leading parameters, $M$ and trawl survey catchability, were estimated or used analytical solutions. Changes lead to increased, more realistic, estimates of uncertainty around stock size estimates. Repeated testing of the correlation between sea level and recruitment continued to find a significant relationship that explained approximately 35 percent of the variability in recruitment deviations. The sea-level data was used from 1970 forward, a period with length- and age-composition data, and was not retained in the base model because the index provided a recruitment signal largely consistent with that provided by the composition data. Finally, the large number of deviations about annual growth and annual selectivity curves estimated in the 2007 model were reduced, with the net effect that uncertainty was increased. The sensitivity of model results to ($M$), equilibrium recruitment, and steepness ($h$), which was estimated prior to 2011, was investigated via likelihood profiles. The 2015 stock assessment [@johnson2016sablefish] was an update to the 2011 stock assessment, maintaining the same model structure and focused on adding the new data and retuning the model given the new data.
+The 2011 stock assessment [@stewart2011sablefish] reduced the number of parameters used to model fishery dynamics. Historical management actions were condensed to those that had a strong influence on fishery behavior (e.g., sorting and retention, selectivity, or both). Previously fixed leading parameters, $M$ and trawl survey catchability, were estimated or used analytical solutions. Changes lead to increased, more realistic, estimates of uncertainty around stock size estimates. Repeated testing of the correlation between sea level and recruitment continued to find a significant relationship that explained approximately 35 percent of the variability in recruitment deviations. The sea-level data was used from 1970 forward, a period with length- and age-composition data, and was not retained in the base model because the index provided a recruitment signal largely consistent with that provided by the composition data. Finally, the large number of deviations about annual growth and annual selectivity curves estimated in the 2007 model were reduced, with the net effect that uncertainty was increased. The sensitivity of model results to ($M$), equilibrium recruitment, and steepness ($h$), which was estimated prior to 2011, was investigated via likelihood profiles. The 2015 stock assessment [@johnson2016sablefish] was an update to the 2011 stock assessment, maintaining the same model structure and focused on adding the new data and retuning data weights in the model given the new data.
 
-ADD SUMMARY OF THE 2019 ASSESSMENT AND SUBSEQUENT UPDATES
+In 2019 a new benchmarck stock assessment for sablefish was conducted that evaluated the model structure used in previous assessments and incorportated a new environment index to inform estimate of recruitment [@haltuch_status_2019].  The 2019 assessment continued to model discarding and retention similar to previous assessments, but simplified the fleet structe to two commercial fleets: trawl and a fixed gear fleet that combine pot and hook-and-line gears.  Selectivity continued to be parameterized as age-based, but the 2019 assessment opted to model selectivity for all fleets using a double-normal parameterization, moving away from using spline-based parameterization used in the previous assessment for the fishery fleets. Selectivity for all fishery and survey fleets were estimated to dome-shaped, similar to the 2011 assessment.  The assessment estimated that fraction of unfished to be just below the management target (e.g., 40 percent) at 39 percent.  In 2021 and 2023 update assessment were conducted that focused on adding new data while retaining the 2019 model structure [@kapur_status_2021; @johnson_status_2023].  The 2021 update assessment updated all data and estimated the stock at 58 percent of fraction unfished [@kapur_status_2021]. Finally, the 2023 update assessment was considered a "limited" update where only recent catches were added and the \gls{s-wcgbt} data added.  The 2023 limited update assessment estimated very strong recent recruitments (e.g., 2020 and 2021) and a fraction of unfished of 63 percent.
 
 
 ## Most Recent STAR Panel Recommendations
@@ -38,7 +38,6 @@ data by cohort and year). This would avoids confounding weight at age with growt
 
 **Response**: The STAT agreed with this recommendation and is now using a empirical weight-at-age approach in this assessment.
 
-
 **Recommendation**: Consider (and potentially adopt) length based selectivity for the WCGBTS, as selectivity bias could lead to observed age zero fish not being a good representation of mean length at age 0 (which could affect estimates of growth). [Figure 13](https://www.pcouncil.org/documents/2019/10/sablefish-star-panel-report-july-8-12-2019.pdf/#page = 28) shows some summary results of this issue, including the lack of apparent growth of age 0 sablefish during the period of the survey. A related issue is that specifying the size at age 0.5 (or 1.5), as well as the CV, should be in common by sex. Dimorphic growth presumably occurs at older ages. Future assessments should consider configuring “offsets” for sex differences in the growth. The rationale for this change is that differences between sexes at such young ages seem unlikely and re-configuring the model in this way will reduce the number of parameters needed.
 
 **Response**: This assessment retained age-based selectivity for the \gls{s-wcgbt} in order to incorporate an empirical weight-at-age approach.  The weight-at-age was informed using data from the \gls{s-wcgbt} and should better capture the variation in size-at-age across time.
@@ -48,13 +47,11 @@ rationale as to why selectivity might be changing over those ages).
 
 **Response**: The selectivities for all fleets in the model estimated a fixed selectivity for older ages.
 
-
 **Recommendation**: Provide estimates of retention external to the model and evaluate if the approach of doing it
 within the model (and then fixing the values because of discard length composition data affecting
 model results other than the shape of the retention curve).
 
 **Response**: This assessment moved to a discard fleet approach because there were concerns about model stability with retention being estimated within the model. The discard totals were estimated external to the model and the selectivity for the discard fleets were estimated using estimated discard ages.
-
 
 **Recommendation**: Reconsider spline or some other non-parametric selectivity forms, as there are unexpected
 behaviors observed in estimating double normal selectivities for the fixed gear fishery. The
@@ -66,7 +63,6 @@ parameters” is a poor reason if performance overall is so much worse. The conv
 problems did seem to be largely resolved after the STAT fixed the CV of young ages.
 
 **Response**:  The STAT explored splines for fishery and survey fleets in the model, but were not found to improve the fits to the data compared to the double-normal selectivity.  
-
 
 **Recommendation**: The CAAL plots suggest that in the early years of the WCGBTS the residuals of the biggest fish
 were generally “young” and in the more recent years the pattern of observed and predicted were more consistent. This could be due to changes in growth and/or size (or age) based selectivity/availability changes and should be investigated. 
@@ -80,12 +76,10 @@ natural mortality.
 
 **Response**: The `r4ss` package now includes improved sex ratio figures. Additionally, the sex ratio of observed ages for all fishing and survey fleets were evaluated to determine whether sex-specific selectivity was occurring. The hook-and-line and pot gear have greater selectivity for females compared to males which could lead to changes in sex ratios of selected fish over time.  The STAT did not find clear evidence for differing natural mortality rates by sex and a single natural mortality for both sexes.  
 
-
 **Recommendation**: Reducing the number of ages should be considered, as the plus group information and dynamics
 beyond some ages are unlikely to change (as shown in [Figure 14]((https://www.pcouncil.org/documents/2019/10/sablefish-star-panel-report-july-8-12-2019.pdf/#page = 29))).
 
 **Response**: The STAT agrees that the data plus group of age-50 may be larger than necessary and future assessments should continue to evaluate this, but given the other extensive model structure changes in this assessment a data plus group of age-50 was retained.
-
 
 **Recommendation**: Continuing to evaluate the use of sea level and/or other environmental indicators as drivers of
 both historic and future recruitments is strongly encouraged, and future assessments should strive
@@ -93,7 +87,6 @@ to clearly convey how such data explicitly relate to recruitment as well as to c
 presumed mechanisms behind the relationship.
 
 **Response**:  The assessment opted to use a recruitment index that covered the last five years of the model given that there are significant survey and fishery data to inform recruitment estimation for earlier years.  Additionally, preliminary research conducted by Dr. Kiva Oken (Northwest Fisheries Science Center) determined that including longer time series of recruitment indices may bias estimates of stock size and recommended that these indices be isolated to periods where there are little to no information about recruitment from other data sources in the model.
-
 
 *Medium and Long Term*
 
@@ -106,7 +99,6 @@ better (in the longer term). The nature of the issues in the data may be stretch
 the analytical framework and software to do what needs to be done.
 
 **Response**: The STAT agrees that estimating growth, natural mortality, selectivity, and retention with this assessment could lead to an unstable model (e.g., variable estimates across sensitivities, and/or inability to invert the hessian).  To address these issues this assessment made significant efforts to simplify the model structure and to improve paramaterization of key processes.
-
 
 **Recommendation**: The STAT provided very helpful updates on ongoing efforts to evaluate life history
 characteristics, movement patterns and management approaches throughout the range of
@@ -157,11 +149,33 @@ The base assessment model for Dover sole was developed to balance parsimony and 
 
 ### Model Changes from the Last Assessment
 
+A number of data and modeling changes were made in this assessment relative to the previous benchmark assessment [@haltuch_status_2019]:
+
+- All available data were reprocessed and extended through 2024.
+- Hook-and-line and pot gear were split into separate fleets compared to the previous assessment that combined these data into a single fixed gear fleet.
+- The index and age data from the \gls{s-aslope} were not included in the base model due to issues with the age data.
+- The \gls{s-tri} was split into two separate survey fleets with indices with estimates of catchability and selectivity.  The early period ranged from 1980--1992 and the late period 1995--2004.  The previous assessment modeled this as a single survey with a change in catchability and selected selectivity parameters between the early and late period. Splitting this survey into two separate indices allowed for more unique estimation of selectivity and separate data weighting between the early and late period. Additionally, select years of age data were excluded due to concerns that they were not representative due to limited spatial coverage across tows.
+- This assessment incorporated a new shorter environmental index to inform the estimates of recruitment.  The previous assessment used an environmental index based upon sea surface height from 1925-2018.  The new environmental index were based on a GLORYS model informed by a number of environmental covariates that ranged from 2019-2024. This newer index approach was selected since the estimation of historical recruitments should be well informed by data and that recruitment near the end of the model period can be the most uncertain due to limited observations.
+- An new evaluation of ageing error conducted and the assumed bias and uncertainty were updated.
+- This assessment incorporates new research on maturity moving from maturity-at-length to maturity-at-age. The coastwide maturity-at-age vector was estimated using a spatial modeling approach that supported the development of a biomass-weighted maturity curve to better account for variation in maturity-at-age by area.
+- Empirical weight-at-age was used in this assessment to account for time-varying growth by age and year.
+- The prior assumed for natural mortalility was updated based upon new research.
+- Steepness continues to be fixed at an assumed value. However, due the lack of research on sablefish productivity and resiliancy, steepness is fixed at 0.75 in this assessment to align with the proxy reference points used for management of the stock off the U.S. West Coast. 
+- This assessment opted to model removals via discard fleets for each gear type. The discard fleet approach was considered to be more transparent, allowing separate selectivity for retained and discarded fish, and improved model stability.
+- This assessment simplified the modeling of changing selectivity (e.g., blocks) by management changes where possible.
+- Natural mortality continues to be estimated, but is estimated to be equal between female and males.
+- Annual recruitment deviations were only estimated starting in 1975 with recruitment between 1890 -- 1974 assumed to be equal to be equal to the stock-recruitment curve.
+
 
 ### Key Assumptions and Structural Choices
 
-<!--- Describe the setup of the stock assessment model. --->
+The specification of the assessment are listed in @tbl-model-config. The model is a two-sex, age-structured model starting in 1890 with an accumulated population age group at 70 years. Natural mortality was estimated and assumed to be time invariant and equal between males and females.  An empirical weight-at-age approach was implemented wit with sex-specific time-varying growth between 2003 -- 2024. Lengths in the population were tracked in 1 cm intervals between 4 -- 90 cm. However, the use a weight-at-age approah results with population length calculations being bypassed in the model. The ages in the population were tracked by 1 year intervals between 0 -- 70 years of age and the age data were grouped by age between 0 -- 50 with 50 being used as data plus group.  Summary biomass was calculated for ages 3 plus. The sablefish population off the U.S. West Coast was modeled as a single area with only one season per year and a coastwide growth pattern by sex via the weight-at-age approach. 
 
+Selectivity was age-based and modeled by fleet with time blocks on selectivity to allow for shifts in selectivity for each fishery fleet: retained/total removals and discard fleets. The selectivity between hook-and-line were mirrored (e.g., data combined to estimate selectivity for both gear types) due to similarity in the composition data between the gears.  The trawl fleet and each of the discard fleets (trawl, hook-and-line, and pot) estimated fleet specific selectivities. The mirrored hook-and-line and pot fleets also allowed for sex-specific selectivity with females having a higher selectivity by these gears compared to males. The trawl, hook-and-line, and pot gears had time blocks between 1890 -- 2001 and 2002 -- 2024 to account for the implementation of the rockfish conservation areas that eliminating fishing in select depth ranges across the coast. The trawl and hook-and-line discard fleets assumed three time blocks: 1890 -- 2010, 2011 -- 2018, and 2019 -- 2024 to account for implementation of the \gls{ifq} system in 2011 and the adoption of discard mortality rates by management in 2019 allowing for quota accounts to be credited for esimated survival of discarded fish.  The pot discard fleet assumed two time blocks: 1890 -- 2010 and 2011 -- 2024, with early model development determining that an additional block for 2019 -- 2024 had little to no impact on the model fits to the age data for this fleet. 
+
+The specification of when to estimate recruitment deviations is an assumption that affects not only the estimate of early model uncertainty around stock scale and status but can impact the fits to composition data. Extensive model explorations were conducted to determine the appropriate range of years to estimate recruitment deviations. This assessment opted to not include recruitment deviations early in the model period, when data were not available, and begun estimation in 1975 based upon when the estimates appearred to be informed by data. The earliest age-composition data occur in 1983. The estimates of recruitment deviations from 1975 -- 2024 were considered within the "main period" with Stock Synthesis. A bias adjustment was applied between 1974 -- 2024 with no bias adjustment applied during the projection period (e.g., 2025 -- 2036). @methot_adjusting_2011 summarize the reasoning behind varying levels of bias adjustment based on the information available to estimate the deviates. The standard deviation of recruitment variability was assumed to be `r sigma_r` based on the estimated variation in recruitment from the base model.
+
+The following distributions were assumed for data fitting: survey indices were lognormal, the environmental index were normal, and the age-composition data had a multinomial error structure.
 
 ### Estimated and Fixed Parameters
 
@@ -170,7 +184,7 @@ and fleet definitions, initial conditions. --->
 
 <!--- Fixed and estimated parameters --->
 
-@tbl-model-config
+
 
 @tbl-n-param
 
