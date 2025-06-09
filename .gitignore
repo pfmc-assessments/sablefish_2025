@@ -23,6 +23,7 @@ data-raw/bds
 data-raw/discard
 data-raw/enviro_index
 data-raw/landings
+data-raw/management
 data-raw/recfin
 data-raw/survey
 data-raw/weight_at_age
