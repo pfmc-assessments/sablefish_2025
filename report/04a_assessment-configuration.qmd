@@ -145,30 +145,43 @@ high research priorities.
 **Response**: This assessment incorporated an updated ageing error estimate of uncertainty and bias using Template Model Builder which can account for random effects.  The STAT agrees that future work should be done to improve age validation which can improve our understanding of the population and age-structure for sablefish off the U.S. West Coast.
 
 
-## Bridging Analysis
+## Model Structure and Assumptions
+
+### Modeling Platform and Structure
+
+The assessment was conducted used Stock Synthesis version 3.30.24 developed by Dr. Richard Methot at the NOAA, NWFSC [@MethotWetzel2013]. This most recent version was used because it included improvements and corrections to older model versions. Previous assessments of sablefish also used Stock Synthesis but an earlier version, 3.30.21; model bridging was performed between both versions of Stock Synthesis and discussed below. The `R` package `r4ss`, version 1.51.0, along with `R` version 4.4.1 were used to investigate and plot model fits.
+
+### Model Selection and Evaluation
+
+The base assessment model for Dover sole was developed to balance parsimony and realism, and the goal was to estimate a spawning biomass trajectory for the population of Dover sole off the west coast of the U.S. The model contains many assumptions to achieve parsimony and uses many different sources of data to estimate reality. A series of investigative model runs were done to achieve the final base model.
+
+### Model Changes from the Last Assessment
 
 
-## Configuration of the Base Model
+### Key Assumptions and Structural Choices
 
 <!--- Describe the setup of the stock assessment model. --->
 
-@tbl-model-config
 
-## Model Parameters
+### Estimated and Fixed Parameters
 
 <!--- General model specifications: assessment program, model structure, area
 and fleet definitions, initial conditions. --->
 
 <!--- Fixed and estimated parameters --->
 
+@tbl-model-config
+
 @tbl-n-param
 
-## Priors
+### Priors
 
 Priors were used to determine fixed parameter values for natural mortality ($M$) and steepness ($h$) in the base model. The prior distribution for natural mortality was based on the @hamel_development_2022 meta-analytic approach with an assumed maximum age of 75 years for both males and females. The prior assumed a log normal distribution for natural mortality. The log normal prior has a median of 0.072 yr$^{-1}$ and a standard error of 0.31. 
 
 The treatment of $h$ has varied across recent assessment. The assessment conducted in 2007 estimated $h$ = 0.43, the 2011 assessment fixed $h$ = 0.60 based upon @he_prior_2006, and the 2019 assessment fixed $h$ = 0.70.  The prior for steepness assumed a beta distribution with mean of 0.70 and standard error of 0.223. 
 
-## Data Weighting
+### Data Weighting
 
+
+### Bridging Analysis
 
