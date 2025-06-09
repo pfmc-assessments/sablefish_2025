@@ -262,3 +262,25 @@ SSplotComparisons(
   ylimAdj = 1.25,
   pdf = TRUE)
 
+#===============================================================================
+# Final Model Comparison
+#===============================================================================
+
+growth <- SS_output(here::here("model", "base_model", "_sensitivities", "8.36_growth"))
+wtatage <- SS_output(here::here("model", "base_model", "8.36_base_model"))
+
+modelnames <- c(
+  "Weight-at-Age",
+  "Growth")
+mysummary <- SSsummarize(list(
+  wtatage,
+  growth))
+SSplotComparisons(
+  mysummary,
+  filenameprefix = "compare_growth_watage_8.36_",
+  legendlabels = modelnames, 	
+  btarg = 0.40,
+  minbthresh = 0.25,
+  plotdir = here::here("model", "base_model", "_sensitivities"),
+  ylimAdj = 1.25,
+  pdf = TRUE)
