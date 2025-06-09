@@ -38,7 +38,7 @@ The second source for discard data is from \gls{wcgop}. This program is part of 
 
 The aggregated estimated discard ages by gear type are shown in @fig-data-agg-ages. Discard ages by gear and year are shown in @fig-discard-ages-trawl -- @fig-discard-ages-pot. Generally, the trawl discards younger fish with both hook-and-line and pot gear discarding a wider range of ages compared to trawl.  
 
-### Composition Data
+### Composition Data {#fishery-bds-data}
 
 Data for all states were extracted from PacFIN's Biological Data System (BDS). Broadly, the weighting of commercial biological samples was conducted via the following method using the R package \href{https://github.com/pfmc-assessments/pacfintools}{\texttt{pacfintool}} developed and managed by scientists at the \gls{nwfsc}. The package queries, filters, and expands fishery biological data based on the following steps:
 
@@ -72,7 +72,7 @@ Historically, data from four research surveys have been used to assess sablefish
 
 The indices from each fishery-independent source were standardized for comparison. Each index of abundance was re-scaled relative its mean index value (i.e., each index centered around 1.0) shown in @fig-index-stand.
 
-### NWFSC West Coast Groundfish Bottom Trawl Survey
+### NWFSC West Coast Groundfish Bottom Trawl Survey {#wcgbt-data}
 
 The \gls{s-wcgbt} is based on a random-grid design; covering the coastal waters from a depth
 of 55 - 1,280 m [@bradburn_2003_2011]. This design generally uses four industry-chartered
@@ -88,7 +88,7 @@ from the U.S./Mexico to the U.S./Canada borders.
 A coastwide relative index of abundance was estimated for `r spp` using the Species
 Distribution Modeling platform written in Template Model Builder (TMB) (`sdmTMB`; Anderson et al. [-@Anderson:2022:SRP]). `sdmTMB` is an R package for fitting spatial and spatiotemporal generalized linear mixed effect models. A hurdle model (e.g., delta model) that incorporates  a binomial model for zero and non-zero data and a second component for the positive observations. The delta model with a gamma error distribution was selected over the lognormal distribution based on the quantile-quantile plots (@fig-qq-wcgbt). This was the same error distribution selected by the 2019 benchmark and 2023 update assessments. The relative index of abundance for `r spp` decreased to the lowest levels between 2008 and 2010, begun to slowly increase between 2011 and 2019, and then sharply increased in 2021 to 2022 and remained high in 2023 and 2024 (@fig-index-wcgbt). The estimated proportion of biomass observed by the \gls{s-wcgbt} north and south of 36$^\circ$ North latitude over the last five years of the survey are shown in @tbl-prop-area.
 
-Length and age data are collected by the samples \gls{s-wcgbt}. The length data were not used in this assessment and the age data were processed into age data bins between 0 and 50 years. The marginal age compositions were expanded to the tow level and strata level (@tbl-wcgbt-strata).  Input sample size for the marginal age composition were calculated using a multiplier (e.g., 2.38) by on the number of positive tows with age samples (@tbl-wcgbt-samples). The ages aggregated over all years are shown in @fig-data-agg-ages and by year in @fig-data-wcgbt. The mean age by year with 95 percent confidence intervals based on current sample sizes is shown in @fig-data-wcgbt-mean-age. The data include observations of sablefish ranging from 0 -- 91 years of age. The majority of unsexed fish in these data are age 0 fish where sex cannot often be reliably determined.  
+Length and age data are collected by the samples \gls{s-wcgbt}. The length data were not used in this assessment and the age data were processed into age data bins between 0 and 50 years. The marginal age compositions were expanded to the tow level and strata level (@tbl-wcgbt-strata).  Input sample size for the marginal age composition were calculated using a multiplier (e.g., 2.38) by on the number of positive tows with age samples (@tbl-wcgbt-samples) based upon research by @stewart_bootstrapping_2014. The ages aggregated over all years are shown in @fig-data-agg-ages and by year in @fig-data-wcgbt. The mean age by year with 95 percent confidence intervals based on current sample sizes is shown in @fig-data-wcgbt-mean-age. The data include observations of sablefish ranging from 0 -- 91 years of age. The majority of unsexed fish in these data are age 0 fish where sex cannot often be reliably determined.  
 
 
 ### NWFSC Slope Survey
