@@ -473,7 +473,7 @@ gg <- ggplot(data, aes(Length_cm, color = Type)) +
   theme_bw() + xlim(c(0, 90)) +
   xlab("Length (cm)") + ylab("Density") +
   facet_grid("Sex")
-ggsave(gg, file = here::here("report", "figures", "afsc_slope_length_age_comparison.png"))
+ggsave(gg,  width = 7, height = 7, file = here::here("report", "figures", "afsc_slope_length_age_comparison.png"))
 
 ggplot(data, aes(x = length_round, y = Ratio, color = Type, linetype = Type)) +
   geom_line(linewidth = 1)  +
@@ -569,7 +569,7 @@ gg <- ggplot(data_year, aes(Length_cm, color = Type)) +
   theme_bw() + xlim(c(0, 90)) +
   xlab("Length (cm)") + ylab("Density") +
   facet_wrap(facets = "Year", nrow = 3)
-ggsave(gg, file = here::here("report", "figures", "triennial_length_age_comparison.png"))
+ggsave(gg, width = 7, height = 7, file = here::here("report", "figures", "triennial_length_age_comparison.png"))
 
 tows <- triennial_age[, c("Trawl_id", "Year", "Sex", "Length_cm")] |> 
   dplyr::filter(!is.na(Length_cm)) |> 
@@ -705,9 +705,9 @@ gg <- ggplot() +
   geom_point(data = catch_pos[catch_pos$positive == 1, ], aes(x = Latitude_dd, y = Depth_m), shape = 1, size = 1) +
   geom_point(data = all_tri_bio, 
              aes(x = Latitude_dd, y = Depth_m), color = "red", shape = 17) +
-  theme_bw() +
-  facet_wrap(facets = "Year", ncol = 2, dir = "v")
-ggsave(gg, file = here::here("report", "figures", "triennial_positive_tow_bds.png"))
+  theme_bw() + xlab("Latitude") + ylab("Depth (m)") +
+  facet_wrap(facets = "Year", ncol = 3)
+ggsave(gg, width = 7, height = 7, file = here::here("report", "figures", "triennial_positive_tow_bds.png"))
 
 #===============================================================================
 # What are the number of age-0 fish observed in the survey in 2022
