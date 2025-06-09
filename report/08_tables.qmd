@@ -746,6 +746,47 @@ parcount_table |>
  {{< pagebreak >}} 
  
 ```{r}
+#| label: tbl-data-weights
+#| warning: false
+#| echo: false
+#| tbl-cap: "Data weights from the base model."
+
+ctl_file[["Variance_adjustment_list"]] |>
+  dplyr::select(-factor) |>
+  dplyr::mutate(
+    fleet = dplyr::case_when(
+      fleet == 1 ~ "Trawl",
+      fleet == 2 ~ "Hook-and-Line",
+      fleet == 3 ~ "Pot",
+      fleet == 4 ~ "Trawl Discard",
+      fleet == 5 ~ "Hook-and-Line Discard",
+      fleet == 6 ~ "Pot Discard",
+      fleet == 7 ~ "Early Triennial",
+      fleet == 8 ~ "Late Triennial",
+      fleet == 9 ~ "NWFSC Slope",
+      fleet == 10 ~ "WCGBT"
+    )
+  ) |>
+  dplyr::rename(
+    Fleet = fleet,
+    `Data Weight` = value
+  ) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2,
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+ 
+  {{< pagebreak >}} 
+ 
+```{r}
 #| label: tbl-likes
 #| warning: false
 #| echo: false
