@@ -1,4 +1,5 @@
-# Create sensitivity directories (Sablefish 2025)
+# Create sensitivity directories (Sablefish 2025) and running models
+#
 # Files are written to the disk inside the following directories:
 # 01-remove-WCGBT
 # 02-remove-Triennial-all
@@ -26,7 +27,7 @@ library(dplyr)
 
 model_directory <- 'model'
 base_folder <- 'base_model'
-base_model_name <- '8.34_fix_additional_selex_param_rec_dev_2'
+base_model_name <- '8.36_base_model'
 exe_loc <- here('model/ss3.exe')
 base_loc <- file.path(here(),model_directory, base_folder,base_model_name)
 base_model <- SS_read(base_loc, ss_new = TRUE)
@@ -52,7 +53,7 @@ SS_write(sensi_mod, file.path(sens_loc,'01-remove-WCGBT'),
          overwrite = TRUE)
 r4ss::run(dir = file.path(sens_loc,'01-remove-WCGBT'),
           exe = exe_loc,
-          extras = "-no hess",
+          #extras = "-no hess",
           verbose = TRUE,
           )
 
@@ -73,7 +74,7 @@ SS_write(sensi_mod, file.path(sens_loc,'02-remove-Triennial-all'),
          overwrite = TRUE)
 r4ss::run(dir = file.path(sens_loc,'02-remove-Triennial-all'),
           exe = exe_loc,
-          extras = "-no hess",
+          #extras = "-no hess",
           verbose = TRUE,
           )
 
@@ -90,7 +91,7 @@ SS_write(sensi_mod, file.path(sens_loc,'03-remove-Triennial-early'),
          overwrite = TRUE)
 r4ss::run(dir = file.path(sens_loc,'03-remove-Triennial-early'),
           exe = exe_loc,
-          extras = "-no hess",
+          #extras = "-no hess",
           verbose = TRUE,
           )
 
@@ -107,7 +108,7 @@ SS_write(sensi_mod, file.path(sens_loc,'04-remove-Triennial-late'),
          overwrite = TRUE)
 r4ss::run(dir = file.path(sens_loc,'04-remove-Triennial-late'),
           exe = exe_loc,
-          extras = "-no hess",
+          #extras = "-no hess",
           verbose = TRUE,
           )
 
@@ -124,7 +125,7 @@ SS_write(sensi_mod, file.path(sens_loc,'05-remove-NWFSC-slope'),
          overwrite = TRUE)
 r4ss::run(dir = file.path(sens_loc,'05-remove-NWFSC-slope'),
           exe = exe_loc,
-          extras = "-no hess",
+          #extras = "-no hess",
           verbose = TRUE,
           )
 
@@ -139,7 +140,7 @@ SS_write(sensi_mod, file.path(sens_loc,'06-remove-enviro-index'),
          overwrite = TRUE)
 r4ss::run(dir = file.path(sens_loc,'06-remove-enviro-index'),
           exe = exe_loc,
-          extras = "-no hess",
+          #extras = "-no hess",
           verbose = TRUE,
           )
 
@@ -153,7 +154,8 @@ file.copy(from = file.path(base_loc,
           overwrite = TRUE)
 tune_comps(option = 'MI', niters_tuning = 3, 
            dir = file.path(sens_loc,'07-MacIan-weight'),
-           exe = exe_loc, extras = '-nohess')
+           #extras = '-nohess',
+           exe = exe_loc)
 
 # 08-2019-age-error
 sensi_mod <- base_model
@@ -164,7 +166,7 @@ SS_write(sensi_mod, file.path(sens_loc,'08-2019-age-error'),
 
 r4ss::run(dir = file.path(sens_loc,'08-2019-age-error'),
           exe = exe_loc,
-          extras = "-no hess",
+          #extras = "-no hess",
           verbose = TRUE,
           )
 
@@ -188,13 +190,14 @@ r4ss::run(dir = file.path(sens_loc,'08-2019-age-error'),
 sensi_mod <- base_model
 sensi_mod$ctl$MG_parms['NatM_p_1_Mal_GP_1', names(sensi_mod$ctl$MG_parms)] <-
   sensi_mod$ctl$MG_parms['NatM_p_1_Fem_GP_1', names(sensi_mod$ctl$MG_parms)]
+sensi_mod$start$init_values_src <- 0
 
 SS_write(sensi_mod, file.path(sens_loc,'11-M-Diffsex'),
          overwrite = TRUE)
 
 r4ss::run(dir = file.path(sens_loc,'11-M-Diffsex'),
           exe = exe_loc,
-          extras = "-no hess",
+          #extras = "-no hess",
           verbose = TRUE,
           )
 
@@ -202,13 +205,15 @@ r4ss::run(dir = file.path(sens_loc,'11-M-Diffsex'),
 sensi_mod <- base_model
 sensi_mod$ctl$MG_parms['NatM_p_1_Fem_GP_1', c('INIT', 'PHASE')] <- c(0.114, -99)
 sensi_mod$ctl$MG_parms['NatM_p_1_Mal_GP_1', c('INIT', 'PHASE')] <- c(0.114, -99)
+sensi_mod$ctl$SR_parms['SR_LN(R0)', c('INIT')] <- 11
+sensi_mod$start$init_values_src <- 0
 
 SS_write(sensi_mod, file.path(sens_loc,'12-M-AK'),
          overwrite = TRUE)
 
 r4ss::run(dir = file.path(sens_loc,'12-M-AK'),
           exe = exe_loc,
-          extras = "-no hess",
+          #extras = "-no hess",
           verbose = TRUE,
           )
 
@@ -216,14 +221,15 @@ r4ss::run(dir = file.path(sens_loc,'12-M-AK'),
 sensi_mod <- base_model
 M_emigration <- 0.0438
 M_base <- base_out$parameters['NatM_uniform_Fem_GP_1','Value'] 
-sensi_mod$ctl$MG_parms['NatM_p_1_Fem_GP_1', c('INIT', 'PHASE')] <- c(M_base+M_emigration, -99)
+sensi_mod$ctl$MG_parms['NatM_p_1_Fem_GP_1', c('HI', 'INIT', 'PHASE')] <- c(0.15, M_base+M_emigration, -99)
+sensi_mod$start$init_values_src <- 0
 
 SS_write(sensi_mod, file.path(sens_loc,'13-M-adjust-migration'),
          overwrite = TRUE)
 
 r4ss::run(dir = file.path(sens_loc,'13-M-adjust-migration'),
           exe = exe_loc,
-          extras = "-no hess",
+          #extras = "-no hess",
           verbose = TRUE,
           )
 
@@ -231,13 +237,16 @@ r4ss::run(dir = file.path(sens_loc,'13-M-adjust-migration'),
 sensi_mod <- base_model
 sensi_mod$ctl$MG_parms['NatM_p_1_Fem_GP_1', c('INIT', 'PHASE')] <- c(0.0759, -99)
 sensi_mod$ctl$MG_parms['NatM_p_1_Mal_GP_1', c('INIT', 'PHASE')] <- c(0.0675, -99)
+sensi_mod$ctl$SR_parms['SR_LN(R0)', c('INIT')] <- 11
+sensi_mod$start$init_values_src <- 0
+
 
 SS_write(sensi_mod, file.path(sens_loc,'14-M-Fix-2019Assess'),
          overwrite = TRUE)
 
 r4ss::run(dir = file.path(sens_loc,'14-M-Fix-2019Assess'),
           exe = exe_loc,
-          extras = "-no hess",
+          #extras = "-no hess",
           verbose = TRUE,
           )
 
@@ -263,7 +272,7 @@ SS_write(sensi_mod, file.path(sens_loc,'15-NWsurveys-Asymptotic'),
 
 r4ss::run(dir = file.path(sens_loc,'15-NWsurveys-Asymptotic'),
           exe = exe_loc,
-          extras = "-no hess",
+          #extras = "-no hess",
           verbose = TRUE,
           )
 
@@ -276,7 +285,7 @@ SS_write(sensi_mod, file.path(sens_loc,'16-Est-steepness'),
 
 r4ss::run(dir = file.path(sens_loc,'16-Est-steepness'),
           exe = exe_loc,
-          extras = "-no hess",
+          #extras = "-no hess",
           verbose = TRUE,
           )
 
@@ -289,7 +298,7 @@ SS_write(sensi_mod, file.path(sens_loc,'17-RecDev-sum-zero'),
 
 r4ss::run(dir = file.path(sens_loc,'17-RecDev-sum-zero'),
           exe = exe_loc,
-          extras = "-no hess",
+          #extras = "-no hess",
           verbose = TRUE,
           )
 
@@ -302,7 +311,7 @@ SS_write(sensi_mod, file.path(sens_loc,'18-Est-RecDev-early'),
 
 r4ss::run(dir = file.path(sens_loc,'18-Est-RecDev-early'),
           exe = exe_loc,
-          extras = "-no hess",
+          #extras = "-no hess",
           verbose = TRUE,
           )
 
@@ -317,6 +326,6 @@ SS_write(sensi_mod, file.path(sens_loc,'19-2yr-enviro-index'),
 
 r4ss::run(dir = file.path(sens_loc,'19-2yr-enviro-index'),
           exe = exe_loc,
-          extras = "-no hess",
+          #extras = "-no hess",
           verbose = TRUE,
           )
