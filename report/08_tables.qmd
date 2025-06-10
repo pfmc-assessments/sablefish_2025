@@ -519,66 +519,6 @@ read.csv(here::here("data-processed", "data-survey-nwfscslope-n.csv")) |>
 
 
 ```{r}
-#| label: tbl-afslope-strata
-#| warning: false
-#| echo: false
-#| tbl-cap: "Design-based stratification by depth and latitude used to expand composition data for the AFSC Slope survey."
-
-
-strata_afsc_slope |>
-  tidyr::unite(
-    "Depth", c(Depth_m.1, Depth_m.2), sep = '-'
-  ) |>
-  tidyr::unite(
-    "Latitude", c(Latitude_dd.1, Latitude_dd.2), sep = '-'
-  ) |>
-  dplyr::rename(
-    `Area (km2)` = area,
-    `Depth (m)` = Depth
-  ) |>
-  dplyr::select(-name) |>
-  dplyr::relocate(`Area (km2)`, .after = Latitude) |>
-  gt::gt() |>
-  gt::fmt_number(
-    columns = 3,
-    decimals = 0
-  ) |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE
-  ) |>
-  gt::as_latex()
-
-```
-
-
-```{r}
-#| label: tbl-afslope-samples
-#| warning: false
-#| echo: false
-#| tbl-cap: "Samples by year from the AFSC Slope survey."
-
-read.csv(here::here("data-processed", "data-survey-afscslope-n.csv")) |>
-  dplyr::select(-N.Lengthed, -Survey) |>
-  dplyr::rename(
-    Tows = N.Tows,
-    `Positive Tows` = Positive.Tows,
-    `Prop. Positive` = Proportion.Positive,
-    Aged = N.Aged
-  ) |>
-  gt::gt() |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE
-  ) |>
-  gt::as_latex()
-
-```
-
-\pagebreak
-
-
-```{r}
 #| label: tbl-tri-early-strata
 #| warning: false
 #| echo: false
@@ -661,6 +601,32 @@ dplyr::bind_rows(
     `Positive Tows` = Positive.Tows,
     `Prop. Positive` = Proportion.Positive,
     `Sampled Tows` = Sampled.Tows.Ages,
+    Aged = N.Aged
+  ) |>
+  gt::gt() |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+\pagebreak
+
+
+```{r}
+#| label: tbl-afslope-samples
+#| warning: false
+#| echo: false
+#| tbl-cap: "Samples by year from the AFSC Slope survey."
+
+read.csv(here::here("data-processed", "data-survey-afscslope-n.csv")) |>
+  dplyr::select(-N.Lengthed, -Survey) |>
+  dplyr::rename(
+    Tows = N.Tows,
+    `Positive Tows` = Positive.Tows,
+    `Prop. Positive` = Proportion.Positive,
     Aged = N.Aged
   ) |>
   gt::gt() |>

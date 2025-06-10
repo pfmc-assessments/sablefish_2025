@@ -63,6 +63,8 @@ knitr::include_graphics(
 
 ## Stock Output and Dynamics {-}
 
+For the purposes of this assessment, female spawning biomass is assumed to be proportional to egg and larval production (i.e., spawning output) and the terms spawning biomass and spawning output are used interchangeably through the report.
+
 @tbl-es-sb
 
 ```{r, results = "asis"}

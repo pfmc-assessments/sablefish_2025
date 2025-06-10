@@ -83,7 +83,7 @@ differences in catchability, as well as variance associated with selecting a rel
 number (approximately 700) of possible cells from a very large set of possible cells spread
 from the U.S./Mexico to the U.S./Canada borders.
 
-`r Spp` are observed across the full range of latitudes (@fig-positive-lat-wcgbt) and depths (@fig-positive-depth-wcgbt) sampled by the \gls{s-wcgbt}. The sex ratio of positive tows is roughly 50-50 between females and males between 55--400 m in depth, greater than 50 percent male between 400--1,100 m, and greater than 50 percent female at the deepest depths sampled (@fig-sex-ratio-wcgbt). The size and age of sablefish observed by latitude and depth are shown in @fig-wcgbt-map-density. Generally, older sablefish for both sexes are found at the deeper compared to younger fish that are more commonly observed between 55 -- 500 m (@fig-wcgbt-depth-len-age). 
+`r Spp` are observed across the full range of latitudes (@fig-positive-lat-wcgbt) and depths (@fig-positive-depth-wcgbt) sampled by the \gls{s-wcgbt}. The sex ratio of positive tows is roughly 50-50 between females and males between 55--400 m in depth, greater than 50 percent male between 400--1,100 m, and greater than 50 percent female at the deepest depths sampled (@fig-sex-ratio-wcgbt). The size and age of sablefish observed by latitude and depth are shown in @fig-wcgbt-map-density. Generally, older sablefish for both sexes are found at the deeper compared to younger fish that are more commonly observed between 55 -- 500 m (@fig-wcgbt-depth-len-age). The observed fraction female by age and year is shown in @fig-wcgbt-age-sex-ratio.
 
 A coastwide relative index of abundance was estimated for `r spp` using the Species
 Distribution Modeling platform written in Template Model Builder (TMB) (`sdmTMB`; Anderson et al. [-@Anderson:2022:SRP]). `sdmTMB` is an R package for fitting spatial and spatiotemporal generalized linear mixed effect models. A hurdle model (e.g., delta model) that incorporates  a binomial model for zero and non-zero data and a second component for the positive observations. The delta model with a gamma error distribution was selected over the lognormal distribution based on the quantile-quantile plots (@fig-qq-wcgbt). This was the same error distribution selected by the 2019 benchmark and 2023 update assessments. The relative index of abundance for `r spp` decreased to the lowest levels between 2008 and 2010, begun to slowly increase between 2011 and 2019, and then sharply increased in 2021 to 2022 and remained high in 2023 and 2024 (@fig-index-wcgbt). The estimated proportion of biomass observed by the \gls{s-wcgbt} north and south of 36$^\circ$ North latitude over the last five years of the survey are shown in @tbl-prop-area.
@@ -164,6 +164,7 @@ R/V Miller Freeman. Partial survey coverage of the U.S. west coast occurred duri
 1999-2001. Typically, only these four years that are seen as complete surveys are included in
 groundfish stock assessments.
 
+@tbl-afslope-samples
 @fig-data-afslope-index
 @fig-data-afslope-len-age
 
@@ -189,6 +190,14 @@ $M=\frac{5.4}{A_{\text{max}}}$
 where $A_{\text{max}}$ is the maximum age. The prior is defined as a lognormal distribution with mean $ln(5.4/A_{\text{max}})$ and standard error = 0.31.  
 
 The maximum age for `r spp` was selected based on available age data from all West Coast data sources. The oldest aged `r spp` was 102 years, captured by the commercial fishery in 2006, not accounting for potential ageing error. Examining all aged fish, a maximum age of 75 was selected. Across all data sources there were limited observation greater than 75 years of age. There are a higher frequency of older males compared to females observed in the data, however, females grow to larger sizes and generally have higher fishery selectivity which may bias the sex-ratio of older individuals. Using a maximum age of 75, the median of the prior was 0.72 yr$^{-1}$ with a standard error of 0.31.
+
+### Sex Ratio
+
+The sex ratio observed by depth showed interesting patterns. The assessment assumed a sex ratio of 50:50 at the time of settlement.
+
+@fig-sex-ratio-wcgbt
+@fig-wcgbt-depth-len-age
+@fig-wcgbt-age-sex-ratio
 
 ### Growth
 

@@ -62,19 +62,7 @@ text(-115.5, 32.1, "Mexico")
 ## Fisheries off Canada and Alaska
 
 
-```{r} 
-#| label: fig-reg-kobe
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Time series of sablefish biomass-based and fishing-based estimates of status in Alaska, British Columbia, and along the U.S. West Coast from the most recent stock assessments. The arrow indicates estimates for the current year of the stock assessment. Vertical and horizontal axes differ by area due to region-dependent reference point use and specifications."
-#| fig-alt: ""
-
-knitr::include_graphics(
-  here::here("report", "figures", "regional_Kobe.png")
-)
-
-```
+![Time series of sablefish biomass-based and fishing-based estimates of status in Alaska, British Columbia, and along the U.S. West Coast from the most recent stock assessments. The arrow indicates estimates for the current year of the stock assessment. Vertical and horizontal axes differ by area due to region-dependent reference point use and specifications.](figures/regional_Kobe.png){#fig-reg-kobe height=7in fig-alt=""}
 
 ## Data
 
@@ -147,7 +135,7 @@ ggplot2::ggplot(catch_comparison, ggplot2::aes(x = Year, y = total, color = asse
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Comparison of estiamted discard age by length for each gear type."
+#| fig-cap: "Comparison of estimated discard age by length for each gear type."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -426,6 +414,22 @@ knitr::include_graphics(
 
 knitr::include_graphics(
   here::here("report", "figures", "wcgbts_length_age_compositions.png")
+)
+
+```
+
+\pagebreak
+
+```{r} 
+#| label: fig-wcgbt-age-sex-ratio
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Observed fraction female by age in the NWFSC West Coast Groundfish Bottom Trawl Survey by year."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "sexratio_age_flt10mkt0.png")
 )
 
 ```
@@ -1122,6 +1126,10 @@ knitr::include_graphics(
 ## Selectivity
 
 ADD CUSTOM SELECTIVITY FIGURES
+
+FISHERY
+
+SURVEY
 
 
 ## Fits to Data
@@ -1926,5 +1934,5 @@ knitr::include_graphics(
 
 ## Historical Analysis
 
-
+ADD HISTORICAL ASSESSMENT TIME SERIES FIGURE
 
