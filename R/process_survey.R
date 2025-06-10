@@ -81,28 +81,24 @@ process_survey <- function(
   } else {
     samples <- dplyr::full_join(
       x = catch_data |>
-        dplyr::group_by(Project, Year) |>
+        dplyr::group_by(Year) |>
         dplyr::summarise(
           `N Tows` = dplyr::n(),
           Positive = sum(total_catch_numbers > 0),
           `Proportion Positive` = round(Positive/length(Year), 3)
         ),
       y = bds_data$length_data |>
-        dplyr::group_by(Project, Year) |>
+        dplyr::group_by(Year) |>
         dplyr::summarise(
           `Sampled Tows Lengths` = length(unique(Trawl_id)),
           `N Lengthed` = sum(!is.na(Length_cm)),
           `Sampled Tows Ages` = 0,
           `N Aged` = 0
         ),
-      by = c("Project", "Year")
+      by = c("Year")
     ) |>
       dplyr::ungroup() |>
-      dplyr::mutate(
-        Project = recode_project_doc(Project, gls = FALSE),
-      ) |>
       dplyr::rename(
-        Survey = "Project",
         `Positive Tows` = "Positive"
       ) |>
       as.data.frame() 
