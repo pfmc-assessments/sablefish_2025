@@ -587,15 +587,37 @@ strata_triennial_early |>
 \pagebreak
 
 ```{r}
-#| label: tbl-tri-samples
+#| label: tbl-tri-early-samples
 #| warning: false
 #| echo: false
-#| tbl-cap: "Samples by year from the Triennial survey."
+#| tbl-cap: "Samples by year from the Triennial survey (1980-1992)."
 
-dplyr::bind_rows(
-  read.csv(here::here("data-processed", "data-survey-triennial-early-n.csv")),
-  read.csv(here::here("data-processed", "data-survey-triennial-late-n.csv"))) |>
-  dplyr::select(-N.Lengthed, -Sampled.Tows.Lengths, -Survey) |>
+  read.csv(here::here("data-processed", "data-survey-triennial-early-n.csv")) |>
+  dplyr::select(-N.Lengthed, -Sampled.Tows.Lengths) |>
+  dplyr::rename(
+    Tows = N.Tows,
+    `Positive Tows` = Positive.Tows,
+    `Prop. Positive` = Proportion.Positive,
+    `Sampled Tows` = Sampled.Tows.Ages,
+    Aged = N.Aged
+  ) |>
+  gt::gt() |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+```{r}
+#| label: tbl-tri-late-samples
+#| warning: false
+#| echo: false
+#| tbl-cap: "Samples by year from the Triennial survey (1995-2004)."
+
+  read.csv(here::here("data-processed", "data-survey-triennial-late-n.csv")) |>
+  dplyr::select(-N.Lengthed, -Sampled.Tows.Lengths) |>
   dplyr::rename(
     Tows = N.Tows,
     `Positive Tows` = Positive.Tows,
