@@ -16,7 +16,7 @@ create_comparison_table <- function(
   x <- model_summary
   ii <- 1:length(model_names)
   n <- length(model_names)
-  param <- matrix(NA, 26, max(ii))
+  param <- matrix(NA, 27, max(ii))
 
   param <-  rbind(
     as.numeric(x$likelihoods[x$likelihoods$Label == "TOTAL",1:n]), 
@@ -49,17 +49,19 @@ create_comparison_table <- function(
   )  
 
   param <- as.data.frame(param)
-  colnames(param) <- modelnames
+  colnames(param) <- model_names
   rownames(param) <- c("Total Likelihood",
                     "Survey Likelihood",
                     "Length Likelihood",
                     "Age Likelihood",
+                    "Discard Likelihood",
+                    "Body Weight Likelihood",
                     "Recruitment Likelihood",
                     "Forecast Recruitment Likelihood",
                     "Parameter Priors Likelihood",
                     "log(R0)",
                     "SB Virgin",
-                    "SB 2023",
+                    "SB 2025",
                     "Fraction Unfished 2025",
                     "Total Yield - SPR 45",
                     "Steepness",

@@ -10,6 +10,8 @@ base_model_name <- '8.36_base_model'
 base_loc <- file.path(here(),model_directory, base_folder,base_model_name)
 sens_loc <- file.path(here(),model_directory, base_folder, '_sensitivities')
 figs_loc <- file.path(here(),'report', 'figures')
+tabs_loc <- file.path(here(),'report', 'rda')
+source(file.path(here(),'R', 'write_comparison_table.R'))
 
 #Group 1 (Data inputs)
 modname <- c("Base Model","Remove WCGBT","Remove Tri","Remove NWFSC_Slope","Remove Env_Index")
@@ -64,6 +66,11 @@ SSplotComparisons(mod_sum,
                   filenameprefix='sens_1_',
                   endyr=2025)
 
+create_comparison_table(dir = tabs_loc,
+                        model_summary = mod_sum,
+                        model_names = modname,
+                        add_name = "sens_1")
+
 #Group 2 (Age comps)
 modname <- c("Base Model","Mac-Ianelli Weighting","NW_Surveys Asymtotic Selectivity","Ageing Error 2019 Assessment")
 mod_sum <- SSsummarize(
@@ -107,6 +114,11 @@ SSplotComparisons(mod_sum,
                   filenameprefix='sens_2_',
                   endyr=2025)
 
+create_comparison_table(dir = tabs_loc,
+                        model_summary = mod_sum,
+                        model_names = modname,
+                        add_name = "sens_2")
+
 #Group 3 (Growth and M)
 modname <- c("Base Model","Estimate Growth","M Sex-specific","M Alaska Assessment","M Adjust For Migration","M Fix 2019 Assessment")
 mod_sum <- SSsummarize(
@@ -148,6 +160,11 @@ SSplotComparisons(mod_sum,
                   filenameprefix='sens_3_',
                   endyr=2025)
 
+create_comparison_table(dir = tabs_loc,
+                        model_summary = mod_sum,
+                        model_names = modname,
+                        add_name = "sens_3")
+
 #Group 4 (Recruitment)
 modname <- c("Base Model","Estimate Steepness","RecDevs Sum To Zero","Estimate Early RecDevs (sum 0)")
 mod_sum <- SSsummarize(
@@ -185,3 +202,8 @@ SSplotComparisons(mod_sum,
                   plotdir=figs_loc,
                   filenameprefix='sens_4_',
                   endyr=2025)
+
+create_comparison_table(dir = tabs_loc,
+                        model_summary = mod_sum,
+                        model_names = modname,
+                        add_name = "sens_4")
