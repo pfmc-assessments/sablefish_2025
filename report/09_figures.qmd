@@ -1737,7 +1737,200 @@ knitr::include_graphics(
 
 ## Sensitivity Analyses
 
+```{r} 
+#| label: fig-sens-1-bratio
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of relative spawning biomass (i.e., fraction of unfished spawning biomass) for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel survey (Tri), or the Northwest Fisheries Science Center Slope survey (NWFSC_Slope). Additionally, estimates for the removal of the environmental-based recruitment index (Env_Index) are shown. Shaded regions represent asymptotic 95% confidence intervals."
+#| fig-alt: ""
+#| fig-pos: H
 
+knitr::include_graphics(
+   here::here("report", "figures", "sens_1_compare4_Bratio_uncertainty.png")
+)
+
+```
+
+```{r} 
+#| label: fig-sens-1-sumB
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of summary biomass (age 3 and older) for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel survey (Tri), or the Northwest Fisheries Science Center Slope survey (NWFSC_Slope). Additionally, estimates for the removal of the environmental-based recruitment index (Env_Index) are shown."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+   here::here("report", "figures", "sens_1_compare18_smrybio.png")
+)
+
+```
+
+```{r} 
+#| label: fig-sens-1-recdev
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of recruitment deviations from 1960-2025 for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel survey (Tri), or the Northwest Fisheries Science Center Slope survey (NWFSC_Slope). Additionally, estimates for the removal of the environmental-based recruitment index (Env_Index) are shown. Bars represent asymptotic 95% confidence intervals."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+   here::here("report", "figures", "sens_1_compare12_recdevs_uncertainty.png")
+)
+
+```
+
+```{r} 
+#| label: fig-sens-1-wcgbt
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of the fit to the West Coast Groundfish Bottom Trawl Survey (WCGBT) time series for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel survey (Tri), or the Northwest Fisheries Science Center Slope survey (NWFSC_Slope). Additionally, estimates for the removal of the environmental-based recruitment index (Env_Index) are shown. The black dots with error bars represent the input index data points with associated uncertainty, whereas colors reprsent the estimated values for each year and model. Note that the results for all models are nearly identical, except for the Remove WCBGT run."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+   here::here("report", "figures", "sens_1_compare13_indices.png")
+)
+
+```
+
+```{r} 
+#| label: fig-sens-2-bratio
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of relative spawning biomass (i.e., fraction of unfished spawning biomass) for the base model and alternative sensitivity runs representing the use of the McAllister-Ianelli harmonic mean method for weighting composition data, the specifiation of asymptotic selectivity for all NWFSC surveys, and using the ageing error vector applied in the 2019 stock assessment. Shaded regions represent asymptotic 95% confidence intervals."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+   here::here("report", "figures", "sens_2_compare4_Bratio_uncertainty.png")
+)
+
+```
+
+```{r} 
+#| label: fig-sens-2-sumB
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of summary biomass (age 3 and older) for the base model and alternative sensitivity runs representing the use of the McAllister-Ianelli harmonic mean method for weighting composition data, the specifiation of asymptotic selectivity for all NWFSC surveys, and using the ageing error vector applied in the 2019 stock assessment."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+   here::here("report", "figures", "sens_2_compare18_smrybio.png")
+)
+
+```
+
+```{r} 
+#| label: fig-sens-2-recdev
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of recruitment deviations from 1960-2025 for the base model and alternative sensitivity runs representing the use of the McAllister-Ianelli harmonic mean method for weighting composition data, the specifiation of asymptotic selectivity for all NWFSC surveys, and using the ageing error vector applied in the 2019 stock assessment. Bars represent asymptotic 95% confidence intervals."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+   here::here("report", "figures", "sens_2_compare12_recdevs_uncertainty.png")
+)
+
+```
+
+```{r} 
+#| label: fig-sens-3-bratio
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of relative spawning biomass (i.e., fraction of unfished spawning biomass) for the base model and alternative sensitivity runs representing the estimation of growth (rather than using an empircal weight-at-age approach for growth as in the base model), the estimation of sex-specific natural mortality (*M*), and fixing *M* at the value used in the assessment of Sablefish in Alaska, adjusted upwards to offset potential net emigration to Canada, or set to sex-specific values used in the 2019 U.S. West coast assessment of Sablefish. Shaded regions represent asymptotic 95% confidence intervals."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+   here::here("report", "figures", "sens_3_compare4_Bratio_uncertainty.png")
+)
+
+```
+
+```{r} 
+#| label: fig-sens-3-sumB
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of summary biomass (age 3 and older) for the base model and alternative sensitivity runs representing the estimation of growth (rather than using an empircal weight-at-age approach for growth as in the base model), the estimation of sex-specific natural mortality (*M*), and fixing *M* at the value used in the assessment of Sablefish in Alaska, adjusted upwards to offset potential net emigration to Canada, or set to sex-specific values used in the 2019 U.S. West coast assessment of Sablefish."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+   here::here("report", "figures", "sens_3_compare18_smrybio.png")
+)
+
+```
+
+```{r} 
+#| label: fig-sens-3-recdev
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of recruitment deviations from 1960-2025 for the base model and alternative sensitivity runs representing the estimation of growth (rather than using an empircal weight-at-age approach for growth as in the base model), the estimation of sex-specific natural mortality (*M*), and fixing *M* at the value used in the assessment of Sablefish in Alaska, adjusted upwards to offset potential net emigration to Canada, or set to sex-specific values used in the 2019 U.S. West coast assessment of Sablefish. Bars represent asymptotic 95% confidence intervals."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+   here::here("report", "figures", "sens_3_compare12_recdevs_uncertainty.png")
+)
+
+```
+
+```{r} 
+#| label: fig-sens-4-bratio
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of relative spawning biomass (i.e., fraction of unfished spawning biomass) for the base model and alternative sensitivity runs representing the estimaton of steepness (*h*), imposing the restriction that recruitment deviations in the main recruitment period must sum to zero, and estimating early (1890-1974) recruitment deviations with the sum to zero constraint imposed. Shaded regions represent asymptotic 95% confidence intervals."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+   here::here("report", "figures", "sens_4_compare4_Bratio_uncertainty.png")
+)
+
+```
+
+```{r} 
+#| label: fig-sens-4-sumB
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of summary biomass (age 3 and older) for the base model and alternative sensitivity runs representing the estimaton of steepness (*h*), imposing the restriction that recruitment deviations in the main recruitment period must sum to zero, and estimating early (1890-1974) recruitment deviations with the sum to zero constraint imposed."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+   here::here("report", "figures", "sens_4_compare18_smrybio.png")
+)
+
+```
+
+```{r} 
+#| label: fig-sens-4-recdev
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of recruitment deviations for the base model and alternative sensitivity runs representing the estimaton of steepness (*h*), imposing the restriction that recruitment deviations in the main recruitment period must sum to zero, and estimating early (1890-1974) recruitment deviations with the sum to zero constraint imposed. Bars represent asymptotic 95% confidence intervals."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+   here::here("report", "figures", "sens_4_compare12_recdevs_uncertainty.png")
+)
+
+```
 
 ## Likelihood Profiles
 

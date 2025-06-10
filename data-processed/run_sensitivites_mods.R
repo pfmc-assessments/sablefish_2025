@@ -18,7 +18,7 @@
 # 15-NWsurveys-Asymptotic
 # 16-Est-steepness
 # 17-RecDev-sum-zero
-# 18-Est-RecDev-early
+# 18-Est-RecDev-early-sum-zero
 # 19-2yr-enviro-index
 
 library(r4ss)
@@ -302,14 +302,15 @@ r4ss::run(dir = file.path(sens_loc,'17-RecDev-sum-zero'),
           verbose = TRUE,
           )
 
-# 18-Est-RecDev-early
+# 18-Est-RecDev-early-sum-zero
 sensi_mod <- base_model
+sensi_mod$ctl$do_recdev <- 1
 sensi_mod$ctl$recdev_early_phase <- 3
 
-SS_write(sensi_mod, file.path(sens_loc,'18-Est-RecDev-early'),
+SS_write(sensi_mod, file.path(sens_loc,'18-Est-RecDev-early-sum-zero'),
          overwrite = TRUE)
 
-r4ss::run(dir = file.path(sens_loc,'18-Est-RecDev-early'),
+r4ss::run(dir = file.path(sens_loc,'18-Est-RecDev-early-sum-zero'),
           exe = exe_loc,
           #extras = "-no hess",
           verbose = TRUE,

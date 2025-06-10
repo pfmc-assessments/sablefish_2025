@@ -149,13 +149,13 @@ SSplotComparisons(mod_sum,
                   endyr=2025)
 
 #Group 4 (Recruitment)
-modname <- c("Base Model","Estimate Steepness","RecDevs Sum To Zero","Estimate Early RecDevs")
+modname <- c("Base Model","Estimate Steepness","RecDevs Sum To Zero","Estimate Early RecDevs (sum 0)")
 mod_sum <- SSsummarize(
   list(
     SS_output(dir=file.path(base_loc)),
     SS_output(dir=file.path(sens_loc,'16-Est-steepness')),
     SS_output(dir=file.path(sens_loc,'17-RecDev-sum-zero')),
-    SS_output(dir=file.path(sens_loc,'18-Est-RecDev-early'))
+    SS_output(dir=file.path(sens_loc,'18-Est-RecDev-early-sum-zero'))
   )
 )
 cat("Model convergence:")
