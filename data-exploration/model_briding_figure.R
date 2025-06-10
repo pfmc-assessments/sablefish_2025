@@ -69,7 +69,7 @@ mysummary <- SSsummarize(list(
   split_fleets))
 SSplotComparisons(mysummary,
                   filenameprefix = "1_data_bridging_",
-                  subplots = 2,
+                  subplots = 19,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
@@ -105,7 +105,7 @@ mysummary <- SSsummarize(list(
   ageing_error))
 SSplotComparisons(mysummary,
                   filenameprefix = "2_data_bridging_",
-                  subplots = 2,
+                  subplots = 18,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
@@ -115,7 +115,7 @@ SSplotComparisons(mysummary,
 
 SSplotComparisons(mysummary,
                   filenameprefix = "2_data_bridging_",
-                  subplots = 4,
+                  subplots = 3,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
@@ -134,7 +134,7 @@ mysummary <- SSsummarize(list(
   early_rec_devs))
 SSplotComparisons(mysummary,
                   filenameprefix = "3_structure_",
-                  subplots = 1,
+                  subplots = 18,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
@@ -165,7 +165,7 @@ mysummary <- SSsummarize(list(
   foreign_fleets_age_ret))
 SSplotComparisons(mysummary,
                   filenameprefix = "4_structure_",
-                  subplots = 1,
+                  subplots = 18,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
@@ -195,7 +195,7 @@ mysummary <- SSsummarize(list(
   adjust_selex_blocks))
 SSplotComparisons(mysummary,
                   filenameprefix = "5_structure_",
-                  subplots = 1,
+                  subplots = 18,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
@@ -229,7 +229,7 @@ mysummary <- SSsummarize(list(
   rec_option_2))
 SSplotComparisons(mysummary,
                   filenameprefix = "6_structure_",
-                  subplots = 2,
+                  subplots = 19,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
