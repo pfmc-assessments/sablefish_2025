@@ -145,7 +145,8 @@ via a shift in catchability (Q) between the 1992 and 1995 survey years.
 
 @tbl-tri-early-strata
 @tbl-tri-late-strata
-@tbl-tri-samples
+@tbl-tri-early-samples
+@tbl-tri-late-samples
 
 @fig-data-tri-len-age
 @fig-data-tri-tows

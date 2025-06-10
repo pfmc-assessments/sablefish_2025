@@ -204,3 +204,50 @@ The base model was weighted using the Francis method, which was based on equatio
 
 ### Bridging Analysis
 
+An extensive bridging analysis was conducted to detail the transition from the previous assessment to the base model.  The bridging analysis is presented in three sections: 1) Stock Synthesis version, 2) data updating and minor model structure changes, 3) major model structure changes. Updating the version of Stock Synthesis did not result in changes in estimated parameters and the derived spawning output (@fig-ss3-version).
+
+The data bridging process, where data were reprocessed and updated through 2024, were conducted in an additive fashion. Given the extensive changes to the data and the model structure that were targeted to improve model stability (e.g., estimating informed parameters) and transparency developing the bridging process to reflect key changes was challenging. Model explorations and changes are often not made in a completely linear fashion. In the bridging presented, changes were grouped for clarity, particularly within the major model structure bridging section, and may not be presented in the order that they were originally decided during modeling development. This non-linear model development and the needed linear bridging has led to some steps in the bridging process to show larger changes in model estimates compared to what was observed when these model structure or parameter changes were decided. Given this, it is recommended to consider both the bridging and the sensitivities for the base model in tandem (see Section \ref{sensitivities} for base model sensitities).     
+
+The order of data updating and minor model structure changes were:
+
+1. Remove the sea surface height environmental index.
+2. Update landings for trawl and fixed gears from 1890 -- 2022 and add new landings 2023 -- 2024.  
+3. Reprocess fishery ages from 1983 -- 2022 and add new ages from 2023 -- 2024.
+4. Reprocess fishery discard rates for trawl and fixed gears from 2002 -- 2021 and add 2022.
+5. Reprocess fishery discard lengths and mean body weights for trawl and fixed gears from 2002 -- 2021 and add 2022.
+6. Split landings, discard, and age data from the fixed gear fleet into two separate fleets: hook-and-line and pot gears
+7. Revise selectivitiy and retention blocks based upon data and extend through 2024.
+8. Reprocess indices of abundance and age composition data from the \gls{s-tri}, \gls{s-aslope}, and \gls{s-nslope}.
+9. Reprocess and extend the index of abundance, length compositions, and conditional-age-at-length data from the \gls{s-wcgbt}. 
+10. Update maturity from maturity-at-length to maturity-at-age based upon new research.
+11. Update the natural mortality prior for female and males with a median of 0.072 yr$^{-1}$ and a standard error of 0.31. Continue to estimate sex-specific natural mortality.
+12. Update the ageing error bias and uncertainty based using available double-read information through 2024.
+
+Removing the sea surface height environmental index and updating and extending landings had limited impact on the estimated spawning output and fraction unfished (@fig-data-bridge-ssb-1 and @fig-data-bridge-depl-1). Reprocessing and extending the fishery ages reduced the overall scale of spawning output and a more reduced fraction unfished across all model years. Data and model explorations determined that the change in estimates from the 2023 assessment was due to inclusion of additional historical ages (e.g., 1983 -- 2010) that were not included in previous assessments.  @tbl-fixed-age-samples-comp compares the number of ages by year and gear group between this assessment and the 2019 assessment. The revised age data primarily was collected in Oregon and we excluded due to the lack of information about the ageing method (e.g., break and burn, surface read, etc.) or were marked as special samples in the \gls{odfw} database. After conversations with staff at \gls{odfw} and \gls{cap} it was determined that ageing methodology has been generally consistent across time for sablefish and that these samples are likely read via break-and-burn, consistent with current methodology, and that records marked as special samples in early years of PacFIN data were randomly collected market samples similar to current sampling programs and that these data should be included in the assessment.
+
+@fig-data-bridge-ssb-1
+@fig-data-bridge-depl-1
+@fig-data-bridge-ssb-2
+@fig-data-bridge-depl-2
+
+13. Move the start of the main period for estimated annual recruitment deviations from 1925 to 1975 to align with the period of available data to inform recruitment and only start estimating recruitment deviations at the start of the model (1890).
+14. Only estimate annual recruitment deviations starting in 1975 (e.g., no annual recruitment deviations between 1890 -- 1974).
+15. Remove the index of abundance and age composition data from the \gls{s-aslope}.
+16. Estimate a single natural mortality for both females and males.
+17. Split out foreign catches from the domestic trawl, hook-and-line, and pot fleets and replace discard lengths with the estimated discard ages. The model has six fishery fleets: three domestic fleets that estimate age-based selectivity and retention and three foreign fleets that mirror the age-based selectivity for the corresponding domestic fleet by gear.  
+18. Split the \gls{s-tri} survey into two separate survey fleets in the model and remove select years of age composition data.
+19. Revise the fixed and estimated selectivity parameters for the \gls{s-wcgbt} to better fit the age composition data.
+20. Adjust the selectivity and retention parameter blocks to improve fit to the retained and discarded ages.
+21. Switch to a discard fleet approach where discard mortality is estimated outside the model and included as separate fleets. The model now has six fishery fleets: three removal fleets and three discard fleets by gear type.
+22. Update the assumed steepness from 0.70 to 0.75.
+23. Include empirical weight-at-age.
+24. Add new environment recruitment deviation index and estimate annual recruitment deviations as simple deviations.
+
+@fig-structure-bridge-ssb-3
+@fig-structure-bridge-depl-3
+@fig-structure-bridge-ssb-4
+@fig-structure-bridge-depl-4
+@fig-structure-bridge-ssb-5
+@fig-structure-bridge-depl-5
+@fig-structure-bridge-ssb-6
+@fig-structure-bridge-depl-6
