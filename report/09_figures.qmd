@@ -875,201 +875,33 @@ knitr::include_graphics(
 
 ```
 
-
-```{r} 
-#| label: fig-data-bridge-ssb-1
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Comparison of estimated spawning biomass when adding new data."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  here::here("report", "figures", "1_data_bridging_compare2_spawnbio_uncertainty.png")
-)
-
-```
-
-
-```{r} 
-#| label: fig-data-bridge-depl-1
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Comparison of estimated fraction unfished when adding new data."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  here::here("report", "figures", "1_data_bridging_compare4_Bratio_uncertainty.png")
-)
-
-```
-
-
-```{r} 
-#| label: fig-data-bridge-ssb-2
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Comparison of estimated spawning biomass when adding new data."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  here::here("report", "figures", "2_data_bridging_compare2_spawnbio_uncertainty.png")
-)
-
-```
-
-
-```{r} 
-#| label: fig-data-bridge-depl-2
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Comparison of estimated fraction unfished when adding new data."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  here::here("report", "figures", "2_data_bridging_compare4_Bratio_uncertainty.png")
-)
-
-```
-
-
-
-```{r} 
-#| label: fig-structure-bridge-ssb-3
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Comparison of estimated spawning biomass when the estimation of annual recruitment deviations is revised."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  here::here("report", "figures", "3_structure_compare1_spawnbio.png")
-)
-
-```
-
-
-```{r} 
-#| label: fig-structure-bridge-depl-3
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Comparison of estimated fraction unfished when the estimation of annual recruitment deviations is revised."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  here::here("report", "figures", "3_structure_compare3_Bratio.png")
-)
-
-```
-
-```{r} 
-#| label: fig-structure-bridge-ssb-4
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Comparison of estimated spawning biomass when the model structure is revised."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  here::here("report", "figures", "4_structure_compare1_spawnbio.png")
-)
-
-```
-
-
-```{r} 
-#| label: fig-structure-bridge-depl-4
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Comparison of estimated fraction unfished when the model structure is revised."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  here::here("report", "figures", "4_structure_compare3_Bratio.png")
-)
-
-```
-
-```{r} 
-#| label: fig-structure-bridge-ssb-5
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Comparison of estimated spawning biomass when the model structure is revised."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  here::here("report", "figures", "5_structure_compare1_spawnbio.png")
-)
-
-```
-
-
-```{r} 
-#| label: fig-structure-bridge-depl-5
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Comparison of estimated fraction unfished when the model structure is revised."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  here::here("report", "figures", "5_structure_compare3_Bratio.png")
-)
-
-```
-
 \pagebreak
 
-```{r} 
-#| label: fig-structure-bridge-ssb-6
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Comparison of estimated spawning biomass when the model structure is revised."
-#| fig-alt: ""
-#| fig-pos: H
-#| fig-height: 4
+![Comparison of estimated spawning biomass when adding new data.](figures/1_data_bridging_compare2_spawnbio_uncertainty.png){#fig-data-bridge-ssb-1 height=3in fig-alt=""}
 
-knitr::include_graphics(
-  here::here("report", "figures", "6_structure_compare2_spawnbio_uncertainty.png")
-)
-
-```
+![Comparison of estimated fraction unfished when adding new data.](figures/1_data_bridging_compare4_Bratio_uncertainty.png){#fig-data-bridge-depl-1 height=3in fig-alt=""}
 
 
-```{r} 
-#| label: fig-structure-bridge-depl-6
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Comparison of estimated fraction unfished when the model structure is revised."
-#| fig-alt: ""
-#| fig-pos: H
-#| fig-height: 4
+![Comparison of estimated spawning biomass when adding new data.](figures/2_data_bridging_compare2_spawnbio_uncertainty.png){#fig-data-bridge-ssb-2 height=3in fig-alt=""}
 
-knitr::include_graphics(
-  here::here("report", "figures", "6_structure_compare4_Bratio_uncertainty.png")
-)
+![Comparison of estimated fraction unfished when adding new data.](figures/2_data_bridging_compare4_Bratio_uncertainty.png){#fig-data-bridge-depl-2 height=3in fig-alt=""}
 
-```
+![Comparison of estimated summary biomass 3+ when the estimation of annual recruitment deviations is revised.](figures/3_structure_compare18_smrybio.png){#fig-structure-bridge-summary-3 height=3in fig-alt=""}
 
-\pagebreak
+![Comparison of estimated fraction unfished when the estimation of annual recruitment deviations is revised.](figures/3_structure_compare3_Bratio.png){#fig-structure-bridge-depl-3 height=3in fig-alt=""}
+
+![Comparison of estimated summary biomass age 3+ when the model structure is revised.](figures/4_structure_compare18_smrybio.png){#fig-structure-bridge-summary-4 height=3in fig-alt=""}
+
+![Comparison of estimated fraction unfished when the model structure is revised.](figures/4_structure_compare3_Bratio.png){#fig-structure-bridge-depl-4 height=3in fig-alt=""}
+
+![Comparison of estimated summary biomass age 3+ when the model structure is revised.](figures/5_structure_compare18_smrybio.png){#fig-structure-bridge-summary-5 height=3in fig-alt=""}
+
+![Comparison of estimated fraction unfished when the model structure is revised.](figures/5_structure_compare3_Bratio.png){#fig-structure-bridge-depl-5 height=3in fig-alt=""}
+
+![Comparison of estimated summary biomass age 3+ when the model structure is revised.](figures/6_structure_compare18_smrybio.png){#fig-structure-bridge-summary-6 height=3in fig-alt=""}
+
+![Comparison of estimated fraction unfished when the model structure is revised.](figures/6_structure_compare4_Bratio_uncertainty.png){#fig-structure-bridge-depl-6 height=3in fig-alt=""}
+
 
 ## Biology
 
