@@ -14,7 +14,7 @@ tabs_loc <- file.path(here(),'report', 'rda')
 #source(file.path(here(),'R', 'write_comparison_table.R'))
 
 #Group 1 (Data inputs)
-modname <- c("Base Model","Remove WCGBT","Remove Tri","Remove NWFSC_Slope","Remove Env_Index")
+modname <- c("Base Model","Remove WCGBT","Remove Triennial","Remove NWFSC Slope","Remove Recruitment Index")
 mod_sum <- SSsummarize(
   list(
   SS_output(dir=file.path(base_loc)),
@@ -72,7 +72,7 @@ create_comparison_table(dir = tabs_loc,
                         add_name = "sens_1")
 
 #Group 2 (Age comps)
-modname <- c("Base Model","Mac-Ianelli Weighting","NW_Surveys Asymtotic Selectivity","Ageing Error 2019 Assessment")
+modname <- c("Base Model","McAllister-Ianelli Data Weighting","NWFSC Survey Asymtotic Selectivity","Ageing Error 2019 Assessment")
 mod_sum <- SSsummarize(
   list(
     SS_output(dir=file.path(base_loc)),
@@ -120,7 +120,7 @@ create_comparison_table(dir = tabs_loc,
                         add_name = "sens_2")
 
 #Group 3 (Growth and M)
-modname <- c("Base Model","Estimate Growth","M Sex-specific","M Alaska Assessment","M Adjust For Migration","M Fix 2019 Assessment")
+modname <- c("Base Model","Estimate Growth","M Sex-Specific","M Alaska Assessment","M Adjust For Migration","M Fix 2019 Assessment")
 mod_sum <- SSsummarize(
   list(
     SS_output(dir=file.path(base_loc)),

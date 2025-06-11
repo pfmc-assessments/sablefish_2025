@@ -1,4 +1,4 @@
-,Base Model,Estimate Steepness,RecDevs Sum To Zero,Estimate Early RecDevs (sum 0)
+Metric,Base Model,Estimate Steepness,RecDevs Sum To Zero,Estimate Early RecDevs (sum 0)
 Total Likelihood,1335.77,1335.72,1335.78,1329.43
 Survey Likelihood,-43.5121,-43.5124,-43.5315,-43.3729
 Length Likelihood,0,0,0,0

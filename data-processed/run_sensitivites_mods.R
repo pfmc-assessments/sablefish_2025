@@ -148,14 +148,19 @@ r4ss::run(dir = file.path(sens_loc,'06-remove-enviro-index'),
 copy_SS_inputs(dir.old = base_loc, 
                dir.new = file.path(sens_loc,'07-MacIan-weight'))
 file.copy(from = file.path(base_loc,
-                           c('Report.sso', 'CompReport.sso', 'warning.sso')), 
+                           c('Report.sso', 'CompReport.sso', 'warning.sso', 'ss3.par')), 
           to = file.path(sens_loc,'07-MacIan-weight', 
-                         c('Report.sso', 'CompReport.sso', 'warning.sso')), 
+                         c('Report.sso', 'CompReport.sso', 'warning.sso', 'ss3.par')), 
           overwrite = TRUE)
 tune_comps(option = 'MI', niters_tuning = 3, 
            dir = file.path(sens_loc,'07-MacIan-weight'),
            #extras = '-nohess',
            exe = exe_loc)
+r4ss::run(dir = file.path(sens_loc,'07-MacIan-weight'),
+          exe = exe_loc,
+          #extras = "-no hess",
+          verbose = TRUE,
+)
 
 # 08-2019-age-error
 sensi_mod <- base_model

@@ -826,7 +826,113 @@ par_table |>
 
 ::: 
 
- {{< pagebreak >}} 
+ \pagebreak
+
+::: {.landscape}
+
+```{r, results = "asis"}
+#| label: tbl-sens-1
+#| warning: false
+#| echo: false
+#| tbl-cap: "Maximum likelihood estimates for select parameters, derived quantities, reference points, and negative log likelihoods for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel survey (Tri), or the Northwest Fisheries Science Center Slope survey (NWFSC_Slope). Additionally, estimates for the removal of the environmental-based recruitment index (Env_Index) are shown."
+#| tbl-pos: H
+
+read.csv(here::here("report", "rda", "sens_1_model_para_comp.csv")) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:6,
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+:::
+
+\pagebreak
+
+::: {.landscape}
+
+```{r, results = "asis"}
+#| label: tbl-sens-2
+#| warning: false
+#| echo: false
+#| tbl-cap: "Maximum likelihood estimates for select parameters, derived quantities, reference points, and negative log likelihoods for the base model and alternative sensitivity runs representing the use of the McAllister-Ianelli harmonic mean method for weighting composition data, the specifiation of asymptotic selectivity for all NWFSC surveys, and using the ageing error vector applied in the 2019 stock assessment."
+#| tbl-pos: H
+
+read.csv(here::here("report", "rda", "sens_2_model_para_comp.csv")) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:5,
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+:::
+
+\pagebreak
+
+::: {.landscape}
+
+```{r, results = "asis"}
+#| label: tbl-sens-3
+#| warning: false
+#| echo: false
+#| tbl-cap: "Maximum likelihood estimates for select parameters, derived quantities, reference points, and negative log likelihoods for the base model and alternative sensitivity runs representing the estimation of growth (rather than using an empircal weight-at-age approach for growth as in the base model), the estimation of sex-specific natural mortality (*M*), and fixing *M* at the value used in the assessment of Sablefish in Alaska, adjusted upwards to offset potential net emigration to Canada, or set to sex-specific values used in the 2019 U.S. West coast assessment of Sablefish."
+#| tbl-pos: H
+
+read.csv(here::here("report", "rda", "sens_3_model_para_comp.csv")) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:7,
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+:::
+
+\pagebreak
+
+::: {.landscape}
+
+```{r, results = "asis"}
+#| label: tbl-sens-4
+#| warning: false
+#| echo: false
+#| tbl-cap: "Maximum likelihood estimates for select parameters, derived quantities, reference points, and negative log likelihoods for the base model and alternative sensitivity runs representing the estimaton of steepness (*h*), imposing the restriction that recruitment deviations in the main recruitment period must sum to zero, and estimating early (1890-1974) recruitment deviations with the sum to zero constraint imposed."
+#| tbl-pos: H
+
+read.csv(here::here("report", "rda", "sens_4_model_para_comp.csv")) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:5,
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+:::
  
  
 ## Management 
@@ -944,97 +1050,3 @@ projections_table |>
 ```
 
 :::
-
-\pagebreak
-
-```{r, results = "asis"}
-#| label: tbl-sens-1
-#| warning: false
-#| echo: false
-#| tbl-cap: "Maximum likelihood estimates for select parameters, derived quantities, reference points, and negative log likelihoods for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel survey (Tri), or the Northwest Fisheries Science Center Slope survey (NWFSC_Slope). Additionally, estimates for the removal of the environmental-based recruitment index (Env_Index) are shown."
-#| tbl-pos: H
-
-read.csv(here::here("report", "rda", "sens_1_model_para_comp.csv")) |>
-  gt::gt() |>
-  gt::fmt_number(
-    columns = 2:6,
-    decimals = 3
-  ) |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE
-  ) |>
-  gt::as_latex()
-
-```
-
-\pagebreak
-
-```{r, results = "asis"}
-#| label: tbl-sens-2
-#| warning: false
-#| echo: false
-#| tbl-cap: "Maximum likelihood estimates for select parameters, derived quantities, reference points, and negative log likelihoods for the base model and alternative sensitivity runs representing the use of the McAllister-Ianelli harmonic mean method for weighting composition data, the specifiation of asymptotic selectivity for all NWFSC surveys, and using the ageing error vector applied in the 2019 stock assessment."
-#| tbl-pos: H
-
-read.csv(here::here("report", "rda", "sens_2_model_para_comp.csv")) |>
-  gt::gt() |>
-  gt::fmt_number(
-    columns = 2:5,
-    decimals = 3
-  ) |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE
-  ) |>
-  gt::as_latex()
-
-```
-
-\pagebreak
-
-```{r, results = "asis"}
-#| label: tbl-sens-3
-#| warning: false
-#| echo: false
-#| tbl-cap: "Maximum likelihood estimates for select parameters, derived quantities, reference points, and negative log likelihoods for the base model and alternative sensitivity runs representing the estimation of growth (rather than using an empircal weight-at-age approach for growth as in the base model), the estimation of sex-specific natural mortality (*M*), and fixing *M* at the value used in the assessment of Sablefish in Alaska, adjusted upwards to offset potential net emigration to Canada, or set to sex-specific values used in the 2019 U.S. West coast assessment of Sablefish."
-#| tbl-pos: H
-
-read.csv(here::here("report", "rda", "sens_3_model_para_comp.csv")) |>
-  gt::gt() |>
-  gt::fmt_number(
-    columns = 2:7,
-    decimals = 3
-  ) |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE
-  ) |>
-  gt::as_latex()
-
-```
-
-\pagebreak
-
-```{r, results = "asis"}
-#| label: tbl-sens-4
-#| warning: false
-#| echo: false
-#| tbl-cap: "Maximum likelihood estimates for select parameters, derived quantities, reference points, and negative log likelihoods for the base model and alternative sensitivity runs representing the estimaton of steepness (*h*), imposing the restriction that recruitment deviations in the main recruitment period must sum to zero, and estimating early (1890-1974) recruitment deviations with the sum to zero constraint imposed."
-#| tbl-pos: H
-
-read.csv(here::here("report", "rda", "sens_4_model_para_comp.csv")) |>
-  gt::gt() |>
-  gt::fmt_number(
-    columns = 2:5,
-    decimals = 3
-  ) |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE
-  ) |>
-  gt::as_latex()
-
-```
-
-

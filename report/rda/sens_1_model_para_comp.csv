@@ -1,4 +1,4 @@
-,Base Model,Remove WCGBT,Remove Tri,Remove NWFSC_Slope,Remove Env_Index
+Metric,Base Model,Remove WCGBT,Remove Triennial,Remove NWFSC Slope,Remove Recruitment Index
 Total Likelihood,1335.77,1129.35,1255.43,1301.42,1334.52
 Survey Likelihood,-43.5121,-18.4328,-29.6273,-37.5363,-44.7743
 Length Likelihood,0,0,0,0,0
