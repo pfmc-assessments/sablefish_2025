@@ -780,6 +780,72 @@ knitr::include_graphics(
 
 
 ```{r} 
+#| label: fig-weight-at-age-female
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Female weight-at-age by year."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "bio5_weightatsize.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-external-growth
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated length-at-age coastwide and by area for females (solid lines) and males (dashed lines) north and south of 36 degrees North latitude."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  here::here("report", "figures", "external_growth.png")
+)
+
+```
+
+```{r} 
+#| label: fig-external-growth-lat
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Latitudinal variation in sex-specific von Bertalanffy growth parameters (t0: length at age 0, k: growth coefficient, L∞: asymptotic length). Dashed horizontal line denotes 36.0° N. latitude. Predicted using the NWFSC West Coast Groundfish Bottom Trawl survey data between 2003 and 2024. The darker color represents females and the lighter color represents males."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  here::here("report", "figures", "external_growth_lat.png")
+)
+
+```
+
+```{r} 
+#| label: fig-weight-at-age-male
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Male weight-at-age by year."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "bio5_weightatsize2.png")
+)
+
+```
+
+
+```{r} 
 #| label: fig-maturity-data
 #| echo: false 
 #| warning: false 
@@ -826,6 +892,23 @@ ggplot2::ggplot(spatial_maturity, ggplot2::aes(x = age, y = p, color = Model)) +
 ```
 
 \newpage
+
+
+```{r} 
+#| label: fig-fecundity-maturity
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Spawning output at age based upon maturity and fecundity."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "bio6_maturity.png")
+)
+
+```
 
 
 ```{r} 
@@ -903,56 +986,57 @@ knitr::include_graphics(
 ![Comparison of estimated fraction unfished when the model structure is revised.](figures/6_structure_compare4_Bratio_uncertainty.png){#fig-structure-bridge-depl-6 height=3in fig-alt=""}
 
 
-## Biology
-
+## Paramters
 
 ```{r} 
-#| label: fig-weight-at-age-female
+#| label: fig-recruits
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Female weight-at-age by year."
+#| fig-cap: "Estimated time series of age-0 recruits for the base model."
 #| fig-alt: ""
 #| fig-pos: H
-#| fig-height: 4
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "bio5_weightatsize.png")
+  file.path(model_dir, "plots", "ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png")
 )
 
 ```
 
+\pagebreak
+
+
 ```{r} 
-#| label: fig-weight-at-age-male
+#| label: fig-recdevs
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Male weight-at-age by year."
+#| fig-cap: "Estimated time series of recruitment deviations for the base model."
 #| fig-alt: ""
 #| fig-pos: H
-#| fig-height: 4
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "bio5_weightatsize2.png")
+  file.path(model_dir, "plots", "recdevs2_withbars.png")
 )
 
 ```
 
+
 ```{r} 
-#| label: fig-fecundity-maturity
+#| label: fig-biasramp
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Spawning output at age based upon maturity and fecundity."
+#| fig-cap: "Bias adjustment applied to the recruitment deviations (red line). Points are transformed variances relative to the assumed variance of recruitment."
 #| fig-alt: ""
 #| fig-pos: H
-#| fig-height: 4
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "bio6_maturity.png")
+  file.path(model_dir, "plots", "recruit_fit_bias_adjust.png")
 )
 
 ```
+
 
 
 ## Selectivity
@@ -1434,6 +1518,20 @@ knitr::include_graphics(
 
 ```
 
+```{r} 
+#| label: fig-summary-biomass
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated time series of summary biomass for age 3 and olde for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "ts4_Summary_biomass_(t).png")
+)
+
+```
 
 ```{r} 
 #| label: fig-total-biomass
@@ -1446,57 +1544,6 @@ knitr::include_graphics(
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "ts1_Total_biomass_(t).png")
-)
-
-```
-
-
-```{r} 
-#| label: fig-recruits
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Estimated time series of age-0 recruits for the base model."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  file.path(model_dir, "plots", "ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png")
-)
-
-```
-
-\pagebreak
-
-
-```{r} 
-#| label: fig-recdevs
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Estimated time series of recruitment deviations for the base model."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  file.path(model_dir, "plots", "recdevs2_withbars.png")
-)
-
-```
-
-
-
-```{r} 
-#| label: fig-biasramp
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Bias adjustment applied to the recruitment deviations (red line). Points are transformed variances relative to the assumed variance of recruitment."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  file.path(model_dir, "plots", "recruit_fit_bias_adjust.png")
 )
 
 ```

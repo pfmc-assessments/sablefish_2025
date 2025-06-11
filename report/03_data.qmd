@@ -202,6 +202,8 @@ Range-wide investigations of `r spp` growth suggest that growth varies across th
 
 Female `r spp` generally reach larger sizes compared to males. For example, the  female `r spp` the upper 95 percent confidence interval of all observed lengths from the \gls{s-wcgbt} is 70 cm compared to 62 cm for males. However, the size at age for the oldest `r spp` is quite variable leading to uncertainty in the estimated maximum size for both females and males across assessments depending upon the data used to inform estimates. 
 
+@fig-external-growth and @fig-external-growth-lat
+
 ### Weight-at-Age {#watage}
 
 A matrix of empirically derived population weight-at-age data by year is used in the current assessment model to translate numbers-at-age to biomass-at-age. Annual weight-at-age data was modeled from biological samples from the \gls{s-wcgbt} between 2003 -- 2024. Weight-at-age from fishery samples were not included because weight is not reported for samples in California and available for very limited samples in Washington.  
