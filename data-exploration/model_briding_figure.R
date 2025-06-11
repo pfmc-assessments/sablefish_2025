@@ -21,15 +21,16 @@ ageing_error <- SS_output(here::here("model", "_bridging", "14_ageing_error"))
 # Structure
 main_rec_devs <- SS_output(here::here("model", "_bridging", "15_rec_devs_main"))
 early_rec_devs <- SS_output(here::here("model", "_bridging", "16_no_early_devs"))
+
 remove_afsc_slope <- SS_output(here::here("model", "_bridging", "17_afsc_slope"))
-single_m <- SS_output(here::here("model", "_bridging", "18_single_m"))
-foreign_fleets_age_ret <- SS_output(here::here("model", "_retention_model", "_growth", "21.3_input_n_mirror_selex_only"))
-split_triennial_age_ret <- SS_output(here::here("model", "_retention_model", "_growth", "21.4_split_tri"))
-fix_wcgbt_selex <- SS_output(here::here("model", "_retention_model", "_growth", "21.5_wcgbt_selex"))
-adjust_selex_blocks <- SS_output(here::here("model", "_retention_model", "_growth", "22.0_revised_fleet_structure"))
-discard_fleets <- SS_output(here::here("model", "_discard_fleets", "growth", "9.19_no_extra_sd"))
-steepness <- SS_output(here::here("model", "_discard_fleets", "growth", "9.19_no_extra_sd_steepness=0.70")) # the steepness run has sex-specific M values
-watage <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_data_weight")) 
+foreign_fleets_age_ret <- SS_output(here::here("model", "_retention_model", "_growth", "21.3_input_n_mirror_selex_only_two_m"))
+split_triennial_age_ret <- SS_output(here::here("model", "_retention_model", "_growth", "21.4_split_tri_two_m"))
+fix_wcgbt_selex <- SS_output(here::here("model", "_retention_model", "_growth", "21.4_split_tri_two_m_wcgbt_selex"))
+
+discard_fleets <- SS_output(here::here("model", "_discard_fleets", "growth", "9.19_no_extra_sd_two_m_h_0.70"))
+watage <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_data_weight_two_m_h_0.70")) 
+single_m <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_data_weight_single_m_h_0.70")) 
+steepness <- SS_output(here::here("model", "_discard_fleets", "watage", "8.33_data_weight")) 
 add_enviro <- SS_output(here::here("model", "_discard_fleets", "watage", "8.34_fix_additional_selex_param")) 
 rec_option_2 <- SS_output(here::here("model", "_discard_fleets", "watage", "8.36_base_model")) 
 
@@ -156,13 +157,13 @@ SSplotComparisons(mysummary,
 modelnames <- c(
   "Adj. Main Period and No Early Rec. Devs.", 
   "Remove AFSC Slope Survey",
-  "Female & Male Natural Mortality Equal",
-  "Add Foreign Fleets with Age-Based Retention")
+  "Add Foreign Fleets, Age-Based Retention",
+  "Split Triennial Survey")
 mysummary <- SSsummarize(list(
   early_rec_devs,
   remove_afsc_slope,
-  single_m,
-  foreign_fleets_age_ret))
+  foreign_fleets_age_ret,
+  split_triennial_age_ret))
 SSplotComparisons(mysummary,
                   filenameprefix = "4_structure_",
                   subplots = 18,
@@ -184,15 +185,13 @@ SSplotComparisons(mysummary,
                   print = TRUE)
 
 modelnames <- c(
-  "Foreign Fleets with Age-Based Retention",
   "Split Triennial Survey",
   "Revise WCGBT Selectivity",
-  "Adjust Fishery Selectivity Blocks")
+  "Discard Fleets")
 mysummary <- SSsummarize(list(
-  foreign_fleets_age_ret,
   split_triennial_age_ret,
   fix_wcgbt_selex,
-  adjust_selex_blocks))
+  discard_fleets))
 SSplotComparisons(mysummary,
                   filenameprefix = "5_structure_",
                   subplots = 18,
@@ -214,22 +213,20 @@ SSplotComparisons(mysummary,
                   print = TRUE)
 
 modelnames <- c(
-  "Adjust Selectivity Blocks",
-  "Add Discard Fleets",
-  "Steepness = 0.75",
+  "Discard Fleets",
   "Add Weight-at-Age",
-  "Add Environmental Index",
-  "Simple Rec. Deviations")
+  "Single M",
+  "Steepness = 0.75",
+  "Rec. Index, Simple Rec. Dev.")
 mysummary <- SSsummarize(list(
-  adjust_selex_blocks,
   discard_fleets,
-  steepness,
   watage,
-  add_enviro,
+  single_m,
+  steepness,
   rec_option_2))
 SSplotComparisons(mysummary,
                   filenameprefix = "6_structure_",
-                  subplots = 19,
+                  subplots = 18,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
