@@ -1,2 +1,0 @@
-//PKG_CPPFLAGS = -DTMBAD_FRAMEWORK
-PKG_CPPFLAGS = -Wno-ignored-attributes
