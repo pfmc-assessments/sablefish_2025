@@ -227,7 +227,48 @@ The large majority of aged `r spp` used in the assessment were aged by the \gls{
 
 ## Environmental/Ecosystem Indicator Data
 
-NEED TO GET THE UPDATED FIGURES FROM NICK
-@fig-rec-index-pred
-@fig-rec-index
-<!-- Describe the environmental/ecosystem indicator data. If none are considered, include a blanket statement. -->
+Linear models were used to examine relationships between recruitment deviations in log-space from the 2023 assessment of sablefish and predictors from the GLOYRS model output. The period from 1993 -- 2019 as training data, leaving 2020 -- 2024 as out-of-sample for use in base model. All combinations of the GLORYS predictors were fit, excluding correlated variables from the same model, and limiting the the total number of predictors in any model to three (just over 8 data points per predictor). Model selection was carried out using the `dredge` function in the `MuMIn` package in `R` [@R-base; @MuMIn-cite]. Candidate models were evaluated based on their $\Delta$AICc and number of predictors.
+
+Five models had $\Delta$AICc values $\le$ 2.0 (@tbl-rec-index-aic). All models included cross-shelf transport during pelagic juvenile (CSTpjuv), and benthic juvenile (CSTbjuv) stages. Model 3 was chosen as the best-fit because it had the fewest predictors (2), and these two predictors were in all top-five models providing consistency. The best-fit model explained 37 percent of the variation in recruitment deviations from 1993 -- 2022 (r^2^ = 0.37, @tbl-rec-index-aic, @fig-glorys-fit). The model tracked the data well with most recruitment deviations falling with $\pm$ 1.0 standard error of the recruitment index (@fig-glorys-fit).
+
+The remaining four models included either Tspawn, DDpre, CSTegg, or CSTyolk as predictors. Thse results suggest that different additional terms migh help explain variance in different years, but that CSTpjuv and CSTbjuv provide a consistent basis for prediction. Including an additional factor like Tpre would increase the explained variance by \~ 10 percent points (r^2^ = 0.47).
+
+For all models recruitment was negatively correlated with CSTpjuv suggesting that processes like upwelling may be important for producing feeding conditions conducive to survival. CSTbjuv was positively correlated with recruitment, which may indicate that onshore transport during the shift to benthic habitat leads to better recruitment. Both the ROMS analysis and the results here suggest that colder water during the female preconditioning stage (negative correlation with DDpre, here model 2) results in higher recruitment (@fig-glorys-terms).
+
+The projected recruitment index points are shown in @fig-glorys-pred and with uncertainty in @fig-rec-index. See Section \ref{rec-appendix} for additional details.
+
+```{r}
+#| label: tbl-rec-index-aic
+#| warning: false
+#| echo: false
+#| tbl-cap: "Results of model fitting showing estimated coefficients for models with delta AIC </= 2.0. CST = cross-shelf transport, DD = degree days, T = temperature, yolk = yolksack stage, pjuv = pelagic juvenile, and bjuv = benthic juvenile stage."
+#| tbl-pos: H
+
+df = data.frame(read.csv(here::here("report", "rda", "Table_dredge-aic-delta4.csv"), header = T))
+df = df |> dplyr::filter(delta <= 2)
+df = round(df,2)
+csums = colSums(df, na.rm = TRUE)
+csums = csums[csums!=0]
+df = df[,names(csums)]
+Model = paste('Model' , 1:nrow(df))
+df = cbind(Model,df)
+df = df |> dplyr::rename(Intercept = X.Intercept.)
+df[is.na(df)] <- ""
+r2 = df[3,'R2']
+
+gt::gt(df) |>
+  gt::tab_options(
+    table.font.size = 10,
+    latex.use_longtable = TRUE) |>
+  gt::cols_hide(c("weight","logLik","F") )
+
+```
+
+
+![Model fit to the data and model testing results. Black line is the model prediction $\pm$ 1.0 standard error (dotted lines). While points are the ln recruitment deviations from the stock assessment model. Yellow points are from jackknife analysis leaving out one year and refitting the model, and red points fit the best-fit model to 1993-2014 then predict 2015-2019.](figures/gloyrs_figure_3.png){#fig-glorys-fit}
+
+![Partial residual plots of GLORYS predictors. CST = cross-shelf transport, T = temperature, spawn = spaning stage, pjuv = pelagic juvenile, and bjuv = benthic juvenile stage.](figures/gloyrs_figure_4.png){#fig-glorys-terms}
+
+![Partial residual plots of GLORYS predictors. CST = cross-shelf transport, T = temperature, spawn = spaning stage, pjuv = pelagic juvenile, and bjuv = benthic juvenile stage.](figures/gloyrs-predicted-recruitment-index.png){#fig-glorys-pred}
+
+

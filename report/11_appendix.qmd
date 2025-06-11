@@ -1,6 +1,5 @@
 # Appendices {#sec-appendix}
 
-## Fournier Transform Near Infrared Spectroscopy Age Data
+## Recruitment Index {#rec-appendix}
 
-
-
+\includepdf{Appendix-GLORYS-index-development.pdf}
