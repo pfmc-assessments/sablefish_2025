@@ -326,10 +326,11 @@ find <- grep("LnQ_base", model_output$parameters$Label)
 q <- model_output$parameters[find, ] |>
   dplyr::select(Label, Value) 
 rownames(q) <- NULL
-q[, "Value"] <- exp(q[, "Value"])
+q[, "Value"] <- round(exp(q[, "Value"]), 2)
 find <- grep("Q_extraSD", model_output$parameters$Label)
 survey_add_sd <- model_output$parameters[find, ] |>
-  dplyr::select(Label, Value) 
+  dplyr::select(Label, Value) |>
+  dplyr::mutate(Value = round(Value, 2))
 rownames(survey_add_sd) <- NULL
 
 ofl_sigma <- round(model_output$OFL_sigma, 2)
@@ -355,7 +356,7 @@ maturity_data <- maturity_data  |>
   dplyr::mutate(
     Area = dplyr::case_when(latitude >= 36 ~ "North", .default = "South")
   )
-# load the previous model ouptut
+# load the previous model output
 load(here::here("data", "model_output_2023.rda"))
 
 ctl_file <- r4ss::SS_readctl(file = file.path(model_dir, "control.ss_new"))
