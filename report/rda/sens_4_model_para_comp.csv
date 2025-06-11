@@ -1,0 +1,16 @@
+,Base Model,Estimate Steepness,RecDevs Sum To Zero,Estimate Early RecDevs (sum 0)
+Total Likelihood,1335.77,1335.72,1335.78,1329.43
+Survey Likelihood,-43.5121,-43.5124,-43.5315,-43.3729
+Length Likelihood,0,0,0,0
+Age Likelihood,1341.49,1341.53,1341.47,1331.58
+Recruitment Likelihood,37.5202,37.5253,37.5574,41.0435
+Forecast Recruitment Likelihood,0.0655676,0.0620505,0.0646411,0.0698629
+Parameter Priors Likelihood,0.204069,0.111517,0.211152,0.114154
+log(R0),10.1651,10.144,10.1766,10.0939
+SB Virgin,219377,216706,220703,221301
+SB 2025,74408.8,74101.1,74585,71435.4
+Fraction Unfished 2025,0.339182,0.341943,0.337943,0.322798
+Total Yield - SPR 45,11126.2,11269.6,11233.5,10645.6
+Steepness,0.75,0.796685,0.75,0.75
+Natural Mortality - Female,0.087777,0.0872957,0.0880766,0.0835024
+Natural Mortality - Male,0.087777,0.0872957,0.0880766,0.0835024

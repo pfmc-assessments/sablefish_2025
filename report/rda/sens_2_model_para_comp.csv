@@ -1,0 +1,16 @@
+,Base Model,Mac-Ianelli Weighting,NW_Surveys Asymtotic Selectivity,Ageing Error 2019 Assessment
+Total Likelihood,1335.77,1335.77,1332.83,1480.56
+Survey Likelihood,-43.5121,-43.5121,-43.2858,-44.4344
+Length Likelihood,0,0,0,0
+Age Likelihood,1341.49,1341.49,1338.5,1479.05
+Recruitment Likelihood,37.5202,37.5202,37.4098,45.7973
+Forecast Recruitment Likelihood,0.0655676,0.0655676,0.0186183,0.00426524
+Parameter Priors Likelihood,0.204069,0.204069,0.18927,0.140332
+log(R0),10.1651,10.1651,10.1451,10.0512
+SB Virgin,219377,219377,217574,206673
+SB 2025,74408.8,74408.8,74264.5,70571.6
+Fraction Unfished 2025,0.339182,0.339182,0.34133,0.341464
+Total Yield - SPR 45,11126.2,11126.2,10949.7,10114.8
+Steepness,0.75,0.75,0.75,0.75
+Natural Mortality - Female,0.087777,0.087777,0.0871371,0.0848584
+Natural Mortality - Male,0.087777,0.087777,0.0871371,0.0848584

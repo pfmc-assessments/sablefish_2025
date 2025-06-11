@@ -16,15 +16,15 @@ create_comparison_table <- function(
   x <- model_summary
   ii <- 1:length(model_names)
   n <- length(model_names)
-  param <- matrix(NA, 27, max(ii))
+  param <- matrix(NA, 25, max(ii))
 
   param <-  rbind(
     as.numeric(x$likelihoods[x$likelihoods$Label == "TOTAL",1:n]), 
     as.numeric(x$likelihoods[x$likelihoods$Label == "Survey",1:n]), 
     as.numeric(x$likelihoods[x$likelihoods$Label == "Length_comp",1:n]),
     as.numeric(x$likelihoods[x$likelihoods$Label == "Age_comp",1:n]), 
-    as.numeric(x$likelihoods[x$likelihoods$Label == "Discard",1:n]), 
-    as.numeric(x$likelihoods[x$likelihoods$Label == "Mean_body_wt", 1:n]), 
+    #as.numeric(x$likelihoods[x$likelihoods$Label == "Discard",1:n]), 
+    #as.numeric(x$likelihoods[x$likelihoods$Label == "Mean_body_wt", 1:n]), 
     as.numeric(x$likelihoods[x$likelihoods$Label == "Recruitment",1:n]), 
     as.numeric(x$likelihoods[x$likelihoods$Label == "Forecast_Recruitment",1:n]),
     as.numeric(x$likelihoods[x$likelihoods$Label == "Parm_priors",1:n]),
@@ -38,14 +38,14 @@ create_comparison_table <- function(
     as.numeric(x$pars[x$pars$Label == "L_at_Amin_Fem_GP_1", 1:n]),
     as.numeric(x$pars[x$pars$Label == "L_at_Amax_Fem_GP_1", 1:n]),
     as.numeric(x$pars[x$pars$Label == "VonBert_K_Fem_GP_1", 1:n]),
-    as.numeric(x$pars[x$pars$Label == "CV_young_Fem_GP_1", 1:n]),
-    as.numeric(x$pars[x$pars$Label == "CV_old_Fem_GP_1", 1:n]),
+    as.numeric(x$pars[x$pars$Label == "lnSD_young_Fem_GP_1", 1:n]),
+    as.numeric(x$pars[x$pars$Label == "LnSD_old_Fem_GP_1", 1:n]),
     as.numeric(x$pars[x$pars$Label == "NatM_uniform_Mal_GP_1", 1:n]),
     as.numeric(x$pars[x$pars$Label == "L_at_Amin_Mal_GP_1", 1:n]),
     as.numeric(x$pars[x$pars$Label == "L_at_Amax_Mal_GP_1", 1:n]),
     as.numeric(x$pars[x$pars$Label == "VonBert_K_Mal_GP_1", 1:n]),
-    as.numeric(x$pars[x$pars$Label == "CV_young_Mal_GP_1", 1:n]),
-    as.numeric(x$pars[x$pars$Label == "CV_old_Mal_GP_1", 1:n]) 
+    as.numeric(x$pars[x$pars$Label == "lnSD_young_Mal_GP_1", 1:n]),
+    as.numeric(x$pars[x$pars$Label == "LnSD_old_Mal_GP_1", 1:n]) 
   )  
 
   param <- as.data.frame(param)
@@ -54,8 +54,8 @@ create_comparison_table <- function(
                     "Survey Likelihood",
                     "Length Likelihood",
                     "Age Likelihood",
-                    "Discard Likelihood",
-                    "Body Weight Likelihood",
+                    #"Discard Likelihood",
+                    #"Body Weight Likelihood",
                     "Recruitment Likelihood",
                     "Forecast Recruitment Likelihood",
                     "Parameter Priors Likelihood",
@@ -83,5 +83,8 @@ create_comparison_table <- function(
   param_table$cap <- "Sensitivities relative to the base model."
   save(param,
        file = file.path(dir, paste0(add_name, "_model_para_comp.rda"))
-  )
+    )
+  write.csv(param,
+       file = file.path(dir, paste0(add_name, "_model_para_comp.csv"))
+    )
 }
