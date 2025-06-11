@@ -259,6 +259,9 @@ a <- knitr::knit_child(here::here("report", "shared_text", "harvest_control_rule
 cat(a, sep = '\n')
 ```
 
+The estimated `r end_year` spawning biomass relative to unfished equilibrium spawning output is `r depl_final`, is below the management target of 40 percent of unfished spawning output. The fishing intensity is estimated to be below the current management harvest rate limit ($\text{SPR}_{45\%}$) at the end of the time series but is estimated to have been above between the 1970s to the late-2010s (@fig-es-spr). The interaction between the relative spawning output and the ratio of the estimated \gls{spr} to the management target ($\text{SPR}_{45\%}$) indicates that the stock is in the lower quadrent indicating that the overfishing is not occurring and that relative spawning output is below the management targets (@fig-es-spr-phase). The current estimate of fraction unfished is larger than the \gls{msy}, below the \gls{spr} target and relative target biomass reference points (@fig-es-yield) based on $h$ of `r h`.
+
+Reference points were calculated using the estimated selectivities and catch distributions among fleets in the most recent year of the model, `r end_year` (@tbl-ref-points-es). The estimated sustainable total yield inclusive of both landings and discards was `r catch_spr` mt according to $\text{SPR}_{45\%}$. The spawning output equivalent to 40 percent of unfished spawning biomass ($\text{SB}_{40\%}$) calculated using the SPR target, ($\text{SPR}_{45\%}$), was `r sb_spr` mt.
 
 ```{r, results = "asis"}
 #| label: tbl-ref-points-es
@@ -301,6 +304,7 @@ reference_points_table |>
 
 ```
 
+
 ```{r} 
 #| label: fig-es-spr-phase
 #| echo: false 
@@ -315,7 +319,6 @@ knitr::include_graphics(
 )
 
 ```
-
 
 
 ```{r} 
