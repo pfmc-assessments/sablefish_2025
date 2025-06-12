@@ -21,8 +21,7 @@ The time series of estimated recruitments and annual recruitment deviations are 
 
 The fit to the survey indices are shown in @fig-index-fit-early-triennial -- @fig-index-fit-wcgbt. The model fit the early period for the \gls{s-tri} well.  The late period for the \gls{s-tri} had an increasing trend in the index that the model generally fit, although additional survey variability was estimated in order to fit the 1998 and 2001 data. The model fit the trend between 1999 -- 2001, but estimated a higher vulnerable biomass in 1998 and lower in 2002 relative to the index for the \gls{s-nslope}. The model fit the trend in the \gls{s-wcgbt} index for most years, but the model trend was outside the uncertainty interval for the 2019 and 2022 data points. The fit to the recruitment index generally followed the trend in the data points (@fig-index-fit-enviro). 
 
-
-@fig-aggregate-age-fit
+Fits to the age data are shown based on the proportions of age observed across all years and the Pearson residuals-at-age for all fleets. Age composition aggregated fits by fleet are reasonably well fit and are shown in @fig-aggregate-age-fit. 
 
 @fig-pearson-trawl
 @fig-mean-age-trawl
@@ -38,12 +37,12 @@ The fit to the survey indices are shown in @fig-index-fit-early-triennial -- @fi
 @fig-pearson-pot-discards
 @fig-mean-age-pot-discards
 
-@fig-pearson-tri-early
-@fig-mean-age-tri-early
-@fig-pearson-tri-late
-@fig-mean-age-tri-late
-@fig-pearson-nwfsc-slope
-@fig-mean-age-nwfsc-slope
+For the \gls{s-tri}, in 1983 and 1989 there was a slight overfitting for females and underfitting of males and a generall good fit in 1992 (@fig-pearson-tri-early). The model fit the mean age for 1983, 1986, and 1992 which was generally flat over the survey period (@fig-mean-age-tri-early). For the late period of the \gls{s-tri}, in 1995 there were more older ages observed that where the observations were greater than expected compared compared to 2004 (@fig-pearson-tri-late). The base model predicted a drop in mean age for this survey between 1995 and 2004 which matched the trend for mean age in the data (@fig-mean-age-tri-late). The model fit the age data from the \gls{s-nslope} with no clear patter in residuals across years (@fig-pearson-nwfsc-slope). The model predicted a larger drop in the mean age between 2001 and 2002 which was not observed in the data from this survey (@fig-mean-age-nwfsc-slope).  
+
+
+
+
+
 @fig-pearson-wcgbt
 @fig-mean-age-wcgbt
 
