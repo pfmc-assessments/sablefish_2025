@@ -4,7 +4,7 @@ A description of each data source used in this assessment (@fig-data) is provide
 
 ## Fishery-Dependent data
 
-### Landings
+### Landings {#landings}
 
 Landings for `r spp` were composed various historical landings reconstructions, historical foreign fishery catch data, landings data extracted from Pacific Fisheries Information Network (PacFIN, extracted February, 25, 2025),  Pacific hake at-sea fishery catch estimates (provided by Vanessa Tuttle, NWFSC), and landings data extracted from Recreational Fisheries Information Network (RecFIN, extracted February, 28, 2025). The landings used in this assessment are shown in @fig-landings and @tbl-landings. 
 
@@ -91,7 +91,7 @@ Distribution Modeling platform written in Template Model Builder (TMB) (`sdmTMB`
 Length and age data are collected by the samples \gls{s-wcgbt}. The length data were not used in this assessment and the age data were processed into age data bins between 0 and 50 years. The marginal age compositions were expanded to the tow level and strata level (@tbl-wcgbt-strata).  Input sample size for the marginal age composition were calculated using a multiplier (e.g., 2.38) by on the number of positive tows with age samples (@tbl-wcgbt-samples) based upon research by @stewart_bootstrapping_2014. The ages aggregated over all years are shown in @fig-data-agg-ages and by year in @fig-data-wcgbt. The mean age by year with 95 percent confidence intervals based on current sample sizes is shown in @fig-data-wcgbt-mean-age. The data include observations of sablefish ranging from 0 -- 91 years of age. The majority of unsexed fish in these data are age 0 fish where sex cannot often be reliably determined.  
 
 
-### NWFSC Slope Survey
+### NWFSC Slope Survey {#nslope-data}
 
 The \gls{s-nslope} covered waters throughout the summer from 183 m to 1,280
 m north of 34$^\circ$ 30$^\prime$ N. latitude, which is near Point Conception, from 1999 and 2002. The
@@ -112,7 +112,7 @@ sdmTMB was used in a similar fashion to that specified for fitting the \gls{s-ns
 @fig-data-nwfsc-slope-mean-age
 
 
-### AFSC/NWFSC West Coast Triennial Shelf Survey
+### AFSC/NWFSC West Coast Triennial Shelf Survey {#tri-data}
 
 The \gls{s-tri} was first conducted by the AFSC in 1977, and the survey continued
 until 2004 [@weinberg_estimation_2002]. Its basic design was a series of equally-spaced east-to-west
@@ -175,7 +175,7 @@ groundfish stock assessments.
 
 ## Biological Data
 
-### Natural Mortality
+### Natural Mortality {#m}
 
 
 The current method for developing a prior on natural mortality for West Coast groundfish stock assessments is based on Hamel and Cope [-@hamel_development_2022], a method for combining meta-analytic approaches relating the $M$ rate to other life-history parameters such as longevity, size, growth rate, and reproductive effort to provide a prior on $M$. This approach modifies work done by Then et al. [-@then_evaluating_2015] who estimated $M$ and related life history parameters across a large number of fish species from which to develop an $M$ estimator for fish species in general. They concluded by recommending $M$ estimates be based on maximum age alone, based on an updated Hoenig non-linear least squares estimator $M = 4.899A^{-0.916}_{\text{max}}$. Hamel and Cioe [-@hamel_development_2022] re-evaluated the data used by Then et al. [-@then_evaluating_2015] by fitting the one-parameter $A_{\text{max}}$ model under a log-log transformation (such that the slope is forced to be -1 in the transformed space [@hamel_development_2022]), the point estimate and median of the prior for $M$ is:
@@ -192,11 +192,11 @@ where $A_{\text{max}}$ is the maximum age. The prior is defined as a lognormal d
 
 The maximum age for `r spp` was selected based on available age data from all West Coast data sources. The oldest aged `r spp` was 102 years, captured by the commercial fishery in 2006, not accounting for potential ageing error. Examining all aged fish, a maximum age of 75 was selected. Across all data sources there were limited observation greater than 75 years of age. There are a higher frequency of older males compared to females observed in the data, however, females grow to larger sizes and generally have higher fishery selectivity which may bias the sex-ratio of older individuals. Using a maximum age of 75, the median of the prior was 0.72 yr$^{-1}$ with a standard error of 0.31.
 
-### Sex Ratio
+### Sex Ratio {#sex-ratio}
 
 The sex ratio observed by depth showed some patterns by sex with roughly a 50:50 ratio between sexes from 55 -- 400 m, slightly more males than males from 500 -- 1,100 m, and more females at the greatest depths (@fig-sex-ratio-wcgbt). The sex ratio (e.g., fraction female) varied by age in the \gls{s-wcgbt} data with a 50:50 ratio at younger ages and then a higher ratio of males from approximately age 10 and older (@fig-wcgbt-age-sex-ratio). The reduction in the number of females compared to males for these ages could either be due to a higher fishing pressure of female fish since they are generally larger-at-age compared to males and or due to differences in natural mortality by sex.  This assessment assumed the same natural mortality between the sexes in the base model but did explorations to allowing for sex-specific estiamtes.
 
-### Growth
+### Growth {#growth}
 
 Range-wide investigations of `r spp` growth suggest that growth varies across the northeastern Pacific, with a generally increasing cline in length-at-age with latitude [@mcdevitt1987sablefish, @echave2012fishbullinterdecadal, @gertseva2017icesjmsspatial, @kapur2020]. Break points in growth have been identified at around $50^\circ$N (approximately the northern end of Vancouver Island, Canada), where north of this breakpoint female asymptotic-length estimates were consistently over 70 cm and south of this breakpoint female asymptotic-length estimates were below 66 cm [@kapur2020]. A second break point was identified by [-kapur2020] at 36$^\circ$ N. latitude (approximately Monterey, California), where asymptotic size for females and males to the south were 60 cm and 55 cm, respectively. 
 
@@ -215,11 +215,13 @@ The biomass at the start of a given year is based on the weight-at-age from the 
 The use of empirical weight-at-age data is a convenient method to capture the variability in both the weight-at-length relationship within and among years as well as the variability in length-at-age data, without requiring parametric models to represent growth relationships. The review of the 2019 assessment of sablefish noted that there appeared to be time-varying growth and that future assessments should explore a weight-at-age approach to more accurately reflect patterns in growth variability.   
 
 
-### Maturity and Fecundity
+### Maturity and Fecundity {#mat-fecund}
 
 New maturity reads and analysis was conducted by Melissa Head (NWFSC) and Dr. Eric Ward (NWFSC) to support this assessment. A total of `r dim(maturity_data)[1]` sablefish maturity samples were collected during the annual \gls{s-wcgbt} in 2010, 2015, 2018, 2021, and 2022 @tbl-maturity-samples. The maturity samples were evaluated for functional maturity that classifies maturity with developing oocytes as mature or immature. The maturity-at-age or -length estimates were evaluated north and south of 36$^\circ$ N. latitude. Of the samples processed, sablefish were identified to be mature as early as age `r min(maturity_data[which(maturity_data$Area == "North" & maturity_data$functional_maturity == 1), "age"])` and `r min(maturity_data[which(maturity_data$Area == "South" & maturity_data$functional_maturity == 1), "age"])` in the north and south, respectively.  Generally, across samples, sablefish matured at younger ages more frequently in the north compared to the south (@fig-maturity-data). 
 
-Maturity-at-age was estimated using a spatiotemporal model that explored the impacts of temperature, temporal changes in maturity, day of year, and location. Only sample location was determined to be significant in the model with the maturity curve right shifted (e.g., less probability of being mature at age) compared to fish in the north. A coastwide maturity curve was estimated by weighting the area specific curves using a biomass weighted prediction grid from the \gls{s-wcgbt}. The assessment uses the biomass weighted maturity curve (Spatial, @fig-maturity-ogive).
+Maturity-at-age was estimated using a spatial models using age or length as a predictor.  A total of 10 spatial and spatiotemporal models were considered, but because of the sparsity of data only models with spatial effects of spatially varying coefficients (e.g. no fixed year effects of spatiotemporal fields) were considered. There was little support for including a day of year effect, so that was omitted from the models and results. The main formula for these models is `functional_maturity ~ length_scaled`, allowing maturity to vary by length. A spatial field and spatially varying effect of length (`spatial_varying ~ length_scaled`) were also included which are analogous to an spatial intercept and spatial slope, respectively; these components allow maturation rates to vary spatially but are assumed relatively constant through time. 
+
+Maturity as a function of age shows a strong spatial gradient, with lower age-at-50-percent ($a_{50}$) estimates in the north compared to the south. Maturity as a function of length shows a weaker spatial gradient, with more patchiness (several estimates of above average length-at-50-percent ($l_{50}$) in southern California). For each of the models, estimates of $a_{50}$ and $a_{50}$ were generated in two ways: coastwide and spatial split north/south of 36$^\circ$ N. latitude. A coastwide maturity curve was estimated by weighting the spatial split curves using a biomass weighted prediction grid from the \gls{s-wcgbt}. The assessment uses the biomass weighted maturity curve (Spatial, @fig-maturity-ogive).
 
 Available data suggests that `r spp` are determinate spawners (i.e., total oocytes at the beginning of the spawning season is equivalent to total annual spawning output) and spawn three to four times per year [@hunter1989; @macewicz1994]. The total number of oocytes at the beginning of the spawning season appears to be linearly proportional to weight [@hunter1989], implying that spawning output for a mature female is also proportional to weight. This assumption has been used in previous `r spp` stock assessments and is retained here in the absence of new information. Data on skipped spawning are unavailable, as are data on environmental effects or other factors that could cause fecundity to vary non-linearly with weight.
 
@@ -235,7 +237,7 @@ The large majority of aged `r spp` used in the assessment were aged by the \gls{
 @fig-age-reader
 @fig-ageing-error
 
-## Environmental/Ecosystem Indicator Data
+## Environmental/Ecosystem Indicator Data {{#rec-inde-data}}
 
 Linear models were used to examine relationships between recruitment deviations in log-space from the 2023 assessment of sablefish and predictors from the GLOYRS model output. The period from 1993 -- 2019 as training data, leaving 2020 -- 2024 as out-of-sample for use in base model. All combinations of the GLORYS predictors were fit, excluding correlated variables from the same model, and limiting the the total number of predictors in any model to three (just over 8 data points per predictor). Model selection was carried out using the `dredge` function in the `MuMIn` package in `R` [@R-base; @MuMIn-cite]. Candidate models were evaluated based on their $\Delta$AICc and number of predictors.
 

@@ -921,7 +921,7 @@ knitr::include_graphics(
 #| fig-height: 4
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "Sablefish-DataSet-1-Reader1VsReader2.png")
+  here::here("report", "figures", "Sablefish-DataSet-1-Reader1VsReader2.png")
 )
 
 ```

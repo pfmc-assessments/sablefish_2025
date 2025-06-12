@@ -180,8 +180,7 @@ The following distributions were assumed for data fitting: survey indices were l
 
 ### Estimated and Fixed Parameters
 
-There were 99 estimated parameters in the base model. These included one parameter for $R_0$ parameterized in log-space, one parameter for natural mortality, two parameters for
-extra variability for the survey indices, one parameter for catchability for the environmental index, 32 parameters for age-based selectivity and time blocking of the fishery and the surveys fleets, 50 recruitment deviations, and 12 projected recruitment deviations (@tbl-n-param). 
+There were 99 estimated parameters in the base model. These included one parameter for $R_0$ parameterized in log-space, one parameter for natural mortality, two parameters for extra variability for the survey indices, one parameter for catchability for the environmental index, 32 parameters for age-based selectivity and time blocking of the fishery and the surveys fleets, 50 recruitment deviations, and 12 projected recruitment deviations (@tbl-n-param). 
 
 Fixed parameters in the model were as follows. Steepness was fixed at `r h`. Maturity-at-age was fixed in the model and fecundity was assumed equal to body weight. Sex-specific empirical weight-at-age by year was estimated external to the model to account for growth and growth variation by year and age. The standard deviation of recruitment deviates was fixed at `r sigma_r`, the same value assumed in the last assessment.  
 
@@ -230,6 +229,7 @@ Splitting hook-and-line landings, discard, and age composition data into separat
 In summary, across the data bridging, including all available age data had the largest impact in the model estimates.  The new discard rates that incorporated an improved methodology to calculate gear-specific discard rates across fishery sectors resulted in the next most change in model estimates.  
 
 This assessment made a number of structural changes to the model. The order of major structural and data changes were:
+
 13. Move the start of the main period for estimated annual recruitment deviations from 1925 to 1975 to align with the period of available data to inform recruitment and only start estimating recruitment deviations at the start of the model (1890).
 14. Only estimate annual recruitment deviations starting in 1975 (e.g., no annual recruitment deviations between 1890 -- 1974).
 15. Remove the index of abundance and age composition data from the \gls{s-aslope}.
@@ -250,5 +250,5 @@ The next steps in the bridging process revised the selectivity for the \gls{s-wc
 
 The final bridging steps included adding time-varying empirical weight-at-age, assuming a single natural mortality value for both sexes, updating the fixed steepness value to `r h`, and adding the recruitment index with a simple deviation approach in Stock Synthesis (@fig-structure-bridge-summary-6 and @fig-structure-bridge-depl-6). Estimates of summary biomass and fraction unfished were relatively similar across models. Switching to an empirical weight-at-age approach slightly increased the estimate of summary biomass across the time series and then revising the assumption around steepness the reduced the estimates of summary biomass at the start of the time series.  The estimated fraction unfished were similar across these models.
 
-In summary, across the model structure bridging, revising the treatment of recruitment deviations (e.g., changing the defined main period) and the selectivity for the \gls{s-wcgbt} has the largest impact on model estimates. Both of these changes were considered improvements to the model structure and essential to align with modeling best practices and to improve fits to the data. A comparison of the base model to the 2023 model, and earlier assessments, is provided in Section \ref{#historical}.   
+In summary, across the model structure bridging, revising the treatment of recruitment deviations (e.g., changing the defined main period) and the selectivity for the \gls{s-wcgbt} has the largest impact on model estimates. Both of these changes were considered improvements to the model structure and essential to align with modeling best practices and to improve fits to the data. A comparison of the base model to the 2023 model, and earlier assessments, is provided in Section \ref{historical}.   
 

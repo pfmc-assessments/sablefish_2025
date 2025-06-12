@@ -4,8 +4,7 @@
 ### Convergence
 
 Proper convergence was determined by starting the minimization process from dispersed values of the maximum likelihood estimates to determine if the model found a better minimum.
-Starting parameters were jittered using the jitter function built into Stock Synthesis, using jitter input of 0.05. This was repeated 100 times with non eof the 100 runs returning to the
-base model likelihood. However, a better, lower negative log-likelihood, model fit was not found. In the jittering analysis models with similar log-likelihood values (difference < 0.50 units) were often found with little difference in overall model estimates indicating a relatively flat likelihood surface around the maximum likelihood estimate. Additionally, jitters using a smaller jitter value yielded an increased frequency of runs returning to the base model with no models finding a better fit to the data. Through the jittering done as explained and likelihood profiles, we are confident that the base model as presented represents the best fit to the data given the assumptions made. There were no difficulties in inverting the Hessian to obtain estimates of variability, although much of the early model investigation was done without attempting to estimate a Hessian.
+Starting parameters were jittered using the jitter function built into Stock Synthesis, using jitter input of 0.05. This was repeated 100 times with non eof the 100 runs returning to the base model likelihood. However, a better, lower negative log-likelihood, model fit was not found. In the jittering analysis models with similar log-likelihood values (difference < 0.50 units) were often found with little difference in overall model estimates indicating a relatively flat likelihood surface around the maximum likelihood estimate. Additionally, jitters using a smaller jitter value yielded an increased frequency of runs returning to the base model with no models finding a better fit to the data. Through the jittering done as explained and likelihood profiles, we are confident that the base model as presented represents the best fit to the data given the assumptions made. There were no difficulties in inverting the Hessian to obtain estimates of variability, although much of the early model investigation was done without attempting to estimate a Hessian.
 
 
 ### Sensitivity Analyses {#sensitivities}
@@ -42,10 +41,10 @@ In addition to growth and mortality, assumptions about `r spp` recruitment also 
 Many other data and model structure sensitivities were explored during the development and testing of the 2025 base model. In particular, changing the data weighting approach for age composition data from the Francis method to the McAllister-Ianelli method and changing the functional form of selectivity to be asymptotic (logistic) for NWFSC surveys had almost no impact on stock size and stock status (@tbl-sens-2; @fig-sens-2-bratio -- @fig-sens-2-sumB). McAllister-Ianelli data weights led to moderately different recruitment deviations, though difference were well within the range of uncertainty for the base model (@fig-sens-2-recdev). Ignoring recent age structure double read data and associated updates to ageing error analyses (i.e., use ageing error information from the 2019 stock assessment) lowered population scale, including the alteration of recruitment estimates, but did not impact relative stock status (@fig-sens-2-bratio -- @fig-sens-2-recdev).    
 
 
-### Likelihood Profiles
+### Likelihood Profiles {#profiles}
 
 
-### Retrospective Analysis
+### Retrospective Analysis {#retro}
 
 
-## Historical Analysis
+## Historical Analysis {#historical}
