@@ -1942,7 +1942,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Change in the negative log-likelihood across a range of steepness (h) values."
+#| fig-cap: "Change in the negative log-likelihood across a range of steepness (*h*) values."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1957,7 +1957,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Change in the spawning output across a range of steepness (h) values."
+#| fig-cap: "Change in the spawning output across a range of steepness (*h*) values."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1973,7 +1973,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Change in the fraction unfished across a range of steepness (h) values."
+#| fig-cap: "Change in the fraction unfished across a range of steepness (*h*) values."
 #| fig-alt: ""
 #| fig-pos: H
 
