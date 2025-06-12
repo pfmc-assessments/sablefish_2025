@@ -206,9 +206,7 @@ Female `r spp` generally reach larger sizes compared to males. For example, the 
 
 ### Weight-at-Age {#watage}
 
-A matrix of empirically derived population weight-at-age data by year is used in the current assessment model to translate numbers-at-age to biomass-at-age. Annual weight-at-age data was modeled from biological samples from the \gls{s-wcgbt} between 2003 -- 2024. Weight-at-age from fishery samples were not included because weight is not reported for samples in California and available for very limited samples in Washington.  
-
-@tbl-watage-samples
+A matrix of empirically derived population weight-at-age data by year is used in the current assessment model to translate numbers-at-age to biomass-at-age. Annual weight-at-age data was modeled from biological samples from the \gls{s-wcgbt} between 2003 -- 2024. Weight-at-age from fishery samples were not included because weight is not reported for samples in California and available for very limited samples in Washington.  The samples by year, sex, and age are shown in @tbl-watage-samples with the totals in the age 25 column reflecting the total for fish age 25 and older.
 
 A generalized linear mixed model (GLMM) with a lognormal distribution has been used to model weight-at-age data by sex and area (e.g., north and south of 36$^\circ$ N. latitude), with weight relating to a smoothed effect of age between ages zero and 30; random effects for cohort and year; and fixed effects for sex. The model was modified from the model used for Pacific hake Weights from fish ages 30 and above for each year were pooled, and thus, ages 30- 70 are assumed to have the same weight-at-age. Estimated parameters from this model, weighted by collection area, were used to predict sex-specific coastwide weight-at-age for ages zero to 30 from 2003 -- 2019 and 2021 -- 2024. The means of annual, sex and age-specific estimates were used for input into the assessment model (@fig-data-watage, @fig-weight-at-age-female, and @fig-weight-at-age-male). 
 
