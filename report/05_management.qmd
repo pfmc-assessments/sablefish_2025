@@ -30,7 +30,6 @@ a <- knitr::knit_child(here::here("report", "shared_text", "scientific_uncertain
 cat(a, sep = '\n')
 ```
 
-
 ## Harvest Projections and Decision Tables
 
 The `r end_year` assessment for `r spp` off the U.S. West Coast was assigned a category 1 determination by the \gls{ssc} to the \gls{pfmc} (UPDATE TEXT AS NECESSARY). The projection of spawning biomass, fraction unfished, and harvest limits was developed using the base model. The total catches in `r end_year` and `r end_year + 1` were set at `r fixed_catch[1]` and `r fixed_catch[2]` mt, respectively, based on recommendations from the \gls{gmt}. The \gls{abc} values were estimated using a category 1 time-varying $\sigma_y$ starting at 0.50 combined with a P$^{*}$ value of 0.45. 
@@ -46,6 +45,16 @@ The catches during the projection period, `r end_year + 2`--`r end_year + 12` we
 
 The estimated proportion of the `r data_end_year - 6`--`r data_end_year` observed biomass by the \gls{s-wcgbt} is shown in @tbl-prop-area.  
 
+## Risk Table
+
+```{r, results='asis'}
+#| label: 'risk-table'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child(here::here("report", "shared_text", "risk_table.qmd"), quiet = TRUE)
+cat(a, sep = '\n')
+```
 
 ## Unresolved Problems and Major Uncertainties
 

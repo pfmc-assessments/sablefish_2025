@@ -487,3 +487,14 @@ cat(a, sep = '\n')
 ```
 
 ## Risk Table {-}
+
+ADD RISK TABLE HERE
+
+```{r, results='asis'}
+#| label: 'risk-table'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child(here::here("report", "shared_text", "risk_table.qmd"), quiet = TRUE)
+cat(a, sep = '\n')
+```
