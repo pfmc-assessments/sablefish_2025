@@ -2034,7 +2034,20 @@ knitr::include_graphics(
 
 ## Historical Analysis
 
-ADD HISTORICAL ASSESSMENT TIME SERIES FIGURE
+```{r} 
+#| label: fig-historical-ssb
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "SSB trajectories from current and historical assessment models."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(here::here(), "report", "figures", "historical_ssb.png")
+)
+
+```
 
 
 ## Management
