@@ -145,7 +145,17 @@ SSplotComparisons(mysummary,
 
 SSplotComparisons(mysummary,
                   filenameprefix = "3_structure_",
-                  subplots = 3,
+                  subplots = 4,
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("report", "figures"),
+                  ylimAdj = 1.25,
+                  print = TRUE)
+
+SSplotComparisons(mysummary,
+                  filenameprefix = "3_structure_",
+                  subplots = 11,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
