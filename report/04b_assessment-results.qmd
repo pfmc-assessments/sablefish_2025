@@ -1,8 +1,11 @@
 ## Modeling Results
 
-The base model parameter estimates along with approximate asymptotic standard errors (SD column) are shown in @tbl-param and the likelihood components are shown in @tbl-likes. Estimates of derived reference points and approximate 95 percent asymptotic confidence intervals are shown in @tbl-ref-points. Estimates of stock size over time are shown in @tbl-ts.
+Parameters were estimated using maximum likelihood estimation and uncertainty is based on the assumption of asymptotic multivariate normality of the maximum likelihood estimate, where the variance-covariance matrix is the inverse of the hessian matrix. A list
+of fixed and estimated parameters in the model and asymptotic standard error estimates for estimated parameters is available in @tbl-param. The negative log likelihood components by data type are shown in @tbl-likes. Estimates of derived reference points and approximate 95 percent asymptotic confidence intervals are shown in @tbl-ref-points. Estimates of stock size over time are shown in @tbl-ts.
 
 ### Parameter Estimates
+
+
 
 Natural mortality (@tbl-param)
 
@@ -68,6 +71,6 @@ The predicted spawning output is given in @tbl-ts and plotted in @fig-sb.  The p
 @fig-spr-phase
 @fig-yield
 @fig-dyn-b0
-ADD FIGURE FOR SUMMARY BIOMASS
+
 
 
