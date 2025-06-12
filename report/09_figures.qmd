@@ -1055,7 +1055,7 @@ knitr::include_graphics(
 #| fig-pos: H
 
 knitr::include_graphics(
-  file.path("report", "figures", "recruit_fit_bias_adjust.png")
+  here::here("report", "figures", "recruit_fit_bias_adjust.png")
 )
 
 ```
