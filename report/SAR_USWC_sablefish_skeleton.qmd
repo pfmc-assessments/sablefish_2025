@@ -323,11 +323,11 @@ sigma_r <- model_output$parameters |>
   round(2)
 
 # Survey catchabilities and added sd
-find <- grep("LnQ_base", model_output$parameters$Label)
+find <- grep("Q_base", model_output$parameters$Label)
 q <- model_output$parameters[find, ] |>
   dplyr::select(Label, Value) 
 rownames(q) <- NULL
-q[, "Value"] <- round(exp(q[, "Value"]), 2)
+q[, "Value"] <- c(round(exp(q[1:4, "Value"]), 2), round(q[5, "Value"], 2))
 find <- grep("Q_extraSD", model_output$parameters$Label)
 survey_add_sd <- model_output$parameters[find, ] |>
   dplyr::select(Label, Value) |>
@@ -470,6 +470,15 @@ cat(a, sep = '\n')
 #| echo: false
 #| warning: false
 a <- knitr::knit_child('04c_assessment-sensitivity.qmd', quiet = TRUE)
+cat(a, sep = '\n')
+```
+
+```{r, results='asis'}
+#| label: 'assessment-historical'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child('04d_historical.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
 
