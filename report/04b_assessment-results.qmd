@@ -21,12 +21,10 @@ The time series of estimated recruitments and annual recruitment deviations are 
 
 The fit to the survey indices are shown in @fig-index-fit-early-triennial -- @fig-index-fit-wcgbt. The model fit the early period for the \gls{s-tri} well.  The late period for the \gls{s-tri} had an increasing trend in the index that the model generally fit, although additional survey variability was estimated in order to fit the 1998 and 2001 data. The model fit the trend between 1999 -- 2001, but estimated a higher vulnerable biomass in 1998 and lower in 2002 relative to the index for the \gls{s-nslope}. The model fit the trend in the \gls{s-wcgbt} index for most years, but the model trend was outside the uncertainty interval for the 2019 and 2022 data points. The fit to the recruitment index generally followed the trend in the data points (@fig-index-fit-enviro). 
 
-Fits to the age data are shown based on the proportions of age observed across all years and the Pearson residuals-at-age for all fleets. Age composition aggregated fits by fleet are reasonably well fit and are shown in @fig-aggregate-age-fit. 
+Fits to the age data are shown based on the proportions of age observed across all years and the Pearson residuals-at-age for all fleets. Age composition aggregated fits by fleet are reasonably well fit and are shown in @fig-aggregate-age-fit. The residuals for the trawl fleet did not show clear patterns or periods of misfit by sex (@fig-pearson-trawl), however, there appeared to be some pattern of observations being greater than the model expectations that move through the age distrubtion across years likely due to strong recruitments.  The model fits the general trend it the mean ages for sexed fish particularly between 2014 onward (@fig-mean-age-trawl). Similar to the trawl data, there was some patterns in the residuals for the hook-and-line data that move through the age classes across years, but aside from that, there were no other patterns of misfit for the hook-and-line data (@fig-pearson-hkl). Extensive explorations in blocking of selectivity parameters were done in attempt to reduce the residual pattern across ages in the final block, 2019 -- 2024, but a bit fit to the data was not found. The pattern in mean age of the hook-and-line data was generally fit by the model, with the model estimating subtle decreases and increases to the mean age that align with trend in the data (@fig-mean-age-hkl).  
 
-@fig-pearson-trawl
-@fig-mean-age-trawl
-@fig-pearson-hkl
-@fig-mean-age-hkl
+
+
 @fig-pearson-pot
 @fig-mean-age-pot
 
@@ -39,12 +37,7 @@ Fits to the age data are shown based on the proportions of age observed across a
 
 For the \gls{s-tri}, in 1983 and 1989 there was a slight overfitting for females and underfitting of males and a generall good fit in 1992 (@fig-pearson-tri-early). The model fit the mean age for 1983, 1986, and 1992 which was generally flat over the survey period (@fig-mean-age-tri-early). For the late period of the \gls{s-tri}, in 1995 there were more older ages observed that where the observations were greater than expected compared compared to 2004 (@fig-pearson-tri-late). The base model predicted a drop in mean age for this survey between 1995 and 2004 which matched the trend for mean age in the data (@fig-mean-age-tri-late). The model fit the age data from the \gls{s-nslope} with no clear patter in residuals across years (@fig-pearson-nwfsc-slope). The model predicted a larger drop in the mean age between 2001 and 2002 which was not observed in the data from this survey (@fig-mean-age-nwfsc-slope).  
 
-
-
-
-
-@fig-pearson-wcgbt
-@fig-mean-age-wcgbt
+The aggregated age composition for female and male fish for the \gls{s-wcgbt} were fit well by the model (@fig-aggregate-age-fit). There was no clear residual patterns to the fit to the \gls{s-wcgbt} age data (@fig-pearson-wcgbt).  The largest residuals were for unsexed fish at age 0 since the majority of unsexed data for this survey are from fish to small to reliably sex. The model generally under preditted the mean age of the sexed fish between 2006 -- 2016 (@fig-mean-age-wcgbt).  The mean age in the sexed fish has declined in recent years, likely due to multiple years of strong recruitments (e.g., 2016, 2020, 2021, and 2023).   
 
 ### Population Trajectory
 
