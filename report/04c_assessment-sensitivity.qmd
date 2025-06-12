@@ -56,5 +56,3 @@ In the base model, h is fixed at 0.75, making it an important profile to evaluat
 
 A retrospective analysis was conducted by running the base model with data removed iteratively from 1 to 10 years. All retrospective model runs fall well within the uncertainty estimates from the base model and contain very low values for Mohn's rho (@fig-retro-sb--@fig-retro-depl), suggesting no concerns of a retrospective patten for key derived management quantities. Similarly, there was little evidence of a retrospective pattern in the estimation of recruitment deviations (@fig-squid-plot). Generally, recruitment is fairly well determined (as defined by the directionality and size of the deviation) by age 2 to 3.  This is consistent with `r spp` being well sampled in surveys and fisheries at young ages. In a few cases, cohort strength changed direction (i.e., recruitment below average or above average given the stock size) with a new year or two of data (e.g., 2018 and 2022 year classes; see @fig-squid-plot).
 
-
-## Historical Analysis {#historical}
