@@ -360,6 +360,9 @@ maturity_data <- maturity_data  |>
 load(here::here("data", "model_output_2023.rda"))
 
 ctl_file <- r4ss::SS_readctl(file = file.path(model_dir, "control.ss_new"))
+gmt_catch <- r4ss::SS_ForeCatch(model_output) |>
+  dplyr::filter(`#Year` %in% c(2025, 2026)) |>
+  dplyr::rename(Year = `#Year`)
 
 ``` 
 
