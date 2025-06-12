@@ -1847,8 +1847,8 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: ""
-#| fig-alt: "Change in the negative log-likelihood across a range of log(R0) values."
+#| fig-cap: "Change in the negative log-likelihood across a range of *log(R~0~)* values."
+#| fig-alt: ""
 #| fig-pos: H
 
 knitr::include_graphics(
@@ -1862,7 +1862,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Change in the spawning output across a range of log(R0) values."
+#| fig-cap: "Change in the spawning output across a range of *log(R~0~)* values."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1878,7 +1878,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Change in the fraction unfished across a range of log(R0) values."
+#| fig-cap: "Change in the fraction unfished across a range of *log(R~0~)* values."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1894,7 +1894,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Change in the negative log-likelihood across a range of natural mortality (M) values."
+#| fig-cap: "Change in the negative log-likelihood across a range of natural mortality (*M*) values. Only female *M* is shown, because *M* is sex-invariant in the base model."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1909,7 +1909,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Change in the spawning output across a range of natural mortality (M) values."
+#| fig-cap: "Change in the spawning output across a range of natural mortality (*M*) values. Only female *M* is shown, because *M* is sex-invariant in the base model."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1925,7 +1925,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Change in the fraction unfished across a range of natural mortality (M) values."
+#| fig-cap: "Change in the fraction unfished across a range of natural mortality (*M*) values. Only female *M* is shown, because *M* is sex-invariant in the base model."
 #| fig-alt: ""
 #| fig-pos: H
 
