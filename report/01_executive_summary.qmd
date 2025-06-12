@@ -382,6 +382,43 @@ cat(a, sep = '\n')
 
 ## Harvest Projections and Decision Tables {-}
 
+
+```{r, results = "asis"}
+#| label: tbl-es-gmt-catch
+#| warning: false
+#| echo: false
+#| tbl-cap: "Removal assumptions in metric tons (mt) provided by the Groundfish Management Team for 2025-2026 by fleet."
+#| tbl-pos: H
+
+gmt_catch |>
+  dplyr::select(-comment, -Seas) |>
+  dplyr::mutate(
+    Fleet = dplyr::case_when(
+      Fleet == 1 ~ "Trawl",
+      Fleet == 2 ~ "HKL",
+      Fleet == 3 ~ "Pot",
+      Fleet == 4 ~ "Trawl Discard",
+      Fleet == 5 ~ "HKL Discard",
+      Fleet == 6 ~ "Pot Discard"
+    )
+  ) |>
+  tidyr::pivot_wider(
+    names_from = Fleet,
+    values_from = `dead(B)`
+  ) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = c(2:7),
+    decimals = 1
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>
+  gt::as_latex()
+
+```
+
 ::: {.landscape}
 
 ```{r, results = "asis"}

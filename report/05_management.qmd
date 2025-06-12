@@ -35,6 +35,8 @@ cat(a, sep = '\n')
 
 The `r end_year` assessment for `r spp` off the U.S. West Coast was assigned a category 1 determination by the \gls{ssc} to the \gls{pfmc} (UPDATE TEXT AS NECESSARY). The projection of spawning biomass, fraction unfished, and harvest limits was developed using the base model. The total catches in `r end_year` and `r end_year + 1` were set at `r fixed_catch[1]` and `r fixed_catch[2]` mt, respectively, based on recommendations from the \gls{gmt}. The \gls{abc} values were estimated using a category 1 time-varying $\sigma_y$ starting at 0.50 combined with a P$^{*}$ value of 0.45. 
 
+@tbl-gmt-catch
+
 The catches during the projection period, `r end_year + 2`--`r end_year + 12` were set equal to the year-specific \glsplural{abc} (@tbl-projections). The spawning biomass and fraction unfished increase during the projection due to the estimated large recruitments in 2020 and 2021 maturing and entering the spawning population, resulting in future \glsplural{ofl} and \glsplural{abc}.
 
 
