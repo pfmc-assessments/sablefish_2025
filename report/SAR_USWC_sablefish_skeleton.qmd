@@ -274,6 +274,7 @@ low_recdevs <- recdevs[low_5, ]
 m <- model_output$parameters |>
   dplyr::filter(Label %in% c("NatM_uniform_Fem_GP_1", "NatM_uniform_Mal_GP_1")) |>
   dplyr::select(Label, Value) |>
+  dplyr::mutate(Value = round(Value, 3)) |>
   tidyr::pivot_wider(
     names_from = Label,
     values_from = Value

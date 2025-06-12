@@ -1064,11 +1064,31 @@ knitr::include_graphics(
 
 ## Selectivity
 
-ADD CUSTOM SELECTIVITY FIGURES
+```{r} 
+#| label: fig-fishery-selex
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Selectivity curves for each fishery fleet in the base model."
+#| fig-alt: ""
+#| fig-pos: H
 
-FISHERY
 
-SURVEY
+
+```
+
+```{r} 
+#| label: fig-survey-selex
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Selectivity curves for each survey in the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+
+
+```
 
 
 ## Fits to Data
