@@ -662,6 +662,69 @@ read.csv(here::here("data-processed", "data-survey-afscslope-n.csv")) |>
 
 \pagebreak
 
+::: {.landscape}
+
+```{r}
+#| label: tbl-watage-samples
+#| warning: false
+#| echo: false
+#| tbl-cap: "Number of ages by sex and year used to estimate the empirical weight-at-age."
+
+data <- read.csv(here::here("data-processed", "data_weight_at_age_survey.csv")) |>
+    dplyr::filter(source == "Groundfish Slope and Shelf Combination Survey") |> 
+    dplyr::mutate(
+      data_type = "wcgbt",
+      age = ifelse(age_years > 30, 30, age_years),
+      cohort = year - age,
+      sex = tidyr::replace_na(sex, "U"),
+      fyear = as.factor(year),
+      fcohort = as.factor(cohort)
+    ) |>
+    dplyr::rename(
+      weight = weight_kg
+    ) |>
+    dplyr::rename_with(.fn = tolower) |>
+    dplyr::filter(weight > 0, outlier == FALSE)
+  
+  remove <- which(data$sex == "U" & data$age != 0)
+  data <- data[-remove, ]
+  # Randomly assign unsexed age-0 fish to a M or F 50/50
+  set.seed(98105)
+  
+  data |>
+    dplyr::group_by(year) |>
+    dplyr::mutate(
+      age = as.factor(age),
+      sex = dplyr::case_when(
+        sex == "U" ~sample(rep(c("F", "M"), length = dplyr::n())), .default = sex),
+      sex = as.factor(sex)
+    ) |>
+    dplyr::group_by(year, sex, age) |>
+    dplyr::summarize(n = dplyr::n()) |>
+    dplyr::arrange(age) |>
+    dplyr::arrange(year) |>
+    tidyr::pivot_wider(
+      names_from = age,
+      values_from = n,
+      values_fill = 0
+    ) |>
+    dplyr::rename(Year = year, Sex = sex) |>
+    dplyr::ungroup() |>
+  gt::gt() |>
+  gt::opt_stylize(style = 1) |>
+  gt::tab_spanner(
+    label = "Number of Ages",
+    columns = 3:33
+  ) |>
+  gt::tab_options(
+    table.font.size = 7,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+:::
 
 ```{r}
 #| label: tbl-maturity-samples
