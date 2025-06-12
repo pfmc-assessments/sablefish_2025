@@ -104,6 +104,7 @@ process_survey <- function(
       as.data.frame() 
     
     ages_samples <- bds_data$age_data |>
+      dplyr::filter(!is.na(Age)) |>
       dplyr::group_by(Year) |>
       dplyr::summarise(
         `Sampled Tows Ages` = length(unique(Trawl_id)),
