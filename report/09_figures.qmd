@@ -1627,55 +1627,6 @@ knitr::include_graphics(
 ```
 
 ```{r} 
-#| label: fig-spr
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Estimated time series of fishing intensity for the base model."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  file.path(model_dir, "plots", "SPR3_ratiointerval.png")
-)
-
-```
-
-
-```{r} 
-#| label: fig-spr-phase
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Phase plot of fishing intensity versus fraction unfished for the base model."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  file.path(model_dir, "plots", "SPR4_phase.png")
-)
-
-```
-
-
-```{r} 
-#| label: fig-yield
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Estimated yield curve with reference points for the base model."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  file.path(model_dir, "plots", "yield2_yield_curve_with_refpoints.png")
-)
-
-```
-
-
-
-```{r} 
 #| label: fig-dyn-b0
 #| echo: false 
 #| warning: false 
@@ -2084,4 +2035,55 @@ knitr::include_graphics(
 ## Historical Analysis
 
 ADD HISTORICAL ASSESSMENT TIME SERIES FIGURE
+
+
+## Management
+
+```{r} 
+#| label: fig-spr
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated time series of fishing intensity for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "SPR3_ratiointerval.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-spr-phase
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Phase plot of fishing intensity versus fraction unfished for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "SPR4_phase.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-yield
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated yield curve with reference points for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "yield2_yield_curve_with_refpoints.png")
+)
+
+```
+
 
