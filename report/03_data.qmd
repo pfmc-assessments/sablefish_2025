@@ -229,7 +229,11 @@ The product of the maturity-at-age and the fecundity-at-age (e.g., equal to weig
 
 Observed `r spp` ages are derived from visually counting rings on otoliths using 'break-and-burn' methods. These counts can be large because `r spp` are long-lived and the repeatability of individual age estimates is imperfect, especially for older fish. Age-reading staff have indicated that `r spp` can be difficult to age. The observed age can differ, sometimes substantially, from the true age of a fish (i.e., "reading error"). Ageing error can be decomposed into the difference between true age and average-read age (bias) and variability around that average read age (precision).  
 
-The large majority of aged `r spp` used in the assessment were aged by the \gls{cap}.  Within-lab ageing error was estimated for \gls{cap}. Break-and-burn double reads of more than 12,000 otoliths were provided by the \gls{cap} lab (unpublished data).  An ageing error estimate was made based on these double reads using a computational tool specifically developed for estimating ageing error [@punt_quantifying_2008] and using release 2.1.0. of the R package \href{https://pfmc-assessments.github.io/AgeingError/index.html}{AgeingError} for input and output diagnostics. A linear standard error was estimated by age where there is more variability in the age of older fish (Figure XX). 
+The large majority of aged `r spp` used in the assessment were aged by the \gls{cap}.  Within-lab ageing error was estimated for \gls{cap}. Break-and-burn double reads of more than 12,000 otoliths were provided by the \gls{cap} lab (unpublished data).  An ageing error estimate was made based on these double reads using a computational tool specifically developed for estimating ageing error [@punt_quantifying_2008] and using release 2.1.0. of the R package \href{https://pfmc-assessments.github.io/AgeingError/index.html}{AgeingError} for input and output diagnostics. 
+
+
+@fig-age-reader
+@fig-ageing-error
 
 ## Environmental/Ecosystem Indicator Data
 

@@ -910,6 +910,37 @@ knitr::include_graphics(
 
 ```
 
+```{r} 
+#| label: fig-age-reader
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Comparison of age reads between reader 1 and reader 2. Reader 1 was assumed to be unbiased."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "Sablefish-DataSet-1-Reader1VsReader2.png")
+)
+
+```
+
+```{r} 
+#| label: fig-ageing-error
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Comparison of ageing imprecision, standard deviation by observed age, used in the base model (blue line - Ageing method 1) and from the 2019 model (red line - Ageing method 2)."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "numbers5_ageerrorSD.png")
+)
+
+```
 
 ![Model fit to the data and model testing results. Black line is the model prediction $\pm$ 1.0 standard error (dotted lines). While points are the ln recruitment deviations from the stock assessment model. Yellow points are from jackknife analysis leaving out one year and refitting the model, and red points fit the best-fit model to 1993-2014 then predict 2015-2019.](figures/gloyrs_figure_3.png){#fig-glorys-fit}
 
