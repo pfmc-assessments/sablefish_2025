@@ -78,29 +78,6 @@ recent_management_table |>
 
 \pagebreak
 
-```{r, results = "asis"}
-#| label: tbl-area-spex
-#| warning: false
-#| echo: false
-#| tbl-cap: "Adopted coastwide OFL (mt) and ABC (mt) values and the area-based ACL (mt) north and south of 36 N. latitude by year."
-#| tbl-pos: H
-
-area_management_table |>
-  gt::gt() |>
-  gt::fmt_number(
-    columns = c(2:5),
-    decimals = 0
-  ) |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE 
-  ) |>
-  gt::as_latex()
-
-```
-
-\pagebreak
-
 
 ```{r, results = "asis"}
 #| label: tbl-discard-rates-twl
@@ -644,11 +621,12 @@ strata_triennial_early |>
 #| tbl-cap: "Samples by year from the AFSC Slope survey."
 
 read.csv(here::here("data-processed", "data-survey-afscslope-n.csv")) |>
-  dplyr::select(-N.Lengthed, -Survey) |>
+  dplyr::select(-N.Lengthed, -Sampled.Tows.Lengths) |>
   dplyr::rename(
     Tows = N.Tows,
     `Positive Tows` = Positive.Tows,
     `Prop. Positive` = Proportion.Positive,
+    `Sampled Tows` = Sampled.Tows.Ages,
     Aged = N.Aged
   ) |>
   gt::gt() |>
@@ -892,6 +870,7 @@ table |>
 
  {{< pagebreak >}} 
  
+
 ::: {.landscape}
 
 ```{r}
@@ -902,21 +881,24 @@ table |>
 #| tbl-cap: !expr if(eval_tables) par_cap 
 #| tbl-pos: H
 
-par_table |>
-  flextable::flextable() |>
-  flextable::line_spacing(space = 1) |>
-  flextable::padding(padding = 0, part = "all") |>
-  flextable::font(fontname = "Times New Roman") |>
-  flextable::fontsize(size = 8) |>
-  #flextable::autofit()
-  flextable::width(
-    j = c(1, 2, 3, 4, 5, 6, 7),
-    width = c(2, 0.5, 0.5, 1.5, 0.5, 0.5, 2.5)
-  ) 
-
+rownames(par_table) <- NULL
+kableExtra::kable(
+  par_table, 
+  format = "latex", 
+  longtable = TRUE,
+  booktabs = TRUE,
+  caption = "Parameter estimates, estimation phase, parameter bounds, estimation status, estimated standard deviation (SD),prior information [distribution(mean, SD)] used in the base model.",
+  linesep = "") |>
+  kableExtra::column_spec(
+    column = c(1, 2, 3, 4, 5, 6, 7),
+    width = c("2.75in", "0.5in", "0.5in", "1in", "0.5in", "0.5in", "1.25in")
+  ) |>
+  kableExtra::kable_styling(
+    latex_options = "repeat_header",
+    font_size = 8)
 ```
 
-::: 
+:::
 
  \pagebreak
 
