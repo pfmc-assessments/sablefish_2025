@@ -248,6 +248,7 @@ knitr::include_graphics(
 ## Ecosysystem Consideration {-}
 
 
+
 ## Reference Points {-}
 
 ```{r, results='asis'}
@@ -259,9 +260,9 @@ a <- knitr::knit_child(here::here("report", "shared_text", "harvest_control_rule
 cat(a, sep = '\n')
 ```
 
-The estimated `r end_year` spawning biomass relative to unfished equilibrium spawning output is `r depl_final`, is below the management target of 40 percent of unfished spawning output. The fishing intensity is estimated to be below the current management harvest rate limit ($\text{SPR}_{45\%}$) at the end of the time series but is estimated to have been above between the 1970s to the late-2010s (@fig-es-spr). The interaction between the relative spawning output and the ratio of the estimated \gls{spr} to the management target ($\text{SPR}_{45\%}$) indicates that the stock is in the lower quadrent indicating that the overfishing is not occurring and that relative spawning output is below the management targets (@fig-es-spr-phase). The current estimate of fraction unfished is larger than the \gls{msy}, below the \gls{spr} target and relative target biomass reference points (@fig-es-yield) based on $h$ of `r h`.
+The estimated `r end_year` spawning output relative to unfished of equilibrium spawning output is `r depl_final`, below the management target of 40 percent of unfished spawning output. The fishing intensity is estimated to be below the current management harvest rate limit ($\text{SPR}_{45\%}$) at the end of the time series but is estimated to have been above between the 1970s to the late-2010s (@fig-es-spr). The interaction between the relative spawning output and the ratio of the estimated \gls{spr} to the management target ($\text{SPR}_{45\%}$) indicates that the stock is in the lower quadrant indicating that the overfishing is not occurring and that relative spawning output is below the management targets (@fig-es-spr-phase). The current estimate of fraction unfished is larger than the \gls{msy}, below the \gls{spr} target and relative target biomass reference points (@fig-es-yield) based on $h$ of `r h`.
 
-Reference points were calculated using the estimated selectivities and catch distributions among fleets in the most recent year of the model, `r end_year` (@tbl-ref-points-es). The estimated sustainable total yield inclusive of both landings and discards was `r catch_spr` mt according to $\text{SPR}_{45\%}$. The spawning output equivalent to 40 percent of unfished spawning biomass ($\text{SB}_{40\%}$) calculated using the SPR target, ($\text{SPR}_{45\%}$), was `r sb_spr` mt.
+Reference points were calculated using the estimated selectivities and catch distributions among fleets in the final year of the model, `r end_year` (@tbl-ref-points-es). The estimated sustainable total yield inclusive of both landings and discards was `r catch_spr` mt according to $\text{SPR}_{45\%}$. The spawning output equivalent to 40 percent of unfished spawning output ($\text{SB}_{40\%}$) calculated using the SPR target, ($\text{SPR}_{45\%}$), was `r sb_spr` mt.
 
 ```{r, results = "asis"}
 #| label: tbl-ref-points-es
@@ -377,11 +378,11 @@ a <- knitr::knit_child(here::here("report", "shared_text", "scientific_uncertain
 cat(a, sep = '\n')
 ```
 
-
-
-
 ## Harvest Projections and Decision Tables {-}
 
+The projection of spawning ouput, fraction of unfished, and harvest limits were developed using the base model. The total catches in `r end_year` and `r end_year + 1` were fixed at `r fixed_catch[1]` and `r fixed_catch[2]` mt, respectively, based on recommendations from the \gls{gmt} (@tbl-es-gmt-catch). The \gls{abc} values were projectioned assuming a category 1 time-varying sigma with an initial value of 0.50 in 2027 and a management risk tolerance (P$^*$) of 0.45.  
+
+The catches during the projection period, `r end_year + 2`--`r end_year + 12` were set equal to the year-specific \glsplural{abc} (@tbl-es-projections). The spawning output and fraction of unfished increase during the projection due to the estimated large recruitments in 2020 and 2021 maturing and entering the spawning population, resulting in future \glsplural{ofl} and \glsplural{abc}.
 
 ```{r, results = "asis"}
 #| label: tbl-es-gmt-catch
@@ -428,9 +429,6 @@ gmt_catch |>
 #| eval: !expr eval_tables 
 #| tbl-cap: !expr if(eval_tables) projections_cap 
 #| tbl-pos: H
-
-# Note to self: the ABC for 2027 and 2028 is not provided due to the HCR
-# need to add those in to the table.
 
 projections_table |>
   gt::gt() |>
