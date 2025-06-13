@@ -902,7 +902,7 @@ kableExtra::kable(
 
  \pagebreak
 
- BEGIN LANDSCAPE
+::: {.landscape}
 
 ```{r, results = "asis"}
 #| label: tbl-sens-1
@@ -914,6 +914,7 @@ kableExtra::kable(
 read.csv(here::here("report", "rda", "sens_1_model_para_comp.csv")) |>
   gt::gt() |>
   gt::cols_label(
+    Metric = "Metric",
     Base.Model = "Base Model",
     Remove.WCGBT = "Remove WCGBT",
     Remove.Triennial = "Remove Triennial",
@@ -926,19 +927,24 @@ read.csv(here::here("report", "rda", "sens_1_model_para_comp.csv")) |>
     drop_trailing_zeros = TRUE,
   ) |>
   gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE,
-    page.orientation = "landscape"
+    table.font.size = 10,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    tidyselect::everything() ~ px(75)
   ) |>
   gt::as_latex()
 
 ```
 
-END LANDSCAPE
+:::
 
 \pagebreak
 
-BEGIN LANDSCAPE
+::: {.landscape}
 
 ```{r, results = "asis"}
 #| label: tbl-sens-2
@@ -961,19 +967,24 @@ read.csv(here::here("report", "rda", "sens_2_model_para_comp.csv")) |>
     drop_trailing_zeros = TRUE,
   ) |>
   gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE,
-    page.orientation = "landscape"
+    table.font.size = 10,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    tidyselect::everything() ~ px(75)
   ) |>
   gt::as_latex()
 
 ```
 
-END LANDSCAPE
+:::
 
 \pagebreak
 
-BEGIN LANDSCAPE
+::: {.landscape}
 
 ```{r, results = "asis"}
 #| label: tbl-sens-3
@@ -998,19 +1009,24 @@ read.csv(here::here("report", "rda", "sens_3_model_para_comp.csv")) |>
     drop_trailing_zeros = TRUE,
   ) |>
   gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE,
-    page.orientation = "landscape"
+    table.font.size = 10,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    tidyselect::everything() ~ px(75)
   ) |>
   gt::as_latex()
 
 ```
 
-END LANDSCAPE
+:::
 
 \pagebreak
 
-BEGIN LANDSCAPE
+::: {.landscape}
 
 ```{r, results = "asis"}
 #| label: tbl-sens-4
@@ -1033,15 +1049,20 @@ read.csv(here::here("report", "rda", "sens_4_model_para_comp.csv")) |>
     drop_trailing_zeros = TRUE,
   ) |>
   gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE,
-    page.orientation = "landscape"
+    table.font.size = 10,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    tidyselect::everything() ~ px(75)
   ) |>
   gt::as_latex()
 
 ```
 
-END LANDSCAPE
+:::
 
  
 ## Management 
