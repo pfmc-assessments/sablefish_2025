@@ -24,7 +24,7 @@ Sensitivity analyses were conducted to investigate influence of data inputs and 
 \11. Impose a restriction that recruitment deviations in the main recruitment period must sum to zero,
 \12. Estimate early (1890--1974) recruitment deviations with the sum to zero constraint imposed,
 \13. Switch from the Francis method to the McAllister-Ianelli harmonic mean method for weighting age composition data,
-\14. Force the estimation of asymptotic selectivity for \gls{s-wcgbt} and \gls{s-nslopoe}, and
+\14. Force the estimation of asymptotic selectivity for \gls{s-wcgbt} and \gls{s-nslope}, and
 \15. Remove the updated ageing error vector and apply the vector used in the 2019 stock assessment,
 
 Most of the sensitivities resulted in a similar trajectory of the population dynamics as the base model (@tbl-sens-1 -- @tbl-sens-4; @fig-sens-1-bratio -- @fig-sens-4-recdev), with the largest deviations occurring in the sensitivities related to natural mortality and the estimation of early (1890-1974) recruitment deviations.
