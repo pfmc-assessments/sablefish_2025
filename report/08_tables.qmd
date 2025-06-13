@@ -913,9 +913,17 @@ kableExtra::kable(
 
 read.csv(here::here("report", "rda", "sens_1_model_para_comp.csv")) |>
   gt::gt() |>
+  gt::cols_label(
+    Base.Model = "Base Model",
+    Remove.WCGBT = "Remove WCGBT",
+    Remove.Triennial = "Remove Triennial",
+    Remove.NWFSC.Slope = "Remove NWFSC Slope",
+    Remove.Recruitment.Index = "Remove Recruitment Index"
+  ) |>
   gt::fmt_number(
     columns = 2:6,
-    decimals = 3
+    decimals = 3,
+    drop_trailing_zeros = TRUE,
   ) |>
   gt::tab_options(
     table.font.size = 12,
@@ -941,9 +949,16 @@ BEGIN LANDSCAPE
 
 read.csv(here::here("report", "rda", "sens_2_model_para_comp.csv")) |>
   gt::gt() |>
+  gt::cols_label(
+    Base.Model = "Base Model",
+    McAllister.Ianelli.Data.Weighting = "McAllister-Ianelli Data Weighting",
+    NWFSC.Survey.Asymptotic.Selectivity = "NWFSC Survey Asymptotic Selectivity",
+    Ageing.Error.2019.Assessment = "Ageing Error 2019 Assessment"
+  ) |>
   gt::fmt_number(
     columns = 2:5,
-    decimals = 3
+    decimals = 3,
+    drop_trailing_zeros = TRUE,
   ) |>
   gt::tab_options(
     table.font.size = 12,
@@ -969,9 +984,18 @@ BEGIN LANDSCAPE
 
 read.csv(here::here("report", "rda", "sens_3_model_para_comp.csv")) |>
   gt::gt() |>
+  gt::cols_label(
+    Base.Model = "Base Model",
+    Estimate.Growth = "Estimate Growth",
+    M.Sex.Specific = "M Sex-Specific",
+    M.Alaska.Assessment = "M Alaska Assessment",
+    M.Adjust.For.Migration = "M Adjust For Migration",
+    M.Fix.2019.Assessment = "M Fix 2019 Assessment"
+  ) |>
   gt::fmt_number(
     columns = 2:7,
-    decimals = 3
+    decimals = 3,
+    drop_trailing_zeros = TRUE,
   ) |>
   gt::tab_options(
     table.font.size = 12,
@@ -997,9 +1021,16 @@ BEGIN LANDSCAPE
 
 read.csv(here::here("report", "rda", "sens_4_model_para_comp.csv")) |>
   gt::gt() |>
+  gt::cols_label(
+    Base.Model = "Base Model",
+    Estimate.Steepness = "Estimate Steepness",
+    RecDevs.Sum.To.Zero = "RecDevs Sum To Zero",
+    Estimate.Early.RecDevs.sum.0 = "Estimate Early RecDevs (Sum 0)"
+  ) |>
   gt::fmt_number(
     columns = 2:5,
-    decimals = 3
+    decimals = 3,
+    drop_trailing_zeros = TRUE,
   ) |>
   gt::tab_options(
     table.font.size = 12,
