@@ -11,21 +11,35 @@ Starting parameters were jittered using the jitter function built into Stock Syn
 
 Sensitivity analyses were conducted to investigate influence of data inputs and structural uncertainty of the base model by investigating how changes to the model affected the estimated values and derived quantities. These include several key underlying structural model assumptions that were identified in previous assessments and STAR panels, have persisted across recent assessments, or arose during the model bridging steps presented in this assessment (see Section \ref{bridging}). Many additional sensitivity runs were conducted while developing and testing the `r end_year` base model. Here we focus on the main sensitivities, relative to the base model, which are as follows:
 
-\01. Remove the index and age composition data from the \gls{s-wcgbt},
-\02. Remove the index and age composition data from the \gls{s-tri},
-\03. Remove the index and age composition data from the the \gls{s-nslope},
-\04. Remove the environmental-based recruitment index,
-\05. Remove empirical weight-at-age data for calculating time-varying growth and instead estimate time-invariant growth within the assessment model,
-\06. Estimate sex-specific natural mortality (*M*),
-\07. Fix *M* at the sex-invariant value used in the assessment of `r spp` in Alaska,
-\08. Fix *M* at a sex-invariant value that is adjusted upwards to offset potential net emigration to Canada,
-\09. Fix *M* at sex-specific values used in the 2019 U.S. West Coast assessment of `r spp`,
-\10. Estimate the steepness (*h*) parameter of the stock-recruitment function,
-\11. Impose a restriction that recruitment deviations in the main recruitment period must sum to zero,
-\12. Estimate early (1890--1974) recruitment deviations with the sum to zero constraint imposed,
-\13. Switch from the Francis method to the McAllister-Ianelli harmonic mean method for weighting age composition data,
-\14. Force the estimation of asymptotic selectivity for \gls{s-wcgbt} and \gls{s-nslope}, and
-\15. Remove the updated ageing error vector and apply the vector used in the 2019 stock assessment,
+1. Remove the index and age composition data from the \gls{s-wcgbt},
+
+2. Remove the index and age composition data from the \gls{s-tri},
+
+3. Remove the index and age composition data from the the \gls{s-nslope},
+
+4. Remove the environmental-based recruitment index,
+
+5. Remove empirical weight-at-age data for calculating time-varying growth and instead estimate time-invariant growth within the assessment model,
+
+6. Estimate sex-specific natural mortality (*M*),
+
+7. Fix *M* at the sex-invariant value used in the assessment of `r spp` in Alaska,
+
+8. Fix *M* at a sex-invariant value that is adjusted upwards to offset potential net emigration to Canada,
+
+9. Fix *M* at sex-specific values used in the 2019 U.S. West Coast assessment of `r spp`,
+
+10. Estimate the steepness (*h*) parameter of the stock-recruitment function,
+
+11. Impose a restriction that recruitment deviations in the main recruitment period must sum to zero,
+
+12. Estimate early (1890--1974) recruitment deviations with the sum to zero constraint imposed,
+
+13. Switch from the Francis method to the McAllister-Ianelli harmonic mean method for weighting age composition data,
+
+14. Force the estimation of asymptotic selectivity for \gls{s-wcgbt} and \gls{s-nslope}, and
+
+15. Remove the updated ageing error vector and apply the vector used in the 2019 stock assessment.
 
 Most of the sensitivities resulted in a similar trajectory of the population dynamics as the base model (@tbl-sens-1 -- @tbl-sens-4; @fig-sens-1-bratio -- @fig-sens-4-recdev), with the largest deviations occurring in the sensitivities related to natural mortality and the estimation of early (1890-1974) recruitment deviations.
 All sensitivity models matched the base model in terms of the stock trend increasing rapidly from a time series low in the early 2010s. This is in part due to the well above average estimates of recruitment given the stock size (i.e., positive recruitment deviations) in 2013, 2016, 2020, 2021, and 2023. All sensitivity models indicate that relative spawning biomass at the beginning of 2025 is estimated to be at or below $\text{SB}_{40\%}$, with the majority of runs aligning with the base model ($\text{SB}_{34\%}$). The overall scale of the population was generally robust to alternative sensitivity runs, with the exception of model runs exploring various alternative assumptions about natural mortality.
