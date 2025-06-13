@@ -451,7 +451,6 @@ a <- knitr::knit_child('04a_assessment-configuration.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
 
- {{< pagebreak >}} 
 
 ```{r, results='asis'}
 #| label: 'assessment-results'
@@ -462,7 +461,6 @@ a <- knitr::knit_child('04b_assessment-results.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
 
- {{< pagebreak >}} 
 
 ```{r, results='asis'}
 #| label: 'assessment-sensitivity'

@@ -997,6 +997,8 @@ knitr::include_graphics(
 
 ![Comparison of estimated annual recruitment deviations when the estimation of annual recruitment deviations is revised.](figures/3_structure_compare11_recdevs.png){#fig-structure-bridge-rec-dev-3 height=3in fig-alt=""}
 
+\pagebreak
+
 ![Comparison of estimated summary biomass age 3+ when the model structure is revised.](figures/4_structure_compare18_smrybio.png){#fig-structure-bridge-summary-4 height=3in fig-alt=""}
 
 ![Comparison of estimated fraction unfished when the model structure is revised.](figures/4_structure_compare3_Bratio.png){#fig-structure-bridge-depl-4 height=3in fig-alt=""}

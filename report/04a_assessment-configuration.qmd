@@ -145,7 +145,7 @@ The assessment was conducted used Stock Synthesis version 3.30.24 developed by D
 
 ### Model Selection and Evaluation
 
-The base assessment model for Dover sole was developed to balance parsimony and realism, and the goal was to estimate a spawning biomass trajectory for the population of Dover sole off the west coast of the U.S. The model contains many assumptions to achieve parsimony and uses many different sources of data to estimate reality. A series of investigative model runs were done to achieve the final base model.
+The base assessment model was developed to balance parsimony and realism, and the goal was to estimate a spawning output trajectory for the population off the West Coast of the U.S. The model contains many assumptions to achieve parsimony and uses many different sources of data to estimate reality. A series of investigative model runs were done to achieve the final base model.
 
 ### Model Changes from the Last Assessment
 
