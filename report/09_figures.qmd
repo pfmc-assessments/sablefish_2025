@@ -168,7 +168,7 @@ knitr::include_graphics(
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agedat_flt4mkt0.png")
+  file.path(model_dir, "plots", "comp_agedat_bubflt4mkt0.png")
 )
 
 ```
@@ -184,7 +184,7 @@ knitr::include_graphics(
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agedat_flt5mkt0.png")
+  file.path(model_dir, "plots", "comp_agedat_bubflt5mkt0.png")
 )
 
 ```
@@ -199,7 +199,7 @@ knitr::include_graphics(
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agedat_flt6mkt0.png")
+  file.path(model_dir, "plots", "comp_agedat_bubflt6mkt0.png")
 )
 
 ```
@@ -208,15 +208,32 @@ knitr::include_graphics(
 \pagebreak
 
 ```{r} 
-#| label: fig-data-trawl-1
+#| label: fig-data-trawl
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Age composition by year and sex for the trawl fleet. Females and unsexed are in the top section and males in the bottom section."
+#| fig-cap: "Age composition by year and sex for the trawl fleet. Females are shown in red, males in blue, and unsexed fish in grey."
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agedat_flt1mkt0_page1.png")
+  file.path(model_dir, "plots", "comp_agedat_bubflt1mkt0_page2.png")
+)
+
+```
+
+\pagebreak
+
+
+```{r} 
+#| label: fig-data-hkl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Age composition by year and sex for the hook-and-line fleet. Females are shown in red and males in blue."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "comp_agedat_bubflt2mkt0_page2.png")
 )
 
 ```
@@ -224,85 +241,20 @@ knitr::include_graphics(
 \pagebreak
 
 ```{r} 
-#| label: fig-data-trawl-2
+#| label: fig-data-pot
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Age composition by year and sex for the trawl fleet. Females and unsexed are in the top section and males in the bottom section."
+#| fig-cap: "Age composition by year and sex for the pot fleet. Females are shown in red and males in blue."
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agedat_flt1mkt0_page2.png")
+  file.path(model_dir, "plots", "comp_agedat_bubflt3mkt0_page2.png")
 )
 
 ```
 
 \pagebreak
-
-```{r} 
-#| label: fig-data-hkl-1
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Age composition by year and sex for the hook-and-line fleet. Females and unsexed are in the top section and males in the bottom section."
-#| fig-alt: ""
-
-knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agedat_flt2mkt0_page1.png")
-)
-
-```
-
-\pagebreak
-
-```{r} 
-#| label: fig-data-hkl-2
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Age composition by year and sex for the hook-and-line fleet. Females and unsexed are in the top section and males in the bottom section."
-#| fig-alt: ""
-
-knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agedat_flt2mkt0_page2.png")
-)
-
-```
-
-\pagebreak
-
-```{r} 
-#| label: fig-data-pot-1
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Age composition by year and sex for the pot fleet. Females and unsexed are in the top section and males in the bottom section."
-#| fig-alt: ""
-
-knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agedat_flt3mkt0_page1.png")
-)
-
-```
-
-\pagebreak
-
-```{r} 
-#| label: fig-data-pot-2
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Age composition by year and sex for the pot fleet. Females and unsexed are in the top section and males in the bottom section."
-#| fig-alt: ""
-
-knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agedat_flt3mkt0_page2.png")
-)
-
-```
-
-
-
 
 
 ```{r} 
@@ -474,11 +426,11 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Age composition data by year from the NWFSC WCGBT survey."
+#| fig-cap: "Age composition data by year from the NWFSC WCGBT survey. Females are shown in red, males in blue, and unsexed fish in grey."
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agedat_flt10mkt0.png")
+  file.path(model_dir, "plots", "comp_agedat_bubflt10mkt0.png")
 )
 
 ```
@@ -537,11 +489,11 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: ""
+#| fig-cap: "Age compositions by year from the NWFSC Slope Survey. Females are shown in red, males in blue, and unsexed fish in grey."
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agedat_flt9mkt0.png")
+  file.path(model_dir, "plots", "comp_agedat_bubflt9mkt0.png")
 )
 
 ```
@@ -640,7 +592,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: ""
+#| fig-cap: "Comparison of the distribution from all length data to the lengths from fish with ages."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -655,7 +607,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: ""
+#| fig-cap: "Tow location by latitude and year where lengths were sampled (black open circles) compared to location of available age data (red filled triangles)"
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -670,11 +622,11 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: ""
+#| fig-cap: "Age compositon by year from the early Triennial Survey. Females are shown in red and males in blue."
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agedat_flt7mkt0.png")
+  file.path(model_dir, "plots", "comp_agedat_bubflt7mkt0.png")
 )
 
 ```
@@ -687,11 +639,11 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: ""
+#| fig-cap: "Age compositon by year from the late Triennial Survey. Females are shown in red and males in blue"
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agedat_flt8mkt0.png")
+  file.path(model_dir, "plots", "comp_agedat_bubflt8mkt0.png")
 )
 
 ```
