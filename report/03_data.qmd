@@ -181,7 +181,7 @@ The large majority of aged `r spp` used in the assessment were aged by the \gls{
 Ageing error analyses were run exploring ageing bias and linear or curve-linear error with age. One reader was selected as unbiased reader 1 and other read ages from various other readers where grouped into a reader 2 vector. A comparison of age reads are shown in @fig-age-reader. The linear model with no bias in age was selected as the final model (@fig-ageing-error).  
 
 
-## Environmental/Ecosystem Indicator Data {{#rec-index-data}}
+## Environmental/Ecosystem Indicator Data {#rec-index-data}
 
 Linear models were used to examine relationships between recruitment deviations in log-space from the 2023 assessment of sablefish and predictors from the GLOYRS model output. The period from 1993--2019 as training data, leaving 2020--2024 as out-of-sample for use in base model. All combinations of the GLORYS predictors were fit, excluding correlated variables from the same model, and limiting the the total number of predictors in any model to three (just over 8 data points per predictor). Model selection was carried out using the `dredge` function in the `MuMIn` package in `R` [@R-base; @MuMIn-cite]. Candidate models were evaluated based on their $\Delta$AICc and number of predictors.
 
