@@ -492,7 +492,7 @@ cat(a, sep = '\n')
 #| label: tbl-risk-table
 #| warning: false
 #| echo: false
-#| tbl-cap: ""
+#| tbl-cap: "‘Risk Table’ for sablefish to document ecosystem and environmental factors potentially affecting stock productivity and uncertainty or other concerns arising from the stock assessment. Level 1 is a favorable ranking, Level 2 neutral, and Level 3 unfavorable."
 #| tbl-pos: H
 
 risk <- read.csv(here::here("report", "rda", "RiskTable.csv") )
