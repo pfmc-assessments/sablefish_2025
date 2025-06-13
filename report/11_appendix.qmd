@@ -2,4 +2,6 @@
 
 ## Recruitment Index {#rec-appendix}
 
+<!--
 \includepdf{Appendix-GLORYS-index-development.pdf}
+-->

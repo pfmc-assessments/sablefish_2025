@@ -209,18 +209,20 @@ The data bridging process, where data were reprocessed and updated through 2024,
 
 The order of data updating and minor model structure changes were:
 
-1. Remove the sea surface height environmental index.
-2. Update landings for trawl and fixed gears from 1890 -- 2022 and add new landings 2023 -- 2024.  
-3. Reprocess fishery ages from 1983 -- 2022 and add new ages from 2023 -- 2024.
-4. Reprocess fishery discard rates for trawl and fixed gears from 2002 -- 2021 and add 2022.
-5. Reprocess fishery discard lengths and mean body weights for trawl and fixed gears from 2002 -- 2021 and add 2022.
-6. Split landings, discard, and age data from the fixed gear fleet into two separate fleets: hook-and-line and pot gears
-7. Revise and fix selectivity and retention blocks based upon data and extend through 2024.
-8. Reprocess indices of abundance and age composition data from the \gls{s-tri}, \gls{s-aslope}, and \gls{s-nslope}.
-9. Reprocess and extend the index of abundance, length compositions, and conditional-age-at-length data from the \gls{s-wcgbt}. 
-10. Update maturity from maturity-at-length to maturity-at-age based upon new research.
-11. Update the natural mortality prior for female and males with a median of 0.072 yr$^{-1}$ and a standard error of 0.31. Continue to estimate sex-specific natural mortality.
-12. Update the ageing error bias and uncertainty based using available double-read information through 2024.
+\begin{enumerate} 
+\item Remove the sea surface height environmental index.
+\item Update landings for trawl and fixed gears from 1890 -- 2022 and add new landings 2023 -- 2024.  
+\item Reprocess fishery ages from 1983 -- 2022 and add new ages from 2023 -- 2024.
+\item Reprocess fishery discard rates for trawl and fixed gears from 2002 -- 2021 and add 2022.
+\item Reprocess fishery discard lengths and mean body weights for trawl and fixed gears from 2002 -- 2021 and add 2022.
+\item Split landings, discard, and age data from the fixed gear fleet into two separate fleets: hook-and-line and pot gears
+\item Revise and fix selectivity and retention blocks based upon data and extend through 2024.
+\item Reprocess indices of abundance and age composition data from the \gls{s-tri}, \gls{s-aslope}, and \gls{s-nslope}.
+\item Reprocess and extend the index of abundance, length compositions, and conditional-age-at-length data from the \gls{s-wcgbt}. 
+\item Update maturity from maturity-at-length to maturity-at-age based upon new research.
+\item Update the natural mortality prior for female and males with a median of 0.072 yr$^{-1}$ and a standard error of 0.31. Continue to estimate sex-specific natural mortality.
+\item Update the ageing error bias and uncertainty based using available double-read information through 2024.
+\end{enumerate} 
 
 Removing the sea surface height environmental index and updating and extending landings had limited impact on the estimated summary biomass and fraction unfished (@fig-data-bridge-ssb-1 and @fig-data-bridge-depl-1). Reprocessing and extending the fishery ages reduced the overall scale of summary biomass and a more reduced fraction unfished across all model years. Data and model explorations determined that the change in estimates from the 2023 assessment was due to inclusion of additional historical ages (e.g., 1983 -- 2010) that were not included in previous assessments.  @tbl-fixed-age-samples-comp compares the number of ages by year and gear group between this assessment and the 2019 assessment. The revised age data primarily was collected in Oregon and we excluded due to the lack of information about the ageing method (e.g., break and burn, surface read, etc.) or were marked as special samples in the \gls{odfw} database. After conversations with staff at \gls{odfw} and \gls{cap} it was determined that ageing methodology has been generally consistent across time for sablefish and that these samples are likely read via break-and-burn, consistent with current methodology, and that records marked as special samples in early years of PacFIN data were randomly collected market samples similar to current sampling programs and that these data should be included in the assessment. Reprocessing and extending the fishery discard rates resulted in a reduced estimate of summary biomass relative and fraction unfished across the time series compared to the previous model (e.g., +fishery ages model, @fig-data-bridge-ssb-1 and @fig-data-bridge-depl-1). The methodology used to discard rates was improved for this assessment compared to previous assessments, which resulted in modest increases in the discard rates primarily for the fixed gear fleet (e.g., hook-and-line and pot, see Section \ref{discards} for additional information). Reprocessing and extending the mean discard weights and length compositions resulted in only minor changes to estimates. 
 
@@ -230,17 +232,19 @@ In summary, across the data bridging, including all available age data had the l
 
 This assessment made a number of structural changes to the model. The order of major structural and data changes were:
 
-13. Move the start of the main period for estimated annual recruitment deviations from 1925 to 1975 to align with the period of available data to inform recruitment and only start estimating recruitment deviations at the start of the model (1890).
-14. Only estimate annual recruitment deviations starting in 1975 (e.g., no annual recruitment deviations between 1890 -- 1974).
-15. Remove the index of abundance and age composition data from the \gls{s-aslope}.
-16. Split out foreign catches from the domestic trawl, hook-and-line, and pot fleets and replace discard lengths with the estimated discard ages. The model has six fishery fleets: three domestic fleets that estimate age-based selectivity and retention and three foreign fleets that mirror the age-based selectivity for the corresponding domestic fleet by gear.  
-17. Split the \gls{s-tri} survey into two separate survey fleets in the model and remove select years of age composition data.
-18. Revise the fixed and estimated selectivity parameters for the \gls{s-wcgbt} to better fit the age composition data.
-19. Switch to a discard fleet approach where discard mortality is estimated outside the model and included as separate fleets. The model now has six fishery fleets: three removal fleets and three discard fleets by gear type.
-20. Include empirical weight-at-age.
-21. Estimate a single natural mortality for both females and males.
-22. Update the assumed steepness from 0.70 to 0.75.
-23. Add new recruitment index and estimate annual recruitment deviations as simple deviations.
+\begin{enumerate}
+\item Move the start of the main period for estimated annual recruitment deviations from 1925 to 1975 to align with the period of available data to inform recruitment and only start estimating recruitment deviations at the start of the model (1890).
+\item Only estimate annual recruitment deviations starting in 1975 (e.g., no annual recruitment deviations between 1890 -- 1974).
+\item Remove the index of abundance and age composition data from the \gls{s-aslope}.
+\item Split out foreign catches from the domestic trawl, hook-and-line, and pot fleets and replace discard lengths with the estimated discard ages. The model has six fishery fleets: three domestic fleets that estimate age-based selectivity and retention and three foreign fleets that mirror the age-based selectivity for the corresponding domestic fleet by gear.  
+\item Split the \gls{s-tri} survey into two separate survey fleets in the model and remove select years of age composition data.
+\item Revise the fixed and estimated selectivity parameters for the \gls{s-wcgbt} to better fit the age composition data.
+\item Switch to a discard fleet approach where discard mortality is estimated outside the model and included as separate fleets. The model now has six fishery fleets: three removal fleets and three discard fleets by gear type.
+\item Include empirical weight-at-age.
+\item Estimate a single natural mortality for both females and males.
+\item Update the assumed steepness from 0.70 to 0.75.
+\item Add new recruitment index and estimate annual recruitment deviations as simple deviations.
+\end{enumerate}
 
 The 2019 assessment introduced a sea surface height index to inform the estimation of annual recruitment and the model structure of that assessment defined the main period of recruitment to range from 1925 -- 2018.  In Stock Synthesis, a user defines three recruitment periods: early, main, and late. The general guidance for defining recruitment periods is that the main period should be years when annual recruitment deviations are informed by the data (e.g., lower uncertainty intervals). Additionally, the 2019 assessment opted to model annual recruitment deviations with the constraint that the vector of main period deviations sum to zero (e.g. option 1 in Stock Synthesis). During early model explorations it was determined that the decision to start the main period in 1925 combined with the sum to zero constraint had a non-trivial impact on the overall model estimates.  Adjusting the main period for recruitment deviation estimation from 1925 to 1975, when annual recruitment deviations were well informed by the data, increased the estimated summary biomass between 1890 -- 2000 (@fig-structure-bridge-summary-3) and a more depleted population at the end of the time series (@fig-structure-bridge-depl-3). Additionally, during the early period of the time series there was a notable drop in the spawning output by 1960 and then a sharp increase in spawning output peaking in the mid-1970s that was not due to catches, but mostly due to recruitment deviations. The annual recruitment deviations from the the ageing error model, that retains the 2019 parameterization for early and main period for deviations, are generally more positive and less negative compared to the models that adjusted the period for main deviations (@fig-structure-bridge-rec-dev-3).  This difference in the estimation of the annual recruitment deviations is likely not driven by the data but rather the sum to zero constraint across the extended main period of the ageing error model. In order to simplify the model, and to estimate data driven trends in the time series early recruitment deviations were not estimated in the selected base model and sensitivities to this decision are also presented in Section \ref{sensitivities}.          
 
