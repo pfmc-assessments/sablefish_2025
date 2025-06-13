@@ -714,39 +714,6 @@ knitr::include_graphics(
 
 ## Biology
 
-```{r} 
-#| label: fig-data-watage
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: ""
-#| fig-alt: ""
-
-knitr::include_graphics(
-  here::here("report", "figures", "year_wt_at_age_estimate_survey.png")
-)
-
-```
-
-\pagebreak
-
-
-```{r} 
-#| label: fig-weight-at-age-female
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Female weight-at-age by year."
-#| fig-alt: ""
-#| fig-pos: H
-#| fig-height: 4
-
-knitr::include_graphics(
-  file.path(model_dir, "plots", "bio5_weightatsize.png")
-)
-
-```
-
 
 ```{r} 
 #| label: fig-external-growth
@@ -776,6 +743,40 @@ knitr::include_graphics(
 
 knitr::include_graphics(
   here::here("report", "figures", "external_growth_lat.png")
+)
+
+```
+
+
+```{r} 
+#| label: fig-data-watage
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: ""
+#| fig-alt: ""
+
+knitr::include_graphics(
+  here::here("report", "figures", "year_wt_at_age_estimate_survey.png")
+)
+
+```
+
+\pagebreak
+
+
+```{r} 
+#| label: fig-weight-at-age-female
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Female weight-at-age by year."
+#| fig-alt: ""
+#| fig-pos: H
+#| fig-height: 4
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "bio5_weightatsize.png")
 )
 
 ```

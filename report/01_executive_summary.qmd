@@ -488,3 +488,22 @@ cat(a, sep = '\n')
 
 ## Risk Table {-}
 
+
+#risk <- read.csv(here::here("report", "rda", "RiskTable.csv") 
+#risk|>
+#  gt::gt() |>
+#  gt::tab_options(
+#    table.font.size = 12,
+#    latex.use_longtable = TRUE
+#  ) |>
+#  gt::cols_label(
+#    Ecosystem.and.environmental.conditions = "Ecosystem and environmental conditions",
+#    Assessment.data.inputs = "Assessment data inputs",
+#    Assessment.model.fits.and.structural.uncertainty = "Assessment model fits and structural uncertainty"
+#  ) |>
+#  gt::cols_width(
+#    everything() ~ px(200)
+#  ) |>
+#  gt::as_latex()
+```
+
