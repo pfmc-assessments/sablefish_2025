@@ -497,7 +497,7 @@ risk <- read.csv(here::here("report", "rda", "RiskTable.csv") )
 risk|>
   gt::gt() |>
   gt::tab_options(
-    table.font.size = 12,
+    table.font.size = 8,
     latex.use_longtable = TRUE
   ) |>
   gt::cols_label(
