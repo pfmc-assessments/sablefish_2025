@@ -1122,10 +1122,23 @@ reference_points_table |>
 #| tbl-pos: H
 
 time_series_table |>
+  dplyr::rename(
+    `Spawning Output (mt)` = `Spawning output`,
+    `Stock Status` = `Fraction Unfished`) |>
+  dplyr::mutate(
+    `Spawning Output (mt)` = round(`Spawning Output (mt)`, 0),
+    `Total Biomass (mt)` = round(`Total Biomass (mt)`, 0),
+    `Total Biomass 3+ (mt)` = round(`Total Biomass 3+ (mt)`, 0),
+    `Age-0 Recruits (1,000s)` = round(`Age-0 Recruits (1,000s)`, 0),
+    `Stock Status` = round(`Stock Status`, 3),
+    `Exploitation Rate` = round(`Exploitation Rate`, 3),
+    `(1-SPR)/(1-SPR_45%)` = round(`(1-SPR)/(1-SPR_45%)`, 3)
+  ) |>
 kableExtra::kable(
   format = "latex", 
   longtable = TRUE,
   booktabs = TRUE,
+  format.args = list(big.mark = ","),
   caption = "Time series of population estimates from the base model.",
   linesep = "") |>
   kableExtra::kable_styling(
@@ -1134,7 +1147,7 @@ kableExtra::kable(
   kableExtra::column_spec(
     column = 1:9,
     width = "0.5in"
-  )
+  ) 
 
 ```
 
