@@ -1998,7 +1998,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Spawning ouptut trajectories from the base model and historical assessments for sablefish."
+#| fig-cap: "Spawning ouptut (e.g., spawning biomass) trajectories from the base model and historical assessments for sablefish."
 #| fig-alt: ""
 #| fig-pos: H
 
