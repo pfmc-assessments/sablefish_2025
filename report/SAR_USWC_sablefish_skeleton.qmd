@@ -312,8 +312,39 @@ k <- model_output$parameters |>
   as.numeric() |>
   round(3)
 
+
 sigma_r <- model_output$parameters |>
   dplyr::filter(Label == "SR_sigmaR") |>
+  dplyr::select(Label, Value) |>
+  tidyr::pivot_wider(
+    names_from = Label,
+    values_from = Value
+  ) |>
+  as.numeric() |>
+  round(2)
+
+find <- grep("Age_DblN_peak_TWL_Discards", model_output$parameters$Label)
+trawl_discard_peak <- model_output$parameters[find, ] |>
+  dplyr::select(Label, Value) |>
+  tidyr::pivot_wider(
+    names_from = Label,
+    values_from = Value
+  ) |>
+  as.numeric() |>
+  round(2)
+
+find <- grep("Age_DblN_peak_HKL_Discards", model_output$parameters$Label)
+hkl_discard_peak <- model_output$parameters[find, ] |>
+  dplyr::select(Label, Value) |>
+  tidyr::pivot_wider(
+    names_from = Label,
+    values_from = Value
+  ) |>
+  as.numeric() |>
+  round(2)
+
+find <- grep("Age_DblN_peak_Pot_Discard", model_output$parameters$Label)
+pot_discard_peak <- model_output$parameters[find, ] |>
   dplyr::select(Label, Value) |>
   tidyr::pivot_wider(
     names_from = Label,
