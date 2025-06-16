@@ -1048,7 +1048,9 @@ knitr::include_graphics(
 #| fig-alt: ""
 #| fig-pos: H
 
-
+knitr::include_graphics(
+  here::here("report", "figures", "fishery_selex_timeblocks.png")
+)
 
 ```
 
@@ -1061,10 +1063,11 @@ knitr::include_graphics(
 #| fig-alt: ""
 #| fig-pos: H
 
-
+knitr::include_graphics(
+  here::here("report", "figures", "survey_selex_timeblocks.png")
+)
 
 ```
-
 
 ## Fits to Data
 
