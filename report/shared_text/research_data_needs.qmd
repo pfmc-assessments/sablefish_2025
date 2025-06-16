@@ -17,13 +17,13 @@ unknown and can only be conjectured. Research into abundance in deep areas would
 be useful to verify that the assessment adequately predicts the entire spawning stock
 of sablefish. In addition, sablefish along the U.S. West Coast can move northward to
 Canada or Alaska management jurisdictions. Building on recent transboundary sablefish research
-[@kapur_range_2024; @kapur_tag_2025], investigations elucidating how variable movements (net
+(Kapur et al. 2024, Kapur et al. in press), investigations elucidating how variable movements (net
 emigration and immigration) are from year to year to better understand impacts on current
 management advice or, ultimately, incorporate these changes into stock assessment models.
 
 \item Recruitment: Continued investigation and refinement of environmental covariates for
 recruitment on a stock-wide, northeast Pacific scale. Continued evaluations into the estimation
-of steepness (*h*) is warrented in future stock assessments 
+of steepness ($h$) is warranted in future stock assessments 
 
 \item Stock trends: The \gls{s-wcgbt} is a critical data source in this assessment providing data
 about the age distribution of the stock, incoming recruitment with observations of age-0 fish, and
@@ -36,18 +36,18 @@ recruitment dynamics.
 \item Ageing: Age validation is needed to verify the level of age bias present in the data, if any.
 The assessment model now uses empirical weight-at-age data to track spatiotemporal variation in growth.
 The continuation of collecting representative otolith samples from fishery-independent and fishery-dependent
-sources, and processing those samples for age determination, is required to continue including time-varing
+sources, and processing those samples for age determination, is required to continue including time-varying
 growth into the assessment model. Continued research and pilot applications using Fourier Transform
 Near-Infared Spectroscopy (FT-NIRS) methods for ageing, which includes an understanding of the potential
-benefits (e.g., increase age determination throughput and efficiecy) and barriers (e.g., bias)
+benefits (e.g., increase age determination throughput and efficiency) and barriers (e.g., bias)
 specific to sablefish could help to achieve ongoing ageing goals given competing demands for available
-resources. In addition, there is an under-representation of ages from sablefish caught in fisheres off of California
+resources. In addition, there is an under-representation of ages from sablefish caught in fisheries off of California
 compared to other areas.  Biological sampling designs should strive to be consistent across the stock domain.
 
 \item Temporal and spatial biology: Research on understanding the interactions between spatial patterns in
 sablefish growth, maturity, and natural mortality across space and time will provide important information for future assessments.
 Both growth and maturity show latitudinal trends across the stock domain. While the current assessment
-accounts for these trends in the pre-processign of the data provided to the assessment model, it does so in a limited way.
+accounts for these trends in the pre-processing of the data provided to the assessment model, it does so in a limited way.
 While tracking spatiotemporal changes in natural mortality by sex or life-stage is difficult, often requiring data
 that is unavailable (e.g., extensive tagging data), there has been recent advances through the use of external
 ecosystem modeling approaches such as the Climate- Enhanced, Age-based model with Temperature-specific Trophic
