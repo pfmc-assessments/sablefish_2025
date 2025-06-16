@@ -756,3 +756,21 @@ SSplotComparisons(mysummary,
                   plotdir = here::here("model", "_discard_fleets", "watage"),
                   ylimAdj = 1.25,
                   pdf = TRUE)
+
+base_model <- SS_output(here::here("model", "_discard_fleets", "watage", "8.36_base_model"))
+fix_twl_discard_init <- SS_output(here::here("model", "_discard_fleets", "watage", "8.37_trawl_discard"))
+modelnames <- c(
+  "8.36 Base Model",
+  "8.37 Fix Trawl Discard Init")
+mysummary <- SSsummarize(list(
+  base_model ,
+  fix_twl_discard_init))
+SSplotComparisons(mysummary,
+                  filenameprefix = "8.37_trawl_discard_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.25,
+                  pdf = TRUE)
+SS_plots(fix_twl_discard_init)

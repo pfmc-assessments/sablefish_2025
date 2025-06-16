@@ -1003,3 +1003,21 @@ data_weight_growth <- SS_output(here::here("model", "_discard_fleets", "growth",
 # R0 = 10.1642
 # 101 parameters
 SS_plots(data_weight_growth)
+
+
+init <-  SS_output(here::here("model", "_discard_fleets", "growth", "0_init_hessian"))
+wcgbt <-  SS_output(here::here("model", "_discard_fleets", "growth", "_sensitivities", "0_init_hessian_wcgbt_selex"))
+modelnames <- c(
+  "0 Init Hessian",
+  "0 Init Hessian - Fix WCGBT Selex at 2023")
+mysummary <- SSsummarize(list(
+  init,
+  wcgbt))
+SSplotComparisons(mysummary,
+                  filenameprefix = "0_init_wcgbt_selex_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "growth"),
+                  ylimAdj = 1.25,
+                  pdf = TRUE)
