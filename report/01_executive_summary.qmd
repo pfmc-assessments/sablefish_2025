@@ -262,6 +262,8 @@ knitr::include_graphics(
 
 ## Exploitation Status {-}
 
+The estimated relative fishing intensity on the stock was at or above the current management target of 1.0 from 1982 to 2018 (@tbl-es-spr; @fig-es-spr). Since that time, fishing intensity has been below 1.0, declining to 0.70 by 2024 (with 95% asymptotic confidence intervals from 0.58 to 0.82). Here, fishing intensity is reported as a the ratio of one minus the spawning potential ratio to one minus the SPR target of 45%, or (1-SPR)/(1-SPR~45%~). The estimated exploitation rate (catch divided by biomass of fish of age-3 and above) for the most recent year was the lowest in the previous decade at 0.03 (@tbl-es-spr). Exploitation rate has fallen faster than relative fishing intensity in recent years because recent large recruitments are already contributing to age 3 plus biomass (exploitation) but have not all yet reached the age of maturity (approximatley 6 to 10 years) to contribute to spawning potential (relative fishing intensity).
+
 
 ```{r, results = "asis"}
 #| label: tbl-es-spr
