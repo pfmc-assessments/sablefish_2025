@@ -86,13 +86,7 @@ bibliography:
 -  asar_references.bib 
 ---
 
-
-\pagenumbering{roman}
-\setcounter{page}{1}
-
-\renewcommand{\thetable}{\roman{table}}
-\renewcommand{\thefigure}{\roman{figure}}
-
+\pagenumbering{gobble}
 
 ```{r, results='asis'}
 #| label: 'load_packages'
@@ -416,9 +410,15 @@ gmt_catch <- r4ss::SS_ForeCatch(model_output) |>
 
 Please cite this publication as: 
 
-Wetzel, C.R., A.M. Berger, C. Barnes, J.A. Zahner, N. Tolimieri. 2025. Status of the sablefish (*Anoplopoma fimbria*) off the U.S. West Coast in 2025. Pacific Fisheries Management Council, Portland, Oregon.
+Wetzel, C.R., A.M. Berger, C. Barnes, J.A. Zahner, N. Tolimieri, E.J. Ward., and M. Head. 2025. Status of the sablefish (*Anoplopoma fimbria*) off the U.S. West Coast in 2025. Pacific Fisheries Management Council, Portland, Oregon.
 
  {{< pagebreak >}} 
+ 
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\renewcommand{\thetable}{\roman{table}}
+\renewcommand{\thefigure}{\roman{figure}}
 
 
 ```{r, results='asis'}
@@ -464,6 +464,14 @@ cat(a, sep = '\n')
 
 {{< pagebreak >}} 
 
+\setlength{\parskip}{5mm plus1mm minus1mm}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\setcounter{section}{0}
+\renewcommand{\thefigure}{\arabic{figure}}
+\renewcommand{\thetable}{\arabic{table}}
+\setcounter{table}{0}
+\setcounter{figure}{0}
 
 ```{r, results='asis'}
 #| label: 'introduction'
