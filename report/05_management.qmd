@@ -42,7 +42,7 @@ The catches during the projection period, `r end_year + 2`--`r end_year + 12` we
 
 The estimated proportion of the `r data_end_year - 6`--`r data_end_year` observed biomass by the \gls{s-wcgbt} is shown in @tbl-prop-area.  
 
-## Risk Table
+## Risk Table {#risk}
 
 ```{r, results='asis'}
 #| label: 'risk-table'
