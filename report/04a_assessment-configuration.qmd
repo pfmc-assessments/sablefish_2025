@@ -147,7 +147,7 @@ The assessment was conducted used Stock Synthesis version 3.30.24 developed by D
 
 The base assessment model was developed to balance parsimony and realism, and the goal was to estimate a spawning output trajectory for the population off the West Coast of the U.S. The model contains many assumptions to achieve parsimony and uses many different sources of data to estimate reality. A series of investigative model runs were done to achieve the base model.
 
-### Model Changes from the Last Assessment
+### Model Changes from the Last Assessment {#changes}
 
 A number of data and modeling changes were made in this assessment relative to the previous benchmark assessment [@haltuch_status_2019]:
 

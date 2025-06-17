@@ -65,6 +65,47 @@ knitr::include_graphics(
 
 ## Data and Assessments {-}
 
+The last benchmark stock assessment for sablefish took place in 2019 and was followed by
+update assessments in 2021 ([@Kapur:2021:SSA]) and 2023 ([@johnson_status_2023]).
+Changes and additions between the 2023 update assessment and this assessment are listed
+in Section \ref{changes}. This assessment used the most recent version of the Stock Synthesis modeling
+platform (3.30.24). Primary data sources include landings and age-composition
+data from the retained catch. Discarded `r spp` and associated age-composition data (converted from
+length-compositions using a length-age key) are also used in this assessment. Weight-at-age data are used
+to empirically track changes in mean growth over time.
+The relative index of abundance estimated from the National Marine Fisheries Service (NMFS)
+Northwest Fisheries Science Center (NWFSC) West Coast Groundfish Bottom Trawl (WCGBT)
+Survey, which includes depths from 55-1,280 m, represents the primary source of information
+on the stock’s trend and was updated to include the most recent data, covering the period 2003-
+2024. This assessment also uses a relative index of abundance from the AFSC/NWFSC Triennial Shelf Survey,
+split into early (1980-1992) and late (1995-2004) periods, and the NWFSC Slope Survey conducted from 1998-2002.
+Additionally, an environmentally-driven recruitment index was incorporated into the stock assessment to
+inform the most recent five years of recruitment.
+
+The assessment is based upon a two-sex, age-structured model starting in 1890 and tracking annual changes in
+population dynamics up to an accumulated population age group of 70 years.
+Natural mortality was estimated and assumed to be time invariant and equal
+between males and females. An empirical weight-at-age approach was implemented
+with sex-specific time-varying growth between 2003 – 2024 that was spatially integrated on an annual
+basis to represent coastwide trends in growth. Growth prior to 2003 was considered constant. Age
+data were grouped by age between 0 – 50, with 50 being used as a data plus group.
+Age-based selectivity was estimated as dome-shaped for each fleet and survey, and selectivity time blocks were used
+to allow for shifts in selectivity for each fishery fleet. Additonally, selectivity was sex-specific for the mirrored hook-and-line
+and pot fleets. Recruitment deviations were estimated from 1975 onwards with no restraint to sum to zero over the main estimation time period.
+Steepness (`r h`), the standard deviation of recruitment variability (`r sigma_r`), the functional maturity schedule, and the fucundity
+relationship were fixed inputs in the model. Fecundity was time-varying as the product of time-varying weight-at-age data
+and a spatially-integrated maturity schedule. Ageing errors were updated for this assessment, and
+summary biomass was calculated for ages 3 plus. 
+
+The assessment was fit to data and prior information on natural mortality by minimizing the joint negative log-likelihood.
+The prior for *M* assumed a log normal distribution with a median of 0.072 yr$^{-1}$ and a standard error of 0.31. Age composition data
+was weighted by downsizing the input samples sizes for each data source following the Francis method. Twelve year projections were conducted that
+applied estimated *M*, the final year (i.e., time block) for fleet selectivity, a recent five year average weight-at-age (and similarly fecundity),
+and average recruitment. A suite of data and model structure
+sensitivites were conducted to examine the influence of individual data sources and base model robustness and stability. While base model results
+capture parametric uncertainty and senstivity evaluations explore structural uncertainty, total uncertainty is underestimated in current stock
+size and status because this approach does not account for the interaction between them or all possible alternative model structures
+for `r spp` population dynamics. 
 
 ## Stock Output and Dynamics {-}
 
