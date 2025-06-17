@@ -281,7 +281,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Proportion of tows where sablefish was present or absent across all years by latitude for the NWFSC West Coast Groundfish Bottom Trawl survey."
+#| fig-cap: "Proportion of tows where sablefish was present or absent across all years by latitude for the NWFSC West Coast Groundfish Bottom Trawl Survey."
 #| fig-alt: ""
 
  nwfscSurvey::plot_proportion(
@@ -302,7 +302,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Proportion of tows where sablefish was present or absent across all years by depth (m) for the NWFSC West Coast Groundfish Bottom Trawl survey."
+#| fig-cap: "Proportion of tows where sablefish was present or absent across all years by depth (m) for the NWFSC West Coast Groundfish Bottom Trawl Survey."
 #| fig-alt: ""
 
  nwfscSurvey::plot_proportion(
@@ -325,7 +325,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Sex ratio across all years by depth (m) for the NWFSC West Coast Groundfish Bottom Trawl survey."
+#| fig-cap: "Sex ratio across all years by depth (m) for the NWFSC West Coast Groundfish Bottom Trawl Survey."
 #| fig-alt: ""
 
  nwfscSurvey::plot_proportion(
@@ -346,7 +346,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Sampling locations for sablefish collected by the NWFSC West Coast Groundfish Bottom Trawl survey between 2003 and 2024. Standard lengths (rounded down to the nearest cm) are shown on the left and age estimates (yr) are shown on the right. Lighter colors represent smaller or younger individuals and darker colors represent larger or older individuals. Latitudinal and inshore-offshore patterns were similar for males and females, thus sexes were combined."
+#| fig-cap: "Sampling locations for sablefish collected by the NWFSC West Coast Groundfish Bottom Trawl Survey between 2003 and 2024. Standard lengths (rounded down to the nearest cm) are shown on the left and age estimates (yr) are shown on the right. Lighter colors represent smaller or younger individuals and darker colors represent larger or older individuals. Latitudinal and inshore-offshore patterns were similar for males and females, thus sexes were combined."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -394,7 +394,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "QQ plot for the NWFSC WCGBT survey."
+#| fig-cap: "QQ plot for the NWFSC West Coast Groundfish Bottom Trawl Survey."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -411,7 +411,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Relative index of abundance for the NWFSC WCGBT survey."
+#| fig-cap: "Relative index of abundance for the NWFSC West Coast Groundfish Bottom Trawl Survey."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -427,7 +427,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Age composition data by year from the NWFSC WCGBT survey. Females are shown in red, males in blue, and unsexed fish in grey."
+#| fig-cap: "Age composition data by year from the NWFSC West Coast Groundfish Bottom Trawl Survey. Females are shown in red, males in blue, and unsexed fish in grey."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -441,7 +441,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: ""
+#| fig-cap: "Mean age for NWFSC West Coast Groundfish Bottom Trawl Survey with 95 percent confidence intervals based on current sample sizes."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -456,7 +456,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "QQ plot for the NWFSC Slope survey."
+#| fig-cap: "QQ plot for the NWFSC Slope Survey."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -473,7 +473,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Relative index of abundance for the NWFSC Slope survey."
+#| fig-cap: "Relative index of abundance for the NWFSC Slope Survey."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -507,7 +507,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: ""
+#| fig-cap: "Mean age for NWFSC Slope Survey with 95 percent confidence intervals based on current sample sizes."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -524,7 +524,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "QQ plot for the Triennial survey for the early period, 1980-1992."
+#| fig-cap: "QQ plot for the Triennial Survey for the early period, 1980-1992."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -542,7 +542,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "QQ plot for the Triennial survey for the late period, 1995-2004."
+#| fig-cap: "QQ plot for the Triennial Survey for the late period, 1995-2004."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -559,7 +559,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Relative index of abundance for the Triennial survey 1980-1992."
+#| fig-cap: "Relative index of abundance for the Triennial Survey 1980-1992."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -576,7 +576,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Relative index of abundance for the Triennial survey 1995-2005."
+#| fig-cap: "Relative index of abundance for the Triennial Survey 1995-2005."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -593,7 +593,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Comparison of the distribution from all length data to the lengths from fish with ages."
+#| fig-cap: "Comparison of the distribution from all length data to the lengths from fish with ages collected by the Triennial Survey."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -608,7 +608,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Tow location by latitude and year where lengths were sampled (black open circles) compared to location of available age data (red filled triangles)"
+#| fig-cap: "Tow location by latitude and year where lengths were sampled (black open circles) compared to location of available age data (red filled triangles) from the Triennial Survey."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -657,7 +657,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: ""
+#| fig-cap: "Mean age for early period of Triennial Survey with 95 percent confidence intervals based on current sample sizes."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -673,7 +673,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: ""
+#| fig-cap: "Mean age for late period of Triennial Survey with 95 percent confidence intervals based on current sample sizes."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -689,7 +689,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: ""
+#| fig-cap: "Relative index of abundance for the AFSC Slope Survey."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -703,7 +703,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: ""
+#| fig-cap: "Comparison of the distribution from all length data to the lengths from fish with ages collected by the AFSC Slope Survey."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -721,7 +721,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Estimated length-at-age coastwide and by area for females (solid lines) and males (dashed lines) north and south of 36 degrees North latitude."
+#| fig-cap: "Estimated length-at-age coastwide and by area for females (solid lines) and males (dashed lines) north and south of 36 degrees N. latitude."
 #| fig-alt: ""
 #| fig-pos: H
 #| fig-height: 4
@@ -737,7 +737,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Latitudinal variation in sex-specific von Bertalanffy growth parameters (t0: length at age 0, k: growth coefficient, L∞: asymptotic length). Dashed horizontal line denotes 36.0° N. latitude. Predicted using the NWFSC West Coast Groundfish Bottom Trawl survey data between 2003 and 2024. The darker color represents females and the lighter color represents males."
+#| fig-cap: "Latitudinal variation in sex-specific von Bertalanffy growth parameters (t0: length at age 0, k: growth coefficient, L∞: asymptotic length). Dashed horizontal line denotes 36.0° N. latitude. Predicted using the NWFSC West Coast Groundfish Bottom Trawl Survey data between 2003 and 2024. The darker color represents females and the lighter color represents males."
 #| fig-alt: ""
 #| fig-pos: H
 #| fig-height: 4
@@ -754,7 +754,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: ""
+#| fig-cap: "Estimated weight-at-age by year and sex."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -1076,7 +1076,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Fit to index data for Triennial Shelf Slope Survey (1980-1992)."
+#| fig-cap: "Fit to index data for Triennial Survey (1980-1992)."
 #| fig-alt: ""
 #| fig-pos: H
 #| fig-height: 4
@@ -1093,7 +1093,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Fit to index data for Triennial Shelf Slope Survey (1995-2004)."
+#| fig-cap: "Fit to index data for Triennial Survey (1995-2004)."
 #| fig-alt: ""
 #| fig-pos: H
 #| fig-height: 4
@@ -1475,7 +1475,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Pearsons residuals to age composition data from the WCGBT Survey. Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
+#| fig-cap: "Pearsons residuals to age composition data from the NWFSC West Coast Groundfish Bottom Trawl Survey. Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
 #| fig-alt: ""
 #| fig-pos: H
 #| fig-height: 4
@@ -1491,7 +1491,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Mean age by year with confidence intervals for sexed and unsexed ages from the WCGBT Survey."
+#| fig-cap: "Mean age by year with confidence intervals for sexed and unsexed ages from the NWFSC West Coast Groundfish Bottom Trawl Survey."
 #| fig-alt: ""
 #| fig-pos: H
 #| fig-height: 4
@@ -1529,7 +1529,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Estimated time series of fraction of unfished spawning output for the base model."
+#| fig-cap: "Estimated time series of stock status (e.g., relative spawning output) for the base model."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1544,7 +1544,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Estimated time series of summary biomass for age 3 and olde for the base model."
+#| fig-cap: "Estimated time series of summary biomass for age 3 and older for the base model."
 #| fig-alt: ""
 #| fig-pos: H
 
