@@ -182,6 +182,20 @@ knitr::include_graphics(
 
 ## Recruitment {-}
 
+Sablefish recruitment is estimated to be quite variable with large amounts of uncertainty in individual
+recruitment events (@tbl-es-recr; @fig-es-recruits). In general, `r spp` has low to moderate recruitment
+(relative to the long-term average) with occasional large year classes (aligning with assumed high recruitment variability: `r sigma_r`).
+Initial model explorations found that there was limited information in the data to inform annual recruitment deviations prior to 1975, so recruitment
+deviations were not estimated prior to 1975 (@fig-es-recdevs).
+
+Absolute recruitment was generally low during the 1980s--2000s when stock size and spawning output were relatively low. After that time, several average to
+well above average recruitment events occurred, including the highest four recruitment events in the time series falling between 2016--2023.
+Years with the highest recruitment deviations were estimated to have occurred in `r top_recdevs[1, "years"]`, `r top_recdevs[2, "years"]`, `r top_recdevs[3, "years"]`, `r top_recdevs[4, "years"]`, and `r top_recdevs[5, "years"]`. The lowest annual recruitment deviations (e.g., negative deviations) were estimated to have occurred in `r low_recdevs[1, "years"]`, `r low_recdevs[2, "years"]`, `r low_recdevs[3, "years"]`, `r low_recdevs[4, "years"]`, and `r low_recdevs[5, "years"]`.
+The estimated annual recruitment deviation in 2024 is uncertain, but estimated to be above average based upon data from the \gls{s-wcgbt} and the recruitment index.
+The series of large recruitments from 2013 onwards is a major contributor to the rapid increase in spawning output and, in particular, summary biomass (ages 3 plus) over
+the last 8--10 years.
+
+
 ```{r, results = "asis"}
 #| label: tbl-es-recr
 #| warning: false
