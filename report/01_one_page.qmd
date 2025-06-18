@@ -7,6 +7,14 @@
 
 A coastwide assessment for sablefish off the U.S. West Coast was conducted in 2025 that estimated stock size, stock status, and new harvest limits using all available data through 2024.
 
+Add statement about the stock status, projected 2027-28 ofl and abc
+
+Talk about incoming strong recruitment
+
 ### What is the difference between this assessment and the 2023 assessment?
 
+Talk about weight-at-age, improved model structure to better account for discarding and total mortality, and improved approach to estimate recruitment
+
 ### What has led to the change in stock status?
+
+Including additional historical age data, improved accounting of discard mortality, approach to estimating recruitment, model structure and the survey selectivity
