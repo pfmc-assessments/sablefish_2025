@@ -76,7 +76,7 @@ format:
       - left=1in
     link-citations: true
     fig-pos: 'H'
-output-file: 'sablfefish_SAR_2025' 
+output-file: 'sablefish_SAR_2025' 
 params:
    office: 'NWFSC'
    species: 'sablefish'
