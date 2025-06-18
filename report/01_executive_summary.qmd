@@ -65,7 +65,7 @@ knitr::include_graphics(
 ## Data and Assessments {-}
 
 The last benchmark stock assessment for sablefish took place in 2019 and was followed by
-update assessments in 2021 [@Kapur:2021:SSA] and 2023 [@johnson_status_2023].
+update assessments in 2021 [@kapur_status_2021] and 2023 [@johnson_status_2023].
 Changes and additions between the 2023 update assessment and this assessment are listed
 in section \ref{changes}. This assessment used the most recent version of the Stock Synthesis modeling
 platform (3.30.24). Primary data sources include landings and age-composition
