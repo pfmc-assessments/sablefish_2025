@@ -1,16 +1,16 @@
 
-# One Page Summary {-}
+# Stock Assessment Summary {-}
 
-A coastwide assessment for sablefish off the U.S. West Coast was conducted in 2025 that estimated stock size, stock status, and new harvest limits using all available data through 2024. The 2025 assessment estimates the sablefish stock status to be lower than what was projected by the 2023 assessment, with the population below the management limit of 40 percent and in the precautionary zone until 2027 where the stock status is projected to be greater than 40 percent.
+In `r end_year`, the population size of mature female fish (spawning output) is estimated to be `r sb_final` metric tons (mt) and a relative spawning output compared to unfished of `r depl_final*100` percent. The total population (mature and immature fish) is estimated to be sharply increasing in recent years from multiple strong cohorts (e.g., recruitment) occurring in 2016, 2020, 2021, and 2023. The projected coastwide Overfishing Limit (OFL) and Acceptable Biological Catch (ABC) in 2025 are 14,935 mt and 13,965 mt, respectively. The projected coastwide OFL and ABC in 2026 are 16,240 mt and 15,103 mt, respectively. 
 
-The assessment estimates the population size of mature female fish (spawning output) to be `r sb_final` metric tons and a relative spawning output to unfished of `r depl_final*100` percent in `r end_year`. The projected Add statement about the stock status, projected 2027-28 ofl and abc
+This assessment includes all available data on catches (landings and discards), an updated index of abundance from the Northwest Fisheries Science Center West Coast Groundfish Bottom Trawl Survey (WCGBTS) from 2003--2024, all available fishery and survey ages through 2024, and empirical weight-at-age data to empirically track changes in mean growth over time.
 
-Talk about incoming strong recruitment
+The 2025 assessment estimates the stock status of sablefish to be lower than what was projected by the 2023 assessment, with the population below the management limit of 40 percent and in the precautionary zone until 2027 where the stock status is projected to be greater than 40 percent.
 
-### What is the difference between this assessment and the 2023 assessment?
+### What is the difference between this assessment and the 2023 assessment? {-}
 
-Talk about weight-at-age, improved model structure to better account for discarding and total mortality, and improved approach to estimate recruitment
+This assessment includes a number of improvements and changes in the model relative to the 2023 assessment.  This assessment includes two major improvements to the data. The first is that additional historical ages collected from the commercial fishery between 1983--2000, primarily collected in Oregon, were identified and used used in the assessment.  The second improvement to the data was an improved approach to estimate mortality of discarded fish by the commercial fishery based upon available data collected across fishery sectors with these estimates included in the model in a more transparent fashion.  In additional to the improvements to the data, a number of changes were made to the model assumptions that were determined to better represent sablefish biological processes off the West Coast.  The first was that the model moved to a data driven approach to estimate annual recruitments with greater flexibility in the model to estimate low and high recruitment years based upon the available data. The second improvement to the model was to incorporate empirical weight-at-age data that better accounts for variable  growth by sex, year, and area across the West Coast. These changes in the data and modeling led to this assessment estimating a higher unfished stock size and a lower stock status compared to the 2023 assessment. 
 
-### What has led to the change in stock status?
+### What has led to the change in stock status? {-}
 
 Including additional historical age data, improved accounting of discard mortality, approach to estimating recruitment, model structure and the survey selectivity
