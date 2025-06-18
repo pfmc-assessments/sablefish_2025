@@ -44,33 +44,8 @@ The estimated proportion of the `r data_end_year - 6`--`r data_end_year` observe
 
 ## Risk Table {#risk}
 
-Oceanographers and stock assessment scientists jointly constructed a risk table to identify the main ecosystem and environmental processes for `r spp` that should be considered in conjunction with available data used in the stock assessment and the structural uncertainty embedded in the assessment (@tbl-risk-table). The group considered ecosystem and environmental indicators for `r spp` recruitment, habitat, prey, predators, competitors, and the recent climate vulnerability assessment {@McClure:2023:VCC}. Overall, the group considered these conditions to generally be favorable (Level 1), despite unresolved uncertainty with linkages between trends in primary predators and competitors and a overall climate vulnerability score of *moderate*.
-Data inputs for `r spp` were scored as favorable (Level 1) given confidence in historical catch reconstuctions, a comprehensive and representative survey index of abundance (WCGBTS), well sampled age data beginning at age zero, an informative recruitment index, and information on time- (growth) and -spatially-varying (maturity) life history characteristics across the stock range. The ability for the stock assessment model to fit the data and capture key sources of structural uncertainty was also scored as favorable (Level 1). Despite the need to fix certain productivity parameters (e.g., steepness and recruitment variability) or simplify some assumptions (e.g., sex invarient *M* and no net loss from emigratoin or immigration), model complexity seemed to balance well potential bias and variance in a way that stabalized `r spp` population dynamics across a wide breadth of alternative data and model structures (see section \ref{sensitivities} for sensitivity evaluations).
-
-```{r, results = "asis"}
-#| label: tbl-risk-table
-#| warning: false
-#| echo: false
-#| tbl-cap: "‘Risk Table’ for sablefish to document ecosystem and environmental factors potentially affecting stock productivity and uncertainty or other concerns arising from the stock assessment. Level 1 is a favorable ranking, Level 2 neutral, and Level 3 unfavorable."
-#| tbl-pos: H
-
-risk <- read.csv(here::here("report", "rda", "RiskTable.csv") )
-risk|>
-  gt::gt() |>
-  gt::tab_options(
-    table.font.size = 8,
-    latex.use_longtable = TRUE
-  ) |>
-  gt::cols_label(
-    Ecosystem.and.environmental.conditions = "Ecosystem and environmental conditions",
-    Assessment.data.inputs = "Assessment data inputs",
-    Assessment.model.fits.and.structural.uncertainty = "Assessment model fits and structural uncertainty"
-  ) |>
-  gt::cols_width(
-    everything() ~ px(200)
-  ) |>
-  gt::as_latex()
-```
+Oceanographers and stock assessment scientists jointly constructed a risk table to identify the main ecosystem and environmental processes for `r spp` that should be considered in conjunction with available data used in the stock assessment and the structural uncertainty embedded in the assessment (@tbl-risk-table). The group considered ecosystem and environmental indicators for `r spp` recruitment, habitat, prey, predators, competitors, and the recent climate vulnerability assessment [@McClure:2023:VCC]. Overall, the group considered these conditions to generally be favorable (Level 1), despite unresolved uncertainty with linkages between trends in primary predators and competitors and a overall climate vulnerability score of *moderate*.
+Data inputs for `r spp` were scored as favorable (Level 1) given confidence in historical catch reconstructions, a comprehensive and representative survey index of abundance (WCGBTS), well sampled age data beginning at age zero, an informative recruitment index, and information on time- (growth) and -spatially-varying (maturity) life history characteristics across the stock range. The ability for the stock assessment model to fit the data and capture key sources of structural uncertainty was also scored as favorable (Level 1). Despite the need to fix certain productivity parameters (e.g., steepness and recruitment variability) or simplify some assumptions (e.g., sex invariant *M* and no net loss from emigration or immigration), model complexity seemed to balance well potential bias and variance in a way that stabilized `r spp` population dynamics across a wide breadth of alternative data and model structures (see section \ref{sensitivities} for sensitivity evaluations).
 
 ## Unresolved Problems and Major Uncertainties
 
