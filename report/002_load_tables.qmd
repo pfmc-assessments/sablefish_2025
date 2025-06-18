@@ -18,7 +18,7 @@ if (file.exists(table_dir)) {
   catches_es_cap <- catches_es$cap
   rm(catches_es)
   
-  ssb_es_table <- ssb_es$table
+  ssb_es_table <- ssb_es$table 
   ssb_es_cap <- ssb_es$cap
   rm(ssb_es)
   

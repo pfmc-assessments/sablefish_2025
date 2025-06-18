@@ -203,6 +203,10 @@ if (!file.exists(table_dir)) {
     dir = general_dir
   )
 }
+# Move select r4ss figures
+file.copy(file.path(model_dir, "plots", "SPR4_phase.png"), here::here("report", "figures", "SPR4_phase.png"), overwrite = TRUE)
+file.copy(file.path(model_dir, "plots", "ts7_Spawning_output_with_95_intervals.png"), here::here("report", "figures", "ts7_Spawning_output_with_95_intervals.png"), overwrite = TRUE)
+file.copy(file.path(model_dir, "plots", "yield2_yield_curve_with_refpoints.png"), here::here("report", "figures", "yield2_yield_curve_with_refpoints.png"), overwrite = TRUE)
 
 # Other potential directories that could be useful
 sens_dir <-  here::here("model", "_sensitivities")

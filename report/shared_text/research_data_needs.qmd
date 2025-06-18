@@ -11,7 +11,7 @@ migration and help determine if there are localized populations.
 
 \item Stock boundaries: A common question in stock assessments is whether or not the
 entire stock is being represented. Sablefish live deeper than the range of the fisheries
-and surveys. The assessment model attempts to account for out of area biomass
+and surveys off the U.S. West Coast. The assessment model attempts to account for out of area biomass
 through catchability coefficients and selectivity curves, but that portion of the stock is
 unknown and can only be conjectured. Research into abundance in deep areas would
 be useful to verify that the assessment adequately predicts the entire spawning stock
@@ -25,9 +25,9 @@ management advice or, ultimately, incorporate these changes into stock assessmen
 recruitment on a stock-wide, northeast Pacific scale. Continued evaluations into the estimation
 of steepness ($h$) is warranted in future stock assessments 
 
-\item Stock trends: The \gls{s-wcgbt} is a critical data source in this assessment providing data
+\item Stock trends: The WCGBTS is a critical data source in this assessment providing data
 about the age distribution of the stock, incoming recruitment with observations of age-0 fish, and
-an informative trend in biomass. Continuation of the annual \gls{s-wcgbt} will provide information
+an informative trend in biomass. Continuation of the annual WCGBTS will provide information
 on stock trends and incoming recruitments. A longer survey time series may improve the precision of
 estimates of absolute stock size and productivity into the future. This is particularly true now that
 the stock has had substantial contrast (declines and inclines) in stock biomass, catch, and
@@ -35,14 +35,14 @@ recruitment dynamics.
 
 \item Ageing: Age validation is needed to verify the level of age bias present in the data, if any.
 The assessment model now uses empirical weight-at-age data to track spatiotemporal variation in growth.
-The continuation of collecting representative otolith samples from fishery-independent and fishery-dependent
+The continuation of collecting representative otolith samples and fish weights from fishery-independent and fishery-dependent
 sources, and processing those samples for age determination, is required to continue including time-varying
 growth into the assessment model. Continued research and pilot applications using Fourier Transform
 Near-Infared Spectroscopy (FT-NIRS) methods for ageing, which includes an understanding of the potential
 benefits (e.g., increase age determination throughput and efficiency) and barriers (e.g., bias)
 specific to sablefish could help to achieve ongoing ageing goals given competing demands for available
 resources. In addition, there is an under-representation of ages from sablefish caught in fisheries off of California
-compared to other areas.  Biological sampling designs should strive to be consistent across the stock domain.
+compared to other areas. Biological sampling designs should strive to be consistent across the stock domain.
 
 \item Temporal and spatial biology: Research on understanding the interactions between spatial patterns in
 sablefish growth, maturity, and natural mortality across space and time will provide important information for future assessments.
