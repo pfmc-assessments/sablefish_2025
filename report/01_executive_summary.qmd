@@ -422,6 +422,8 @@ The projection of spawning ouput, stock status, and harvest limits were develope
 
 The catches during the projection period, `r end_year + 2`--`r end_year + 12` were set equal to the year-specific \glsplural{abc} (@tbl-es-projections). The spawning output and stock status increase during the projection due to the estimated large recruitments in 2020, 2021, and 2023 maturing and entering the spawning population, resulting in future \glsplural{ofl} and \glsplural{abc}.
 
+The construction of a decision table and the axis of uncertainty will be discussed at the Stock Assessment Review (STAR) Panel and will be added to the report in subsequent drafts.
+
 ```{r, results = "asis"}
 #| label: tbl-es-gmt-catch
 #| warning: false
