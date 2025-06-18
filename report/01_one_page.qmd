@@ -1,2 +1,12 @@
 
 # One Page Summary {-}
+
+::: {.img-float}
+![](figures/ts7_Spawning_output_with_95_intervals.png){style="float: right; margin: 5px;" width=50%}
+:::
+
+A coastwide assessment for sablefish off the U.S. West Coast was conducted in 2025 that estimated stock size, stock status, and new harvest limits using all available data through 2024.
+
+### What is the difference between this assessment and the 2023 assessment?
+
+### What has led to the change in stock status?

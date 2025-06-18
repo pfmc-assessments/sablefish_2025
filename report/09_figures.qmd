@@ -1608,7 +1608,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Maximum likelihood estimates of relative spawning biomass (i.e., fraction of unfished spawning biomass) for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel survey, or the Northwest Fisheries Science Center Slope survey. Additionally, estimates for the removal of the environmental-based recruitment index are shown. Shaded regions represent asymptotic 95% confidence intervals."
+#| fig-cap: "Maximum likelihood estimates of fraction of unfished (i.e., stock status) for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel survey, or the Northwest Fisheries Science Center Slope survey. Additionally, estimates for the removal of the environmental-based recruitment index are shown. Shaded regions represent asymptotic 95% confidence intervals."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1668,7 +1668,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Maximum likelihood estimates of relative spawning biomass (i.e., fraction of unfished spawning biomass) for the base model and alternative sensitivity runs representing the estimation of growth (rather than using an empircal weight-at-age approach for growth as in the base model), the estimation of sex-specific natural mortality (*M*), and fixing *M* at the value used in the assessment of Sablefish in Alaska, adjusted upwards to offset potential net emigration to Canada, or set to sex-specific values used in the 2019 U.S. West Coast assessment of sablefish. Shaded regions represent asymptotic 95 percent confidence intervals."
+#| fig-cap: "Maximum likelihood estimates of fraction of unfished (i.e., stock status) for the base model and alternative sensitivity runs representing the estimation of growth (rather than using an empircal weight-at-age approach for growth as in the base model), the estimation of sex-specific natural mortality (*M*), and fixing *M* at the value used in the assessment of Sablefish in Alaska, adjusted upwards to offset potential net emigration to Canada, or set to sex-specific values used in the 2019 U.S. West Coast assessment of sablefish. Shaded regions represent asymptotic 95 percent confidence intervals."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1713,7 +1713,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Maximum likelihood estimates of relative spawning biomass (i.e., fraction of unfished spawning biomass) for the base model and alternative sensitivity runs representing the estimaton of steepness (*h*), imposing the restriction that recruitment deviations in the main recruitment period must sum to zero, and estimating early (1890-1974) recruitment deviations with the sum to zero constraint imposed. Shaded regions represent asymptotic 95 percent confidence intervals."
+#| fig-cap: "Maximum likelihood estimates of fraction of unfished (i.e., stock status) for the base model and alternative sensitivity runs representing the estimaton of steepness (*h*), imposing the restriction that recruitment deviations in the main recruitment period must sum to zero, and estimating early (1890-1974) recruitment deviations with the sum to zero constraint imposed. Shaded regions represent asymptotic 95 percent confidence intervals."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1758,7 +1758,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Maximum likelihood estimates of relative spawning biomass (i.e., fraction of unfished spawning biomass) for the base model and alternative sensitivity runs representing the use of the McAllister-Ianelli harmonic mean method for weighting composition data, the specification of asymptotic selectivity for NWFSC surveys, and using the ageing error vector applied in the 2019 stock assessment. Shaded regions represent asymptotic 95 percent confidence intervals."
+#| fig-cap: "Maximum likelihood estimates of fraction of unfished (i.e., stock status) for the base model and alternative sensitivity runs representing the use of the McAllister-Ianelli harmonic mean method for weighting composition data, the specification of asymptotic selectivity for NWFSC surveys, and using the ageing error vector applied in the 2019 stock assessment. Shaded regions represent asymptotic 95 percent confidence intervals."
 #| fig-alt: ""
 #| fig-pos: H
 
