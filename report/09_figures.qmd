@@ -58,10 +58,6 @@ text(-115.5, 32.1, "Mexico")
 
 ``` 
 
-\pagebreak
-
-## Fisheries off Canada and Alaska
-
 
 ![Time series of sablefish biomass-based and fishing-based estimates of status in Alaska, British Columbia, and along the U.S. West Coast from the most recent stock assessments. The arrow indicates estimates for the current year of the stock assessment. Vertical and horizontal axes differ by area due to region-dependent reference point use and specifications.](figures/regional_Kobe.png){#fig-reg-kobe height=7in fig-alt=""}
 
