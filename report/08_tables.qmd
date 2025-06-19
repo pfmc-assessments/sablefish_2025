@@ -82,24 +82,35 @@ recent_management_table |>
 
 
 ```{r, results = "asis"}
-#| label: tbl-discard-rates-twl
+#| label: tbl-discard-rates
 #| warning: false
 #| echo: false
-#| tbl-cap: "Observed discard rates by year for trawl gear."
+#| tbl-cap: "Observed discard rates by gear based upon West Coast Groundfish Observer Program (2002-2023) and Pikitch (1985-1987) data."
 #| tbl-pos: H
 
 read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
-  dplyr::filter(fleet %in% c(1, 4)) |>
-  dplyr::select(-month, -fleet) |>
+  dplyr::select(-month, -sd) |>
   dplyr::rename(
     Year = year,
-    `Discard Rate` = discard_rate,
-    `SD` = sd
+  ) |>
+  dplyr::mutate(
+    fleet = dplyr::case_when(
+      fleet %in% c(1, 4) ~ "Trawl Discard Rate",
+      fleet %in% c(2, 5) ~ "Hook-and-Line Discard Rate",
+      .default = "Pot Discard Rate")
+  ) |>
+  tidyr::pivot_wider(
+    names_from = fleet,
+    values_from = discard_rate
   ) |>
   gt::gt() |>
   gt::fmt_number(
-    columns = 2:3,
-    decimals = 2
+    columns = 2:4,
+    decimals = 3
+  ) |>
+  gt::sub_missing(
+    columns = tidyselect::everything(),
+    missing_text = "-"
   ) |>
   gt::tab_options(
     table.font.size = 12,
@@ -111,65 +122,6 @@ read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
 
 \pagebreak
 
-```{r, results = "asis"}
-#| label: tbl-discard-rates-hkl
-#| warning: false
-#| echo: false
-#| tbl-cap: "Observed discard rates by year for hook-and-line gear."
-#| tbl-pos: H
-
-read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
-  dplyr::filter(fleet %in% c(2, 5)) |>
-  dplyr::select(-month, -fleet) |>
-  dplyr::rename(
-    Year = year,
-    `Discard Rate` = discard_rate, 
-    `SD` = sd
-  ) |>
-  gt::gt() |>
-  gt::fmt_number(
-    columns = 2:3,
-    decimals = 2
-  ) |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE
-  ) |>
-  gt::as_latex()
-
-```
-
-\pagebreak
-
-```{r, results = "asis"}
-#| label: tbl-discard-rates-pot
-#| warning: false
-#| echo: false
-#| tbl-cap: "Observed discard rates by year for pot gear."
-#| tbl-pos: H
-
-read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
-  dplyr::filter(fleet %in% c(3, 6)) |>
-  dplyr::select(-month, -fleet) |>
-  dplyr::rename(
-    Year = year,
-    `Discard Rate` = discard_rate,
-    `SD` = sd
-  ) |>
-  gt::gt() |>
-  gt::fmt_number(
-    columns = 2:3,
-    decimals = 2
-  ) |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE
-  ) |>
-  gt::as_latex()
-
-```
-
-\pagebreak
 
 ```{r}
 #| label: tbl-twl-age-samples-comp
