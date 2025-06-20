@@ -1,4 +1,4 @@
-Metric,Base Model,Estimate Growth,M Sex-Specific,M Alaska Assessment,M Adjust For Migration,M Fix 2019 Assessment
+Metric,Base Model,Estimate Growth,M Sex Specific,M Alaska Assessment,M Adjust For Migration,M Fix 2019 Assessment
 Total Likelihood,1335.77,1863.72,1335.92,1350.18,1371.66,1352.8
 Survey Likelihood,-43.5121,-34.2489,-43.3412,-44.2285,-43.697,-40.399
 Length Likelihood,0,52.7196,0,0,0,0
@@ -13,14 +13,14 @@ Fraction Unfished 2025,0.339182,0.326097,0.34206,0.292649,0.261045,0.400217
 Total Yield - SPR 45,11126.2,10370.5,11260.7,22649.5,39689.7,7513.39
 Steepness,0.75,0.75,0.75,0.75,0.75,0.75
 Natural Mortality - Female,0.087777,0.0843856,0.0886109,0.114,0.131577,0.0759
-Length at Amin - Female, -,25.1389, -, -, -, -
-Length at Amax - Female, -,61.0696, -, -, -, -
-Von Bert. k - Female, -,0.338264, -, -, -, -
-CV young - Female, -,0.0986988, -, -, -, -
-CV old - Female, -,0.0876792, -, -, -, -
+Length at Amin - Female,,25.1389,,,,
+Length at Amax - Female,,61.0696,,,,
+Von Bert. k - Female,,0.338264,,,,
+CV young - Female,,0.0986988,,,,
+CV old - Female,,0.0876792,,,,
 Natural Mortality - Male,0.087777,0.0843856,0.0875998,0.114,0.131577,0.0675
-Length at Amin - Male, -,26.5271, -, -, -, -
-Length at Amax - Male, -,56.1571, -, -, -, -
-Von Bert. k - Male, -,0.351069, -, -, -, -
-CV young - Male, -,0.0860268, -, -, -, -
-CV old - Male, -,0.0727623, -, -, -, -
+Length at Amin - Male,,26.5271,,,,
+Length at Amax - Male,,56.1571,,,,
+Von Bert. k - Male,,0.351069,,,,
+CV young - Male,,0.0860268,,,,
+CV old - Male,,0.0727623,,,,
