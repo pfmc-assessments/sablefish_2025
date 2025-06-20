@@ -41,8 +41,8 @@ catches_es_table |>
   gt::cols_align(
     align = "center"
   ) |>
-  cols_width(
-    everything() ~ px(75)
+  gt::cols_width(
+    tidyselect::everything() ~ px(75)
   ) |>
   gt::as_latex()
 
