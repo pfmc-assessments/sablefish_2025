@@ -24,12 +24,13 @@ The sablefish stock-recruitment curve relationship is weak suggesting that envir
 
 Here, we evaluate using output from the GLORYS oceanographic model (described further below) for predicting variation in natural log of recruitment deviations from the sablefish stock assessment.
 
-## Conceptual life-history model {#sec-lh}
+### Conceptual life-history model {#sec-lh}
 
 The conceptual life-history model was developed by @tolimieri2018oceanographic. The the conceptual model is summarized here (@tbl-LH). All predictors were derived from the GLORYS data (see below).
 
 \newpage
 
+::: {.landscape}
 ```{r}
 #| label: tbl-LH
 #| warning: false
@@ -41,23 +42,25 @@ LH[is.na(LH)] <- " "
 LH |>
   gt::gt() |>
   gt::tab_options(
-  table.font.size = 10,
-  latex.use_longtable = TRUE) |>
+    table.font.size = 10,
+    page.orientation = "landscape",
+    latex.use_longtable = TRUE) |>
   gt::cols_hide("Dummy column") |>
   gt::cols_width(
    `Life-history stage` ~ px(100),
-    Hypothesis ~ px(200),
-    `Longitudinal extent` ~ px(75),
-    `Time period` ~ px(50),
+    Hypothesis ~ px(250),
+    `Longitudinal extent` ~ px(120),
+    `Time period` ~ px(75),
     Covariates ~ px(75),
     Depth ~ px(75),
-    Stage ~ px(50)
+    Stage ~ px(70)
   ) |>
   gt::as_latex()
 
 ```
+:::
 
-## Oceanographic time series {#sec-oceants}
+### Oceanographic time series {#sec-oceants}
 
 We used oceanographic model products produced by Copernicus Marine Environment Monitoring Service (CMEMS) (<https://marine.copernicus.eu/>) and Mercator Ocean International (MOI) (<https://www.mercator-ocean.eu/>) to test if this modelling framework could be used to produce an environmental index of sablefish recruitment.
 
@@ -77,19 +80,19 @@ Overall, the combined GLORYS time series did not show obvious break points from 
 
 ![Transport and temperatures times series from the GLORYS models. DD = degree days, T = temperature, MLD = mixed-layer depth, LST = longshore transport, CST = cross-shelf transport, pre = female precondition period prior to spawning, egg = egg stage, larv = larval stage, pjuv = pelagic juveniles, bjuv = benthic juveniles.](figures/glorys_time_series.png){#fig-glorys-ts}
 
-### Correlations among variables {#sec-corr}
+#### Correlations among variables {#sec-corr}
 
 GLORYS predictors were pre-screened for correlations among variables and non-linear relationships with sablefish recruitment deviations. Correlated predictors (r $\ge$ 0.75, [Fig. @fig-glorys-corr]) were excluded from the same model.
 
 ![Correlations between GLORYS time series. DD = degree days, T = temperature, MLD = mixed-layer depth, LST = longshore transport, CST = cross-shelf transport, pre = female precondition period prior to spawning, egg = egg stage, larv = larval stage, pjuv = pelagic juveniles, bjuv = benthic juveniles.](figures/glorys-correlations-among-variables.png){#fig-glorys-corr}
 
-### Non-linear relationships {#sec-nonlin}
+#### Non-linear relationships {#sec-nonlin}
 
 Non-linearity for individual terms was evaluated by comparing the linear model to a model including both the linear and quadratic forms of the predictor. If the AICc of the quadratic form was lower, we included the quadratic form as a potential predictor as well, but required that the linear term appear in models that included the quadratic from.
 
-## Index development {#sec-indexdevel}
+### Index development {#sec-indexdevel}
 
-### Methods
+#### Methods
 
 We used linear models to examine relationships between ln(recruitment deviations) from the 2023 sablefish stock assessment and predictors from the GLOYRS model output. We used 1993-2019 as training data, leaving 2020-2024 as out-of-sample for use in the sensitivity analyses. We fit all combinations of the GLORYS predictors, excluding correlated variables from the same model, and limiting the the total number of predictors in any model to three (just over 8 data points per predictor). Model selection was carried out using the 'dredge' function in the MuMIn package in R [@R-base; @MuMIn-cite]. Candidate models were evaluated based on their $\Delta$AICc and number of predictors.
 
@@ -120,7 +123,7 @@ gt::gt(df) |>
 r2 = df[3,'R2']
 ```
 
-### Results
+#### Results
 
 Five models had $\Delta$AICc values $\le$ 2.0 (@tbl-aic). All models included cross-shelf transport during pelagic juvenile (CSTpjuv), and benthic juvenile (CSTbjuv) stages. Model 3 was chosen as the best-fit because it had the fewest predictors (2), and these two predictors were in all top-five models providing consistency. The best-fit model explained `r round(r2, 2)*100`% of the variation in recruitment deviations from 1993-2022 ( r^2^ = `r round(r2, 2)` , @tbl-aic, [Fig. @fig-glorys-fit]). The model tracked the data well with most recruitment deviations falling with $\pm$ 1.0 s.e. of the recruitment index ([Fig. @fig-glorys-fit]).
 
@@ -132,7 +135,7 @@ For all models recruitment was negatively correlated with CSTpjuv suggesting tha
 
 ![Partial residual plots of GLORYS predictors. CST = cross-shelf transport, T = temperature, spawn = spaning stage, pjuv = pelagic juvenile, and bjuv = benthic juvenile stage.](figures/gloyrs_figure_4.png){#fig-glorys-terms fig-align="center"}
 
-### Model testing {#sec-modeltest}
+#### Model testing {#sec-modeltest}
 
 Model diagnostics were examined and testing was carried out to determine how stable the best-fit model was to both individual years and the precision of the estimates of recruitment deviations. Testing followed @tolimieri2018oceanographic and @haltuch2020oceanographic, but only a subset of test results is shown here:
 
@@ -168,7 +171,7 @@ cs = colSums(df_jack, na.rm = T)
 
 ```
 
-### Forward prediction {#sec-forwardpred}
+#### Forward prediction {#sec-forwardpred}
 
 GLORYS data were available through 2024, so we used the results of the index fitting above to predict ln recruitment deviations from 2020 - 2024 ([Fig. @fig-predicted-recdevs]. The model predicted average recruitment in 2020 and above average recruitment in 2021, 2023, and 2024. The model picked up low recruitment in 2022, consistent with the recruitment deviations from the 2023 assessment but under predicted high recruitment in 2020, and 2021; thus the predictions were conservative.
 
