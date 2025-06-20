@@ -678,7 +678,11 @@ data <- read.csv(here::here("data-processed", "data_weight_at_age_survey.csv")) 
       values_from = n,
       values_fill = 0
     ) |>
-    dplyr::rename(Year = year, Sex = sex) |>
+    dplyr::rename(
+      Year = year, 
+      Sex = sex,
+      `25+` = `25`
+    ) |>
     dplyr::ungroup() |>
   gt::gt() |>
   gt::opt_stylize(style = 1) |>
