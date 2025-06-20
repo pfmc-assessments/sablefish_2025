@@ -15,8 +15,8 @@ rda_dir <- here::here('rda_files')
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Map of the assessment area."
-#| fig-alt: "Map of the U.S. West Coast with a line indicating that this assessment covers the full U.S. West Coast."
+#| fig-cap: "Map of the assessment area and management areas for sablefish off the U.S. West Coast."
+#| fig-alt: "This assessment assumes a coastwide assessment area for the U.S. West Coast with management areas split north and south of 36° N. latitude north latitude."
 #| fig-width: 7
 #| fig-height: 8
 
@@ -59,7 +59,7 @@ text(-115.5, 32.1, "Mexico")
 ``` 
 
 
-![Time series of sablefish biomass-based and fishing-based estimates of status in Alaska, British Columbia, and along the U.S. West Coast from the most recent stock assessments. The arrow indicates estimates for the current year of the stock assessment. Vertical and horizontal axes differ by area due to region-dependent reference point use and specifications.](figures/regional_Kobe.png){#fig-reg-kobe height=7in fig-alt=""}
+![Time series of sablefish biomass-based and fishing-based estimates of status in Alaska, British Columbia, and along the U.S. West Coast from the most recent stock assessments. The arrow indicates estimates for the current year of the stock assessment. Vertical and horizontal axes differ by area due to region-dependent reference point use and specifications.](figures/regional_Kobe.png){#fig-reg-kobe height=7in fig-alt="The stock in both Alaska and British Columbia is assessed to be above the management target with harvest less that the target harvest rate. The U.S. West Coast stock is assessed to be below the biomass target with harest less than the target harvest rate in 2024."}
 
 ## Data
 
@@ -69,7 +69,7 @@ text(-115.5, 32.1, "Mexico")
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Data used in the base model."
-#| fig-alt: ""
+#| fig-alt: "Catch data available from 1890 to 2024 for all fleets. Indices of abundance available starting in 1980 to 2004 and age data from the fishery and surveys available from 1893 to 2024."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "data_plot.png")
@@ -101,7 +101,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Comparison of the total removals in metric tons (mt) by year between this assessment and the 2023 assessment."
-#| fig-alt: ""
+#| fig-alt: "The removals between this assessment and the 2023 assessment are nearly equal for all years in the model."
 
 catch_comparison <- dplyr::bind_rows(
   model_output_2023$catch |>
@@ -133,7 +133,7 @@ ggplot2::ggplot(catch_comparison, ggplot2::aes(x = Year, y = total, color = asse
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Comparison of estimated discard age by length for each gear type."
-#| fig-alt: ""
+#| fig-alt: "The estimated age from length for each gear approximate the expected length-age growth curve for sablefish."
 
 knitr::include_graphics(
    here::here("report", "figures", "compare_data_alk_all_years.png")
@@ -147,7 +147,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Aggregated ages across all years by fleet."
-#| fig-alt: ""
+#| fig-alt: "The distribution of ages for the trawl gear peak around age 5 for both males and females. The hook-and-line and pot gear select more females compared to males with the distribution of ages peak at slightly older ages compare to the trawl fleet. Trawl discard ages are primarily young fish between age 0 to 4 with hook-and-line and pot discarding slightly older ages compared to trawl. "
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "comp_agedat__aggregated_across_time.png")
@@ -162,7 +162,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Ages by year for the trawl discard fleet. All ages are unsexed."
-#| fig-alt: ""
+#| fig-alt: "The majority of ages discarded by the trawl discard fleet are less than 3 years of age with limited discarding of older fish."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "comp_agedat_bubflt4mkt0.png")
@@ -178,7 +178,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Ages by year for the hook-and-line discard fleet. All ages are unsexed."
-#| fig-alt: ""
+#| fig-alt: "The majority of ages discarded by the hook-and-line discard fleet are less than 5 years of age with some limited discarding of older fish."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "comp_agedat_bubflt5mkt0.png")
@@ -193,7 +193,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Ages by year for the pot discard fleet. All ages are unsexed."
-#| fig-alt: ""
+#| fig-alt: "The majority of ages discarded by the pot discard fleet are less than 5 years of age with appreciable discarding of older fish."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "comp_agedat_bubflt6mkt0.png")
@@ -210,7 +210,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Age composition by year and sex for the trawl fleet. Females are shown in red, males in blue, and unsexed fish in grey."
-#| fig-alt: ""
+#| fig-alt: "The trawl fleet ages show similar proportions between females and males with clear evidence of strong recruitments moving through the fishery."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "comp_agedat_bubflt1mkt0_page2.png")
@@ -227,7 +227,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Age composition by year and sex for the hook-and-line fleet. Females are shown in red and males in blue."
-#| fig-alt: ""
+#| fig-alt: "The hook-and-line fleet ages show greater proportions of females than males with clear evidence of strong recruitments moving through the fishery. The largest frequency of ages occur of fish between 3 to 10 years of age."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "comp_agedat_bubflt2mkt0_page2.png")
@@ -243,7 +243,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Age composition by year and sex for the pot fleet. Females are shown in red and males in blue."
-#| fig-alt: ""
+#| fig-alt: "The pot fleet ages show greater proportions of females than males with clear evidence of strong recruitments moving through the fishery. The largest frequency of ages occur of fish between 4 to 10 years of age."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "comp_agedat_bubflt3mkt0_page2.png")
@@ -259,8 +259,8 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Standardized indices overlaid. Each index is rescaled to have mean observation = 1.0."
-#| fig-alt: ""
+#| fig-cap: "Relative indices of abundance used in the base model standardized and overlaid. Each index is rescaled to have mean observation = 1.0."
+#| fig-alt: "The standardized indices shows the population potentially decreasing between 1980 and 2010. Slowly increasing from 2011 to 2019 and sharply increasing at the end of the time series."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "index9_standcpueall.png")
@@ -278,7 +278,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Proportion of tows where sablefish was present or absent across all years by latitude for the NWFSC West Coast Groundfish Bottom Trawl Survey."
-#| fig-alt: ""
+#| fig-alt: "The proportion of postive tows is approximately 75 percent of all tows north of Point Conception with a lower proportion positive south of Point Conception between 25 to 45 percent."
 
  nwfscSurvey::plot_proportion(
     data = wcgbt_catch |> 
@@ -299,7 +299,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Proportion of tows where sablefish was present or absent across all years by depth (m) for the NWFSC West Coast Groundfish Bottom Trawl Survey."
-#| fig-alt: ""
+#| fig-alt: "The frequency of observed tows increases from 25 percent for depths less than 100 meters to roughly 75 percent across depths from 300 to 1200 meters and a decrease to 60 percent for the greatest depths sampled."
 
  nwfscSurvey::plot_proportion(
     data = wcgbt_catch |> 
@@ -322,7 +322,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Sex ratio across all years by depth (m) for the NWFSC West Coast Groundfish Bottom Trawl Survey."
-#| fig-alt: ""
+#| fig-alt: "The sex ratio is approximately 50-50 out to 500 meters and the propotion of females declines to less than 50 percent out to 1100 meters and then increases to greater than 50 percent at the greatest depths sampled."
 
  nwfscSurvey::plot_proportion(
     data = wcgbt_bio |> dplyr::filter(Sex != "U"),
@@ -555,7 +555,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Relative index of abundance for the Triennial Survey 1980-1992."
+#| fig-cap: "Relative index of abundance for the Triennial Survey for the early period, 1980-1992."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -572,7 +572,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Relative index of abundance for the Triennial Survey 1995-2005."
+#| fig-cap: "Relative index of abundance for the Triennial Survey for the late period, 1995-2004."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -589,7 +589,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Comparison of the distribution from all length data to the lengths from fish with ages collected by the Triennial Survey."
+#| fig-cap: "Comparison by year of the distribution from all length data to the lengths from fish with ages collected by the Triennial Survey."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -679,7 +679,7 @@ knitr::include_graphics(
 ```
 
 
-![Model fit to the data and model testing results. Black line is the model prediction $\pm$ 1.0 standard error (dotted lines). While points are the ln recruitment deviations from the stock assessment model. Yellow points are from jackknife analysis leaving out one year and refitting the model, and red points fit the best-fit model to 1993-2014 then predict 2015-2019.](figures/gloyrs_figure_3.png){#fig-glorys-fit}
+![Model fit to the data and model testing results. Black line is the model prediction $\pm$ 1.0 standard error (dotted lines). While points are the natural log (ln) of recruitment deviations from the stock assessment model. Yellow points are from jackknife analysis leaving out one year and refitting the model, and red points fit the best-fit model to 1993--2014 then predict 2015--2019.](figures/gloyrs_figure_3.png){#fig-glorys-fit}
 
 ![Partial residual plots of GLORYS predictors. CST = cross-shelf transport, T = temperature, spawn = spaning stage, pjuv = pelagic juvenile, and bjuv = benthic juvenile stage.](figures/gloyrs_figure_4.png){#fig-glorys-terms}
 
@@ -739,7 +739,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Estimated length-at-age coastwide and by area for females (solid lines) and males (dashed lines) north and south of 36 degrees N. latitude."
+#| fig-cap: "Estimated length-at-age coastwide and by area for females (solid lines) and males (dashed lines) north and south of 36° N. latitude."
 #| fig-alt: ""
 #| fig-pos: H
 #| fig-height: 4
@@ -755,7 +755,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Latitudinal variation in sex-specific von Bertalanffy growth parameters (t0: length at age 0, k: growth coefficient, L∞: asymptotic length). Dashed horizontal line denotes 36.0° N. latitude. Predicted using the NWFSC West Coast Groundfish Bottom Trawl Survey data between 2003 and 2024. The darker color represents females and the lighter color represents males."
+#| fig-cap: "Latitudinal variation in sex-specific von Bertalanffy growth parameters ($t_0$: length at age 0, *k*: growth coefficient, L∞: asymptotic length). Dashed horizontal line denotes 36° N. latitude. Predicted using the NWFSC West Coast Groundfish Bottom Trawl Survey data between 2003 and 2024. The darker color represents females and the lighter color represents males."
 #| fig-alt: ""
 #| fig-pos: H
 #| fig-height: 4
@@ -822,7 +822,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Samples by age that were determined to be functionally mature and immature north and south of 36 degrees north latitude. Immature fish have a functional maturity of 0 and mature fish have a functional maturity of 1. Blue vertical dashed line at age 7."
+#| fig-cap: "Samples by age that were determined to be functionally mature and immature north and south of 36° N. latitude. Immature fish have a functional maturity of 0 and mature fish have a functional maturity of 1. Blue vertical dashed line at age 7."
 #| fig-alt: "Age associated with immature and mature fish by area."
 
 load(here::here("data", "maturity_data.rda"))
@@ -848,7 +848,7 @@ ggplot2::ggplot(maturity_data |>
 #| echo: false
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Estimated maturity-at-age by area and the biomass weighted coastwide (Spatial) maturity curve."
+#| fig-cap: "Estimated maturity-at-age by area and the biomass weighted coastwide (Spatial) maturity curve and north (Spatial-N) and south (Spatial-S) of 36° N. latitude."
 #| fig-alt: "Maturity in the south is later compared to fish in the north with the biomass weighted maturity curve being slightly right shifted compared to the north maturity curve."
 
 load(here::here("data", "spatial_maturity.rda"))
@@ -937,15 +937,15 @@ knitr::include_graphics(
 
 ![Comparison of  estimated summary biomass for ages 3+ when adding new data.](figures/1_data_bridging_compare18_smrybio.png){#fig-data-bridge-summary-1 height=3in fig-alt=""}
 
-![Comparison of estimated fraction unfished (e.g., stock status) when adding new data.](figures/1_data_bridging_compare4_Bratio_uncertainty.png){#fig-data-bridge-depl-1 height=3in fig-alt=""}
+![Comparison of estimated fraction unfished (i.e., stock status) when adding new data.](figures/1_data_bridging_compare4_Bratio_uncertainty.png){#fig-data-bridge-depl-1 height=3in fig-alt=""}
 
 ![Comparison of estimated summary biomass for ages 3+ when adding new data.](figures/2_data_bridging_compare18_smrybio.png){#fig-data-bridge-summary-2 height=3in fig-alt=""}
 
-![Comparison of estimated fraction unfished (e.g., stock status) when adding new data.](figures/2_data_bridging_compare4_Bratio_uncertainty.png){#fig-data-bridge-depl-2 height=3in fig-alt=""}
+![Comparison of estimated fraction unfished (i.e., stock status) when adding new data.](figures/2_data_bridging_compare4_Bratio_uncertainty.png){#fig-data-bridge-depl-2 height=3in fig-alt=""}
 
 ![Comparison of estimated summary biomass for ages 3+ when the estimation of annual recruitment deviations is revised.](figures/3_structure_compare18_smrybio.png){#fig-structure-bridge-summary-3 height=3in fig-alt=""}
 
-![Comparison of estimated fraction unfished (e.g., stock status) when the estimation of annual recruitment deviations is revised.](figures/3_structure_compare3_Bratio.png){#fig-structure-bridge-depl-3 height=3in fig-alt=""}
+![Comparison of estimated fraction unfished (i.e., stock status) when the estimation of annual recruitment deviations is revised.](figures/3_structure_compare3_Bratio.png){#fig-structure-bridge-depl-3 height=3in fig-alt=""}
 
 ![Comparison of estimated annual recruitment deviations when the estimation of annual recruitment deviations is revised.](figures/3_structure_compare11_recdevs.png){#fig-structure-bridge-rec-dev-3 height=3in fig-alt=""}
 
@@ -953,11 +953,11 @@ knitr::include_graphics(
 
 ![Comparison of estimated summary biomass for ages 3+ when the model structure is revised.](figures/4_structure_compare18_smrybio.png){#fig-structure-bridge-summary-4 height=3in fig-alt=""}
 
-![Comparison of estimated fraction unfished (e.g., stock status) when the model structure is revised.](figures/4_structure_compare3_Bratio.png){#fig-structure-bridge-depl-4 height=3in fig-alt=""}
+![Comparison of estimated fraction unfished (i.e., stock status) when the model structure is revised.](figures/4_structure_compare3_Bratio.png){#fig-structure-bridge-depl-4 height=3in fig-alt=""}
 
 ![Comparison of estimated summary biomass for ages 3+ when the model structure is revised.](figures/5_structure_compare18_smrybio.png){#fig-structure-bridge-summary-5 height=3in fig-alt=""}
 
-![Comparison of estimated fraction unfished  (e.g., stock status) when the model structure is revised.](figures/5_structure_compare3_Bratio.png){#fig-structure-bridge-depl-5 height=3in fig-alt=""}
+![Comparison of estimated fraction unfished  (i.e., stock status) when the model structure is revised.](figures/5_structure_compare3_Bratio.png){#fig-structure-bridge-depl-5 height=3in fig-alt=""}
 
 ![Comparison of estimated summary biomass for ages 3+ when the model structure is revised.](figures/6_structure_compare18_smrybio.png){#fig-structure-bridge-summary-6 height=3in fig-alt=""}
 
@@ -989,7 +989,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Estimated time series of age-0 recruits for the base model."
+#| fig-cap: "Estimated time series of age-0 recruits in 1,000s of fish for the base model."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1007,7 +1007,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Estimated time series of recruitment deviations for the base model."
+#| fig-cap: "Estimated time series of recruitment deviations in log-space for the base model."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1074,7 +1074,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Fit to index data for Triennial Survey (1980-1992)."
+#| fig-cap: "Fit to index data for the early Triennial Survey (1980-1992)."
 #| fig-alt: ""
 #| fig-pos: H
 #| fig-height: 4
@@ -1091,7 +1091,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Fit to index data for Triennial Survey (1995-2004)."
+#| fig-cap: "Fit to index data for the late Triennial Survey (1995-2004)."
 #| fig-alt: ""
 #| fig-pos: H
 #| fig-height: 4
@@ -1108,7 +1108,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Fit to index data for NWFSC Slope Survey."
+#| fig-cap: "Fit to index data for the NWFSC Slope Survey."
 #| fig-alt: ""
 #| fig-pos: H
 #| fig-height: 4
@@ -1447,7 +1447,7 @@ knitr::include_graphics(
 #| fig-height: 4
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agefit_residsflt8mkt0.png")
+  file.path(model_dir, "plots", "comp_agefit_residsflt9mkt0.png")
 )
 
 ```
@@ -1527,7 +1527,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Estimated time series of stock status (e.g., relative spawning output) for the base model."
+#| fig-cap: "Estimated time series of relative spawning output (i.e., stock status) for the base model."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1588,7 +1588,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Dynamic B0 plot. The lower line shows the time series of estimated spawning output in the presence of fishing mortality. The upper line shows the time series that could occur under the same dynamics (including deviations in recruitment), but without fishing. The point at the left represents the unfished equilibrium."
+#| fig-cap: "The lower line shows the time series of estimated spawning output in the presence of fishing mortality. The upper line shows the time series that could occur under the same dynamics (including deviations in recruitment), but without fishing. The point at the left represents the unfished equilibrium."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1606,7 +1606,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Maximum likelihood estimates of fraction of unfished (i.e., stock status) for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel survey, or the Northwest Fisheries Science Center Slope survey. Additionally, estimates for the removal of the environmental-based recruitment index are shown. Shaded regions represent asymptotic 95% confidence intervals."
+#| fig-cap: "Maximum likelihood estimates of fraction of unfished (i.e., stock status) for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel survey, or the Northwest Fisheries Science Center Slope survey. Additionally, estimates for the removal of the environmental-based recruitment index are shown. Shaded regions represent asymptotic 95 percent confidence intervals."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1636,7 +1636,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Maximum likelihood estimates of recruitment deviations from 1960-2025 for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel survey, or the Northwest Fisheries Science Center Slope survey. Additionally, estimates for the removal of the environmental-based recruitment index are shown. Bars represent asymptotic 95% confidence intervals."
+#| fig-cap: "Maximum likelihood estimates of recruitment deviations from 1960-2025 for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel survey, or the Northwest Fisheries Science Center Slope survey. Additionally, estimates for the removal of the environmental-based recruitment index are shown. Bars represent asymptotic 95 percent confidence intervals."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1666,7 +1666,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Maximum likelihood estimates of fraction of unfished (i.e., stock status) for the base model and alternative sensitivity runs representing the estimation of growth (rather than using an empircal weight-at-age approach for growth as in the base model), the estimation of sex-specific natural mortality (*M*), and fixing *M* at the value used in the assessment of Sablefish in Alaska, adjusted upwards to offset potential net emigration to Canada, or set to sex-specific values used in the 2019 U.S. West Coast assessment of sablefish. Shaded regions represent asymptotic 95 percent confidence intervals."
+#| fig-cap: "Maximum likelihood estimates of fraction of unfished (i.e., stock status) for the base model and alternative sensitivity runs representing the estimation of growth (rather than using an empircal weight-at-age approach for growth as in the base model), the estimation of sex-specific natural mortality (*M*), and fixing *M* at the value used in the assessment of sablefish in Alaska, adjusted upwards to offset potential net emigration to Canada, or set to sex-specific values used in the 2019 U.S. West Coast assessment of sablefish. Shaded regions represent asymptotic 95 percent confidence intervals."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1804,7 +1804,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Change in the negative log-likelihood across a range of *log(R~0~)* values."
+#| fig-cap: "Change in the negative log-likelihood across a range of log(*R~0~)* values."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1819,7 +1819,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Change in the spawning output across a range of *log(R~0~)* values."
+#| fig-cap: "Change in the spawning output across a range of log(*R~0~)* values."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1835,7 +1835,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Change in the fraction unfished across a range of *log(R~0~)* values."
+#| fig-cap: "Change in the fraction of unfished (i.e., stock status) across a range of log(*R~0~)* values."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1882,7 +1882,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Change in the fraction unfished across a range of natural mortality (*M*) values. Only female *M* is shown, because *M* is sex-invariant in the base model."
+#| fig-cap: "Change in the fraction of unfished (i.e., stock status) across a range of natural mortality (*M*) values. Only female *M* is shown, because *M* is sex-invariant in the base model."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1930,7 +1930,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Change in the fraction unfished across a range of steepness (*h*) values."
+#| fig-cap: "Change in the fraction of unfished (i.e., stock status) across a range of steepness (*h*) values."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1963,7 +1963,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Change in the estimate of fraction unfished when the most recent 10 years of data are removed sequentially."
+#| fig-cap: "Change in the estimate of fraction unfished (i.e., stock status) when the most recent 10 years of data are removed sequentially."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1996,7 +1996,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Spawning ouptut (e.g., spawning biomass) trajectories from the base model and historical assessments for sablefish."
+#| fig-cap: "Spawning ouptut (i.e., spawning biomass) trajectories from the base model and historical assessments for sablefish."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -2030,7 +2030,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Phase plot of fishing intensity versus fraction unfished for the base model."
+#| fig-cap: "Phase plot of fishing intensity versus relative spawning output (i.e., stock status) for the base model."
 #| fig-alt: ""
 #| fig-pos: H
 
