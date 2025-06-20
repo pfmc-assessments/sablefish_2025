@@ -122,65 +122,6 @@ read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
 
 \pagebreak
 
-
-```{r}
-#| label: tbl-twl-age-samples-comp
-#| warning: false
-#| echo: false
-#| tbl-cap: "Change in the number of age samples by year for the trawl fleet between this assessment and the 2019 assessment."
-
-readr::read_csv(here::here("data-processed", "document_sample_sizes_comparison_2019_2025.csv")) |>
-  dplyr::select(-`Lengths (2019)`, - `Lengths (2024)`) |>
-  dplyr::filter(Year > 1982, Year < 2019) |>
-  dplyr::filter(dplyr::case_when(Fishery == "Fixed" ~ Year >= 1986, Fishery == "Trawl" ~ Year >= 1974)) |>
-  dplyr::filter(Fishery == "Trawl") |>
-  dplyr::arrange(Fishery) |>
-  dplyr::mutate(Difference = `Ages (2024)` - `Ages (2019)`) |>
-  dplyr::rename(`Ages (2025)` = `Ages (2024)`) |>
-  gt::gt() |>
-  gt::fmt_number(
-    columns = 3:5,
-    decimals = 0
-  ) |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE
-  ) |>
-  gt::as_latex()
-
-```
-
-\pagebreak
-
-```{r}
-#| label: tbl-fixed-age-samples-comp
-#| warning: false
-#| echo: false
-#| tbl-cap: "Change in the number of age samples by year for the fixed fleet (hook-and-line and pot gears combined) between this assessment and the 2019 assessment."
-
-readr::read_csv(here::here("data-processed", "document_sample_sizes_comparison_2019_2025.csv")) |>
-  dplyr::select(-`Lengths (2019)`, - `Lengths (2024)`) |>
-  dplyr::filter(Year < 2019) |>
-  dplyr::filter(dplyr::case_when(Fishery == "Fixed" ~ Year >= 1986, Fishery == "Trawl" ~ Year >= 1974)) |>
-  dplyr::filter(Fishery == "Fixed") |>
-  dplyr::arrange(Fishery) |>
-  dplyr::mutate(Difference = `Ages (2024)` - `Ages (2019)`) |>
-  dplyr::rename(`Ages (2025)` = `Ages (2024)`) |>
-  gt::gt() |>
-  gt::fmt_number(
-    columns = 3:5,
-    decimals = 0
-  ) |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE
-  ) |>
-  gt::as_latex()
-
-```
-
-\pagebreak
-
 ```{r}
 #| label: tbl-twl-age-samples
 #| warning: false
@@ -285,6 +226,63 @@ read.csv(here::here("data-processed", "data-commercial-age-bds-n.csv")) |>
 
 \pagebreak
 
+```{r}
+#| label: tbl-twl-age-samples-comp
+#| warning: false
+#| echo: false
+#| tbl-cap: "Change in the number of age samples by year for the trawl fleet between this assessment and the 2019 assessment."
+
+readr::read_csv(here::here("data-processed", "document_sample_sizes_comparison_2019_2025.csv")) |>
+  dplyr::select(-`Lengths (2019)`, - `Lengths (2024)`) |>
+  dplyr::filter(Year > 1982, Year < 2019) |>
+  dplyr::filter(dplyr::case_when(Fishery == "Fixed" ~ Year >= 1986, Fishery == "Trawl" ~ Year >= 1974)) |>
+  dplyr::filter(Fishery == "Trawl") |>
+  dplyr::arrange(Fishery) |>
+  dplyr::mutate(Difference = `Ages (2024)` - `Ages (2019)`) |>
+  dplyr::rename(`Ages (2025)` = `Ages (2024)`) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 3:5,
+    decimals = 0
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+\pagebreak
+
+```{r}
+#| label: tbl-fixed-age-samples-comp
+#| warning: false
+#| echo: false
+#| tbl-cap: "Change in the number of age samples by year for the fixed fleet (hook-and-line and pot gears combined) between this assessment and the 2019 assessment."
+
+readr::read_csv(here::here("data-processed", "document_sample_sizes_comparison_2019_2025.csv")) |>
+  dplyr::select(-`Lengths (2019)`, - `Lengths (2024)`) |>
+  dplyr::filter(Year < 2019) |>
+  dplyr::filter(dplyr::case_when(Fishery == "Fixed" ~ Year >= 1986, Fishery == "Trawl" ~ Year >= 1974)) |>
+  dplyr::filter(Fishery == "Fixed") |>
+  dplyr::arrange(Fishery) |>
+  dplyr::mutate(Difference = `Ages (2024)` - `Ages (2019)`) |>
+  dplyr::rename(`Ages (2025)` = `Ages (2024)`) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 3:5,
+    decimals = 0
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+\pagebreak
 
 
 ```{r, results = "asis"}
