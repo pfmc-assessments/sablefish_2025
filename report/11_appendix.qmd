@@ -4,24 +4,25 @@
 
 The \gls{gmt} provided a list of select management actions for sablefish since 2010:
 
-- 2010: Limited entry sablefish north and south daily trip limits removed (max Limited Entry North mortality in 2010 and 2011 right after the removal)
+- 2010: Limited Entry North sablefish and south daily trip limits removed (max Limited Entry North mortality in 2010 and 2011 right after the removal).
   - Limited Entry North trip limits were lowered in subsequent years because of lower overall harvest limits but removing the daily limit appeared to increase mortality at least right after the change.
   - Limited Entry South trip limits were not lowered to the same degree and mortality remained high for several years after the daily limit was removed, but has since been declining largely due to loss of infrastructure in the south.
   - Discard rate did not appear to change notably for sablefish north or south after the daily limit was removed.
-- 2015: sablefish trip limits closed in Period 6 because sector exceeded catch share (probably not much impact on the stock assessment but just a flag).
-- 2020: Trawl RCA off OR and CA removed.
-- 2020: Severe impact to the fixed gear sector targeting sablefish with low participation in 2020 and subsequent years; sablefish prices have been very low since ~2019 and exacerbated by COVID-19.
+- 2015: Sablefish trip limits closed in Period 6 because sector exceeded catch share.
+- 2020: Trawl \gls{rca} off Oregon and California removed.
 - 2021: Open Access south sablefish daily trip limit removed.
 - 2020 & 2021: Emergency rules to extend season to Nov. 15 and Dec. 31, respectively.
-- 2023: Open Access north sablefish DAILY trip limit removed; still early to see if this had an impact but overall landings did not appear to change in 2023 compared to 2022
+- 2023: Open Access north sablefish daily trip limit removed.
 - 2023+: Primary sablefish season permanently extended to Dec. 31.
+
+In 2020, there was a severe impact to the fixed gear sector targeting sablefish with low participation and subsequent years; sablefish prices have been very low since ~2019 and exacerbated by COVID-19.
 
 
 ## Recruitment Index {#rec-appendix}
 
 The sablefish stock-recruitment curve relationship is weak suggesting that environmental drivers are important for determining annual reproductive success and recruitment [@tolimieri2018oceanographic]. Environmental drivers of recruitment for sablefish have received substantial attention with a focus on sea surface height (SSH) [@schirripa2006; @schirripa2009icesjms; @tolimieri2023sea], although some studies have focused more closely on hypothesis-driven selection of oceanic drivers [@tolimieri2018oceanographic]. Modeling work using output from a Regional Ocean Modeling System (ROMS) suggests that strong recruitment is associated with (i) colder conditions during the spawner preconditioning period, (ii) warmer water temperatures during the egg stage, (iii) stronger cross-shelf transport to near-shore nursery habitats during the egg stage, (iv) stronger long-shore transport to the north during the yolk-sac stage, and (v) cold surface water temperatures during the larval stage [@tolimieri2018oceanographic]. However, discontinuities in ROMS output following model upgrades 2010/2011 has motivated looking at alternate oceanographic models.
 
-Here, we evaluate using output from the GLORYS oceanographic model (described further below) for predicting variation in ln recruitment deviations from the sablefish stock assessment.
+Here, we evaluate using output from the GLORYS oceanographic model (described further below) for predicting variation in natural log of recruitment deviations from the sablefish stock assessment.
 
 ## Conceptual life-history model {#sec-lh}
 
