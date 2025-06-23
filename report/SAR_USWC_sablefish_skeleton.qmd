@@ -458,6 +458,10 @@ cat(a, sep = '\n')
 
  {{< pagebreak >}} 
 
+\printnoidxglossaries
+
+ {{< pagebreak >}} 
+
 ```{r, results='asis'}
 #| label: 'one_page'
 #| eval: true
@@ -615,3 +619,4 @@ cat(a, sep = '\n')
 a <- knitr::knit_child('11_appendix.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
+
