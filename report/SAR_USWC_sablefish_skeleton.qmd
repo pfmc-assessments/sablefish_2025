@@ -426,7 +426,7 @@ gmt_catch <- r4ss::SS_ForeCatch(model_output) |>
 
 Please cite this publication as: 
 
-Wetzel, C.R., A.M. Berger, C. Barnes, J.A. Zahner, N. Tolimieri, E.J. Ward., and M. Head. 2025. Status of the sablefish (*Anoplopoma fimbria*) off the U.S. West Coast in 2025. Pacific Fisheries Management Council, Portland, Oregon.
+Wetzel, C.R., A.M. Berger, C. Barnes, J.A. Zahner, N. Tolimieri, E.J. Ward., and M. Head. 2025. Status of sablefish (*Anoplopoma fimbria*) off the U.S. West Coast in 2025. Pacific Fisheries Management Council, Portland, Oregon.
 
  {{< pagebreak >}} 
  
