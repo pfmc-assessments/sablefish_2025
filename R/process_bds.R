@@ -267,7 +267,7 @@ process_bds_data <- function(
   age_composition_data <- writeComps(
     inComps = age_comps_long,
     comp_bins = age_bins,
-    column_with_input_n = "n_stewart",
+    column_with_input_n = "n_tows",
     verbose = FALSE
   ) |>
     dplyr::mutate(
@@ -279,7 +279,7 @@ process_bds_data <- function(
   utils::write.csv(
     age_composition_data,
     file = here::here("data-processed",
-        glue::glue("data-commercial-comps_age-{min(age_bins)}-{max(age_bins)}.csv")),
+        glue::glue("data-commercial-comps_age_input_n_tows-{min(age_bins)}-{max(age_bins)}.csv")),
     row.names = FALSE
   )
   

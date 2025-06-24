@@ -93,6 +93,7 @@ bibliography:
 #| eval: true
 #| echo: false
 #| warning: false
+#| message: false
 a <- knitr::knit_child('001_load_packages.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
@@ -103,6 +104,7 @@ cat(a, sep = '\n')
 #| eval: true
 #| echo: false
 #| warning: false
+#| message: false
 
 #' Create r4ss plots required for the report document
 #'
@@ -176,6 +178,7 @@ create_model_tables <- function(
 #| echo: false 
 #| warning: false 
 #| eval: true 
+#| message: false
 
 spp <- "sablefish"
 Spp <- "Sablefish"
@@ -442,6 +445,7 @@ Wetzel, C.R., A.M. Berger, C. Barnes, J.A. Zahner, N. Tolimieri, E.J. Ward., and
 #| eval: true
 #| echo: false
 #| warning: false
+#| message: false
 a <- knitr::knit_child('002_load_tables.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```

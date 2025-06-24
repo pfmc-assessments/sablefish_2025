@@ -1,0 +1,186 @@
+---
+title: Status of sablefish (*Anoplopoma fimbria*) off the U.S. West Coast in 2025
+subtitle: Biology, Fisheries Data, and Survey Data
+author: Sablefish Stock Assessment Team
+date: July 14, 2025
+brand: slides-dark-brand.yml
+css: format.css
+format:
+  nmfs-slides-revealjs: 
+    title-slide-attributes:
+      data-background-image: "styles/horiz-swoop-1.png"
+      data-background-color: '{{< brand color dark-blue >}}'
+    footer: "National Oceanic and Atmospheric Administration | National Marine Fisheries Service"
+    controls: true
+    navigation-mode: linear
+    transition: slide
+    transition-speed: default
+    background-transition: none
+    scrollable: true
+---
+
+```{r}
+#| label: create-figs
+#| echo: false
+#| warning: false
+#| message: false
+
+create_figs_tables <- FALSE
+
+create_model_plots <- function(
+  model_name,
+  model_dir = here::here("model", "base_model"),
+  save_dir = here::here("presentation", "data")
+  ) {
+  model_dir <- file.path(model_dir, model_name)
+  model_output <- r4ss::SS_output(model_dir)
+  r4ss::SS_plots(
+    replist = model_output,
+    plot = c(1, 3, 4, 7, 11, 12, 14, 24),
+    html = TRUE,
+    pwidth = 5.2,
+    pheight = 4,
+    maxrows = 5, 
+    maxcols = 5, 
+    maxrows2 = 4, 
+    maxcols2 = 4,
+    dir = save_dir
+  )
+  r4ss::SS_plots(
+    replist = model_output, 
+    plot = 1, 
+    minyr = 2000, 
+    maxyr = 2025,
+    ptsize = 12,
+    pheight_tall = 3.5, 
+    pwidth = 6.5,
+    dir = save_dir
+  )
+  save(model_output, file = file.path(save_dir, "tables", "model_output.rda"))
+}
+
+
+if (create_figs_tables) {
+  model_name <- "8.36_base_model"
+  create_model_plots(
+    model_name = model_name,
+  )
+  # remove unwanted files
+  all_files <- list.files(here::here("presentation", "data", "plots"))
+  remove <- c(grep(".html", all_files), grep(".csv", all_files), grep(".txt", all_files))
+  file.remove(here::here("presentation", "data", "plots", all_files[remove]))
+  
+}
+load(here::here("presentation", "data", "tables", "model_output.rda"))
+
+```
+
+## Disclaimer
+
+*These materials do not constitute a formal publication and are for information only. They are in a pre-review, pre-decisional state and should not be formally cited or reproduced. They are to be considered provisional and do not represent any determination or policy of NOAA or the Department of Commerce.*
+
+## Outline
+
+* Background
+* Model Summary
+* Biology
+* Fishery-Dependent Data
+* Fishery-Independent Data
+
+## Background
+
+
+## Model Summary
+
+* Estimated stock size and status
+* Recruitment
+* Changes for 2025
+
+
+## Estimated Stock Size and Status
+
+* Age 3+ Summary Biomass in 2025: 246,677 mt
+* Stock Status in 2025: 33.9%
+
+![](plots/ts4_Summary_biomass_(t).png){.absolute top=250 left=0 width="480" height="380"}
+
+
+![](plots/ts9_Relative_spawning_output_intervals.png){.absolute top=250 right=50 width="480" height="380"}
+
+
+## Recruitment
+
+* Years with highest positive recruitment deviation: 2023, 2020, and 2016
+* Years with lowest negative recruitment deviation: 2005, 2007, and 2009
+
+![](plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png){.absolute top=250 left=0 width="480" height="300"}
+
+
+![](plots/recdevs2_withbars.png){.absolute top=250 right=50 width="480" height="300"}
+
+## Changes for 2025
+
+Data:
+
+- Improved estimates of removals (landings and discards) and inclusion of additional historical age data. 
+- New maturity-at-age and empirical weight-at-age.
+- Split the Triennial Survey into early and late and remove data from select years.
+
+Model:
+
+- Implementation of discard fleets based upon 3 gear groups: trawl, hook-and-line, and pot.
+- Improved parameterization for estimating annual recruitment deviations.
+
+## Biology 
+
+- Distribution
+- Maturity
+- Growth and Weight-at-Age
+- Natural Mortality
+
+## Distribution
+
+## Maturity
+
+## Growth and Weight-at-Age
+
+## Natural Mortality
+
+## Fishery-Dependent Data
+
+- Removals
+- Discard Estimates
+- Age Data
+
+## Removals
+
+## Discard Estimates
+
+## Age Data
+
+## Fishery-Independent Data
+
+- NWFSC West Coast Groundfish Bottom Trawl Survey (WCGBTS)
+- NWFSC Slope Survey
+- AFSC/NWFSC West Coast Triennial Shelf Survey
+
+## WCGBTS Sampling
+
+## WCGBTS Index
+
+## WCGBTS Composition Data
+
+## NWFSC Slope Survey Sampling
+
+## NWFSC Slope Survey Index
+
+## NWFSC Slope Survey Composition Data
+
+## Triennial Survey Sampling
+
+## Triennial Survey Index
+
+## Triennial Survey Composition Data
+
+## Questions?
+
