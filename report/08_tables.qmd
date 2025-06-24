@@ -123,6 +123,102 @@ read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
 \pagebreak
 
 ```{r}
+#| label: tbl-discard-trawl-age-samples
+#| warning: false
+#| echo: false
+#| tbl-cap: "Number of fish, hauls, trips, and calculated input sample size for discard ages from the trawl fleet."
+
+read.csv(here::here("data-processed", "data-discard-sample-sizes-length.csv")) |>
+  dplyr::select(-fleet_groups, -vessels) |>
+  dplyr::filter(gear_groups == "trawl") |>
+  dplyr::rename(
+    Year = year,
+    Fleet  = gear_groups,
+    Hauls = hauls,
+    Trips = trips,
+    Samples = fish,
+    `Input N` = input_n
+  ) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 3,
+    decimals = 0
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+\pagebreak
+
+```{r}
+#| label: tbl-discard-hkl-age-samples
+#| warning: false
+#| echo: false
+#| tbl-cap: "Number of fish, hauls, trips, and calculated input sample size for discard ages from the hook-and-line fleet."
+
+read.csv(here::here("data-processed", "data-discard-sample-sizes-length.csv")) |>
+  dplyr::select(-fleet_groups, -vessels) |>
+  dplyr::filter(gear_groups == "hook-and-line") |>
+  dplyr::rename(
+    Year = year,
+    Fleet  = gear_groups,
+    Hauls = hauls,
+    Trips = trips,
+    Samples = fish,
+    `Input N` = input_n
+  ) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 3,
+    decimals = 0
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+\pagebreak
+
+```{r}
+#| label: tbl-discard-pot-age-samples
+#| warning: false
+#| echo: false
+#| tbl-cap: "Number of fish, hauls, trips, and calculated input sample size for discard ages from the pot fleet."
+
+read.csv(here::here("data-processed", "data-discard-sample-sizes-length.csv")) |>
+  dplyr::select(-fleet_groups, -vessels) |>
+  dplyr::filter(gear_groups == "pot") |>
+  dplyr::rename(
+    Year = year,
+    Fleet  = gear_groups,
+    Hauls = hauls,
+    Trips = trips,
+    Samples = fish,
+    `Input N` = input_n
+  ) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 3,
+    decimals = 0
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+\pagebreak
+
+```{r}
 #| label: tbl-twl-age-samples
 #| warning: false
 #| echo: false
