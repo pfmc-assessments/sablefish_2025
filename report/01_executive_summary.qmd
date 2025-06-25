@@ -53,8 +53,8 @@ catches_es_table |>
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Catches in metric tons (mt) by year for trawl, pot, and hook-and line gears."
-#| fig-alt: "Catches before the 1970s were less than 5,000 mt by year with landings sharply increasing in the 1970s and early 1980s and landings since ranging between approximately 5,000 to 7,500 mt by year."
+#| fig-cap: "Removals in metric tons (mt) by year for trawl, pot, and hook-and line gears."
+#| fig-alt: "Removals before the 1970s were less than 5,000 mt by year with landings sharply increasing in the 1970s and early 1980s and landings since ranging between approximately 5,000 to 7,500 mt by year."
 
 landings <- model_output$catch |> 
   dplyr::mutate(

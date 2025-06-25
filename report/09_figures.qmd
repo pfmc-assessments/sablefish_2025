@@ -84,12 +84,28 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Removals in metric tons (mt) by year and gear."
-#| fig-alt: "Removals before the 1970s were less than 5,000 mt by year with removals sharply increasing in the 1970s and early 1980s and removals since ranging between approximately 5,000 to 7,500 mt by year."
+#| fig-cap: "Removals in metric tons (mt) by year for trawl, pot, and hook-and line gears."
+#| fig-alt: "Removals before the 1970s were less than 5,000 mt by year with landings sharply increasing in the 1970s and early 1980s and landings since ranging between approximately 5,000 to 7,500 mt by year."
 
-knitr::include_graphics(
-  file.path(model_dir, "plots", "catch2_landings_stacked.png")
-)
+landings <- model_output$catch |> 
+  dplyr::mutate(
+    year = Yr,
+    catch_mt = dead_bio,
+    Fleet = Fleet_Name
+  )
+  
+ggplot2::ggplot(landings, ggplot2::aes(x = year, y = catch_mt, fill = Fleet)) +
+  ggplot2::geom_bar(stat = 'identity') +
+  ggplot2::theme_bw() +
+  ggplot2::xlab("Year") + ggplot2::ylab("Removals (mt)") +
+  ggplot2::scale_y_continuous(
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  ggplot2::scale_fill_viridis_d() +
+  ggplot2::theme(
+    strip.text.x = ggplot2::element_blank(),
+    strip.background = ggplot2::element_rect(colour="white", fill="white"),
+    legend.key.height = ggplot2::unit(0.25, "cm"),
+    legend.position = c(0.20, 0.75))
 
 ```
 
@@ -437,7 +453,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Mean age for NWFSC West Coast Groundfish Bottom Trawl Survey with 95 percent confidence intervals based on current sample sizes."
+#| fig-cap: "Mean age for NWFSC West Coast Groundfish Bottom Trawl Survey with 95 percent confidence intervals based on current sample sizes. The top panel is sexed ages only and the bottom panel includes both sexed and unsexed ages."
 #| fig-alt: ""
 
 knitr::include_graphics(
@@ -1193,7 +1209,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Mean age by year with confidence intervals for sexed and unsexed ages from the trawl fleet."
+#| fig-cap: "Mean age by year with confidence intervals for sexed and unsexed ages from the trawl fleet. The top panel is sexed ages and the bottom panel includes both sexed and unsexed ages."
 #| fig-alt: ""
 #| fig-pos: H
 #| fig-height: 4
@@ -1489,7 +1505,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Mean age by year with confidence intervals for sexed and unsexed ages from the NWFSC West Coast Groundfish Bottom Trawl Survey."
+#| fig-cap: "Mean age by year with confidence intervals for sexed and unsexed ages from the NWFSC West Coast Groundfish Bottom Trawl Survey. The top panel is sexed ages and the bottom panel includes both sexed and unsexed ages."
 #| fig-alt: ""
 #| fig-pos: H
 #| fig-height: 4
@@ -1606,7 +1622,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Maximum likelihood estimates of fraction of unfished (i.e., stock status) for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel survey, or the Northwest Fisheries Science Center Slope survey. Additionally, estimates for the removal of the environmental-based recruitment index are shown. Shaded regions represent asymptotic 95 percent confidence intervals."
+#| fig-cap: "Maximum likelihood estimates of fraction of unfished (i.e., stock status) for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel Survey, or the Northwest Fisheries Science Center Slope Survey. Additionally, estimates for the removal of the environmental-based recruitment index are shown. Shaded regions represent asymptotic 95 percent confidence intervals."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1621,7 +1637,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Maximum likelihood estimates of summary biomass (age 3 and older) for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel survey, or the Northwest Fisheries Science Center Slope survey. Additionally, estimates for the removal of the environmental-based recruitment index are shown."
+#| fig-cap: "Maximum likelihood estimates of summary biomass (age 3 and older) for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel Survey, or the Northwest Fisheries Science Center Slope Survey. Additionally, estimates for the removal of the environmental-based recruitment index are shown."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1636,7 +1652,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Maximum likelihood estimates of recruitment deviations from 1960-2025 for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel survey, or the Northwest Fisheries Science Center Slope survey. Additionally, estimates for the removal of the environmental-based recruitment index are shown. Bars represent asymptotic 95 percent confidence intervals."
+#| fig-cap: "Maximum likelihood estimates of recruitment deviations from 1960-2025 for the base model and alternative sensitivity runs representing the removal of index and age composition data from the West Coast Groundfish Bottom Trawl Survey (WCGBT), the Trienniel Survey, or the Northwest Fisheries Science Center Slope Survey. Additionally, estimates for the removal of the environmental-based recruitment index are shown. Bars represent asymptotic 95 percent confidence intervals."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1756,7 +1772,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Maximum likelihood estimates of fraction of unfished (i.e., stock status) for the base model and alternative sensitivity runs representing the use of the McAllister-Ianelli harmonic mean method for weighting composition data, the specification of asymptotic selectivity for NWFSC surveys, and using the ageing error vector applied in the 2019 stock assessment. Shaded regions represent asymptotic 95 percent confidence intervals."
+#| fig-cap: "Maximum likelihood estimates of fraction of unfished (i.e., stock status) for the base model and alternative sensitivity runs representing the use of the McAllister-Ianelli harmonic mean method for weighting composition data, the specification of asymptotic selectivity for NWFSC Surveys, and using the ageing error vector applied in the 2019 stock assessment. Shaded regions represent asymptotic 95 percent confidence intervals."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1786,7 +1802,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Maximum likelihood estimates of recruitment deviations from 1960-2025 for the base model and alternative sensitivity runs representing the use of the McAllister-Ianelli harmonic mean method for weighting composition data, the specification of asymptotic selectivity for NWFSC surveys, and using the ageing error vector applied in the 2019 stock assessment. Bars represent asymptotic 95 percent confidence intervals."
+#| fig-cap: "Maximum likelihood estimates of recruitment deviations from 1960-2025 for the base model and alternative sensitivity runs representing the use of the McAllister-Ianelli harmonic mean method for weighting composition data, the specification of asymptotic selectivity for NWFSC Surveys, and using the ageing error vector applied in the 2019 stock assessment. Bars represent asymptotic 95 percent confidence intervals."
 #| fig-alt: ""
 #| fig-pos: H
 

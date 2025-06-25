@@ -577,7 +577,7 @@ read.csv(here::here("data-processed", "data-survey-nwfscslope-n.csv")) |>
 #| label: tbl-tri-early-strata
 #| warning: false
 #| echo: false
-#| tbl-cap: "Design-based stratification by depth and latitude used to expand composition data for the Triennial survey between 1980-1992."
+#| tbl-cap: "Design-based stratification by depth and latitude used to expand composition data for the Triennial Survey between 1980-1992."
 
 
 strata_triennial_early |>
@@ -611,7 +611,7 @@ strata_triennial_early |>
 #| label: tbl-tri-late-strata
 #| warning: false
 #| echo: false
-#| tbl-cap: "Design-based stratification by depth and latitude used to expand composition data for the Triennial survey between 1995-2004."
+#| tbl-cap: "Design-based stratification by depth and latitude used to expand composition data for the Triennial Survey between 1995-2004."
 
 strata_triennial_early |>
   tidyr::unite(
@@ -1087,7 +1087,7 @@ kableExtra::kable(
 #| label: tbl-sens-1
 #| warning: false
 #| echo: false
-#| tbl-cap: "Maximum likelihood estimates for select parameters, derived quantities, reference points, and negative log likelihoods for the base model and alternative sensitivity runs representing the removal of index and age composition data from the NWFSC West Coast Groundfish Bottom Trawl Survey (WCGBTS), the Trienniel Survey, or the NWFSC Slope survey. Additionally, estimates for the removal of the environmental-based recruitment index are shown."
+#| tbl-cap: "Maximum likelihood estimates for select parameters, derived quantities, reference points, and negative log likelihoods for the base model and alternative sensitivity runs representing the removal of index and age composition data from the NWFSC West Coast Groundfish Bottom Trawl Survey (WCGBTS), the Trienniel Survey, or the NWFSC Slope Survey. Additionally, estimates for the removal of the environmental-based recruitment index are shown."
 #| tbl-pos: H
 
 read.csv(here::here("report", "rda", "sens_1_model_para_comp.csv")) |>
@@ -1130,7 +1130,7 @@ read.csv(here::here("report", "rda", "sens_1_model_para_comp.csv")) |>
 #| label: tbl-sens-2
 #| warning: false
 #| echo: false
-#| tbl-cap: "Maximum likelihood estimates for select parameters, derived quantities, reference points, and negative log likelihoods for the base model and alternative sensitivity runs representing the use of the McAllister-Ianelli harmonic mean method for weighting composition data, the specifiation of asymptotic selectivity for all NWFSC surveys, and using the ageing error vector applied in the 2019 stock assessment."
+#| tbl-cap: "Maximum likelihood estimates for select parameters, derived quantities, reference points, and negative log likelihoods for the base model and alternative sensitivity runs representing the use of the McAllister-Ianelli harmonic mean method for weighting composition data, the specifiation of asymptotic selectivity for all NWFSC Surveys, and using the ageing error vector applied in the 2019 stock assessment."
 #| tbl-pos: H
 
 read.csv(here::here("report", "rda", "sens_2_model_para_comp.csv")) |>
