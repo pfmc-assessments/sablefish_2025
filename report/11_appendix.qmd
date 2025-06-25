@@ -171,8 +171,10 @@ cs = colSums(df_jack, na.rm = T)
 
 ```
 
+<!--
 #### Forward prediction {#sec-forwardpred}
 
 GLORYS data were available through 2024, so we used the results of the index fitting above to predict ln recruitment deviations from 2020 - 2024 ([Fig. @fig-predicted-recdevs]. The model predicted average recruitment in 2020 and above average recruitment in 2021, 2023, and 2024. The model picked up low recruitment in 2022, consistent with the recruitment deviations from the 2023 assessment but under predicted high recruitment in 2020, and 2021; thus the predictions were conservative.
 
 ![Predicted recruitment deviations through 2024. Lines are the GLORYS index with standard error. The points are the ln recruitment deviations from the 2023 assessment. Black indicates training data, while red points are out-of-sample data.](figures/gloyrs-predicted-recruitment-index.png){#fig-predicted-recdevs}
+-->

@@ -681,6 +681,27 @@ knitr::include_graphics(
 
 \pagebreak
 
+
+![Partial residual plots of GLORYS predictors. CST = cross-shelf transport, T = temperature, spawn = spaning stage, pjuv = pelagic juvenile, and bjuv = benthic juvenile stage.](figures/gloyrs_figure_4.png){#fig-glorys-terms}
+
+
+
+```{r} 
+#| label: fig-rec-index
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Recruitment deviation index."
+#| fig-alt: ""
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "index1_cpuedata_ENV.png")
+)
+
+```
+
+\pagebreak
+
 ```{r} 
 #| label: fig-data-afslope-index
 #| echo: false 
