@@ -679,27 +679,6 @@ knitr::include_graphics(
 ```
 
 
-![Model fit to the data and model testing results. Black line is the model prediction $\pm$ 1.0 standard error (dotted lines). While points are the natural log (ln) of recruitment deviations from the stock assessment model. Yellow points are from jackknife analysis leaving out one year and refitting the model, and red points fit the best-fit model to 1993--2014 then predict 2015--2019.](figures/gloyrs_figure_3.png){#fig-glorys-fit}
-
-![Partial residual plots of GLORYS predictors. CST = cross-shelf transport, T = temperature, spawn = spaning stage, pjuv = pelagic juvenile, and bjuv = benthic juvenile stage.](figures/gloyrs_figure_4.png){#fig-glorys-terms}
-
-![Partial residual plots of GLORYS predictors. CST = cross-shelf transport, T = temperature, spawn = spaning stage, pjuv = pelagic juvenile, and bjuv = benthic juvenile stage.](figures/gloyrs-predicted-recruitment-index.png){#fig-glorys-pred}
-
-
-```{r} 
-#| label: fig-rec-index
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Recruitment deviation index."
-#| fig-alt: ""
-
-knitr::include_graphics(
-  file.path(model_dir, "plots", "index1_cpuedata_ENV.png")
-)
-
-```
-
 \pagebreak
 
 ```{r} 
