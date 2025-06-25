@@ -5,7 +5,7 @@ At the beginning of `r end_year`, the population size of mature female fish (spa
 
 This assessment includes all available data on catches (landings and discards), an updated index of abundance from the Northwest Fisheries Science Center West Coast Groundfish Bottom Trawl Survey (WCGBTS) from 2003--2024, all available fishery and survey ages deemed representative through 2024, and empirical weight-at-age data to empirically track changes in mean growth over time and space.
 
-The 2025 assessment estimates the stock status of sablefish to be lower than what was projected by the 2023 assessment, with the population below the management limit of 40% and in the precautionary zone until 2027 when stock status is projected to be greater than 40% with projected catch set at more than double recent levels. However, the overall scale of the population (*SB~0~*) increased by 18% in this assessment compared to the 2023 assessment.
+The 2025 assessment estimates the stock status of sablefish to be lower than what was projected by the 2023 assessment, with the population below the management limit of 40% and in the precautionary zone until 2027 when stock status is projected to be greater than 40%. The projected ABC in 2027 is more than double the 2024 removals but approximately 35% lower than the projected removals in 2025--2026. However, the overall scale of the population (*SB~0~*) increased by 18% in this assessment compared to the 2023 assessment.
 
 *Why is this assessment different from the 2023 assessment?*
 

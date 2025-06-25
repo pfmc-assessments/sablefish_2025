@@ -7,9 +7,9 @@ This assessment reports the status of the `r spp` (*Anoplopoma fimbria*, or `bla
 
 ## Catches {-}
 
-Removals for `r spp` contains various historical domestic landings reconstructions, historical foreign fishery catch, commercial domestic landings, Pacific hake at-sea fishery catch estimates, and recreational landings data. Estimated discards are included for the domestic historical and current commercial landings using available information on discard rates with gear-specific discard mortality rates. The model includes six catch- or discard-based fishery fleets: trawl, hook-and-line, pot, trawl discards, hook-and-line discards, and pot discards. Total landings used in this assessment are shown by fleet in @tbl-es-catches and @fig-es-landings. 
+Removals for `r spp` contains various historical domestic landings reconstructions, historical foreign fishery catch, commercial domestic landings, Pacific hake at-sea fishery catch estimates, and recreational landings data. Estimated discards are included for the domestic historical and current commercial landings using available information on discard rates with gear-specific discard mortality rates. The model includes six catch- or discard-based fishery fleets: trawl, hook-and-line, pot, trawl discards, hook-and-line discards, and pot discards. Total removals used in this assessment are shown by fleet in @tbl-es-catches and @fig-es-landings. 
 
-The earliest landings of sablefish off the U.S. West Coast used within in this assessment begin in 1890 with hook-and-line gear. The landings began to slowly increase starting in the 1910s and continued at a roughly constant level until the 1960s, where landings sharply increased due to the expansion of trawling and the use of pot gear (@fig-es-landings). After peaking in the late 1970s, catches slowly decreased until the 2000s when catches generally stabilized roughly between 4,000 and 7,000 metric tons (mt) until present (see @tbl-es-catches for the most recent ten years). The pattern of discarded `r spp` across the time series was similar to catches, though on average discard fleets caught 2 percent of the catch fleets. Over the last 10 years, average annual catch was highest for the hook-and-line fleet (2,204 mt), followed by the trawl (1,706 mt) and pot (1,482 mt) fleets. Over the same period, average annual discards were similar for trawl and hook-and-line gear (80 and 86 mt, respectively) and was lowest for pot gear (51 mt).
+The earliest landings of sablefish off the U.S. West Coast used within in this assessment begin in 1890 with hook-and-line gear. The removals began to slowly increase starting in the 1910s and continued at a roughly constant level until the 1960s, where removals sharply increased due to the expansion of trawling and the use of pot gear (@fig-es-landings). After peaking in the late 1970s, catches slowly decreased until the 2000s when catches generally stabilized roughly between 4,000 and 7,000 metric tons (mt) until present (see @tbl-es-catches for the most recent ten years). The pattern of discarded `r spp` across the time series was similar to catches, though on average discard fleets caught 2 percent of the catch fleets. Over the last 10 years, average annual catch was highest for the hook-and-line fleet (2,204 mt), followed by the trawl (1,706 mt) and pot (1,482 mt) fleets. Over the same period, average annual discards were similar for trawl and hook-and-line gear (80 and 86 mt, respectively) and was lowest for pot gear (51 mt).
 
  {{< pagebreak >}} 
 
@@ -56,9 +56,28 @@ catches_es_table |>
 #| fig-cap: "Catches in metric tons (mt) by year for trawl, pot, and hook-and line gears."
 #| fig-alt: "Catches before the 1970s were less than 5,000 mt by year with landings sharply increasing in the 1970s and early 1980s and landings since ranging between approximately 5,000 to 7,500 mt by year."
 
-knitr::include_graphics(
-  file.path(model_dir, "plots", "catch2_landings_stacked.png")
-)
+landings <- model_output$catch |> 
+  dplyr::mutate(
+    year = Yr,
+    catch_mt = dead_bio,
+    Fleet = Fleet_Name
+  )
+  
+ggplot2::ggplot(landings, ggplot2::aes(x = year, y = catch_mt, fill = Fleet)) +
+  ggplot2::geom_bar(stat = 'identity') +
+  ggplot2::theme_bw() +
+  ggplot2::xlab("Year") + ggplot2::ylab("Removals (mt)") +
+  ggplot2::scale_y_continuous(
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  ggplot2::scale_fill_viridis_d() +
+  ggplot2::theme(
+    strip.text.x = ggplot2::element_blank(),
+    strip.background = ggplot2::element_rect(colour="white", fill="white"),
+    legend.key.height = ggplot2::unit(0.25, "cm"),
+    legend.position = c(0.20, 0.75))
+#knitr::include_graphics(
+#  file.path(model_dir, "plots", "catch2_landings_stacked.png")
+#)
 
 ```
 
@@ -81,7 +100,7 @@ Natural mortality (*M*) was estimated and assumed to be time invariant and equal
 between males and females. An empirical weight-at-age approach was implemented
 with sex-specific time-varying growth between 2003--2024 that was spatially integrated on an annual
 basis to represent coastwide trends in growth. Weight-at-age prior to 2003 was considered constant. Age
-data were grouped by age between 0--50, with 50 being used as a data plus group.
+data were grouped by individual age classes between 0--50, with 50 being used as a data plus group.
 Age-based selectivity was estimated as dome-shaped for each fleet and survey, and selectivity time blocks were used
 to allow for shifts in selectivity for each fishery fleet. Additionally, selectivity was mirrored (e.g., assumed to be the same) between the hook-and-line and pot fleets and sex-specific. Recruitment deviations were estimated from 1975 onwards with no restraint to sum to zero over the main estimation time period (1975--2023).
 Steepness (`r h`), the standard deviation of recruitment variability (`r sigma_r`), the functional maturity schedule, and the fecundity
@@ -101,7 +120,7 @@ For the purposes of this assessment, female spawning biomass is assumed to be pr
 
 Overall, `r spp` stock size and relative stock status have generally declined (at different rates) over time until a recent rapid increase due to several above average recruitment years (@tbl-es-sb; @fig-es-sb). Sablefish were exploited at relatively modest levels from the early 1900s to the mid-1970s, resulting in a gradual decline in spawning output from the equilibrium unfished level. Estimates of spawning output declined rapidly from the mid-1970s to the early 2000s as a result of higher than average harvest and modest recruitment. As annual harvest levels subsided to more moderate levels, spawning output generally leveled off from 2000--2017 in the range of 10 to 20 percent relative stock status (below the minimum stock size threshold; @fig-es-depl). Since 2017, spawning output is estimated to have continually increased through 2025 to the highest spawning output size since 1989. This rapid increase in spawning output is due to several above average recruitment years since 2013. The summary biomass of fish age 3 and older has a steeper increase at the end of the time series from both the 2020 and 2021 strong cohorts. Although the relative trend in spawning output is robust to uncertainty in the leading model parameters, the productivity of the stock remains a key source of uncertainty due to confounding of natural mortality, absolute stock size, and productivity (e.g., steepness). 
 
-The estimate of 2025 female spawning output is `r sb_final` mt with 95 percent asymptotic confidence intervals from 59,331 to 89,486 mt (@tbl-es-sb). The estimate of the 2025 stock status (i.e., the spawning output at the start 2025 divided by that at unfished equilibrium, *B~0~*) is `r depl_final*100` percent (@tbl-es-sb). However, the uncertainty covers 27.6 to 40.2 percent, partly due to remaining unknowns about the absolute size of recent, potentially large, recruitment events. The estimated trajectory of relative spawning output across the times series includes fishing the stock down to below the minimum stock stock size threshold and then rebounding to the precautionary zone after an extended period of reduced harvest (relative to time series maximums) and good recruitment (@fig-es-depl) . 
+The estimate of 2025 female spawning output is `r sb_final` mt with 95 percent asymptotic confidence intervals from 59,331 to 89,486 mt (@tbl-es-sb). The estimate of the 2025 stock status (i.e., the spawning output at the start 2025 divided by that at unfished equilibrium, *B~0~*) is `r depl_final*100` percent (@tbl-es-sb). However, the uncertainty covers 27.6 to 40.2 percent, partly due to remaining unknowns about the absolute size of recent, potentially large, recruitment events. The estimated trajectory of relative spawning output across the time series includes fishing the stock down to below the minimum stock stock size threshold and then rebounding to the precautionary zone after an extended period of reduced harvest (relative to time series maximums) and good recruitment (@fig-es-depl) . 
 
  {{< pagebreak >}} 
 
@@ -300,7 +319,7 @@ knitr::include_graphics(
 
 ## Ecosysystem Consideration {-}
 
-The climate vulnerability analysis for the California Current [@McClure:2023:VCC] suggests that processes affecting sablefish recruitment are sensitive to climatic and, therefore, oceanic drivers. Given the high climate vulnerability of sablefish, changes in their abundance, productivity, and spatial distribution are likely, and these changes are likely to impact fishing fleets and communities because of the high value of this fishery. Strong coastwide recruitment appears to be associated with good recruitment north of Cape Mendocino (approximately 40$^\circ$ N. latitude), which itself is correlated with transport and temperature in the northern portion (40$^\circ$–48$^\circ$ N. latitude) of the U.S. West Coast, specifically with the northern transport of yolk-sac larvae [@tolimieri2018oceanographic]. A subsequent analysis conducted for this assessment evaluated the relationship between a suite of environmental indicators derived from oceanographic models and `r spp` recruitment found several predictors that explain variation around the stock–recruitment curve (see Section \ref{rec-index-data} and Appendix \ref{rec-appendix} for further details). These predictors were used to construct a recruitment index, which was used in the base model to provide additional information on the strength of recent recruitments (2020--2024). Other environmental considerations incorporated into the assessment model as input data directly include: the use of empirical weight-at-age data to account for latent environmental effects on spatiotemporal growth patterns; and the use of a spatially-integrated maturity schedule to account for latent environmental effects on latitudinal gradients in `r spp` maturity. 
+The climate vulnerability analysis for the California Current [@McClure:2023:VCC] suggests that processes affecting sablefish recruitment are sensitive to climatic and, therefore, oceanic drivers. Given the high climate vulnerability of sablefish, changes in their abundance, productivity, and spatial distribution are likely, and these changes are in turn likely to impact fishing fleets and communities because of the high value of this fishery. Strong coastwide recruitment appears to be associated with good recruitment north of Cape Mendocino (approximately 40$^\circ$ N. latitude), which itself is correlated with transport and temperature in the northern portion (40$^\circ$–48$^\circ$ N. latitude) of the U.S. West Coast, specifically with the northern transport of yolk-sac larvae [@tolimieri2018oceanographic]. A subsequent analysis conducted for this assessment evaluated the relationship between a suite of environmental indicators derived from oceanographic models and `r spp` recruitment found several predictors that explain variation around the stock–recruitment curve (see Section \ref{rec-index-data} and Appendix \ref{rec-appendix} for further details). These predictors were used to construct a recruitment index, which was used in the base model to provide additional information on the strength of recent recruitments (2020--2024). Other environmental considerations incorporated into the assessment model as input data directly include: the use of empirical weight-at-age data to account for latent environmental effects on spatiotemporal growth patterns; and the use of a spatially-integrated maturity schedule to account for latent environmental effects on latitudinal gradients in `r spp` maturity. 
 
 Additional ecosystem and environmental considerations are explicit part of the risk table presented at the end of the executive summary (and in Section \ref{risk}). The 2024-2025 [California Current Ecosystem Status Report](https://www.pcouncil.org/documents/2025/02/f-1-a-cciea-report-1-2024-2025-california-current-ecosystem-status-report.pdf/) further describes the primary climate and ocean patterns that `r spp` encounter, as well as changes in `r spp` distribution, juvenile abundance indices, and trends in `r spp` primary prey and predators. The occurrence of `r spp` in the California Current has generally shifted northward over the past ten years. Recent observed environmental and biological conditions suggest that `r spp` could be larger and closer to shore than during average conditions.
 
@@ -315,7 +334,7 @@ a <- knitr::knit_child(here::here("report", "shared_text", "harvest_control_rule
 cat(a, sep = '\n')
 ```
 
-The estimated `r end_year` spawning output relative to unfished of equilibrium spawning output is `r depl_final*100` percent, below the management target of 40 percent of unfished spawning output. The fishing intensity is estimated to be below the current management harvest rate limit ($\text{SPR}_{45\%}$) at the end of the time series but is estimated to have been above between the 1970s to the late-2010s (@fig-es-spr). The interaction between the relative spawning output and the ratio of the estimated \gls{spr} to the management target ($\text{SPR}_{45\%}$) indicates that the stock is in the lower quadrant indicating that the overfishing is not occurring and that relative spawning output is below the management targets (@fig-es-spr-phase). The current estimate of stock status is larger than the \gls{msy}, below the \gls{spr} target and relative target biomass reference points (@fig-es-yield) based on $h$ of `r h`.
+The estimated `r end_year` spawning output relative to unfished of equilibrium spawning output is `r depl_final*100` percent, below the management target of 40 percent of unfished spawning output. The fishing intensity is estimated to be below the current management harvest rate limit ($\text{SPR}_{45\%}$) at the end of the time series but is estimated to have been above between the 1970s to the late-2010s (@fig-es-spr). The interaction between the relative spawning output and the ratio of the estimated \gls{spr} to the management target ($\text{SPR}_{45\%}$) indicates that the stock is in the lower quadrant indicating that the overfishing is not occurring and that relative spawning output is below the management targets (@fig-es-spr-phase). The current estimate of stock status is larger than the \gls{msy}, below the \gls{spr} target and relative target biomass reference points (@fig-es-yield).
 
 Reference points were calculated using the estimated selectivities and catch distributions among fleets in the final year of the model, `r end_year` (@tbl-ref-points-es). The estimated sustainable total yield inclusive of both landings and discards was `r catch_spr` mt according to $\text{SPR}_{45\%}$. The spawning output equivalent to 40 percent of unfished spawning output ($\text{SB}_{40\%}$) calculated using the SPR target, $\text{SPR}_{45\%}$, was `r sb_spr` mt.
 

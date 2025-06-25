@@ -6,7 +6,7 @@ Most of the research needs listed below entail investigations that need to take 
 ratios with depth which may indicate that the stock is more complex than currently
 modeled. Further research into the causes of these patterns as well as differences
 between seasons would help with understanding the stock characteristics such that
-a more realistic model could be built. This may also provide further insight into
+a more realistic model could be built if needed. This may also provide further insight into
 migration and help determine if there are localized populations.
 
 \item Stock boundaries: A common question in stock assessments is whether or not the
@@ -14,7 +14,7 @@ entire stock is being represented. Sablefish live deeper than the range of the f
 and surveys off the U.S. West Coast. The assessment model attempts to account for out of area biomass
 through catchability coefficients and selectivity curves, but that portion of the stock is
 unknown and can only be conjectured. Research into abundance in deep areas would
-be useful to verify that the assessment adequately predicts the entire spawning stock
+be useful to verify that the assessment adequately predicts the entire stock
 of sablefish. In addition, sablefish along the U.S. West Coast can move northward to
 Canada or Alaska management jurisdictions. Building on recent transboundary sablefish research
 (Kapur et al. 2024, Kapur et al. in press), investigations elucidating how variable movements (net
