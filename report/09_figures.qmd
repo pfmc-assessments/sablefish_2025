@@ -909,7 +909,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Comparison of age reads between reader 1 and reader 2. Reader 1 was assumed to be unbiased."
+#| fig-cap: "Comparison of age reads between reader 1 and reader 2 where reader 1 was assumed to be unbiased. The size of the bubbles is based on the number of age read groups between readers with larger bubbles for higher age read combinations."
 #| fig-alt: ""
 #| fig-pos: H
 #| fig-height: 4
