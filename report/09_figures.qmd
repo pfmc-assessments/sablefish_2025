@@ -91,7 +91,11 @@ landings <- model_output$catch |>
   dplyr::mutate(
     year = Yr,
     catch_mt = dead_bio,
-    Fleet = Fleet_Name
+    Fleet = dplyr::case_when(
+      Fleet_Name == "TWL_Discards" ~ "TWL Discards",
+      Fleet_Name == "HKL_Discards" ~ "HKL Discards",
+      Fleet_Name == "Pot_Discards" ~ "Pot Discard",
+      .default = Fleet_Name)
   )
   
 ggplot2::ggplot(landings, ggplot2::aes(x = year, y = catch_mt, fill = Fleet)) +
@@ -104,7 +108,7 @@ ggplot2::ggplot(landings, ggplot2::aes(x = year, y = catch_mt, fill = Fleet)) +
   ggplot2::theme(
     strip.text.x = ggplot2::element_blank(),
     strip.background = ggplot2::element_rect(colour="white", fill="white"),
-    legend.key.height = ggplot2::unit(0.25, "cm"),
+    legend.key.height = ggplot2::unit(0.05, "cm"),
     legend.position = c(0.20, 0.75))
 
 ```
