@@ -64,17 +64,17 @@ LH |>
 
 We used oceanographic model products produced by Copernicus Marine Environment Monitoring Service (CMEMS) (<https://marine.copernicus.eu/>) and Mercator Ocean International (MOI) (<https://www.mercator-ocean.eu/>) to test if this modelling framework could be used to produce an environmental index of sablefish recruitment.
 
-We combined two CMEMS products: the Global Ocean Reanalysis and Simulation (GLORYS12V1: GLOBAL_MULTIYEAR_PHY_001_030, <https://doi.org/10.48670/moi-000211>) [@Fernandex2018glorys; @Drevillon2022glorys] and the Copernicus Marine global analysis and forecast (CMGAF, GLOBAL_ANALYSISFORECAST_PHY_001_024; <https://doi.org/10.48670/moi-00016>) [@LeGalloudec2022forecast]. The data are served by the Copernicus Marine Service (<https://marine.copernicus.eu/>). When downloaded, the data covered: GLORYS: 1993-01-01 to 2021-06-31 and CMGAF: 2021-07-01 to 2025-02-01. Note both the reanalysis and the analysis and forecast walk forward in time. For the CMGAF, time series are updated at regular intervals beginning with a daily forecast and hindcast simulation, and a weekly 'hindcast-best analysis' with data assimilation through -15 days [@LeGalloudec2022forecast]. We use "GLORYS" below to refer to the combined data set.
+We combined two CMEMS products from the Global Ocean Reanalysis (GLORYS) model (GLORYS12V1:GLOBAL_MULTIYEAR_PHY_001_030, <https://doi.org/10.48670/moi-00021>) [@Fernandex2018glorys; @Drevillon2022glorys]--a global ocean eddy-resolving (1/12$^\circ$ horizontal resolution, 50 vertical levels) reanalysis covering the altimetry (1993 onward). The products included: (1) the reanalysis (1993-01-01 to 2020-10-31; files: cmems_mod_glo_phy_my_0.083deg_P1D-m for daily data, and cmems_mod_glo_phy_my_0.083deg_P1M-m for monthly data), and (2) the interim product (2020-11-01 to 2025-01-01; files: cmems_mod_glo_phy_myint_0.083deg_P1D-m, cmems_mod_glo_phy_myint_0.083deg_P1M-m, for daily and monthly data respectively). For bottom depth, we obtained static data from: cmems_mod_glo_phy_my_0.083deg_static. 
 
-Overall the GLORYS analysis followed @tolimieri2018oceanographic and @haltuch2020oceanographic. More specifically, data for water column temperature, bottom temperature, and mixed-layer depth were downloaded as daily values. For transport variables, monthly means were used to reduce processing time. We included oceanographic variables for 40-48 °N and processed as follows for each life-history-stage:
+Overall the GLORYS analysis followed @tolimieri2018oceanographic and @haltuch2020oceanographic. More specifically, data for water column temperature, bottom temperature, and mixed-layer depth were downloaded as daily values. For transport variables, monthly means were used to reduce processing time. We included oceanographic variables for 40--48$^\circ$ N. latitude and processed as follows for each life-history-stage:
 
-1.  Subsetted data by bottom depth, mixed-layer depth, and distance from shore as relevant (@tbl-LH)
+1.  Subsetted data by bottom depth, mixed-layer depth, and distance from shore as relevant (@tbl-LH).
 
-2.  Calculated the daily average across the depth and latitude frames
+2.  Calculated the daily average across the depth and latitude frames.
 
-3.  Subsetted #2 by the relevant monthly/seasonal time periods
+3.  Subsetted #2 by the relevant monthly/seasonal time periods.
 
-4.  Calculated the annual average for 1993-2024 for each potential predictor
+4.  Calculated the annual average for 1993-2024 for each potential predictor.
 
 Overall, the combined GLORYS time series did not show obvious break points from 2020 to 2021 ([Fig. @fig-glorys-ts]).
 
@@ -127,9 +127,9 @@ r2 = df[3,'R2']
 
 Five models had $\Delta$AICc values $\le$ 2.0 (@tbl-aic). All models included cross-shelf transport during pelagic juvenile (CSTpjuv), and benthic juvenile (CSTbjuv) stages. Model 3 was chosen as the best-fit because it had the fewest predictors (2), and these two predictors were in all top-five models providing consistency. The best-fit model explained `r round(r2, 2)*100`% of the variation in recruitment deviations from 1993-2022 ( r^2^ = `r round(r2, 2)` , @tbl-aic, [Fig. @fig-glorys-fit]). The model tracked the data well with most recruitment deviations falling with $\pm$ 1.0 s.e. of the recruitment index ([Fig. @fig-glorys-fit]).
 
-The remaining four models included either Tspawn, DDpre, CSTegg, or CSTyolk as predictors. Thse results suggest that different additional terms migh help explain variance in different years, but that CSTpjuv and CSTbjuv provide a consistent basis for prediction. Including an additional factor like Tpre would increase the explained variance by \~ 10% points (r^2^ = 0.47)
+The remaining four models included either Tspawn, DDpre, CSTegg, or CSTyolk as predictors. These results suggest that different additional terms might help explain variance in different years, but that CSTpjuv and CSTbjuv provide a consistent basis for prediction. Including an additional factor like Tpre would increase the explained variance by \~ 10% points (r^2^ = 0.47).
 
-![Model fit to the data and model testing results. Black line is the model prediction $\pm$ 1.0 s.e (dotted lines). While points are the ln recruitment deviations from the stock assessment model. Yellow points are from jackknife analysis leaving out one year and refitting the model, and red points fit the best-fit model to 1993-2014 then predict 2015-2019.](figures/gloyrs_figure_3.png){#fig-glorys-fit}
+![Model fit to the training data (ln recruitment deviations from the stock assessment model for 1993-2019) and model testing results. Black line is the model prediction $\pm$ 1.0 s.e (dotted lines). Open (white) points are the ln recruitment deviations. Yellow points are from jackknife analysis leaving out one year and refitting the model, and red points fit the best-fit model to 1993-2014 then predict 2015-2019.](figures/gloyrs_figure_3.png){#fig-glorys-fit}
 
 For all models recruitment was negatively correlated with CSTpjuv suggesting that processes like upwelling may be important for producing feeding conditions conducive to survival. CSTbjuv was positively correlated with recruitment, which may indicate that onshore transport during the shift to benthic habitat leads to better recruitment. Both the ROMS analysis and the results here suggest that colder water during the female preconditioning stage (negative correlation with DDpre, here model 2) results in higher recruitment.
 
@@ -139,13 +139,13 @@ For all models recruitment was negatively correlated with CSTpjuv suggesting tha
 
 Model diagnostics were examined and testing was carried out to determine how stable the best-fit model was to both individual years and the precision of the estimates of recruitment deviations. Testing followed @tolimieri2018oceanographic and @haltuch2020oceanographic, but only a subset of test results is shown here:
 
-1\. Jackknife analysis on the best-fit model was used to determine the impact of individual years on the model fit.
+1. Jackknife analysis on the best-fit model was used to determine the impact of individual years on the model fit.
 
-2\. Refit the best-fit model using data for 1993-2014and then predict 2015-2019.
+2. Refit the best-fit model using data for 1993-2014and then predict 2015-2019.
 
-3\. Refit the best-fit model for 1993-2014 and predict 20158. Repeat stepping forward one year at a time.
+3. Refit the best-fit model for 1993-2014 and predict 2015. Repeat stepping forward one year at a time.
 
-4\. Individual years were jackknifed and then the entire model selection process was rerun to determine the impact of individual years on the selection of the predictors in the best-fit model.
+4. Individual years were jackknifed and then the entire model selection process was rerun to determine the impact of individual years on the selection of the predictors in the best-fit model.
 
 Residual plots showed some deviation from the 1:1 line for the best-fit model ([Fig. @fig-resids]).
 
@@ -171,10 +171,9 @@ cs = colSums(df_jack, na.rm = T)
 
 ```
 
-<!--
+
 #### Forward prediction {#sec-forwardpred}
 
 GLORYS data were available through 2024, so we used the results of the index fitting above to predict ln recruitment deviations from 2020 - 2024 ([Fig. @fig-predicted-recdevs]. The model predicted average recruitment in 2020 and above average recruitment in 2021, 2023, and 2024. The model picked up low recruitment in 2022, consistent with the recruitment deviations from the 2023 assessment but under predicted high recruitment in 2020, and 2021; thus the predictions were conservative.
 
-![Predicted recruitment deviations through 2024. Lines are the GLORYS index with standard error. The points are the ln recruitment deviations from the 2023 assessment. Black indicates training data, while red points are out-of-sample data.](figures/gloyrs-predicted-recruitment-index.png){#fig-predicted-recdevs}
--->
+![Predicted recruitment deviations through 2024. Lines are the GLORYS index (predicted recruitment through 2024) with standard error. The points are the ln recruitment deviations from the 2023 assessment. Black points indicate training data used in the initial model fitting. Red points are out-of-sample data.](figures/gloyrs-predicted-recruitment-index.png){#fig-predicted-recdevs}
