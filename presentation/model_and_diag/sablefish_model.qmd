@@ -1,0 +1,132 @@
+---
+title: Status of sablefish (*Anoplopoma fimbria*) off the U.S. West Coast in 2025
+subtitle: Model, Diagnostics, and Results
+author: Sablefish Stock Assessment Team
+date: July 14, 2025
+brand: slides-dark-brand.yml
+format:
+  nmfs-slides-revealjs: 
+    title-slide-attributes:
+      data-background-image: "styles/horiz-swoop-1.png"
+      data-background-color: '{{< brand color dark-blue >}}'
+    footer: "National Oceanic and Atmospheric Administration | National Marine Fisheries Service"
+    controls: true
+    navigation-mode: linear
+    transition: slide
+    transition-speed: default
+    background-transition: none
+    scrollable: true
+---
+
+
+```{r}
+#| label: create-figs
+#| echo: false
+#| warning: false
+
+create_figs_tables <- TRUE
+
+create_model_tables <- function(
+  model_name,
+  model_dir = here::here("model"),
+  save_dir = here::here("presentation", "model", "figures"),
+  fleetnames = c(
+    "Trawl", 
+    "Hook-and-Line", 
+    "Pot",
+    "Trawl Discards", 
+    "Hook-and-Line Discards",
+    "Pot Discard",
+    "Triennial Early", 
+    "Triennial Late", 
+    "NWFSC Slope", 
+    "WCGBTS",
+    "Recruitment Index"
+  )
+) {
+  model_dir <- file.path(model_dir, model_name)
+  model_output <- r4ss::SS_output(model_dir)
+  r4ss::table_all(
+    replist = model_output,
+    fleetnames = fleetnames,
+    dir = save_dir
+  )
+}
+
+create_model_plots <- function(
+  model_name,
+  model_dir = here::here("model"),
+  save_dir = here::here("presentation", "model", "figures")
+  ) {
+
+  model_dir <- file.path(model_dir, model_name)
+  model_output <- r4ss::SS_output(model_dir)
+  save(model_output, file = file.path(save_dir, "model_output.rda"))
+  r4ss::SS_plots(
+    replist = model_output,
+    dir = save_dir
+  )
+  r4ss::SS_plots(
+    replist = model_output, 
+    plot = 1, 
+    minyr = 2000, 
+    maxyr = 2025,
+    pheight_tall = 3.5, 
+    pwidth = 6.5,
+    dir = here::here("presentation", "data", "figures")
+  )
+}
+
+model_name <- "8.36_base_model"
+model_dir <- here::here("model", "base_model", model_name)
+if (any(c(
+  !file.exists(file.path(model_dir, "model_output.rda")), 
+  !file.exists(file.path(model_dir, "plots"))
+  ))) {
+  create_model_plots(
+    model_name = model_name,
+  )
+}
+load(file.path(model_dir, "model_output.rda"))
+
+```
+
+## Disclaimer
+
+*These materials do not constitute a formal publication and are for information only. They are in a pre-review, pre-decisional state and should not be formally cited or reproduced. They are to be considered provisional and do not represent any determination or policy of NOAA or the Department of Commerce.*
+
+## Outline
+- Bridging from the 2023 model
+- Parameter estimates
+- Fit to data
+- Population estimates
+- Diagnostics and sensitivities
+- Risk table
+
+## Bridging
+- Updating data
+- Model structural changes
+
+## Bridging
+
+## Parameter Estimates
+
+## Fit to Data
+
+## Population Estimates
+
+## Diagnostics and Sensitivities
+- Sensitivities
+- Select parameter profiles
+- Retrospectives
+
+## Sensitivities
+
+## Parameter Profiles
+
+## Retrospectives
+
+## Risk Table
+
+## Questions?
+
