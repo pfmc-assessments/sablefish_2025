@@ -126,14 +126,13 @@ read.csv(here::here("data-processed", "data_commercial_discard_rates.csv")) |>
 #| label: tbl-discard-trawl-age-samples
 #| warning: false
 #| echo: false
-#| tbl-cap: "Number of fish, hauls, trips, and calculated input sample size for discard ages from the trawl fleet."
+#| tbl-cap: "Number of fish, hauls, trips, and calculated input sample size (N) for discard ages from the trawl fleet."
 
 read.csv(here::here("data-processed", "data-discard-sample-sizes-length.csv")) |>
-  dplyr::select(-fleet_groups, -vessels) |>
   dplyr::filter(gear_groups == "trawl") |>
+  dplyr::select(-fleet_groups, -vessels, -gear_groups) |>
   dplyr::rename(
     Year = year,
-    Fleet  = gear_groups,
     Hauls = hauls,
     Trips = trips,
     Samples = fish,
@@ -141,7 +140,7 @@ read.csv(here::here("data-processed", "data-discard-sample-sizes-length.csv")) |
   ) |>
   gt::gt() |>
   gt::fmt_number(
-    columns = 3,
+    columns = 2,
     decimals = 0
   ) |>
   gt::tab_options(
@@ -158,14 +157,13 @@ read.csv(here::here("data-processed", "data-discard-sample-sizes-length.csv")) |
 #| label: tbl-discard-hkl-age-samples
 #| warning: false
 #| echo: false
-#| tbl-cap: "Number of fish, hauls, trips, and calculated input sample size for discard ages from the hook-and-line fleet."
+#| tbl-cap: "Number of fish, hauls, trips, and calculated input sample size (N) for discard ages from the hook-and-line fleet."
 
 read.csv(here::here("data-processed", "data-discard-sample-sizes-length.csv")) |>
-  dplyr::select(-fleet_groups, -vessels) |>
   dplyr::filter(gear_groups == "hook-and-line") |>
+    dplyr::select(-fleet_groups, -vessels, -gear_groups) |>
   dplyr::rename(
     Year = year,
-    Fleet  = gear_groups,
     Hauls = hauls,
     Trips = trips,
     Samples = fish,
@@ -173,7 +171,7 @@ read.csv(here::here("data-processed", "data-discard-sample-sizes-length.csv")) |
   ) |>
   gt::gt() |>
   gt::fmt_number(
-    columns = 3,
+    columns = 2,
     decimals = 0
   ) |>
   gt::tab_options(
@@ -190,14 +188,13 @@ read.csv(here::here("data-processed", "data-discard-sample-sizes-length.csv")) |
 #| label: tbl-discard-pot-age-samples
 #| warning: false
 #| echo: false
-#| tbl-cap: "Number of fish, hauls, trips, and calculated input sample size for discard ages from the pot fleet."
+#| tbl-cap: "Number of fish, hauls, trips, and calculated input sample size (N) for discard ages from the pot fleet."
 
 read.csv(here::here("data-processed", "data-discard-sample-sizes-length.csv")) |>
-  dplyr::select(-fleet_groups, -vessels) |>
   dplyr::filter(gear_groups == "pot") |>
+  dplyr::select(-fleet_groups, -vessels, -gear_groups) |>
   dplyr::rename(
     Year = year,
-    Fleet  = gear_groups,
     Hauls = hauls,
     Trips = trips,
     Samples = fish,
@@ -205,7 +202,7 @@ read.csv(here::here("data-processed", "data-discard-sample-sizes-length.csv")) |
   ) |>
   gt::gt() |>
   gt::fmt_number(
-    columns = 3,
+    columns = 2,
     decimals = 0
   ) |>
   gt::tab_options(
@@ -222,7 +219,7 @@ read.csv(here::here("data-processed", "data-discard-sample-sizes-length.csv")) |
 #| label: tbl-twl-age-samples
 #| warning: false
 #| echo: false
-#| tbl-cap: "Number of sampled trips, age samples, and calculated input sample size (Input N) by year for the trawl fleet."
+#| tbl-cap: "Number of sampled trips, age samples, and calculated input sample size (N) by year for the trawl fleet."
 
 read.csv(here::here("data-processed", "data-commercial-age-bds-n.csv")) |>
   dplyr::filter(fleet == "TWL") |>
@@ -257,7 +254,7 @@ read.csv(here::here("data-processed", "data-commercial-age-bds-n.csv")) |>
 #| label: tbl-hkl-age-samples
 #| warning: false
 #| echo: false
-#| tbl-cap: "Number of sampled trips, age samples, and calculated input sample size (Input N) by year for the hook-and-line fleet."
+#| tbl-cap: "Number of sampled trips, age samples, and calculated input sample size (N) by year for the hook-and-line fleet."
 
 read.csv(here::here("data-processed", "data-commercial-age-bds-n.csv")) |>
   dplyr::filter(fleet == "HKL") |>
@@ -292,7 +289,7 @@ read.csv(here::here("data-processed", "data-commercial-age-bds-n.csv")) |>
 #| label: tbl-pot-age-samples
 #| warning: false
 #| echo: false
-#| tbl-cap: "Number of sampled trips, age samples, and calculated input sample size (Input N) by year for the pot fleet."
+#| tbl-cap: "Number of sampled trips, age samples, and calculated input sample size (N) by year for the pot fleet."
 
 read.csv(here::here("data-processed", "data-commercial-age-bds-n.csv")) |>
   dplyr::filter(fleet == "POT") |>
@@ -385,7 +382,7 @@ readr::read_csv(here::here("data-processed", "document_sample_sizes_comparison_2
 #| label: tbl-prop-area
 #| warning: false
 #| echo: false
-#| tbl-cap: "Estimated percentage of sablefish biomass estimated north and south of 36 N. latitude based on the NWFSC West Coast Groundfish Bottom Trawl Survey data over the last five years."
+#| tbl-cap: "Estimated percentage of sablefish biomass estimated north and south of 36° N. latitude based on the NWFSC West Coast Groundfish Bottom Trawl Survey data over the last five years."
 #| tbl-pos: H
 
 wcgbt_area <- read.csv(here::here("report", "figures", "wcgbt_est_by_area.csv")) |>
@@ -897,7 +894,7 @@ parcount_table |>
 #| label: tbl-data-weights
 #| warning: false
 #| echo: false
-#| tbl-cap: "Data weights from the base model."
+#| tbl-cap: "Data weights from the base model. The data weights for both periods of the Triennial Survey are capped at 1.0 to avoid upweighting these data beyond the number of total samples."
 
 ctl_file[["Variance_adjustment_list"]] |>
   dplyr::select(-factor) |>
@@ -981,7 +978,7 @@ kableExtra::kable(
   linesep = "") |>
   kableExtra::column_spec(
     column = c(1, 2, 3, 4, 5, 6, 7),
-    width = c("2.75in", "0.5in", "0.5in", "1in", "0.5in", "0.5in", "1.25in")
+    width = c("3in", "0.5in", "0.5in", "0.90in", "0.4in", "0.5in", "1.25in")
   ) |>
   kableExtra::kable_styling(
     latex_options = "repeat_header",
@@ -1110,11 +1107,12 @@ read.csv(here::here("report", "rda", "sens_1_model_para_comp.csv")) |>
     page.orientation = "landscape",
     latex.use_longtable = TRUE
   ) |>
-  #gt::cols_align(
-  #  align = "center"
-  #) |>
+  gt::sub_missing(
+    columns = tidyselect::everything(),
+    missing_text = "---"
+  ) |>
   gt::cols_width(
-    tidyselect::everything() ~ px(130)
+    tidyselect::everything() ~ px(125)
   ) |>
   gt::as_latex()
 
@@ -1151,9 +1149,10 @@ read.csv(here::here("report", "rda", "sens_2_model_para_comp.csv")) |>
     page.orientation = "landscape",
     latex.use_longtable = TRUE
   ) |>
-  #gt::cols_align(
-  #   align = "center"
-  #) |>
+  gt::sub_missing(
+    columns = tidyselect::everything(),
+    missing_text = "---"
+  ) |>
   gt::cols_width(
     tidyselect::everything() ~ px(150)
   ) |>
@@ -1198,9 +1197,6 @@ read.csv(here::here("report", "rda", "sens_3_model_para_comp.csv")) |>
     page.orientation = "landscape",
     latex.use_longtable = TRUE
   ) |>
-  #gt::cols_align(
-  #  align = "center"
-  #) |>
   gt::cols_width(
     #tidyselect::everything() ~ px(150)
     `Metric` ~ px(175),
@@ -1243,9 +1239,10 @@ read.csv(here::here("report", "rda", "sens_4_model_para_comp.csv")) |>
     page.orientation = "landscape",
     latex.use_longtable = TRUE
   ) |>
-  #gt::cols_align(
-  #  align = "center"
-  #) |>
+  gt::sub_missing(
+    columns = tidyselect::everything(),
+    missing_text = "---"
+  ) |>
   gt::cols_width(
     tidyselect::everything() ~ px(150)
   ) |>
@@ -1259,7 +1256,7 @@ read.csv(here::here("report", "rda", "sens_4_model_para_comp.csv")) |>
 #| label: tbl-gmt-catch
 #| warning: false
 #| echo: false
-#| tbl-cap: "Removal assumptions in metric tons (mt) provided by the Groundfish Management Team for 2025-2026 by fleet. Removal assumptions were used to project OFLs and ABCs for 2027-2036."
+#| tbl-cap: "Removal assumptions in metric tons (mt) provided by the Groundfish Management Team for 2025-2026 by fleet. Removal assumptions were used to project OFLs (mt) and ABCs (mt) for 2027-2036."
 #| tbl-pos: H
 
 gmt_catch |>
@@ -1297,7 +1294,7 @@ gmt_catch |>
 #| label: tbl-projections
 #| warning: false
 #| echo: false
-#| tbl-cap:  "Potential OFLs (mt), ABCs (mt), ACLs (mt), the buffer between the OFL and ABC, estimated spawning output,and stock status with adopted OFLs and ACLs and assumed catch for the first two years of the projection period (2025-2026). Projections were conducted assuming a category 1 time-varying sigma and a P$^*$ of 0.45."
+#| tbl-cap:  "Potential OFLs (mt), ABCs (mt), ACLs (mt), the buffer between the OFL and ABC, estimated spawning output,and stock status with adopted OFLs and ACLs and assumed catch for the first two years of the projection period (2025-2026). Projections were conducted assuming a category 1 time-varying sigma of 0.50 and a P$^*$ of 0.45."
 #| tbl-pos: H
 
 projections_table |>

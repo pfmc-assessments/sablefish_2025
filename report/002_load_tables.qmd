@@ -48,7 +48,7 @@ if (file.exists(table_dir)) {
   
   config_table <- table_config$table
   config_cap <- table_config$cap
-  config_table[which(config_table$Section == "Maximum Age"), "Section"] <- "Maximum modeled age"
+  config_table[which(config_table$Section == "Maximum age"), "Section"] <- "Maximum modeled age"
   config_table[which(config_table$Section == "Population bins"), "Configuration"] <- "0-70 age bins"
   config_table[which(config_table$Section == "Data length bins"), "Configuration"] <- "-"
   config_table[which(config_table$Section == "Number of growth patterns"), "Configuration"] <- "Time-varying 2003-2024"
