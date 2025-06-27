@@ -1109,7 +1109,9 @@ read.csv(here::here("report", "rda", "sens_1_model_para_comp.csv")) |>
     missing_text = "---"
   ) |>
   gt::cols_width(
-    tidyselect::everything() ~ px(130)
+    `Metric` ~ px(175),
+    tidyselect::starts_with("B") ~ px(120),
+    tidyselect::starts_with("R") ~ px(120),
   ) |>
   gt::as_latex()
 
@@ -1151,7 +1153,11 @@ read.csv(here::here("report", "rda", "sens_2_model_para_comp.csv")) |>
     missing_text = "---"
   ) |>
   gt::cols_width(
-    tidyselect::everything() ~ px(150)
+    `Metric` ~ px(175),
+    tidyselect::starts_with("B") ~ px(120),
+    tidyselect::starts_with("M") ~ px(120),
+    tidyselect::starts_with("A") ~ px(120),
+    tidyselect::starts_with("N") ~ px(120)
   ) |>
   gt::as_latex()
 
@@ -1241,7 +1247,10 @@ read.csv(here::here("report", "rda", "sens_4_model_para_comp.csv")) |>
     missing_text = "---"
   ) |>
   gt::cols_width(
-    tidyselect::everything() ~ px(150)
+    `Metric` ~ px(175),
+    tidyselect::starts_with("B") ~ px(120),
+    tidyselect::starts_with("E") ~ px(120),
+    tidyselect::starts_with("R") ~ px(120)
   ) |>
   gt::as_latex()
 
