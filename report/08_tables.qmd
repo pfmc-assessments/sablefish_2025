@@ -1089,7 +1089,7 @@ read.csv(here::here("report", "rda", "sens_1_model_para_comp.csv")) |>
   gt::cols_label(
     Metric = "Metric",
     Base.Model = "Base Model",
-    Remove.WCGBT = "Remove WCGBT",
+    Remove.WCGBTS = "Remove WCGBTS",
     Remove.Triennial = "Remove Triennial",
     Remove.NWFSC.Slope = "Remove NWFSC Slope",
     Remove.Recruitment.Index = "Remove Recruitment Index"
@@ -1109,7 +1109,7 @@ read.csv(here::here("report", "rda", "sens_1_model_para_comp.csv")) |>
     missing_text = "---"
   ) |>
   gt::cols_width(
-    tidyselect::everything() ~ px(125)
+    tidyselect::everything() ~ px(130)
   ) |>
   gt::as_latex()
 
@@ -1197,9 +1197,9 @@ read.csv(here::here("report", "rda", "sens_3_model_para_comp.csv")) |>
   gt::cols_width(
     #tidyselect::everything() ~ px(150)
     `Metric` ~ px(175),
-    tidyselect::starts_with("B") ~ px(85),
-    tidyselect::starts_with("E") ~ px(85),
-    tidyselect::starts_with("M") ~ px(85)
+    tidyselect::starts_with("B") ~ px(100),
+    tidyselect::starts_with("E") ~ px(100),
+    tidyselect::starts_with("M") ~ px(100)
   ) |>
   gt::as_latex()
 
