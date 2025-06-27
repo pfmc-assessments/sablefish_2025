@@ -298,7 +298,8 @@ low_recdevs <- recdevs[low_5, ]
 sum_main_devs <- model_output$parameters |>
   dplyr::filter(grepl("Main_RecrDev", Label)) |>
   dplyr::select(Value) |>
-  dplyr::summarise(sum = round(sum(Value), 2))
+  dplyr::summarise(sum = round(sum(Value), 2)) |>
+  as.numeric()
 
 # Parameters: biology values
 m <- model_output$parameters |>
