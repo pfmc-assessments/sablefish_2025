@@ -295,6 +295,11 @@ top_recdevs <- recdevs[high_5, ]
 low_5 <- sort(recdevs[, "recdevs"], decreasing = FALSE, index.return = TRUE)$ix[1:5]
 low_recdevs <- recdevs[low_5, ]
 
+sum_main_devs <- model_output$parameters |>
+  dplyr::filter(grepl("Main_RecrDev", Label)) |>
+  dplyr::select(Value) |>
+  dplyr::summarise(sum = round(sum(Value), 2))
+
 # Parameters: biology values
 m <- model_output$parameters |>
   dplyr::filter(Label %in% c("NatM_uniform_Fem_GP_1", "NatM_uniform_Mal_GP_1")) |>

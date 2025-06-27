@@ -692,6 +692,35 @@ strata_triennial_early |>
 
 \pagebreak
 
+```{r}
+#| label: tbl-rec-index-aic
+#| warning: false
+#| echo: false
+#| tbl-cap: "Results of model fitting showing estimated coefficients for models with delta AIC </= 2.0. CST = cross-shelf transport, DD = degree days, T = temperature, yolk = yolksack stage, pjuv = pelagic juvenile, and bjuv = benthic juvenile stage."
+#| tbl-pos: H
+
+df = data.frame(read.csv(here::here("report", "rda", "Table_dredge-aic-delta4.csv"), header = T))
+df = df |> dplyr::filter(delta <= 2)
+df = round(df,2)
+csums = colSums(df, na.rm = TRUE)
+csums = csums[csums!=0]
+df = df[,names(csums)]
+Model = paste('Model' , 1:nrow(df))
+df = cbind(Model,df)
+df = df |> dplyr::rename(Intercept = X.Intercept.)
+df[is.na(df)] <- ""
+r2 = df[3,'R2']
+
+gt::gt(df) |>
+  gt::tab_options(
+    table.font.size = 10,
+    latex.use_longtable = TRUE) |>
+  gt::cols_hide(c("weight","logLik","F") )
+
+```
+
+{{< pagebreak >}} 
+
 
 ```{r}
 #| label: tbl-afslope-samples
@@ -822,34 +851,6 @@ maturity_data |>
 
  {{< pagebreak >}} 
  
-```{r}
-#| label: tbl-rec-index-aic
-#| warning: false
-#| echo: false
-#| tbl-cap: "Results of model fitting showing estimated coefficients for models with delta AIC </= 2.0. CST = cross-shelf transport, DD = degree days, T = temperature, yolk = yolksack stage, pjuv = pelagic juvenile, and bjuv = benthic juvenile stage."
-#| tbl-pos: H
-
-df = data.frame(read.csv(here::here("report", "rda", "Table_dredge-aic-delta4.csv"), header = T))
-df = df |> dplyr::filter(delta <= 2)
-df = round(df,2)
-csums = colSums(df, na.rm = TRUE)
-csums = csums[csums!=0]
-df = df[,names(csums)]
-Model = paste('Model' , 1:nrow(df))
-df = cbind(Model,df)
-df = df |> dplyr::rename(Intercept = X.Intercept.)
-df[is.na(df)] <- ""
-r2 = df[3,'R2']
-
-gt::gt(df) |>
-  gt::tab_options(
-    table.font.size = 10,
-    latex.use_longtable = TRUE) |>
-  gt::cols_hide(c("weight","logLik","F") )
-
-```
-
-{{< pagebreak >}} 
  
 ## Assessment and Modeling 
  
@@ -930,33 +931,6 @@ ctl_file[["Variance_adjustment_list"]] |>
 ```
  
   {{< pagebreak >}} 
- 
-```{r}
-#| label: tbl-likes
-#| warning: false
-#| echo: false
-#| tbl-cap: "Likelihood components by source."
-
-table <- dplyr::bind_cols(
-  data.frame(Label = gsub("_", " ", rownames(model_output$likelihoods_used) )), 
-  data.frame(Total = model_output$likelihoods_used[,1])
-)
-table |>
-  gt::gt() |>
-  gt::fmt_number(
-    columns = 2,
-    decimals = 1
-  ) |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE
-  ) |>
-  gt::as_latex()
-
-```
-
- {{< pagebreak >}} 
- 
 
 ::: {.landscape}
 
@@ -987,8 +961,31 @@ kableExtra::kable(
 
 :::
 
- \pagebreak
+```{r}
+#| label: tbl-likes
+#| warning: false
+#| echo: false
+#| tbl-cap: "Likelihood components by source."
 
+table <- dplyr::bind_cols(
+  data.frame(Label = gsub("_", " ", rownames(model_output$likelihoods_used) )), 
+  data.frame(Total = model_output$likelihoods_used[,1])
+)
+table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2,
+    decimals = 1
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
+
+```
+
+ {{< pagebreak >}} 
 
 ```{r, results = "asis"}
 #| label: tbl-ref-points
@@ -1332,7 +1329,7 @@ projections_table |>
 #| label: tbl-risk-table
 #| warning: false
 #| echo: false
-#| tbl-cap: "‘Risk Table’ for sablefish to document ecosystem and environmental factors potentially affecting stock productivity and uncertainty or other concerns arising from the stock assessment. Level 1 is a favorable ranking, Level 2 neutral, and Level 3 unfavorable."
+#| tbl-cap: "‘Risk table for sablefish to document ecosystem and environmental factors potentially affecting stock productivity and uncertainty or other concerns arising from the stock assessment. Level 1 is a favorable ranking, Level 2 neutral, and Level 3 unfavorable."
 #| tbl-pos: H
 
 risk <- read.csv(here::here("report", "rda", "RiskTable.csv") )

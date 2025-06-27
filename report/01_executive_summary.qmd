@@ -386,16 +386,9 @@ reference_points_table |>
 
 ## Management Performance {-}
 
-Sablefish management includes a rich history of seasons, size-limits, trip-limits, and a complex
-permit system. `r Spp` is currently modeled as a coastwide stock with corresponding coastwide \gls{ofl} and \gls{abc}.
-The coastwide \gls{abc} is then apportioned into two area-specific \glsplural{acl} north and south of 36$^\circ$ N. latitude.
-For the 2019 assessment, the \gls{pfmc} adopted a methodology to split the \gls{acl} using a five-year rolling average biomass
-estimate by area from the WCGBTS ([November 2019 \gls{pfmc} Meeting Decision Document](https://www.pcouncil.org/documents/2019/11/november-2019-decision-document.pdf/)).
-This historical management line corresponds with a recent data-driven analysis of `r spp` growth that suggests a difference in
-growth rates north and south of $36^\circ$ N. latitude [@kapur_oceanographic_2020]. The estimates represent the relative
-distribution of the `r spp` population observed by the survey, not the entire population. The coastwide \gls{ofl} and \gls{abc}
-values and the area based \gls{acl} are shown in @tbl-es-management. Over the past decade, \gls{ofl} and \gls{abc} specifications
-have generally increased as stock size continues to increase. 
+Sablefish management includes a rich history of seasons, size-limits, trip-limits, and a complex permit system. `r Spp` is currently modeled as a coastwide stock with corresponding coastwide \gls{ofl} and \gls{abc}. The coastwide \gls{abc} is then apportioned into two area-specific \glsplural{acl} north and south of 36$^\circ$ N. latitude. This historical management line corresponds with a recent data-driven analysis of `r spp` growth that suggests a difference in growth rates north and south of $36^\circ$ N. latitude [@kapur_oceanographic_2020]. The coastwide \gls{ofl} and \gls{abc} values and the area-based \gls{acl} are shown in @tbl-es-management.
+
+For the 2019 assessment, the \gls{pfmc} adopted a methodology to determine the area-based \gls{acl} using a five-year rolling average relative biomass estimate from the WCGBTS ([November 2019 \gls{pfmc} Meeting Decision Document](https://www.pcouncil.org/documents/2019/11/november-2019-decision-document.pdf/)). The relative biomass estimates represent the distribution of the `r spp` population observed by the WCGBTS, not the entire population.  
 
 
 ```{r, results = "asis"}
@@ -555,7 +548,7 @@ Data inputs for `r spp` were scored as favorable (Level 1) given confidence in h
 #| label: tbl-risk-table-es
 #| warning: false
 #| echo: false
-#| tbl-cap: "‘Risk Table’ for sablefish to document ecosystem and environmental factors potentially affecting stock productivity and uncertainty or other concerns arising from the stock assessment. Level 1 is a favorable ranking, Level 2 neutral, and Level 3 unfavorable."
+#| tbl-cap: "‘Risk table for sablefish to document ecosystem and environmental factors potentially affecting stock productivity and uncertainty or other concerns arising from the stock assessment. Level 1 is a favorable ranking, Level 2 neutral, and Level 3 unfavorable."
 #| tbl-pos: H
 
 risk <- read.csv(here::here("report", "rda", "RiskTable.csv") )

@@ -690,7 +690,6 @@ knitr::include_graphics(
 ![Partial residual plots of GLORYS predictors. CST = cross-shelf transport, T = temperature, spawn = spaning stage, pjuv = pelagic juvenile, and bjuv = benthic juvenile stage.](figures/gloyrs_figure_4.png){#fig-glorys-terms}
 
 
-
 ```{r} 
 #| label: fig-rec-index
 #| echo: false 
@@ -988,6 +987,36 @@ knitr::include_graphics(
 
 \pagebreak
 
+```{r} 
+#| label: fig-fishery-selex
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Selectivity curves for each fishery fleet in the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  here::here("report", "figures", "fishery_selex_timeblocks.png")
+)
+
+```
+
+```{r} 
+#| label: fig-survey-selex
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Selectivity curves for each survey in the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  here::here("report", "figures", "survey_selex_timeblocks.png")
+)
+
+```
+
 
 ```{r} 
 #| label: fig-recruits
@@ -1038,39 +1067,6 @@ knitr::include_graphics(
 
 ```
 
-
-
-## Selectivity
-
-```{r} 
-#| label: fig-fishery-selex
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Selectivity curves for each fishery fleet in the base model."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  here::here("report", "figures", "fishery_selex_timeblocks.png")
-)
-
-```
-
-```{r} 
-#| label: fig-survey-selex
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Selectivity curves for each survey in the base model."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  here::here("report", "figures", "survey_selex_timeblocks.png")
-)
-
-```
 
 ## Fits to Data
 
@@ -1227,7 +1223,6 @@ knitr::include_graphics(
 ```
 
 
-
 ```{r} 
 #| label: fig-mean-age-hkl
 #| echo: false 
@@ -1259,6 +1254,7 @@ knitr::include_graphics(
 )
 
 ```
+
 
 ```{r} 
 #| label: fig-mean-age-pot
@@ -1505,9 +1501,6 @@ knitr::include_graphics(
 
 ```
 
-
-
-
 ## Time-series
 
 
@@ -1522,22 +1515,6 @@ knitr::include_graphics(
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "ts7_Spawning_output_with_95_intervals.png")
-)
-
-```
-
-
-```{r} 
-#| label: fig-depl
-#| echo: false 
-#| warning: false 
-#| eval: true 
-#| fig-cap: "Estimated time series of relative spawning output (i.e., stock status) for the base model."
-#| fig-alt: ""
-#| fig-pos: H
-
-knitr::include_graphics(
-  file.path(model_dir, "plots", "ts9_Relative_spawning_output_intervals.png")
 )
 
 ```
@@ -1572,6 +1549,21 @@ knitr::include_graphics(
 
 ```
 
+
+```{r} 
+#| label: fig-depl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated time series of relative spawning output (i.e., stock status) for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(model_dir, "plots", "ts9_Relative_spawning_output_intervals.png")
+)
+
+```
 
 ```{r} 
 #| label: fig-sb-recr
