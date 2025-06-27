@@ -146,55 +146,35 @@ Model:
 
 ## Distribution
 
+## Natural Mortality (*M*)
+
+- Female and male *M* estimated as a single parameter based upon similar sex-specific estimates during model development
+- *M* is constant across ages and years
+- Lognormal prior included (Hamel and Cope 2022) based on a maximum age of 75 based upon the ~99.9 quantile from data collected from the West Coast Groundfish Bottom Trawl Survey 
+- A slightly higher frequency of old males compared to old females which could be due to differences in *M* or higher fishing pressure on females due to growth differences
+
+## Growth 
+
+- Latitudinal changes in growth along the West Coast with Kapur et al. 2020 identifying change point in growth ~ 36$^\circ$ N. lat.
+- Data suggest potential periods of varying growth rates which discussed in detail in the 2019 review
+
+![](plots/growth.png){.absolute bottom=30 right=250 width="680" height="380"}
+## Weight-at-Age
+
+## Weight-at-Age - Females
+
+![](plots/bio5_weightatsize.png){.absolute top=100 left=50 width="980" height="480"}
+
+## Weight-at-Age - Males
+
+![](plots/bio5_weightatsize2.png){.absolute top=100 left=50 width="980" height="480"}
+
 ## Maturity-at-Age
 
 - Sablefish mature at younger ages more frequently in the north compared to the south
 - Blue vertical dashed line at age 7
-```{r}
-#| label: maturity-samples
-#| echo: false 
-#| warning: false 
-#| eval: true 
-load(here::here("data", "maturity_data.rda"))
-north <- ggplot2::ggplot(maturity_data |> dplyr::filter(Area == "North") |>
-  dplyr::mutate(
-    Area = dplyr::case_when(latitude >= 36 ~ "North", .default = "South")), 
-    ggplot2::aes(x = age, y = functional_maturity)) +
-  ggplot2::geom_point() +
-  ggplot2::ylab("Functional Maturity") +
-  ggplot2::geom_vline(xintercept = 7, color = "blue", linetype = 3, size = 1) + 
-  ggplot2::xlab("Age years") +
-  ggplot2::theme_bw() +
-  ggplot2::xlim(c(0, 70) ) + 
-  ggplot2::theme(
-    axis.text = ggplot2::element_text(size = 14),
-    axis.title = ggplot2::element_text(size = 16),
-    strip.background = ggplot2::element_rect(fill = "white")) +
-  ggplot2::annotate("text", x = 40, y = 0.75, label = "North Sample Size = 496") 
-
-south <- ggplot2::ggplot(maturity_data |> dplyr::filter(Area == "South") |>
-  dplyr::mutate(
-    Area = dplyr::case_when(latitude >= 36 ~ "North", .default = "South")), 
-    ggplot2::aes(x = age, y = functional_maturity)) +
-  ggplot2::geom_point() +
-  ggplot2::ylab("Functional Maturity") +
-  ggplot2::geom_vline(xintercept = 7, color = "blue", linetype = 3, size = 1) + 
-  ggplot2::xlab("Age years") +
-  ggplot2::theme_bw() + ggplot2::xlim(c(0, 70)) + 
-  ggplot2::theme(
-    axis.text = ggplot2::element_text(size = 14),
-    axis.title = ggplot2::element_text(size = 16),
-    strip.background = ggplot2::element_rect(fill = "white")) +
-  ggplot2::annotate("text", x = 40, y = 0.75, label = "South Sample Size = 199")
-fig <- cowplot::plot_grid(north, south, nrow = 1)
-ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "maturity_samples.png"), width = 7, height = 4)
-```
 
 ![](plots/maturity_samples.png){.absolute top=250 right=200 width="780" height="380"}
-
-## Growth and Weight-at-Age
-
-## Natural Mortality
 
 ## Fishery-Dependent Data
 
