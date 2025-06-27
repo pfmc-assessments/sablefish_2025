@@ -90,13 +90,52 @@ load(here::here("presentation", "model_and_diag", "tables", "model_output.rda"))
 - Updating data
 - Model structural changes
 
-## Bridging
+## Data Bridging
+
+## Data Bridging
+
+## Data Bridging
+
+## Model Structure Bridging
+
+## Model Structure Bridging
+
+## Model Structure Bridging
 
 ## Parameter Estimates
 
+## Natural Mortality
+
+## Fishery Selectivity
+
+## Survey Selectivity
+
 ## Fit to Data
+- Fit to indices
+- Fit to age compositions
+
+## Survey Indices
+
+## Recruitment Index
+
+## Survey Age Compositions
+
+## Survey Mean Lengths
+
+## Fishery Age Compositions
+
+## Fishery Mean Lengths
 
 ## Population Estimates
+- Recruitment
+- Fishing intensity
+- Stock size and status
+
+## Recruitment
+
+## Fishing intensity
+
+## Stock size and status
 
 ## Diagnostics and Sensitivities
 - Sensitivities
