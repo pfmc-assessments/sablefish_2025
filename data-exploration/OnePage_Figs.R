@@ -1,42 +1,45 @@
 library(ggplot2)
 library(dplyr)
 library(stringr)
+library(nmfspalette)
 
 ############################################
 #Plot Net Change in Total Biomass Figure
 #change directory/file location as needed
-mydat <- read.csv("C:\\Users\\Aaron.Berger\\Documents\\AMB\\Groundfish\\Assessments\\Sablefish2025\\TwoPageSummary\\NetBiomass.csv")
-p<-ggplot(data=mydat,aes(x=Year,y=Metric,fill=Population)) +
+mydat <- read.csv(here::here("data-exploration", "NetBiomass.csv"))
+
+p <- ggplot(data=mydat,aes(x=Year,y=Metric,fill=Population)) +
   geom_bar(stat="identity", position=position_dodge())+
   scale_fill_manual(values=c("#51b364","#dc322f")) +
   labs(x="Year", y = "Net Change in Total Biomass (%)") +
-  coord_cartesian(ylim=c(-20,20))
-  p <- p + theme(legend.position = c(0.1,0.90),
-                 legend.text=element_text(size=18),
-                 legend.title=element_text(size=18),
-                 panel.background = element_blank(),
-                 axis.line = element_line(colour = "black"),
-                 panel.grid.major = element_line(color = "gray90"),
-                 panel.grid.minor = element_line(color = "gray95"),
-                 axis.text.x = element_text(color = "black", size = 18),
-                 axis.text.y = element_text(color = "black", size = 18),  
-                 axis.title.x = element_text(color = "black", size = 18),
-                 axis.title.y = element_text(color = "black", size = 18)) +
-    geom_hline(
-      yintercept = 0,
-      linetype = "dashed",
-      color = "black",
-      linewidth = 0.5
-    )
-ggsave("NetBiomassChange.png", p,width=12, height=8)
-ggsave("NetBiomassChange.pdf", p,width=12, height=8)
+  coord_cartesian(ylim=c(-20,20)) +
+  theme(legend.position = c(0.1,0.90),
+               legend.text=element_text(size=18),
+               legend.title=element_text(size=18),
+               panel.background = element_blank(),
+               axis.line = element_line(colour = "black"),
+               panel.grid.major = element_line(color = "gray90"),
+               panel.grid.minor = element_line(color = "gray95"),
+               axis.text.x = element_text(color = "black", size = 18),
+               axis.text.y = element_text(color = "black", size = 18),  
+               axis.title.x = element_text(color = "black", size = 18),
+               axis.title.y = element_text(color = "black", size = 18)) +
+  geom_hline(
+    yintercept = 0,
+    linetype = "dashed",
+    color = "black",
+    linewidth = 0.5
+  )
+ggsave(here::here("report", "figures", "NetBiomassChange.png"), width=12, height=8)
+ggsave(here::here("report", "figures", "NetBiomassChange.pdf"), p,width=12, height=8)
+
 ############################################
 
 ############################################
 #Circle bar (radar) graph for recent recruitment strength with coloring by above/below age at 50% mature (age 7 for sablefish)
 #change directory/file location as needed
-setwd("C:\\Users\\Aaron.Berger\\Documents\\AMB\\Groundfish\\Assessments\\Sablefish2025\\TwoPageSummary")
-radar <- read.csv("C:\\Users\\Aaron.Berger\\Documents\\AMB\\Groundfish\\Assessments\\Sablefish2025\\TwoPageSummary\\RecruitRadar.csv")
+#setwd("C:\\Users\\Aaron.Berger\\Documents\\AMB\\Groundfish\\Assessments\\Sablefish2025\\TwoPageSummary")
+radar <- read.csv(here::here("data-exploration", "RecruitRadar.csv"))
 Equil_rec <- 25981  #note: taken from stock assessment mean estimate
 radar$Year <- as.factor(radar$Year)
 
@@ -76,7 +79,7 @@ plt <- ggplot(radar) +
     yintercept = Equil_rec,
     linetype = "dashed",
     color = "maroon",
-    size = 0.4
+    linewidth = 0.4
   ) + 
   coord_polar()
 
@@ -144,7 +147,6 @@ plt <- plt +
 plt <- plt + 
   # Customize general theme
   theme(
-    
     # Set default color and font family for the text
     text = element_text(color = "gray12", family = "sans"),
     
@@ -154,8 +156,8 @@ plt <- plt +
     panel.grid.major.x = element_blank()
   )
 
-ggsave("Rec_radar.png", plt,width=8, height=8)
-ggsave("Rec_radar.pdf", plt,width=8, height=8)
+ggsave(here::here("report", "figures", "Rec_radar.png"), plt,width=8, height=8)
+ggsave(here::here("report", "figures", "Rec_radar.pdf"), plt,width=8, height=8)
 ############################################
 
 
@@ -169,15 +171,15 @@ TSCplot <- function(
     SSout,
     yrs = "default",
     ylimBar = "default",
-    ylimDepl = c(0, 1.025),
+    ylimDepl = c(0, 110),
     colBar = "slategray3",
-    cexBarLabels = 1.1,
-    cex.axis = 1.1,
+    cexBarLabels = 1.0,
+    cex.axis = 1.0,
     space = 0.0,
     pchDepl = 19,
     colDepl = "lightsalmon3",
     lwdDepl = 3,
-    shiftDepl = 0.25,
+    shiftDepl = 25,
     pchSpace = 5,
     ht = 4,
     wd = 7,
@@ -200,7 +202,7 @@ TSCplot <- function(
   }
   
   # get catches + discards summed over areas
-  deadCatch <- SSplotCatch(SSout, plot = FALSE, verbose = FALSE)[[
+  deadCatch <- r4ss::SSplotCatch(SSout, plot = FALSE, verbose = FALSE)[[
     "totcatchmat"
   ]]
   if (ncol(deadCatch) > 2) {
@@ -258,6 +260,8 @@ TSCplot <- function(
       Dead_Catch = deadCatch[, 1]
     )
   }
+  SP[, "Depl"] <- 100 * SP[, "Depl"]
+  SP[1, "Depl"] <- 100
   
   if (ylimBar == "default") {
     ylimBar <- c(0, max(SP[["Dead_Catch"]], na.rm = TRUE) * 1.05)
@@ -295,10 +299,10 @@ TSCplot <- function(
   )
   axis(1, at = barOut[ind, 1], labels = yrs[ind])
   par(new = TRUE)
-  xpts <- (0:(nrow(SP) - 1)) + shiftDepl
+  xpts <- (0:(nrow(SP) - 1)) #+ shiftDepl
   plot(
     xpts,
-    SP[["Depl"]],
+    100 * SP[["Depl"]],
     yaxt = "n",
     yaxs = "i",
     xaxt = "n",
@@ -311,13 +315,14 @@ TSCplot <- function(
     cex.axis = cex.axis,
     xlim = c(0, nrow(SP))
   )
-  points(xpts[ind], SP[["Depl"]][ind], pch = pchDepl, col = colDepl)
-  axis(4, at = seq(ylimDepl[1], ylimDepl[2], 0.1), cex.axis = cex.axis)
+  points(xpts, SP[["Depl"]], pch = pchDepl, col = colDepl)
+  lines(xpts, SP[["Depl"]], pch = pchDepl, col = colDepl, lwd = lwdDepl)
+  axis(4, at = seq(ylimDepl[1], ylimDepl[2], 10), cex.axis = cex.axis)
   mtext(
-    c("Year", "Total mortality catch (t)", "Relative Spawning Output"),
+    c("Year", "Removals (mt)", "Stock Status (%)"),
     side = c(1, 2, 4),
     line = labelLines,
-    cex = 1.5
+    cex = 1.05
   )
   
   if (!is.null(makePDF)) {
@@ -333,15 +338,29 @@ TSCplot <- function(
 }
 ####
 #change directory/file location as needed
-setwd("C:\\Users\\Aaron.Berger\\Documents\\AMB\\Groundfish\\Assessments\\Sablefish2025\\TwoPageSummary")
-base <- SS_output(dir="C:\\Users\\Aaron.Berger\\Documents\\AMB\\Groundfish\\Assessments\\Sablefish2025\\model\\Base\\8.36_base_model")
-png(file="Sablefish_2025_TSC.png", width=300, height=200)
-TSCplot(base,ylimDepl = c(0,1.4),pchSpace=1,MCMC=F,colBar="slategray3",colDepl="navyblue",makePNG = "Sablefish_2025_TSC.png")
-TSCplot(base,ylimDepl = c(0,1.4),pchSpace=1,MCMC=F,colBar="slategray3",colDepl="navyblue",makePDF = "Sablefish_2025_TSC.pdf")
+#setwd("C:\\Users\\Aaron.Berger\\Documents\\AMB\\Groundfish\\Assessments\\Sablefish2025\\TwoPageSummary")
+
+base <- r4ss::SS_output(dir = here::here("model", "base_model", "8.36_base_model"))
+#png(file = here::here("report", "figures", "Sablefish_2025_TSC_v2.png"), width=300, height=200)
+TSCplot(base, cex.axis = 1.0, pchSpace=1, MCMC=F, colBar="slategray3", colDepl="navyblue", makePNG = here::here("report", "figures", "Sablefish_2025_TSC_v2.png"))
+TSCplot(base, pchSpace=1,MCMC=F,colBar="slategray3",colDepl="navyblue",makePDF = here::here("report", "figures","Sablefish_2025_TSC_v2.pdf"))
+
+############################################
+# Index Plot
 ############################################
 
-
-
+r4ss::SSplotIndices(
+  replist = base,
+  plot = 2,
+  fleets = 10,
+  col3 = "navyblue",
+  datplot = FALSE,
+  print = TRUE,
+  labels = c(
+    "Year", # 1
+    "Relative Index of Abundance"),
+  plotdir = here::here("report", "figures")
+)
 
 
 
