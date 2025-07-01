@@ -12,7 +12,7 @@ format:
       data-background-color: '{{< brand color dark-blue >}}'
     footer: "National Oceanic and Atmospheric Administration | National Marine Fisheries Service"
     controls: true
-    navigation-mode: linear
+    navigation-mode: vertical
     transition: slide
     transition-speed: default
     background-transition: none
@@ -36,7 +36,7 @@ create_model_plots <- function(
   model_output <- r4ss::SS_output(model_dir)
   r4ss::SS_plots(
     replist = model_output,
-    plot = c(1, 3, 4, 7, 11, 12, 14, 24),
+    plot = c(1, 4, 7, 11, 12, 14, 24),
     html = TRUE,
     pwidth = 5.2,
     pheight = 4,
@@ -95,13 +95,12 @@ load(here::here("presentation", "data", "tables", "model_output.rda"))
 - Caught primarily in commercial fisheries
 
 
-![](plots/sablefish_water.png){.absolute bottom=100 right=20 width="280" height="280"}
+![](plots/sablefish_water.png){.absolute bottom=100 right=60 width="280" height="280"}
 
-## Model Summary
+## Population Estimates
 
 * Estimated stock size and status
 * Recruitment
-* Changes for 2025
 
 
 ## Estimated Stock Size and Status
@@ -109,33 +108,32 @@ load(here::here("presentation", "data", "tables", "model_output.rda"))
 * Age 3+ Summary Biomass in 2025: 246,677 mt
 * Stock Status in 2025: 33.9%
 
-![](plots/ts4_Summary_biomass_(t).png){.absolute top=200 left=0 width="480" height="350"}
+![](plots/ts4_Summary_biomass_(t).png){.absolute top=240 left=0 width="480" height="350"}
 
-![](plots/ts9_Relative_spawning_output_intervals.png){.absolute top=200 right=50 width="480" height="350"}
+![](plots/ts9_Relative_spawning_output_intervals.png){.absolute top=240 right=50 width="480" height="350"}
 
 
 ## Recruitment
 
 * Years with highest positive recruitment deviation: 2023, 2020, and 2016
 * Years with lowest negative recruitment deviation: 2005, 2007, and 2009
+* Strong recruitment at the end of the time series driving the stock up
 
-![](plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png){.absolute top=200 left=0 width="480" height="350"}
+![](plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png){.absolute top=240 left=0 width="480" height="350"}
 
 
-![](plots/recdevs2_withbars.png){.absolute top=200 right=50 width="480" height="350"}
+![](plots/recdevs2_withbars.png){.absolute top=240 right=50 width="480" height="350"}
 
-## Changes for 2025
+## Data Changes for 2025
 
-Data:
+- Add all recent fishery and survey data: removals, indices of abundance, and age compositions 
+- Inclusion of additional historical (1983--2000) age data primarily collected in Oregon
+- Improved estimates of removals: landing and discard mortality
+- New maturity-at-age and empirical weight-at-age
+- New environmental recruitment index from 2000--2024
+- Split the Triennial Survey into early and late and remove data from select years
+- Remove the AFSC Slope Survey due to non-representative sampling of lengths for age data
 
-- Improved estimates of removals (landings and discards) and inclusion of additional historical age data. 
-- New maturity-at-age and empirical weight-at-age.
-- Split the Triennial Survey into early and late and remove data from select years.
-
-Model:
-
-- Implementation of discard fleets based upon 3 gear groups: trawl, hook-and-line, and pot.
-- Improved parameterization for estimating annual recruitment deviations.
 
 ## Biology 
 
@@ -144,14 +142,35 @@ Model:
 - Growth and weight-at-age
 - Natural mortality
 
-## Distribution
+## Distribution: Presence/Absense
+
+- Sablefish are observed by the WCGBTS coastwide off the U.S. West Coast and across a wide range of depths
+
+![](plots/distribution_latitude.png){.absolute top=200 left=0 width="480" height="350"}
+
+![](plots/distribution_depth.png){.absolute top=200 right=50 width="480" height="350"}
+
+::: {.notes}
+Make sure to note the number of untrawlable areas south of 34.5 N. latitude due to RCA, underwater cables, rocky bottom, etc.
+:::
+
+## Distribution: Age and Length
+
+![](plots/wcgbts_length_age_compositions.png){.absolute top=100 right=225 width="800" height="550"}
 
 ## Natural Mortality (*M*)
 
 - Female and male *M* estimated as a single parameter based upon similar sex-specific estimates during model development
 - *M* is constant across ages and years
-- Lognormal prior included (Hamel and Cope 2022) based on a maximum age of 75 based upon the ~99.9 quantile from data collected from the West Coast Groundfish Bottom Trawl Survey 
+- Lognormal prior included (Hamel and Cope 2022) based on a maximum age of 75 based upon the ~99.9 quantile from data collected from the WCGBTS
+  - The oldest ages (subject to ageing error) off the West Coast are 102 (female) and 98 (male) years of age
 - A slightly higher frequency of old males compared to old females which could be due to differences in *M* or higher fishing pressure on females due to growth differences
+
+::: {.notes}
+The 2019 assessment estimated 0.076 for females and 0.067 for males (translates to a maximum age range 71-80)
+The 2019 STAR panel reported variability in estimates with the directionality sometimes changing between sexes
+The 2011 assessment estimated 0.08 for females and 0.081 for males
+:::
 
 ## Growth 
 
@@ -159,13 +178,30 @@ Model:
 - Data suggest potential periods of varying growth rates which discussed in detail in the 2019 review
 
 ![](plots/growth.png){.absolute bottom=30 right=250 width="680" height="380"}
-## Weight-at-Age
 
-## Weight-at-Age - Females
+## Modeling Weight-at-Age
+
+- Weight data was not consistently available fisheries data coastwide
+- Annual age and weight data available from WCGBTS from 2003--2024, excluding 2020
+- A GLMM with a log-normal distribution used to model weight-at-age data, based upon the methodology used for Pacific hake
+- Weight was assumed to be related to a smoothed effect of age, fixed effect of sex and area, and random effects for cohort and year
+- Weight-at-age plus group set at age 30 based upon the estimated growth curve from previous assessments
+- Model estimates were weighted by collection area to predict sex-specific weight-at-age for 0 to 30 year old fish
+
+## Modeling Weight-at-Age
+
+The weighted predictions of mean weight-at-age by sex and year used in the model:
+
+- 1890--2002: average mean weight-at-age from 2003--2019 and 2021--2024,
+- 2003--2019 and 2021--2024: annual predicted mean weight-at-age,
+- 2020: average mean weight-at-age from 2019 and 2021, and 
+- 2025--2036: average mean weight-at-age from 2020--2024.
+
+## Weight-at-Age: Females
 
 ![](plots/bio5_weightatsize.png){.absolute top=100 left=50 width="980" height="480"}
 
-## Weight-at-Age - Males
+## Weight-at-Age: Males
 
 ![](plots/bio5_weightatsize2.png){.absolute top=100 left=50 width="980" height="480"}
 
@@ -176,41 +212,183 @@ Model:
 
 ![](plots/maturity_samples.png){.absolute top=250 right=200 width="780" height="380"}
 
-## Fishery-Dependent Data
+::: {.notes}
+Coastwide: Linf females 63 cm, males 56 cm
+North: Linf females 64 cm, males 57 cm
+South: Linf females 60 cm, males 55 cm
+:::
 
-- Removals
-- Discard Estimates
-- Age Data
+## Maturity-at-Age: Spatial
+
+![](plots/maturity_at_age.png){.absolute top=100 right=175 width="880" height="480"}
+
+## Data
+
+- Six fishery fleets
+  - Removals
+  - Age compositions
+- Four survey fleets
+  - Abundance indices
+  - Age compositions
+- One recruitment index
+
+![](plots/data_plot.png){.absolute bottom=20 right=0 width="580" height="860"}
+
 
 ## Removals
 
-## Discard Estimates
+- Trawl: domestic landings, foreign catch, and at-sea incidental catch
+- Hook-and-line: domestic landings, foreign catch,  and recreational catch
+- Pot: domestic landings and foreign catch
+- Discard fleets: estimated discard mortality by gear type based on the domestic landings (1890--2024) and the discard rates from Pikitch (trawl) and West Coast Groundfish Observer Program (WCGOP)
+  - Previous assessments accounted for discarding by modeling retention.
+  - The use of discard fleets is considered more transparent, supports unique data weighting, and improves model stability.
 
-## Age Data
+## Removals
+
+![](plots/removals.png){.absolute top=100 right=175 width="880" height="480"}
+
+
+::: {.notes}
+Peaks in removals in 1976 and 1979 > 25,000 mt driven by foreign catches
+Since 2011, the total percentage of sablefish being landing by gear are 43% by HKL, 30% by trawl, and 26% by pot.
+Since 2011, the total percentage of sablefish being landing with state ports are 32% in California, 45% in Oregon, and 23% in Washington
+Since 2015, annual removals have averaged ~ 5,600 mt
+:::
+
+## Discard Mortality Estimates
+
+Available data:
+
+- Discard rates for trawl gear from the Pikitch study from 1985--1987,
+- Discard rates by gear from 2002--2010 from WCGOP, and 
+- Separate discard rates are available from 2011--2023 from WCGOP for IFQ and non-IFQ vessels where IFQ discard rates are a census and non-IFQ discard rates are a sub-sample of all trips
+
+Improved methodology:
+
+- Calculated weight discard rate by gear for 2011--2023 based upon the proportion of catch between IFQ and non-IFQ vessels using estimates from the Groundfish Expanded Multiyear Mortality report
+
+## Discard Mortality Estimates
+
+- 1890--1941 and 1946--2001: 
+    - Trawl: average of Pikitch discard rates
+    - Hook-and-Line & Pot: average of WCGOP discard rates 2002--2010
+- 1942--1946: No discarding
+- 2002--2023: Annual WCGOP Discard Rates
+- 2024: 2023 WCGOP Discard Rates
+
+
+![](plots/wcgop_discard_rates.png){.absolute bottom=30 right=260 width="550" height="275"}
+
+## Age Data: Retained Fish
+
+![](plots/fishery_age_samples.png){.absolute top=100 right=175 width="880" height="480"}
+
+::: {.notes}
+Pot gear consists of 26% of the total catch since 2011, but has limited ages compared to trawl and hkl.
+:::
+
+## Age Data: Retained Fish
+
+![](plots/comp_agedat__aggregated_across_time_1-3.png){.absolute top=100 right=175 width="880" height="480"}
+
+## Age Data: Discarded Fish
+
+- Only length data were available for sablefish in WCGOP
+- Ages estimated from the lengths using an age-length key by year and area (north and south 36$^\circ$ N. lat.)
+
+![](plots/compare_data_alk_all_years.png){.absolute top=230 right=155 width="880" height="380"}
+
+
+## Age Data: Discarded Fish
+
+![](plots/fishery_discard_age_length_samples.png){.absolute top=100 right=175 width="880" height="480"}
+
+## Age Data: Discarded Fish
+
+![](plots/comp_agedat__aggregated_across_time_4-6.png){.absolute top=100 right=175 width="880" height="480"}
 
 ## Fishery-Independent Data
 
 - NWFSC West Coast Groundfish Bottom Trawl Survey (WCGBTS)
+  - 2003--2024, excluding 2020
+  - Samples coastwide and depths between 55--1,280 meters
+  - Conducted in two passes of the coast from north to south
 - NWFSC Slope Survey
+  - 1998--2002
+  - 183--1,280 meters
+  - Latitudes between 35$^\circ$(1998-2000) / 34$^\circ$ 30$^\prime$ (2001) / 32$^\circ$ 8$^\prime$ (2002) to 48$^\circ$ 5$^\prime$ N. lat. 
 - AFSC/NWFSC West Coast Triennial Shelf Survey
-
-## WCGBTS Sampling
+  - Every third year from 1980--2004 
+  - Depths between 55--366 meters in 1980--1992 and between 55--500 meters 1995--2004
+  - Latitudes between 36$^\circ$ 8$^\prime$ (1980--1986) / 34$^\circ$ 50$^\prime$ (1989--2004) to 48$^\circ$ 5$^\prime$ N. lat. 
 
 ## WCGBTS Index
 
-## WCGBTS Composition Data
+- Model-based index
+- Delta-gamma 
+- Fixed effect for year and pass 
+- Spatial and spatiotemporal effects
 
-## NWFSC Slope Survey Sampling
+![](plots/index1_cpuedata_WCGBT.png){.absolute bottom=40 left=0 width="580" height="340"}
+
+![](plots/filtered_data_cpue_map.png){.absolute bottom=40 right=0 width="440" height="880"}
 
 ## NWFSC Slope Survey Index
 
-## NWFSC Slope Survey Composition Data
+- Model-based index
+- Delta-lognormal 
+- Fixed effect for year 
+- Spatial and spatiotemporal effects
 
-## Triennial Survey Sampling
+![](plots/index1_cpuedata_NWFSC_Slope.png){.absolute bottom=40 left=200 width="580" height="340"}
+
 
 ## Triennial Survey Index
 
-## Triennial Survey Composition Data
+- Model-based index
+- Delta-gamma 
+- Fixed effect for year 
+- Spatial and spatiotemporal effects
+
+![](plots/index1_cpuedata_Triennial_Early.png){.absolute bottom=40 left=0 width="520" height="340"}
+
+![](plots/index1_cpuedata_Triennial_Late.png){.absolute bottom=40 right=0 width="520" height="340"}
+
+## WCGBT Age Samples
+
+![](plots/wcgbt_age_samples.png){.absolute top=100 right=175 width="880" height="480"}
+
+## Triennial and NWFSC Slope Survey Age Samples
+
+![](plots/triennial_age_samples.png){.absolute bottom=45 left=0 width="520" height="400"}
+
+![](plots/nwfsc_slope_age_samples.png){.absolute bottom=45 right=0 width="520" height="400"}
+
+
+## Survey Composition Data
+
+![](plots/comp_agedat__aggregated_across_time_survey.png){.absolute top=125 right=175 width="880" height="520"}
+
+::: {.notes}
+Unsexed fish from the WCGBTS were removed to increase the y-axis
+:::
+
+
+## Recruitment Index
+
+- Developed models based on conceptual life history:
+  - Cross-shelf transport during pelagic and benthic juvenile stages
+  - Temperature during spawning
+  - Global Ocean Reanalysis and Simulations (GLORYS) model output
+- Models were trained based on estimates of recruitment deviations from the 2023 assessment for 1993--2019
+- Recruitment deviations in log-space were predicted for 2020--2024
+- R$^2$ ~ 0.47
+
+## Recruitment Index
+
+![](plots/index1_cpuedata_ENV.png){.absolute top=100 right=225 width="680" height="480"}
+
 
 ## Questions?
 
