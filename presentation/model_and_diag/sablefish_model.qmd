@@ -4,6 +4,7 @@ subtitle: Model, Diagnostics, and Results
 author: Sablefish Stock Assessment Team
 date: July 14, 2025
 brand: slides-dark-brand.yml
+css: format.css
 format:
   nmfs-slides-revealjs: 
     title-slide-attributes:
@@ -86,56 +87,230 @@ load(here::here("presentation", "model_and_diag", "tables", "model_output.rda"))
 - Diagnostics and sensitivities
 - Risk table
 
-## Bridging
-- Updating data
-- Model structural changes
+
+## Bridging: Data
+
+- Remove the sea surface height recruitment index,
+- Reprocess and add recent data (mortality, discard, ages, indices),
+- Add additional historical ages,
+- Split hook-and-line and pot gears, 
+- Refine selecitivity and retention blocks, and
+- Update natural mortality prior, maturity, and ageing error.
+
+## Bridging: Model Structure
+
+- Move to a data driven approach to estimate annual recruitment deviations,
+- Remove the AFSC Slope Survey and split the Triennial Survey,
+- Change to discard fleets from model-estimated retention, 
+- Update parameters for WCGBTS selectivity, natural mortality, steepness,
+- Switch to time-varying empirical weight-at-age, and
+- Add new environmental recruitment index.
+
 
 ## Data Bridging
 
-## Data Bridging
+![](plots/1_data_bridging_compare18_smrybio.png){.absolute top=70 left=0 width="490" height="295"}
 
-## Data Bridging
+
+![](plots/1_data_bridging_compare4_Bratio_uncertainty.png){.absolute top=70 right=50 width="490" height="295"}
+
+::: {.fragment}
+
+![](plots/2_data_bridging_compare18_smrybio.png){.absolute bottom=10 left=0 width="490" height="295"}
+
+
+![](plots/2_data_bridging_compare4_Bratio_uncertainty.png){.absolute bottom=10 right=50 width="490" height="295"}
+
+:::
 
 ## Model Structure Bridging
 
-## Model Structure Bridging
+- Change the start of the estimation of main period recruitment deviations to 1975 based on data
+- Stop estimating early recruitment deviations (1890--1974)
+
+![](plots/3_structure_compare11_recdevs.png){.absolute bottom=50 left=0 width="490" height="380"}
+
+
+::: {.fragment}
+
+![](plots/3_structure_compare18_smrybio.png){.absolute bottom=50 right=0 width="490" height="380"}
+:::
 
 ## Model Structure Bridging
 
-## Parameter Estimates
+![](plots/4_structure_compare18_smrybio.png){.absolute top=70 left=0 width="440" height="295"}
+
+
+![](plots/4_structure_compare3_Bratio.png){.absolute top=70 right=50 width="440" height="295"}
+
+::: {.fragment}
+
+![](plots/5_structure_compare18_smrybio.png){.absolute bottom=10 left=0 width="440" height="295"}
+
+
+![](plots/5_structure_compare3_Bratio.png){.absolute bottom=10 right=50 width="440" height="295"}
+
+:::
+
+
+## Model Structure Bridging
+
+![](plots/6_structure_compare18_smrybio.png){.absolute bottom=150 left=0 width="490" height="380"}
+
+
+![](plots/6_structure_compare4_Bratio_uncertainty.png){.absolute bottom=150 right=0 width="490" height="380"}
+
+
+## Outline
+
+- Bridging from the 2023 model
+- 
+::: {.fragment .highlight-green} 
+Parameter estimates 
+:::
+- Fit to data
+- Population estimates
+- Diagnostics and sensitivities
+- Risk table
 
 ## Natural Mortality
 
+- Add text
+
+![](plots/parameter_distributions_pageNaN.png){.absolute bottom=75 right=0 width="480" height="480"}
+
+
 ## Fishery Selectivity
+
+![](plots/fishery_selex_timeblocks_cropped.png){.absolute top=75 right=170 width="890" height="580"}
+
+::: {.notes}
+Trawl peak = 3.6 and 1.1 (asc = 0.9 and asc = -7.3)
+
+HKL/Pot peak = 5.3 and 4.5
+
+TWL Disc peak = 0.2, 0.40, and 0.10 
+
+Trawl Disc desc = -2.7, -10, and desc = 2.1
+
+HKL Disc peak = 4.5, 2.1 and 3.8
+
+Pot Disc peak = 2.7 and 2.0
+:::
 
 ## Survey Selectivity
 
-## Fit to Data
-- Fit to indices
-- Fit to age compositions
-
-## Survey Indices
-
-## Recruitment Index
-
-## Survey Age Compositions
-
-## Survey Mean Lengths
-
-## Fishery Age Compositions
-
-## Fishery Mean Lengths
-
-## Population Estimates
-- Recruitment
-- Fishing intensity
-- Stock size and status
+![](plots/survey_selex_timeblocks.png){.absolute top=75 right=170 width="890" height="580"}
 
 ## Recruitment
 
+* Years with highest positive recruitment deviation: 2023, 2020, and 2016
+* Years with lowest negative recruitment deviation: 2005, 2007, and 2009
+* Strong recruitment at the end of the time series driving the stock up
+
+![](plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png){.absolute top=240 left=0 width="480" height="350"}
+
+
+![](plots/recdevs2_withbars.png){.absolute top=240 right=50 width="480" height="350"}
+
+## Outline
+
+- Bridging from the 2023 model
+- Parameter estimates
+- 
+::: {.fragment .highlight-green} 
+Fit to data
+:::
+- Population estimates
+- Diagnostics and sensitivities
+- Risk table
+- Fit to indices
+- Fit to age compositions
+
+## Indices: WCGBTS and NWFSC Slope
+
+- No estimated added variance for the WCGBTS.
+- Estimated added variance for NWFSC Slope Survey of 0.08
+
+![](plots/index2_cpuefit_WCGBT.png){.absolute top=270 left=0 width="480" height="350"}
+![](plots/index2_cpuefit_NWFSC_Slope.png){.absolute top=270 right=0 width="480" height="350"}
+
+## Indices: Triennial Survey
+
+- No estimated added variance for the early period of the Triennial Survey
+- Estimated added variance for the late period of the Triennial Survey of 0.14
+
+![](plots/index2_cpuefit_Triennial_Early.png){.absolute top=240 left=0 width="480" height="350"}
+
+![](plots/index2_cpuefit_Triennial_Late.png){.absolute top=240 right=0 width="480" height="350"}
+
+## Recruitment Index
+
+![](plots/index2_cpuefit_ENV.png){.absolute top=100 right=0 width="480" height="480"}
+
+## Survey Age Compositions
+
+![](plots/comp_agedat__aggregated_across_time_7-10.png){.absolute top=100 right=250 width="840" height="540"}
+
+## WCGBTS
+
+![](plots/comp_agefit_residsflt10mkt0.png){.absolute top=100 left=0 width="480" height="480"}
+
+![](plots/comp_agefit_data_weighting_TA1-8_WCGBT.png){.absolute top=100 right=0 width="480" height="480"}
+
+## NWFSC Slope Survey
+
+![](plots/comp_agefit_residsflt9mkt0.png){.absolute top=100 left=0 width="480" height="480"}
+
+![](plots/comp_agefit_data_weighting_TA1-8_NWFSC_Slope.png){.absolute top=100 right=0 width="480" height="480"}
+
+
+## Triennial Survey
+
+![](plots/comp_agefit_residsflt7mkt0.png){.absolute top=100 left=0 width="480" height="480"}
+
+![](plots/comp_agefit_residsflt8mkt0.png){.absolute top=100 right=0 width="480" height="480"}
+
+## Fishery Age Compositions
+
+![](plots/comp_agedat__aggregated_across_time_1-6.png){.absolute top=100 right=200 width="840" height="540"}
+
+## Trawl Ages
+
+## Hook-and-Line Ages
+
+## Pot Ages
+
+## Pot Discard Ages
+
+## Outline
+
+- Bridging from the 2023 model
+- Parameter estimates
+- Fit to data
+- 
+::: {.fragment .highlight-green} 
+Population estimates
+:::
+- Diagnostics and sensitivities
+- Risk table
+- Fit to indices
+- Fit to age compositions
+
 ## Fishing intensity
 
-## Stock size and status
+![](plots/SPR3_ratiointerval.png){.absolute top=240 left=0 width="480" height="350"}
+
+![](plots/SPR4_phase.png){.absolute top=240 right=50 width="480" height="350"}
+
+## Stock Size and Status
+
+* Age 3+ Summary Biomass in 2025: 246,677 mt
+* Stock Status in 2025: 33.9%
+
+![](plots/ts4_Summary_biomass_(t).png){.absolute top=240 left=0 width="480" height="350"}
+
+![](plots/ts9_Relative_spawning_output_intervals.png){.absolute top=240 right=50 width="480" height="350"}
 
 ## Diagnostics and Sensitivities
 - Sensitivities
@@ -144,11 +319,53 @@ load(here::here("presentation", "model_and_diag", "tables", "model_output.rda"))
 
 ## Sensitivities
 
-## Parameter Profiles
+## Profiles: $R_0$
+
+![](plots/piner_panel_SR_LN(R0).png){.absolute top=70 right=0 width="580" height="580"}
+
+## Profiles: $R_0$
+
+![](plots/SR_LN(R0)_trajectories_compare1_spawnbio.png){.absolute top=240 left=0 width="480" height="350"}
+
+![](plots/SR_LN(R0)_trajectories_compare3_Bratio.png){.absolute top=240 right=50 width="480" height="350"}
+
+
+## Profiles: Steepness (*h*)
+
+![](plots/piner_panel_SR_BH_steep.png){.absolute top=70 right=0 width="580" height="580"}
+
+## Profiles: Steepness (*h*)
+
+![](plots/SR_BH_steep_trajectories_compare1_spawnbio.png){.absolute top=240 left=0 width="480" height="350"}
+
+![](plots/SR_BH_steep_trajectories_compare3_Bratio.png){.absolute top=240 right=50 width="480" height="350"}
+
+
+## Profiles: Natural Mortality (*M*)
+
+![](plots/piner_panel_NatM_uniform_Fem_GP_1.png){.absolute top=70 right=0 width="580" height="580"}
+
+## Profiles: Natural Mortality (*M*)
+
+
+![](plots/NatM_uniform_Fem_GP_1_trajectories_compare1_spawnbio.png){.absolute top=240 left=0 width="480" height="350"}
+
+![](plots/NatM_uniform_Fem_GP_1_trajectories_compare3_Bratio.png){.absolute top=240 right=50 width="480" height="350"}
 
 ## Retrospectives
 
+![](plots/compare2_spawnbio_uncertainty.png){.absolute top=240 left=0 width="480" height="350"}
+
+![](plots/compare4_Bratio_uncertainty.png){.absolute top=240 right=50 width="480" height="350"}
+
+## Squid Plot
+
+![](plots/recruitment_retrospective_squid.png){.absolute top=100 right=175 width="880" height="550"}
+
+
 ## Risk Table
+
+![](plots/risk_table.png){.absolute top=100 right=175 width="880" height="550"}
 
 ## Questions?
 
