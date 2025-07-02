@@ -43,11 +43,12 @@ r4ss::SSplotTimeseries(
 r4ss::SSplotRecdevs(
   replist = model_output,
   subplots = 1:2,
-  dir = here::here("presentation", "data", "plots")
+  print = TRUE,
+  plotdir = here::here("presentation",  "model_and_diag", "plots")
 )
 r4ss::SSplotIndices(
   replist = model_output,
-  suplots = 1,
+  subplots = 1,
   print = TRUE,
   plotdir = here::here("presentation", "data", "plots")
 )
