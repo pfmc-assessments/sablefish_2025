@@ -1,5 +1,72 @@
 library(ggplot2)
 
+
+#===============================================================================
+# r4ss plots
+#===============================================================================
+
+model_output <- r4ss::SS_output(here::here("model", "base_model", "8.36_base_model"))
+r4ss::SSplotData(
+  replist = model_output,
+  print = TRUE,
+  pwidth = 7.0,
+  pheight = 7.0,
+  plotdir = here::here("presentation", "data", "plots")
+)
+r4ss::SSplotTimeseries(
+  replist = model_output,
+  subplot = 4,
+  forecastplot = FALSE,
+  print = TRUE,
+  pwidth = 5.2,
+  pheight = 4,
+  plotdir = here::here("presentation", "data", "plots")
+)
+r4ss::SSplotTimeseries(
+  replist = model_output,
+  subplot = 7,
+  forecastplot = FALSE,
+  print = TRUE,
+  pwidth = 5.2,
+  pheight = 4,
+  plotdir = here::here("presentation", "data", "plots")
+)
+r4ss::SSplotTimeseries(
+  replist = model_output,
+  subplot = 9,
+  forecastplot = FALSE,
+  print = TRUE,
+  pwidth = 5.2,
+  pheight = 4,
+  plotdir = here::here("presentation", "data", "plots")
+)
+r4ss::SSplotRecdevs(
+  replist = model_output,
+  subplots = 1:2,
+  dir = here::here("presentation", "data", "plots")
+)
+r4ss::SSplotIndices(
+  replist = model_output,
+  suplots = 1,
+  print = TRUE,
+  plotdir = here::here("presentation", "data", "plots")
+)
+r4ss::SS_plots(
+  replist = model_output, 
+  plot = 1, 
+  minyr = 2000, 
+  maxyr = 2025,
+  ptsize = 12,
+  pheight_tall = 3.5, 
+  pwidth = 6.5,
+  dir = here::here("presentation", "data")
+)
+
+all_files <- list.files(here::here("presentation", "data", "plots"))
+remove <- c(grep(".html", all_files), grep(".csv", all_files), grep(".txt", all_files))
+file.remove(here::here("presentation", "data", "plots", all_files[remove]))
+save(model_output, file = here::here("presentation", "data", "tables", "model_output.rda"))
+
 #===============================================================================
 # Distribution
 #===============================================================================
@@ -218,7 +285,7 @@ ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "maturity
 #===============================================================================
 # Removals
 #===============================================================================
-load(here::here("model", "base_model", "8.36_base_model", "model_output.rda"))
+
 landings <- model_output$catch |> 
   dplyr::mutate(
     year = Yr,
