@@ -20,61 +20,6 @@ format:
 ---
 
 
-```{r}
-#| label: create-figs
-#| echo: false
-#| warning: false
-
-create_figs_tables <- FALSE
-
-create_model_plots <- function(
-  model_name,
-  model_dir = here::here("model", "base_model"),
-  save_dir = here::here("presentation", "model_and_diag")
-  ) {
-  model_dir <- file.path(model_dir, model_name)
-  model_output <- r4ss::SS_output(model_dir)
-  r4ss::SS_plots(
-    replist = model_output,
-    plot = c(1, 3:6, 11, 12, 17),
-    html = TRUE,
-    pwidth = 5.2,
-    pheight = 4,
-    maxrows = 5, 
-    maxcols = 5, 
-    maxrows2 = 4, 
-    maxcols2 = 4,
-    dir = save_dir
-  )
-  r4ss::SS_plots(
-    replist = model_output, 
-    plot = 1, 
-    minyr = 2000, 
-    maxyr = 2025,
-    ptsize = 12,
-    pheight_tall = 3.5, 
-    pwidth = 6.5,
-    dir = save_dir
-  )
-  save(model_output, file = file.path(save_dir, "tables", "model_output.rda"))
-}
-
-
-if (create_figs_tables) {
-  model_name <- "8.36_base_model"
-  create_model_plots(
-    model_name = model_name,
-  )
-  # remove unwanted files
-  all_files <- list.files(here::here("presentation", "model_and_diag", "plots"))
-  remove <- c(grep(".html", all_files), grep(".csv", all_files), grep(".txt", all_files))
-  file.remove(here::here("presentation", "model_and_diag", "plots", all_files[remove]))
-  
-}
-load(here::here("presentation", "model_and_diag", "tables", "model_output.rda"))
-
-```
-
 ## Disclaimer
 
 *These materials do not constitute a formal publication and are for information only. They are in a pre-review, pre-decisional state and should not be formally cited or reproduced. They are to be considered provisional and do not represent any determination or policy of NOAA or the Department of Commerce.*
@@ -100,7 +45,7 @@ load(here::here("presentation", "model_and_diag", "tables", "model_output.rda"))
 ## Bridging: Model Structure
 
 - Move to a data driven approach to estimate annual recruitment deviations,
-- Remove the AFSC Slope Survey and split the Triennial Survey,
+- Remove the AFSC Slope Survey and split the Triennial Survey into two separate fleets,
 - Change to discard fleets from model-estimated retention, 
 - Update parameters for WCGBTS selectivity, natural mortality, steepness,
 - Switch to time-varying empirical weight-at-age, and
@@ -109,17 +54,24 @@ load(here::here("presentation", "model_and_diag", "tables", "model_output.rda"))
 
 ## Data Bridging
 
-![](plots/1_data_bridging_compare18_smrybio.png){.absolute top=70 left=0 width="490" height="295"}
+![](plots/1_data_bridging_compare18_smrybio.png){.absolute top=70 left=50 width="440" height="295"}
 
 
-![](plots/1_data_bridging_compare4_Bratio_uncertainty.png){.absolute top=70 right=50 width="490" height="295"}
+![](plots/1_data_bridging_compare4_Bratio_uncertainty.png){.absolute top=70 right=50 width="440" height="295"}
 
 ::: {.fragment}
 
-![](plots/2_data_bridging_compare18_smrybio.png){.absolute bottom=10 left=0 width="490" height="295"}
+![](plots/2_data_bridging_compare18_smrybio.png){.absolute bottom=10 left=50 width="440" height="295"}
 
 
-![](plots/2_data_bridging_compare4_Bratio_uncertainty.png){.absolute bottom=10 right=50 width="490" height="295"}
+![](plots/2_data_bridging_compare4_Bratio_uncertainty.png){.absolute bottom=10 right=50 width="440" height="295"}
+
+:::
+
+::: {.notes}
+Adding historical ages reduced the estimate summary biomass and stock status
+Updating the discard rates reduced the estimated summary biomass but had only a negligable impact on stock status
+Updating the data reduces the estimate of summary biomass and stock status relative (44% vs 63%) to the 2023 update
 
 :::
 
@@ -252,20 +204,20 @@ Fit to data
 
 ![](plots/comp_agedat__aggregated_across_time_7-10.png){.absolute top=100 right=250 width="840" height="540"}
 
-## WCGBTS
+## Ages: WCGBTS
 
 ![](plots/comp_agefit_residsflt10mkt0.png){.absolute top=100 left=0 width="480" height="480"}
 
 ![](plots/comp_agefit_data_weighting_TA1-8_WCGBT.png){.absolute top=100 right=0 width="480" height="480"}
 
-## NWFSC Slope Survey
+## Ages: NWFSC Slope Survey
 
 ![](plots/comp_agefit_residsflt9mkt0.png){.absolute top=100 left=0 width="480" height="480"}
 
 ![](plots/comp_agefit_data_weighting_TA1-8_NWFSC_Slope.png){.absolute top=100 right=0 width="480" height="480"}
 
 
-## Triennial Survey
+## Ages: Triennial Survey
 
 ![](plots/comp_agefit_residsflt7mkt0.png){.absolute top=100 left=0 width="480" height="480"}
 
@@ -275,13 +227,41 @@ Fit to data
 
 ![](plots/comp_agedat__aggregated_across_time_1-6.png){.absolute top=100 right=200 width="840" height="540"}
 
-## Trawl Ages
+## Ages: Trawl
 
-## Hook-and-Line Ages
+![](plots/comp_agefit_residsflt1mkt0_page2.png){.absolute top=100 left=0 width="480" height="480"}
 
-## Pot Ages
+![](plots/comp_agefit_data_weighting_TA1-8_TWL.png){.absolute top=100 right=0 width="480" height="480"}
 
-## Pot Discard Ages
+## Ages: Hook-and-Line
+
+![](plots/comp_agefit_residsflt2mkt0_page2.png){.absolute top=100 left=0 width="480" height="480"}
+
+![](plots/comp_agefit_data_weighting_TA1-8_HKL.png){.absolute top=100 right=0 width="480" height="480"}
+
+## Ages: Pot
+
+![](plots/comp_agefit_residsflt3mkt0_page2.png){.absolute top=100 left=0 width="480" height="480"}
+
+![](plots/comp_agefit_data_weighting_TA1-8_Pot.png){.absolute top=100 right=0 width="480" height="480"}
+
+## Ages: Trawl Discard
+
+![](plots/comp_agefit_residsflt4mkt0.png){.absolute top=100 left=0 width="480" height="480"}
+
+![](plots/comp_agefit_data_weighting_TA1-8_TWL_Discards.png){.absolute top=100 right=0 width="480" height="480"}
+
+## Ages: Hook-and-Line Discard
+
+![](plots/comp_agefit_residsflt5mkt0.png){.absolute top=100 left=0 width="480" height="480"}
+
+![](plots/comp_agefit_data_weighting_TA1-8_HKL_Discards.png){.absolute top=100 right=0 width="480" height="480"}
+
+## Ages: Pot Discard
+
+![](plots/comp_agefit_residsflt6mkt0.png){.absolute top=100 left=0 width="480" height="480"}
+
+![](plots/comp_agefit_data_weighting_TA1-8_Pot_Discard.png){.absolute top=100 right=0 width="480" height="480"}
 
 ## Outline
 
@@ -317,11 +297,50 @@ Population estimates
 - Select parameter profiles
 - Retrospectives
 
-## Sensitivities
+## Sensitivities: Survey Data
+
+![](plots/sens_1_compare18_smrybio.png){.absolute top=240 left=0 width="480" height="350"}
+
+![](plots/sens_1_compare4_Bratio_uncertainty.png){.absolute top=240 right=50 width="480" height="350"}
+
+## Sensitivities: Survey Data
+
+![](plots/sens_1_compare12_recdevs_uncertainty.png){.absolute top=240 left=0 width="480" height="350"}
+
+![](plots/sens_1_compare13_indices.png){.absolute top=240 right=50 width="480" height="350"}
+
+## Sensitivities: Growth and *M*
+
+![](plots/sens_3_compare18_smrybio.png){.absolute top=240 left=0 width="480" height="350"}
+
+![](plots/sens_3_compare4_Bratio_uncertainty.png){.absolute top=240 right=50 width="480" height="350"}
+
+## Sensitivities: Recruitment 
+
+![](plots/sens_4_compare18_smrybio.png){.absolute top=240 left=0 width="480" height="350"}
+
+![](plots/sens_4_compare4_Bratio_uncertainty.png){.absolute top=240 right=50 width="480" height="350"}
+
+## Sensitivities: Recruitment 
+
+![](plots/sens_4_compare12_recdevs_uncertainty.png){.absolute bottom=50 left=240 width="580" height="480"}
 
 ## Profiles: $R_0$
 
-![](plots/piner_panel_SR_LN(R0).png){.absolute top=70 right=0 width="580" height="580"}
+:::: {.columns}
+
+::: {.column width="50%"}
+- Trawl ages are the most informative
+- WCGBTS ages have limited signal
+:::
+
+::: {.column width="50%"}
+:::
+
+::::
+
+
+![](plots/piner_panel_SR_LN(R0).png){.absolute top=70 right=0 width="530" height="530"}
 
 ## Profiles: $R_0$
 
@@ -332,7 +351,19 @@ Population estimates
 
 ## Profiles: Steepness (*h*)
 
-![](plots/piner_panel_SR_BH_steep.png){.absolute top=70 right=0 width="580" height="580"}
+:::: {.columns}
+
+::: {.column width="50%"}
+- Little to no information about *h*
+:::
+
+::: {.column width="50%"}
+:::
+
+::::
+
+
+![](plots/piner_panel_SR_BH_steep.png){.absolute top=70 right=0 width="530" height="530"}
 
 ## Profiles: Steepness (*h*)
 
@@ -343,7 +374,20 @@ Population estimates
 
 ## Profiles: Natural Mortality (*M*)
 
-![](plots/piner_panel_NatM_uniform_Fem_GP_1.png){.absolute top=70 right=0 width="580" height="580"}
+:::: {.columns}
+
+::: {.column width="50%"}
+- Trawl ages support higher *M*
+- WCGBTS ages support lower *M*
+:::
+
+::: {.column width="50%"}
+:::
+
+::::
+
+
+![](plots/piner_panel_NatM_uniform_Fem_GP_1.png){.absolute top=70 right=0 width="530" height="530"}
 
 ## Profiles: Natural Mortality (*M*)
 
@@ -360,7 +404,7 @@ Population estimates
 
 ## Squid Plot
 
-![](plots/recruitment_retrospective_squid.png){.absolute top=100 right=175 width="880" height="550"}
+![](plots/recruitment_retrospective_squid.png){.absolute top=100 right=205 width="680" height="550"}
 
 
 ## Risk Table
