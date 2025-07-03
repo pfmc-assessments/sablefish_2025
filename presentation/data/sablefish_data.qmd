@@ -218,7 +218,7 @@ Improved methodology:
     - Trawl: average of Pikitch discard rates
     - Hook-and-Line & Pot: average of WCGOP discard rates 2002--2010
 - 1942--1946: No discarding
-- 2002--2023: Annual WCGOP Discard Rates
+- 2002--2023: Annual WCGOP Discard Rates (weighted rates for 2011+)
 - 2024: 2023 WCGOP Discard Rates
 
 
@@ -278,6 +278,11 @@ Pot gear consists of 26% of the total catch since 2011, but has limited ages com
 
 ![](plots/filtered_data_cpue_map.png){.absolute bottom=40 right=0 width="440" height="880"}
 
+::: {.notes}
+The CPUE were filtered removing large tows (0.99 quantile, 10,038) removing 134 tows. 
+Largest tow was 413,450 cpue kg/km2 in 2024 at 130 m ~ 39.5 N. lat.
+:::
+
 ## NWFSC Slope Survey Index
 
 - Model-based index
@@ -285,19 +290,29 @@ Pot gear consists of 26% of the total catch since 2011, but has limited ages com
 - Fixed effect for year 
 - Spatial and spatiotemporal effects
 
-![](plots/index1_cpuedata_NWFSC_Slope.png){.absolute bottom=40 left=200 width="580" height="340"}
+![](plots/index1_cpuedata_NWFSC_Slope.png){.absolute bottom=40 left=0 width="580" height="340"}
 
+![](plots/filtered_nwfsc_slope_cpue_map.png){.absolute bottom=40 right=0 width="400" height="880"}
 
-## Triennial Survey Index
+::: {.notes}
+The CPUE were filtered removing large tows (0.99 quantile, 4,831) removing 18 tows. 
+Largest tow was 51,274 cpue kg/km2 in 1999 at 369 m ~ 36.5 N. lat.
+:::
+
+## Triennial Index
 
 - Model-based index
 - Delta-gamma 
 - Fixed effect for year 
 - Spatial and spatiotemporal effects
 
-![](plots/index1_cpuedata_Triennial_Early.png){.absolute bottom=40 left=0 width="520" height="340"}
+![](plots/triennial_index.png){.absolute bottom=40 left=0 width="580" height="340"}
+![](plots/filtered_triennial_cpue_map.png){.absolute bottom=40 right=0 width="440" height="880"}
 
-![](plots/index1_cpuedata_Triennial_Late.png){.absolute bottom=40 right=0 width="520" height="340"}
+::: {.notes}
+The CPUE were filtered removing large tows (0.99 quantile, 18,009) removing 39 tows. 
+Largest tow was 176,097 cpue kg/km2 in 2001 at 147 m ~ 45 N. lat.
+:::
 
 ## WCGBT Age Samples
 
@@ -318,7 +333,6 @@ Pot gear consists of 26% of the total catch since 2011, but has limited ages com
 Unsexed fish from the WCGBTS were removed to increase the y-axis
 :::
 
-
 ## Recruitment Index
 
 - Developed models based on conceptual life history:
@@ -331,7 +345,10 @@ Unsexed fish from the WCGBTS were removed to increase the y-axis
 
 ## Recruitment Index
 
-![](plots/index1_cpuedata_ENV.png){.absolute top=100 right=225 width="680" height="480"}
+- Large uncertainty intervals for each year
+- Given that age-0 fish are observed by the WCGBT and age 1 by the trawl fishery, the recruitment index will have limited influence, except for potentially 2023 and 2024.
+
+![](plots/index1_cpuedata_ENV.png){.absolute bottom=30 right=225 width="680" height="380"}
 
 
 ## Questions?

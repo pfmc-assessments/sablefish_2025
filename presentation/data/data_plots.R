@@ -477,6 +477,85 @@ file.rename(here::here("presentation", "data", "plots", "comp_agedat__aggregated
             here::here("presentation", "data", "plots", "comp_agedat__aggregated_across_time_4-6.png"))
 
 #===============================================================================
+# Triennial Index
+#===============================================================================
+
+data <- dplyr::bind_rows(
+  read.csv(here::here("data-raw", "survey", "trawl", "indices", "triennial_early", "delta_gamma", "index", "est_by_area.csv")) |>
+    dplyr::mutate(Survey = "Early Triennial"),
+  read.csv(here::here("data-raw", "survey", "trawl", "indices", "triennial_late", "delta_gamma", "index", "est_by_area.csv"))|>
+    dplyr::mutate(Survey = "Late Triennial")
+) |>
+  dplyr::filter(area == "Coastwide")
+
+ggplot2::ggplot(
+  data = data,
+  ggplot2::aes(
+    x = year,
+    y = est,
+    group = Survey,
+    colour = Survey,
+    fill = Survey
+  )
+) +
+  ggplot2::geom_point(size = 2) +
+  ggplot2::geom_line(linewidth = 1) +
+  ggplot2::geom_errorbar(
+    ggplot2::aes(ymin = lwr, ymax = upr),
+    linewidth = 1
+  ) +
+  ggplot2::theme_bw() +
+  ggplot2::theme(
+    legend.position = c(0.20, 0.83),
+    legend.title = element_text(size = 18), 
+    legend.text = ggplot2::element_text(size = 18),
+    axis.text = ggplot2::element_text(size = 20),
+    axis.title = ggplot2::element_text(size = 20)
+  ) +
+  nmfspalette::scale_color_nmfs(palette = "urchin", reverse = TRUE) +
+  ggplot2::xlab("Year") +
+  ggplot2::ylab("Index (mt)") +
+  ggplot2::expand_limits(y = 0)
+ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "triennial_index.png"), width = 8, height = 4)
+
+
+nwfscSurvey::PlotMap.fn(
+  dir = here::here("presentation", "data"),
+  plot = 1,
+  dat = dplyr::bind_rows(
+    data_survey_catch$triennial_early, data_survey_catch$triennial_late) |>
+    dplyr::filter(cpue_kg_km2 < quantile(cpue_kg_km2, 0.99)),
+  main = "filtered_triennial"
+)
+
+nwfscSurvey::PlotMap.fn(
+  dir = here::here("presentation", "data"),
+  dat = dplyr::bind_rows(
+    data_survey_catch$triennial_early, data_survey_catch$triennial_late), 
+  main = "triennial"
+)
+
+nwfscSurvey::PlotMap.fn(
+  dir = here::here("presentation", "data"),
+  plot = 1,
+  dat = data_survey_catch$nwfsc_slope |>
+    dplyr::filter(cpue_kg_km2 < quantile(cpue_kg_km2, 0.99)),
+  main = "filtered_nwfsc_slope"
+)
+
+nwfscSurvey::PlotMap.fn(
+  dir = here::here("presentation", "data"),
+  dat = data_survey_catch$nwfsc_slope, 
+  main = "nwfsc_slope"
+)
+
+nwfscSurvey::PlotMap.fn(
+  dir = here::here("presentation", "data"),
+  dat = data_survey_catch$nwfsc_combo, 
+  main = "wcgbt"
+)
+
+#===============================================================================
 # Survey ages
 #===============================================================================
 model_mod <- model_output
