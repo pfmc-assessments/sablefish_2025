@@ -113,24 +113,31 @@ Updating the data reduces the estimate of summary biomass and stock status relat
 ![](plots/6_structure_compare4_Bratio_uncertainty.png){.absolute bottom=150 right=0 width="490" height="380"}
 
 
-## Outline
+## Parameter estimates
 
-- Bridging from the 2023 model
-- 
-::: {.fragment .highlight-green} 
-Parameter estimates 
-:::
-- Fit to data
-- Population estimates
-- Diagnostics and sensitivities
-- Risk table
+- Natural mortality
+- Selectivity
+- Recruitment
 
 ## Natural Mortality
 
-- Add text
+:::: {.columns}
+
+::: {.column width="50%"}
+- *M* estimated at 0.088 yr$^{-1}$ with males and females assumed equal
+- This equates to a maximum age of ~ 62 years of age based upon the prior
+:::
+
+::: {.column width="50%"}
+:::
+
+::::
 
 ![](plots/parameter_distributions_pageNaN.png){.absolute bottom=75 right=0 width="480" height="480"}
 
+::: {.notes}
+An M of 0.088 equates to a max age of ~ 62 based upon the prior and in the WCGBTS data there are 123 ages > 62 years (<0.005% of all ages)
+:::
 
 ## Fishery Selectivity
 
@@ -165,19 +172,12 @@ Pot Disc peak = 2.7 and 2.0
 
 ![](plots/recdevs2_withbars.png){.absolute top=240 right=50 width="480" height="350"}
 
-## Outline
+## Fit to data
 
-- Bridging from the 2023 model
-- Parameter estimates
-- 
-::: {.fragment .highlight-green} 
-Fit to data
-:::
-- Population estimates
-- Diagnostics and sensitivities
-- Risk table
-- Fit to indices
-- Fit to age compositions
+- Indices of abundance
+- Recruitment index
+- Survey age compositions
+- Fishery age compositions
 
 ## Indices: WCGBTS and NWFSC Slope
 
@@ -263,19 +263,12 @@ Fit to data
 
 ![](plots/comp_agefit_data_weighting_TA1-8_Pot_Discard.png){.absolute top=100 right=0 width="480" height="480"}
 
-## Outline
+## Population estimates
 
-- Bridging from the 2023 model
-- Parameter estimates
-- Fit to data
-- 
-::: {.fragment .highlight-green} 
-Population estimates
-:::
-- Diagnostics and sensitivities
-- Risk table
-- Fit to indices
-- Fit to age compositions
+- Fishing intensity
+- Stock size
+- Stock status
+
 
 ## Fishing intensity
 
@@ -293,6 +286,7 @@ Population estimates
 ![](plots/ts9_Relative_spawning_output_intervals.png){.absolute top=240 right=50 width="480" height="350"}
 
 ## Diagnostics and Sensitivities
+
 - Sensitivities
 - Select parameter profiles
 - Retrospectives
