@@ -221,7 +221,7 @@ Improved methodology:
 ## Discard Mortality Estimates
 
 - 1890--1941 and 1946--2001: 
-    - Trawl: average of Pikitch discard rates
+    - Trawl: average of Pikitch discard rates (36%)
     - Hook-and-Line & Pot: average of WCGOP discard rates 2002--2010
 - 1942--1946: No discarding
 - 2002--2023: Annual WCGOP Discard Rates (weighted rates for 2011+)
@@ -286,7 +286,7 @@ Pot gear consists of 26% of the total catch since 2011, but has limited ages com
 
 ::: {.notes}
 The CPUE were filtered removing large tows (0.99 quantile, 10,038) removing 134 tows. 
-Largest tow was 413,450 cpue kg/km2 in 2024 at 130 m ~ 39.5 N. lat.
+Largest tow was 413,450 cpue kg/km2 (6.8 mt) in 2024 at 130 m ~ 39.5 N. lat.
 :::
 
 ## NWFSC Slope Survey Index
