@@ -51,11 +51,15 @@ format:
 
 * Age 3+ Summary Biomass in 2025: 246,677 mt
 * Stock Status in 2025: 33.9%
+* This assessment differs substantially compared to the previous assessment, we will get into the reasons why in the Model, Diagnostics, and Results presentation
 
-![](plots/ts4_Summary_biomass_(t).png){.absolute top=240 left=0 width="480" height="350"}
+![](plots/ts4_Summary_biomass_(t).png){.absolute bottom=30 left=0 width="480" height="340"}
 
-![](plots/ts9_Relative_spawning_output_intervals.png){.absolute top=240 right=50 width="480" height="350"}
+![](plots/ts9_Relative_spawning_output_intervals.png){.absolute bottom=30 right=50 width="480" height="340"}
 
+::: {.notes}
+Stop to acknowledge how different this result is from the previous assessment and that we will get into the reasons why in the modeling presentation
+:::
 
 ## Recruitment
 
@@ -119,7 +123,7 @@ The 2011 assessment estimated 0.08 for females and 0.081 for males
 ## Growth 
 
 - Latitudinal changes in growth along the West Coast with Kapur et al. 2020 identifying change point in growth ~ 36$^\circ$ N. lat.
-- Data suggest potential periods of varying growth rates which discussed in detail in the 2019 review
+- Data suggest potential periods of varying growth rates which was discussed in detail in the 2019 STAR panel
 
 ![](plots/growth.png){.absolute bottom=30 right=250 width="680" height="380"}
 
@@ -164,7 +168,9 @@ South: Linf females 60 cm, males 55 cm
 
 ## Maturity-at-Age: Spatial
 
-![](plots/maturity_at_age.png){.absolute top=100 right=175 width="880" height="480"}
+- The coastwide biomass weighted maturity-at-age curve (Spatial) was used in the assessment
+
+![](plots/maturity_at_age.png){.absolute bottom=30 right=175 width="850" height="450"}
 
 ## Data
 
@@ -186,7 +192,7 @@ South: Linf females 60 cm, males 55 cm
 - Pot: domestic landings and foreign catch
 - Discard fleets: estimated discard mortality by gear type based on the domestic landings (1890--2024) and the discard rates from Pikitch (trawl) and West Coast Groundfish Observer Program (WCGOP)
   - Previous assessments accounted for discarding by modeling retention.
-  - The use of discard fleets is considered more transparent, supports unique data weighting, and improves model stability.
+  - The STAT considers the use of discard fleets as more transparent, supports unique data weighting, and improves model stability.
 
 ## Removals
 
