@@ -33,6 +33,16 @@ r4ss::SSplotTimeseries(
   pheight = 4,
   plotdir = here::here("presentation",  "model_and_diag", "plots")
 )
+r4ss::SSplotTimeseries(
+  replist = model_output,
+  subplot = 11,
+  forecastplot = FALSE,
+  print = TRUE,
+  minyr = 1950,
+  pwidth = 5.2,
+  pheight = 4,
+  plotdir = here::here("presentation",  "model_and_diag", "plots")
+)
 r4ss::SSplotSPR(
   replist = model_output,
   subplot = 3:4,
@@ -45,6 +55,7 @@ r4ss::SSplotRecdevs(
   replist = model_output,
   subplots = 1:2,
   print = TRUE,
+  minyr = 1950,
   plotdir = here::here("presentation",  "model_and_diag", "plots")
 )
 r4ss::SSplotIndices(
