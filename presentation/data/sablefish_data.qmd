@@ -72,6 +72,16 @@ Stop to acknowledge how different this result is from the previous assessment an
 
 ![](plots/recdevs2_withbars.png){.absolute top=240 right=50 width="480" height="350"}
 
+## Model Sensitivities
+
+- The data from the WCGBTS is informing the magnitude of the population increase in recent years
+- The model is sensitive to the assumptions about natural mortality (*M*)
+
+![](plots/sens_1_compare18_smrybio.png){.absolute top=240 left=0 width="480" height="350"}
+
+![](plots/sens_3_compare18_smrybio.png){.absolute top=240 right=0 width="480" height="350"}
+
+
 ## Data Changes for 2025
 
 - Add all recent fishery and survey data: removals, indices of abundance, and age compositions 
