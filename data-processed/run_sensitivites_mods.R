@@ -272,6 +272,8 @@ sensi_mod$ctl$age_selex_parms['AgeSel_P_4_WCGBT(10)',c('INIT', 'PHASE')] <- c(-1
 sensi_mod$ctl$age_selex_parms['AgeSel_P_5_WCGBT(10)',c('INIT', 'PHASE')] <- c(-10, -99)
 sensi_mod$ctl$age_selex_parms['AgeSel_P_6_WCGBT(10)',c('INIT', 'PHASE')] <- c(10, -99)
 
+sensi_mod$start$init_values_src <- 0
+
 SS_write(sensi_mod, file.path(sens_loc,'15-NWsurveys-Asymptotic'),
          overwrite = TRUE)
 

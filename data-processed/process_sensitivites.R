@@ -11,7 +11,7 @@ base_loc <- file.path(here(),model_directory, base_folder,base_model_name)
 sens_loc <- file.path(here(),model_directory, base_folder, '_sensitivities')
 figs_loc <- file.path(here(),'report', 'figures')
 tabs_loc <- file.path(here(),'report', 'rda')
-#source(file.path(here(),'R', 'write_comparison_table.R'))
+source(file.path(here(),'R', 'write_comparison_table.R'))
 
 #Group 1 (Data inputs)
 modname <- c("Base Model","Remove WCGBT","Remove Triennial","Remove NWFSC Slope","Remove Recruitment Index")

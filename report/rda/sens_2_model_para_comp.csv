@@ -1,16 +1,26 @@
-Metric,Base Model,McAllister-Ianelli Data Weighting,NWFSC Survey Asymtotic Selectivity,Ageing Error 2019 Assessment
-Total Likelihood,1335.77,1142.42,1332.83,1480.56
-Survey Likelihood,-43.5121,-46.8955,-43.2858,-44.4344
-Length Likelihood,0,0,0,0
-Age Likelihood,1341.49,1153.4,1338.5,1479.05
-Recruitment Likelihood,37.5202,35.7929,37.4098,45.7973
-Forecast Recruitment Likelihood,0.0655676,0.00235995,0.0186183,0.00426524
-Parameter Priors Likelihood,0.204069,0.119504,0.18927,0.140332
-log(R0),10.1651,10.0741,10.1451,10.0512
-SB Virgin,219377,215771,217574,206673
-SB 2025,74408.8,72862.5,74264.5,70571.6
-Fraction Unfished 2025,0.339182,0.337684,0.34133,0.341464
-Total Yield - SPR 45,11126.2,10445.1,10949.7,10114.8
-Steepness,0.75,0.75,0.75,0.75
-Natural Mortality - Female,0.087777,0.0837894,0.0871371,0.0848584
-Natural Mortality - Male,0.087777,0.0837894,0.0871371,0.0848584
+"","Base Model","McAllister-Ianelli Data Weighting","NWFSC Survey Asymtotic Selectivity","Ageing Error 2019 Assessment"
+"Total Likelihood",1335.77,1142.42,1339.29,1480.56
+"Survey Likelihood",-43.5121,-46.8955,-45.6572,-44.4344
+"Length Likelihood",0,0,0,0
+"Age Likelihood",1341.49,1153.4,1347.05,1479.05
+"Recruitment Likelihood",37.5202,35.7929,37.5898,45.7973
+"Forecast Recruitment Likelihood",0.0655676,0.00235995,0.0797188,0.00426524
+"Parameter Priors Likelihood",0.204069,0.119504,0.235232,0.140332
+"log(R0)",10.1651,10.0741,10.1984,10.0512
+"SB Virgin",219377,215771,221526,206673
+"SB 2025",74408.8,72862.5,74872.2,70571.6
+"Fraction Unfished 2025",0.339182,0.337684,0.337984,0.341464
+"Total Yield - SPR 45",11126.2,10445.1,11413.9,10114.8
+"Steepness",0.75,0.75,0.75,0.75
+"Natural Mortality - Female",0.087777,0.0837894,0.0890665,0.0848584
+"Length at Amin - Female",25.1822,25.1822,25.1822,25.1822
+"Length at Amax - Female",60.7182,60.7182,60.7182,60.7182
+"Von Bert. k - Female",0.342744,0.342744,0.342744,0.342744
+"CV young - Female",NA,NA,NA,NA
+"CV old - Female",NA,NA,NA,NA
+"Natural Mortality - Male",0,0,0,0
+"Length at Amin - Male",26.6461,26.6461,26.6461,26.6461
+"Length at Amax - Male",56.0591,56.0591,56.0591,56.0591
+"Von Bert. k - Male",0.351087,0.351087,0.351087,0.351087
+"CV young - Male",NA,NA,NA,NA
+"CV old - Male",NA,NA,NA,NA
