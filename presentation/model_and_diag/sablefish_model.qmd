@@ -78,14 +78,19 @@ Updating the data reduces the estimate of summary biomass and stock status relat
 ## Model Structure Bridging
 
 - Change the start of the estimation of main period recruitment deviations to 1975 based on data
-- Stop estimating early recruitment deviations (1890--1974)
 
-![](plots/3_structure_compare11_recdevs.png){.absolute bottom=50 left=0 width="490" height="380"}
+- 
+::: {.fragment}
+Stop estimating early recruitment deviations (1890--1974)
+:::
+
+
+![](plots/3_structure_compare11_recdevs.png){.absolute bottom=20 left=0 width="490" height="380"}
 
 
 ::: {.fragment}
 
-![](plots/3_structure_compare18_smrybio.png){.absolute bottom=50 right=0 width="490" height="380"}
+![](plots/3_structure_compare18_smrybio.png){.absolute bottom=20 right=0 width="490" height="380"}
 :::
 
 ## Model Structure Bridging
@@ -198,7 +203,7 @@ Pot Disc peak = 2.7 and 2.0
 
 ## Recruitment Index
 
-![](plots/index2_cpuefit_ENV.png){.absolute top=100 right=0 width="480" height="480"}
+![](plots/recruitment_index_fit.png){.absolute top=100 right=200 width="780" height="480"}
 
 ## Survey Age Compositions
 
