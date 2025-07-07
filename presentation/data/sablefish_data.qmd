@@ -75,7 +75,7 @@ Stop to acknowledge how different this result is from the previous assessment an
 ## Data Changes for 2025
 
 - Add all recent fishery and survey data: removals, indices of abundance, and age compositions 
-- Inclusion of additional historical (1983--2000) age data primarily collected in Oregon
+- Inclusion of additional historical age data primarily collected in Oregon
 - Improved estimates of removals: landing and discard mortality
 - New maturity-at-age and empirical weight-at-age
 - New environmental recruitment index from 2000--2024
@@ -112,7 +112,7 @@ Make sure to note the number of untrawlable areas south of 34.5 N. latitude due 
 - *M* is constant across ages and years
 - Lognormal prior included (Hamel and Cope 2022) based on a maximum age of 75 based upon the ~99.9 quantile from data collected from the WCGBTS
   - The oldest ages (subject to ageing error) off the West Coast are 102 (female) and 98 (male) years of age
-- A slightly higher frequency of old males compared to old females which could be due to differences in *M* or higher fishing pressure on females due to growth differences
+- A slightly higher frequency of old males compared to old females in the data which could be due to differences in *M* or higher fishing pressure on females due to growth differences
 
 ::: {.notes}
 The 2019 assessment estimated 0.076 for females and 0.067 for males (translates to a maximum age range 71-80)
@@ -127,9 +127,15 @@ The 2011 assessment estimated 0.08 for females and 0.081 for males
 
 ![](plots/growth.png){.absolute bottom=30 right=250 width="680" height="380"}
 
+::: {.notes}
+Coastwide: Lmax females 63 cm, males 56 cm
+South: Lmax females 60 cm, males 55 cm
+North: Lmax females 64 cm, males 57 cm
+:::
+
 ## Modeling Weight-at-Age
 
-- Weight data was not consistently available fisheries data coastwide
+- Weight data was not consistently available in fisheries data coastwide
 - Annual age and weight data available from WCGBTS from 2003--2024, excluding 2020
 - A GLMM with a log-normal distribution used to model weight-at-age data, based upon the methodology used for Pacific hake
 - Weight was assumed to be related to a smoothed effect of age, fixed effect of sex and area, and random effects for cohort and year
@@ -138,12 +144,12 @@ The 2011 assessment estimated 0.08 for females and 0.081 for males
 
 ## Modeling Weight-at-Age
 
-The weighted predictions of mean weight-at-age by sex and year used in the model:
+- The weighted predictions of mean weight-at-age by sex and year used in the model:
 
-- 1890--2002: average mean weight-at-age from 2003--2019 and 2021--2024,
-- 2003--2019 and 2021--2024: annual predicted mean weight-at-age,
-- 2020: average mean weight-at-age from 2019 and 2021, and 
-- 2025--2036: average mean weight-at-age from 2020--2024.
+  - 1890--2002: average mean weight-at-age from 2003--2019 and 2021--2024,
+  - 2003--2019 and 2021--2024: annual predicted mean weight-at-age,
+  - 2020: average mean weight-at-age from 2019 and 2021, and 
+  - 2025--2036: average mean weight-at-age from 2020--2024.
 
 ## Weight-at-Age: Females
 
@@ -216,7 +222,7 @@ Available data:
 
 Improved methodology:
 
-- Calculated weight discard rate by gear for 2011--2023 based upon the proportion of catch between IFQ and non-IFQ vessels using estimates from the Groundfish Expanded Multiyear Mortality report
+- Calculated weighted discard rate by gear for 2011--2023 based upon the proportion of catch between IFQ and non-IFQ vessels using estimates from the Groundfish Expanded Multiyear Mortality report
 
 ## Discard Mortality Estimates
 
@@ -352,7 +358,7 @@ Unsexed fish from the WCGBTS were removed to increase the y-axis
 ## Recruitment Index
 
 - Large uncertainty intervals for each year
-- Given that age-0 fish are observed by the WCGBT and age 1 by the trawl fishery, the recruitment index will have limited influence, except for potentially 2023 and 2024.
+- Given that age-0 fish are observed by the WCGBTS and age 1 by the trawl fishery, the recruitment index is expected to have limited influence, except for potentially 2023 and 2024
 
 ![](plots/index1_cpuedata_ENV.png){.absolute bottom=30 right=225 width="680" height="380"}
 
