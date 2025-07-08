@@ -27,28 +27,28 @@ format:
 ## Outline
 - Bridging from the 2023 model
 - Parameter estimates
-- Fit to data
+- Fits to data
 - Population estimates
-- Diagnostics and sensitivities
+- Sensitivities and diagnostics
 - Risk table
 
 
 ## Bridging: Data
 
-- Remove the sea surface height recruitment index,
-- Reprocess and add recent data (mortality, discard, ages, indices),
-- Add additional historical ages,
-- Split hook-and-line and pot gears, 
-- Refine selecitivity and retention blocks, and
+- Remove the sea surface height recruitment index;
+- Reprocess and add recent data (mortality, discard, ages, indices);
+- Add additional historical ages;
+- Split hook-and-line and pot gears; 
+- Refine selecitivity and retention blocks; and
 - Update natural mortality prior, maturity, and ageing error.
 
 ## Bridging: Model Structure
 
-- Move to a data driven approach to estimate annual recruitment deviations,
-- Remove the AFSC Slope Survey and split the Triennial Survey into two separate fleets,
-- Change to discard fleets from model-estimated retention, 
-- Update parameters for WCGBTS selectivity, natural mortality, steepness,
-- Switch to time-varying empirical weight-at-age, and
+- Refined the approach to estimate annual recruitment deviations based upon current data;
+- Remove the AFSC Slope Survey and split the Triennial Survey into two separate fleets;
+- Change to discard fleets from model-estimated retention;
+- Update parameters for WCGBTS selectivity, natural mortality, steepness;
+- Switch to time-varying empirical weight-at-age; and
 - Add new environmental recruitment index.
 
 
@@ -77,11 +77,11 @@ Updating the data reduces the estimate of summary biomass and stock status relat
 
 ## Model Structure Bridging
 
-- Change the start of the estimation of main period recruitment deviations to 1975 based on data
+- Change the start of the estimation of main period recruitment deviations to 1975 based on current data
 
 - 
 ::: {.fragment}
-Stop estimating early recruitment deviations (1890--1974)
+Stop estimating early recruitment deviations (1890--1974), estimate recruitment from the stock-recruit curve
 :::
 
 
@@ -130,7 +130,8 @@ Stop estimating early recruitment deviations (1890--1974)
 
 ::: {.column width="50%"}
 - *M* estimated at 0.088 yr$^{-1}$ with males and females assumed equal
-- This equates to a maximum age of ~ 62 years of age based upon the prior
+- This equates to a maximum age of ~ 61 years of age based upon the prior
+- Approximately 0.6% of ages from WCGBTS are 61 years of age or older (99.5% quantile)
 :::
 
 ::: {.column width="50%"}
@@ -141,12 +142,14 @@ Stop estimating early recruitment deviations (1890--1974)
 ![](plots/parameter_distributions_pageNaN.png){.absolute bottom=75 right=0 width="480" height="480"}
 
 ::: {.notes}
-An M of 0.088 equates to a max age of ~ 62 based upon the prior and in the WCGBTS data there are 123 ages > 62 years (<0.005% of all ages)
+An M of 0.088 equates to a max age of ~ 6 based upon the prior and in all the age data, there are 223 ages >+ 61 years (~0.2% of all ages). Out of only the WCGBTS data, there are 170 observations >= 61 years, ~0.6% of all ages
 :::
 
 ## Fishery Selectivity
 
 ![](plots/fishery_selex_timeblocks_cropped.png){.absolute top=75 right=170 width="890" height="580"}
+
+![](plots/selex_sex_legend.png){.absolute top=200 right=230 width="100" height="75"}
 
 ::: {.notes}
 Trawl peak = 3.6 and 1.1 (asc = 0.9 and asc = -7.3)
@@ -177,14 +180,14 @@ Pot Disc peak = 2.7 and 2.0
 
 ![](plots/recdevs2_withbars.png){.absolute top=240 right=50 width="480" height="350"}
 
-## Fit to data
+## Fits to data
 
 - Indices of abundance
 - Recruitment index
 - Survey age compositions
 - Fishery age compositions
 
-## Indices: WCGBTS and NWFSC Slope
+## Indices: WCGBTS and NWFSC Slope Survey
 
 - No estimated added variance for the WCGBTS.
 - Estimated added variance for NWFSC Slope Survey of 0.08
@@ -222,11 +225,17 @@ Pot Disc peak = 2.7 and 2.0
 ![](plots/comp_agefit_data_weighting_TA1-8_NWFSC_Slope.png){.absolute top=100 right=0 width="480" height="480"}
 
 
-## Ages: Triennial Survey
+## Ages: Early Triennial Survey
 
 ![](plots/comp_agefit_residsflt7mkt0.png){.absolute top=100 left=0 width="480" height="480"}
 
-![](plots/comp_agefit_residsflt8mkt0.png){.absolute top=100 right=0 width="480" height="480"}
+![](plots/comp_agefit_data_weighting_TA1-8_Triennial_Early.png){.absolute top=100 right=0 width="480" height="480"}
+
+## Ages: Late Triennial Survey
+
+![](plots/comp_agefit_residsflt8mkt0.png){.absolute top=100 left=0 width="480" height="480"}
+
+![](plots/comp_agefit_data_weighting_TA1-8_Triennial_Late.png){.absolute top=100 right=0 width="480" height="480"}
 
 ## Fishery Age Compositions
 
@@ -268,6 +277,7 @@ Pot Disc peak = 2.7 and 2.0
 
 ![](plots/comp_agefit_data_weighting_TA1-8_Pot_Discard.png){.absolute top=100 right=0 width="480" height="480"}
 
+
 ## Population estimates
 
 - Fishing intensity
@@ -277,20 +287,24 @@ Pot Disc peak = 2.7 and 2.0
 
 ## Fishing intensity
 
-![](plots/SPR3_ratiointerval.png){.absolute top=240 left=0 width="480" height="350"}
+* Since 2019, fishing intesity is estimated to be below the management target for fishing intensity
+* The stock status is estimated to be below the management target for relative biomass (40%)
 
-![](plots/SPR4_phase.png){.absolute top=240 right=50 width="480" height="350"}
+![](plots/SPR3_ratiointerval.png){.absolute top=280 left=30 width="480" height="350"}
+
+![](plots/SPR4_phase.png){.absolute top=280 right=30 width="480" height="350"}
 
 ## Stock Size and Status
 
-* Age 3+ Summary Biomass in 2025: 246,677 mt
-* Stock Status in 2025: 33.9%
+* Age 3+ summary biomass in 2025: 246,677 mt
+* Stock status in 2025: 33.9%
+* Stock status is projected to be above 40% in 2027
 
-![](plots/ts4_Summary_biomass_(t).png){.absolute top=240 left=0 width="480" height="350"}
+![](plots/ts4_Summary_biomass_(t).png){.absolute top=240 left=30 width="480" height="350"}
 
-![](plots/ts9_Relative_spawning_output_intervals.png){.absolute top=240 right=50 width="480" height="350"}
+![](plots/ts9_Relative_spawning_output_intervals.png){.absolute top=240 right=30 width="480" height="350"}
 
-## Diagnostics and Sensitivities
+## Sensitivities and Diagnostics
 
 - Sensitivities
 - Select parameter profiles
@@ -298,39 +312,58 @@ Pot Disc peak = 2.7 and 2.0
 
 ## Sensitivities: Survey Data
 
-![](plots/sens_1_compare18_smrybio.png){.absolute top=240 left=0 width="480" height="350"}
+* Data from the WCGBTS is informing the increase in biomass at the end of the time series
+* Removing data from th WCGBTS results in a more depleted stock (28%) and the estimate of *M* increases to 0.094 yr$^{-1}$
 
-![](plots/sens_1_compare4_Bratio_uncertainty.png){.absolute top=240 right=50 width="480" height="350"}
+![](plots/sens_1_compare18_smrybio.png){.absolute top=270 left=30 width="480" height="350"}
+
+![](plots/sens_1_compare4_Bratio_uncertainty.png){.absolute top=270 right=30 width="480" height="350"}
+
 
 ## Sensitivities: Survey Data
 
-![](plots/sens_1_compare12_recdevs_uncertainty.png){.absolute top=240 left=0 width="480" height="350"}
+![](plots/sens_1_compare12_recdevs_uncertainty.png){.absolute top=150 left=30 width="480" height="350"}
 
-![](plots/sens_1_compare13_indices.png){.absolute top=240 right=50 width="480" height="350"}
+![](plots/sens_1_compare13_indices.png){.absolute top=150 right=30 width="480" height="350"}
+
+::: {.notes}
+Remove WCGBTS: Estimates of rec. devs. are less positive or more negative when these data are removed
+:::
 
 ## Sensitivities: Growth and *M*
 
-![](plots/sens_3_compare18_smrybio.png){.absolute top=240 left=0 width="480" height="350"}
+* Estimating time-invarient sex-specific growth results in a lower estimate of unfished biomass and similar stock status (32.6%)
+* Assuming a higher *M* results in a higher estimate of biomass and lower stock status
 
-![](plots/sens_3_compare4_Bratio_uncertainty.png){.absolute top=240 right=50 width="480" height="350"}
+![](plots/sens_3_compare18_smrybio.png){.absolute top=270 left=30 width="480" height="350"}
+
+![](plots/sens_3_compare4_Bratio_uncertainty.png){.absolute top=270 right=30 width="480" height="350"}
+
+::: {.notes}
+Growth and M: Alaska M 0.114, Migration M 0.132, 2019 female M 0.076 and male M 0.068, highest stock status of 40% is estimated with the 2019 M values and lowest (26%) with M for migration
+:::
+
+## Sensitivities: Recruitment and *h*
+
+* Similar estimates of stock scale and status across approaches to estimate recruitment deviations
+* *h* is estimated at 0.80 with similar estimates of stock scale and status to the base model 
+
+![](plots/sens_4_compare18_smrybio.png){.absolute top=270 left=30 width="480" height="350"}
+
+![](plots/sens_4_compare4_Bratio_uncertainty.png){.absolute top=270 right=30 width="480" height="350"}
 
 ## Sensitivities: Recruitment 
 
-![](plots/sens_4_compare18_smrybio.png){.absolute top=240 left=0 width="480" height="350"}
-
-![](plots/sens_4_compare4_Bratio_uncertainty.png){.absolute top=240 right=50 width="480" height="350"}
-
-## Sensitivities: Recruitment 
-
-![](plots/sens_4_compare12_recdevs_uncertainty.png){.absolute bottom=50 left=240 width="580" height="480"}
+![](plots/sens_4_compare12_recdevs_uncertainty.png){.absolute bottom=50 left=200 width="680" height="480"}
 
 ## Profiles: $R_0$
 
 :::: {.columns}
 
 ::: {.column width="50%"}
-- Trawl ages are the most informative
-- WCGBTS ages have limited signal
+- Age data are the primary source of information about $R_0$
+- Trawl ages are the most informative to the estimation of $R_0$
+- WCGBTS ages have limited information about $R_0$
 :::
 
 ::: {.column width="50%"}
@@ -343,9 +376,12 @@ Pot Disc peak = 2.7 and 2.0
 
 ## Profiles: $R_0$
 
-![](plots/SR_LN(R0)_trajectories_compare1_spawnbio.png){.absolute top=240 left=0 width="480" height="350"}
+* The stock status across $R_0$ values profiled ranges from 30.6--37.9%
+* The estimated *M* changes from 0.069--0.107 yr$^{-1}$ across low to high values of $R_0$
 
-![](plots/SR_LN(R0)_trajectories_compare3_Bratio.png){.absolute top=240 right=50 width="480" height="350"}
+![](plots/SR_LN(R0)_trajectories_compare1_spawnbio.png){.absolute top=270 left=30 width="480" height="350"}
+
+![](plots/SR_LN(R0)_trajectories_compare3_Bratio.png){.absolute top=270 right=30 width="480" height="350"}
 
 
 ## Profiles: Steepness (*h*)
@@ -366,9 +402,12 @@ Pot Disc peak = 2.7 and 2.0
 
 ## Profiles: Steepness (*h*)
 
-![](plots/SR_BH_steep_trajectories_compare1_spawnbio.png){.absolute top=240 left=0 width="480" height="350"}
+* The stock status across *h* values profiled ranges from 32.3--35.2%
+* The estimated *M* changes from 0.091--0.086 yr$^{-1}$ across low to high values of $h$
 
-![](plots/SR_BH_steep_trajectories_compare3_Bratio.png){.absolute top=240 right=50 width="480" height="350"}
+![](plots/SR_BH_steep_trajectories_compare1_spawnbio.png){.absolute top=270 left=30 width="480" height="350"}
+
+![](plots/SR_BH_steep_trajectories_compare3_Bratio.png){.absolute top=270 right=30 width="480" height="350"}
 
 
 ## Profiles: Natural Mortality (*M*)
@@ -376,8 +415,10 @@ Pot Disc peak = 2.7 and 2.0
 :::: {.columns}
 
 ::: {.column width="50%"}
-- Trawl ages support higher *M*
-- WCGBTS ages support lower *M*
+- Age data are the primary source of information about *M*
+- Trawl ages support higher *M* values
+- WCGBTS ages support lower *M* values
+- WCGBTS index has limited information supporting higher *M* values
 :::
 
 ::: {.column width="50%"}
@@ -390,20 +431,34 @@ Pot Disc peak = 2.7 and 2.0
 
 ## Profiles: Natural Mortality (*M*)
 
+* Estimates of unfished biomass increases with higher values of *M*
+* The stock status across *M* values profiled ranges from 35.9--30.0% with lower to higher values of *M* 
 
-![](plots/NatM_uniform_Fem_GP_1_trajectories_compare1_spawnbio.png){.absolute top=240 left=0 width="480" height="350"}
+![](plots/NatM_uniform_Fem_GP_1_trajectories_compare1_spawnbio.png){.absolute top=270 left=30 width="480" height="350"}
 
-![](plots/NatM_uniform_Fem_GP_1_trajectories_compare3_Bratio.png){.absolute top=240 right=50 width="480" height="350"}
+![](plots/NatM_uniform_Fem_GP_1_trajectories_compare3_Bratio.png){.absolute top=270 right=30 width="480" height="350"}
 
 ## Retrospectives
 
-![](plots/compare2_spawnbio_uncertainty.png){.absolute top=240 left=0 width="480" height="350"}
+* Mohn's Rho is calculated based upon Hurtado-Ferro et al. 2015 where the value is the relative error between the model with removed data and the base model for year $y$ divided by the the length of data years removed
 
-![](plots/compare4_Bratio_uncertainty.png){.absolute top=240 right=50 width="480" height="350"}
+
+![](plots/compare2_spawnbio_uncertainty.png){.absolute top=260 left=0 width="480" height="350"}
+
+![](plots/compare4_Bratio_uncertainty.png){.absolute top=260 right=50 width="480" height="350"}
+
+::: {.notes}
+rho shown = sum((SSB_y-1 - SSB_y) / SSB_y) / length(peel)
+Woods Hole Mohn's Rho for SSB ranges from 0.006-0.611
+Woods Hole Mohn's Rho for depletion ranges from 0.001-0.179
+:::
 
 ## Squid Plot
 
-![](plots/recruitment_retrospective_squid.png){.absolute top=100 right=205 width="680" height="550"}
+* The directionality of the recruitment deviations is generally consistent across the number of observations
+* The exception to this is for 2022, 2018, and 2017
+
+![](plots/recruitment_retrospective_squid.png){.absolute top=240 right=240 width="540" height="440"}
 
 
 ## Risk Table

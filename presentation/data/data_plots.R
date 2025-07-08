@@ -116,6 +116,61 @@ p +
 ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "distribution_depth.png"), width = 10, height = 8)
 
 #===============================================================================
+# M
+#===============================================================================
+cols <- c("Age_years", "Sex")
+ages <- dplyr::bind_rows(
+  data_survey_bio$nwfsc_combo[, cols] |> dplyr::mutate(Source = "WCGBTS"),
+  data_survey_bio$nwfsc_slope[, cols] |> dplyr::mutate(Source = "NWFSC Slope"),
+  data_survey_bio$triennial_early$age_data[, cols] |> dplyr::mutate(Source = "Triennial"),
+  data_survey_bio$triennial_late$age_data[, cols] |> dplyr::mutate(Source = "Triennial"),
+  data_commercial_bds[, c("sex", "age_years")] |> dplyr::rename(Sex = sex, Age_years = age_years) |> dplyr::mutate(Source = "Fishery")
+) |>
+  dplyr::filter(!is.na(Age_years)) |>
+  dplyr::mutate(age_mod = ifelse(Age_years >= 75, 75, Age_years)) |>
+  dplyr::group_by(Source, Sex, age_mod) |>
+  dplyr::summarise(
+    Count = dplyr::n()
+  ) 
+
+ggplot2::ggplot(ages, ggplot2::aes(x = age_mod, y = Count, fill = Source)) +
+  ggplot2::geom_bar(stat = 'identity') +
+  ggplot2::theme_bw() +
+  ggplot2::xlab("Year") + ggplot2::ylab("Count") +
+  ggplot2::xlim(c(0, 76)) + 
+  nmfspalette::scale_fill_nmfs(palette = "waves", reverse = TRUE) +
+  ggplot2::theme(
+    strip.text.x = ggplot2::element_blank(),
+    strip.background = ggplot2::element_rect(colour="white", fill="white"),
+    legend.key.height = ggplot2::unit(0.01, "cm"),
+    legend.position = c(0.80, 0.83),
+    legend.title = ggplot2::element_text(size = 14), 
+    legend.text = ggplot2::element_text(size = 14),
+    axis.text = ggplot2::element_text(size = 20),
+    axis.title = ggplot2::element_text(size = 20)
+  )
+ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "all_ages_hist.png"), width = 8, height = 4)
+
+ggplot2::ggplot(ages |> dplyr::filter(Source == "WCGBTS"), ggplot2::aes(x = age_mod, y = Count, fill = Sex)) +
+  ggplot2::geom_bar(stat = 'identity') +
+  ggplot2::theme_bw() +
+  ggplot2::xlab("Year") + ggplot2::ylab("Count") +
+  ggplot2::xlim(c(0, 80)) + 
+  nmfspalette::scale_fill_nmfs(palette = "waves", reverse = TRUE) +
+  ggplot2::theme(
+    strip.text.x = ggplot2::element_blank(),
+    strip.background = ggplot2::element_rect(colour="white", fill="white"),
+    legend.key.height = ggplot2::unit(0.01, "cm"),
+    legend.position = c(0.80, 0.70),
+    legend.title = ggplot2::element_text(size = 14), 
+    legend.text = ggplot2::element_text(size = 14),
+    axis.text = ggplot2::element_text(size = 20),
+    axis.title = ggplot2::element_text(size = 20)
+  )
+ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "wcgbts_ages_hist.png"), width = 8, height = 4)
+
+
+#===============================================================================
 # Growth
 #===============================================================================
 load(here::here("data", "data_survey_bio.rda"))
@@ -295,8 +350,13 @@ landings <- model_output$catch |>
       Fleet_Name == "TWL_Discards" ~ "TWL Discards",
       Fleet_Name == "HKL_Discards" ~ "HKL Discards",
       Fleet_Name == "Pot_Discard" ~ "Pot Discards",
-      .default = Fleet_Name)
-  )
+      .default = Fleet_Name),
+    Type = dplyr::case_when(
+      Fleet == "TWL Discards"  ~ "Discard",
+      Fleet == "HKL Discards"  ~ "Discard", 
+      Fleet == "Pot Discards" ~ "Discard",
+      .default = "Retained")
+  ) 
 
 ggplot2::ggplot(landings, ggplot2::aes(x = year, y = catch_mt, fill = Fleet)) +
   ggplot2::geom_bar(stat = 'identity') +
@@ -319,6 +379,27 @@ ggplot2::ggplot(landings, ggplot2::aes(x = year, y = catch_mt, fill = Fleet)) +
   )
 
 ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "removals.png"), width = 8, height = 4)
+
+ggplot2::ggplot(landings, ggplot2::aes(x = year, y = catch_mt, fill = Fleet)) +
+  ggplot2::geom_bar(stat = 'identity') +
+  ggplot2::theme_bw() +
+  ggplot2::xlab("Year") + ggplot2::ylab("Removals (mt)") +
+  ggplot2::xlim(c(1890, 2025)) + 
+  ggplot2::scale_y_continuous(
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  #nmfspalette::scale_fill_nmfs(palette = "waves", reverse = TRUE) +
+  ggplot2::scale_fill_viridis_d() +
+  ggplot2::theme(
+    strip.text.x = ggplot2::element_blank(),
+    strip.background = ggplot2::element_rect(colour="white", fill="white"),
+    legend.key.height = ggplot2::unit(0.05, "cm"),
+    legend.position = c(0.20, 0.65),
+    legend.title = ggplot2::element_text(size = 16), 
+    legend.text = ggplot2::element_text(size = 16),
+    axis.text = ggplot2::element_text(size = 20),
+    axis.title = ggplot2::element_text(size = 20)
+  ) +
+  ggplot2::facet_grid(Type~.)
 
 #===============================================================================
 # Discard Rates

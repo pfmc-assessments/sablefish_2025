@@ -159,7 +159,7 @@ ggplot2::ggplot(
   ggplot2::geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
   ggplot2::theme_bw() +
   ggplot2::theme(
-    legend.position = c(0.80, 0.15),
+    #legend.position = c(0.80, 0.15),
     legend.title = ggplot2::element_text(size = 15), 
     legend.text = ggplot2::element_text(size = 15),
     axis.text = ggplot2::element_text(size = 20),
@@ -169,4 +169,4 @@ ggplot2::ggplot(
   ggplot2::xlab("Year") +
   ggplot2::ylab("Recruitment Deviation") +
   ggplot2::expand_limits(y = 0)
-ggplot2::ggsave(filename = here::here("presentation", "model_and_diag", "plots", "recruitment_index_fit.png"), width = 10, height = 10)
+ggplot2::ggsave(filename = here::here("presentation", "model_and_diag", "plots", "recruitment_index_fit.png"), width = 10, height = 7)

@@ -35,11 +35,22 @@ format:
 
 - Range from Baja California northward to the north-central Bering Sea and in the northwestern Pacific Ocean from Kamchatka southward to the northeastern coast of Japan
 - Relatively long-lived, with many observations > 60 years of age
+
+:::: {.columns}
+
+::: {.column width="50%"}
 - Genetically similar across their range
 - Caught primarily in commercial fisheries
+- This assessment represents the portion of the population off the U.S. West Coast as a single coastwide stock
+:::
+
+::: {.column width="50%"}
+:::
+
+::::
 
 
-![](plots/sablefish_water.png){.absolute bottom=100 right=60 width="280" height="280"}
+![](plots/sablefish_water.png){.absolute bottom=100 right=120 width="280" height="280"}
 
 ## Population Estimates
 
@@ -51,7 +62,7 @@ format:
 
 * Age 3+ Summary Biomass in 2025: 246,677 mt
 * Stock Status in 2025: 33.9%
-* This assessment differs substantially compared to the previous assessment, we will get into the reasons why in the Model, Diagnostics, and Results presentation
+* This assessment differs in some ways compared to the previous assessment, we will get into the reasons why in the Model, Diagnostics, and Results presentation
 
 ![](plots/ts4_Summary_biomass_(t).png){.absolute bottom=30 left=0 width="480" height="340"}
 
@@ -67,25 +78,33 @@ Stop to acknowledge how different this result is from the previous assessment an
 * Years with lowest negative recruitment deviation: 2005, 2007, and 2009
 * Strong recruitment at the end of the time series driving the stock up
 
-![](plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png){.absolute top=240 left=0 width="480" height="350"}
+![](plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png){.absolute top=250 left=30 width="480" height="350"}
 
 
-![](plots/recdevs2_withbars.png){.absolute top=240 right=50 width="480" height="350"}
+![](plots/recdevs2_withbars.png){.absolute top=250 right=30 width="480" height="350"}
+
+::: {.notes}
+Strong recruitment in recent years generally matches trens in BC and Alaska
+:::
 
 ## Model Sensitivities
 
 - The data from the WCGBTS is informing the magnitude of the population increase in recent years
-- The model is sensitive to the assumptions about natural mortality (*M*)
+- Population scale in the model is sensitive to the assumptions about natural mortality (*M*)
 
-![](plots/sens_1_compare18_smrybio.png){.absolute top=240 left=0 width="480" height="350"}
+![](plots/sens_1_compare18_smrybio.png){.absolute top=280 left=20 width="480" height="350"}
 
-![](plots/sens_3_compare18_smrybio.png){.absolute top=240 right=0 width="480" height="350"}
+![](plots/sens_3_compare18_smrybio.png){.absolute top=280 right=20 width="480" height="350"}
 
+::: {.notes}
+Remove WCGBTS: Estimates of rec. devs. are less positive or more negative when these data are removed, stock status of 28%, M estimate increases to 0.094
+Growth and M: Alaska M 0.114, Migration M 0.132, 2019 female M 0.076 and male M 0.068, highest stock status of 40% is estimated with the 2019 M values and lowest (26%) with M for migration
+:::
 
 ## Data Changes for 2025
 
 - Add all recent fishery and survey data: removals, indices of abundance, and age compositions 
-- Inclusion of additional historical age data primarily collected in Oregon
+- Inclusion of additional historical age data (1983-2010) primarily collected in Oregon from trawl gear
 - Improved estimates of removals: landing and discard mortality
 - New maturity-at-age and empirical weight-at-age
 - New environmental recruitment index from 2000--2024
@@ -190,13 +209,23 @@ South: Linf females 60 cm, males 55 cm
 
 ## Data
 
+:::: {.columns}
+
+::: {.column width="50%"}
 - Six fishery fleets
   - Removals
   - Age compositions
 - Four survey fleets
   - Abundance indices
   - Age compositions
-- One recruitment index
+- One recruitment index (ENV)
+:::
+
+::: {.column width="50%"}
+:::
+
+::::
+
 
 ![](plots/data_plot.png){.absolute bottom=20 right=0 width="580" height="860"}
 
