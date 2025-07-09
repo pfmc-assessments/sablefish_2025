@@ -458,7 +458,7 @@ Woods Hole Mohn's Rho for depletion ranges from 0.001-0.179
 * The directionality of the recruitment deviations is generally consistent across the number of observations
 * The exception to this is for 2022, 2018, and 2017
 
-![](plots/recruitment_retrospective_squid.png){.absolute top=240 right=240 width="540" height="440"}
+![](plots/recruitment_retrospective_squid_alternative.png){.absolute top=240 right=240 width="600" height="400"}
 
 
 ## Risk Table
