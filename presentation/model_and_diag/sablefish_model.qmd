@@ -104,9 +104,10 @@ No early devs model (green line) has a stock status of 48%
 
 - Change the start of the estimation of main period recruitment deviations to 1975 based on current data
 
+- Stop estimating early recruitment deviations (1890--1974), estimate recruitment from the stock-recruit curve
+
 ![](plots/3_structure_compare11_recdevs.png){.absolute bottom=20 left=50 width="450" height="350"}
 
-- Stop estimating early recruitment deviations (1890--1974), estimate recruitment from the stock-recruit curve
 
 ![](plots/3_structure_compare18_smrybio.png){.absolute bottom=20 right=50 width="450" height="350"}
 
@@ -116,7 +117,7 @@ No early devs model (green line) has a stock status of 48%
 :::
 
 
-## Model Structure Bridging
+## Bridging: Model Structure 
 
 ![](plots/4_structure_compare18_smrybio.png){.absolute top=70 left=0 width="440" height="295"}
 
@@ -131,7 +132,7 @@ Discard Fleets 32%
 :::
 
 
-## Model Structure Bridging
+## Bridging: Model Structure 
 
 ![](plots/4_structure_compare18_smrybio.png){.absolute top=70 left=0 width="440" height="295"}
 
@@ -176,7 +177,7 @@ Discard Fleets 32%
 ::: {.column width="50%"}
 - *M* estimated at 0.088 yr$^{-1}$ with males and females assumed equal
 - This equates to a maximum age of ~ 61 years of age based upon the prior
-- Approximately 0.6% of ages from WCGBTS are 61 years of age or older (99.5% quantile)
+- Approximately 0.6% of ages from WCGBTS are 61 years of age or older 
 :::
 
 ::: {.column width="50%"}
@@ -220,10 +221,10 @@ Pot Disc peak = 2.7 and 2.0
 * Years with lowest negative recruitment deviation: 2005, 2007, and 2009
 * Strong recruitment at the end of the time series driving the stock up
 
-![](plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png){.absolute top=240 left=0 width="480" height="350"}
+![](plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png){.absolute top=270 left=20 width="480" height="350"}
 
 
-![](plots/recdevs2_withbars.png){.absolute top=240 right=50 width="480" height="350"}
+![](plots/recdevs2_withbars.png){.absolute top=270 right=20 width="480" height="350"}
 
 ::: {.notes}
 Current Model Rec. Dev.: 2016 = 2.38, 2020 = 2.38, 2021 = 2.03, and 2023 = 2.43
