@@ -13,7 +13,7 @@ format:
     footer: "National Oceanic and Atmospheric Administration | National Marine Fisheries Service"
     controls: true
     navigation-mode: linear
-    transition: slide
+    transition: none
     transition-speed: default
     background-transition: none
     scrollable: true
