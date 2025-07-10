@@ -13,6 +13,8 @@ ctl_file <- "control.ss"
 forcast_file <- "forecast.ss"
 
 model_2023 <- SS_output(here::here("model", "_bridging", "0_2023_model"))
+model_2021 <- SS_output(here::here("model", "_bridging", "0_2021_model"))
+model_2019 <- SS_output(here::here("model", "_bridging", "0_2019_base_model"))
 
 if (run_r4ss_output){
   # The fleet numbering model also includes updating the SS3 version

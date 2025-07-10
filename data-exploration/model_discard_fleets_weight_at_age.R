@@ -774,3 +774,26 @@ SSplotComparisons(mysummary,
                   ylimAdj = 1.25,
                   pdf = TRUE)
 SS_plots(fix_twl_discard_init)
+
+#===============================================================================
+# Blocks
+#===============================================================================
+
+base_model <- r4ss::SS_output(here::here("model", "_discard_fleets", "watage", "8.36_base_model"))
+no_blocks <- r4ss::SS_output(here::here("model", "_discard_fleets", "watage", "8.38_no_selex_blocks"))
+
+modelnames <- c(
+  "8.36 Base Model",
+  "8.38 No Selectivity Blocks")
+mysummary <- r4ss::SSsummarize(list(
+  base_model ,
+  no_blocks ))
+r4ss::SSplotComparisons(mysummary,
+                  filenameprefix = "8.38_trawl_discard_",
+                  legendlabels = modelnames, 	
+                  btarg = 0.40,
+                  minbthresh = 0.25,
+                  plotdir = here::here("model", "_discard_fleets", "watage"),
+                  ylimAdj = 1.10,
+                  pdf = TRUE)
+r4ss::SS_plots(no_blocks )

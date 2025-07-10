@@ -214,7 +214,7 @@ SSplotComparisons(mysummary,
 
 SSplotComparisons(mysummary,
                   filenameprefix = "5_structure_",
-                  subplots = 3,
+                  subplots = 4,
                   legendlabels = modelnames, 	
                   btarg = 0.40,
                   minbthresh = 0.25,
