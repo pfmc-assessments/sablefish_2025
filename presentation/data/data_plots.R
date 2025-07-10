@@ -293,7 +293,7 @@ north <- ggplot2::ggplot(maturity_data |> dplyr::filter(Area == "North") |>
                          ggplot2::aes(x = age, y = functional_maturity)) +
   ggplot2::geom_point() +
   ggplot2::ylab("Functional Maturity") +
-  ggplot2::geom_vline(xintercept = 7, color = "blue", linetype = 3, size = 1) + 
+  ggplot2::geom_vline(xintercept = 6, color = "blue", linetype = 3, size = 1) + 
   ggplot2::xlab("Age years") +
   ggplot2::theme_bw() +
   ggplot2::xlim(c(0, 70) ) + 
@@ -557,6 +557,32 @@ r4ss::SSplotComps(
 file.rename(here::here("presentation", "data", "plots", "comp_agedat__aggregated_across_time.png"),
             here::here("presentation", "data", "plots", "comp_agedat__aggregated_across_time_4-6.png"))
 
+
+fishery_ages <- data_commercial_bds |>
+  dplyr::filter(!is.na(age_years)) |>
+  dplyr::group_by(year, age_years, geargroup) |>
+  dplyr::summarise(
+    Count = dplyr::n()
+  ) |>
+  dplyr::rename(Fleet = geargroup)
+
+ggplot2::ggplot(fishery_ages |> dplyr::filter(year %in% c(2000:2008)), ggplot2::aes(x = age_years, y = Count, fill = Fleet)) +
+  ggplot2::geom_bar(stat = 'identity') +
+  ggplot2::theme_bw() +
+  ggplot2::xlab("Age") + ggplot2::ylab("Count") +
+  ggplot2::xlim(c(-1, 20)) + 
+  nmfspalette::scale_fill_nmfs(palette = "waves", reverse = TRUE) +
+  #ggplot2::scale_fill_viridis_d() +
+  ggplot2::theme(
+    strip.text.x = ggplot2::element_text(size = 14),
+    legend.title = ggplot2::element_text(size = 16), 
+    legend.text = ggplot2::element_text(size = 16),
+    axis.text = ggplot2::element_text(size = 20),
+    axis.title = ggplot2::element_text(size = 20)
+  ) +
+  ggplot2::facet_wrap(~year)
+ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "fishery_age_barplot_2000_2008.png"), width = 8, height = 4)
+
 #===============================================================================
 # Triennial Index
 #===============================================================================
@@ -762,3 +788,45 @@ ggplot2::ggplot(age_samples, ggplot2::aes(x = Year, y = Count, fill = Sex)) +
     axis.title = ggplot2::element_text(size = 20)
   ) + ggplot2::facet_wrap(~Survey)
 ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "triennial_age_samples.png"), width = 5, height = 4)
+
+#===============================================================================
+# Triennial Late Ages
+#===============================================================================
+
+tri_ages <- dplyr::bind_rows(
+  data_survey_bio$triennial_early$age_data,
+  data_survey_bio$triennial_late$age_data
+) |>
+  dplyr::filter(!is.na(Age_years), Year %in% c(1983, 1989, 1992, 1995, 2004)) |>
+  dplyr::mutate(Year = as.factor(Year)) 
+
+ggplot2::ggplot(tri_ages, ggplot2::aes(x = Age_years, y = Year)) +
+  ggridges::geom_density_ridges() +
+  ggplot2::theme_bw() +
+  ggplot2::xlim(c(0, 20)) +
+  ggplot2::xlab("Age (years)") + ggplot2::ylab("Year") +
+  nmfspalette::scale_fill_nmfs(palette = "oceans", reverse = TRUE) 
+ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "triennial_raw_ages_ggridges.png"), width = 5, height = 4)
+
+tri_count <- tri_ages |>
+  dplyr::group_by(Year, Age_years) |>
+  dplyr::summarize(Count = dplyr::n())
+
+ggplot2::ggplot(tri_count, ggplot2::aes(x = Age_years, y = Count)) +
+  ggplot2::geom_bar(stat = 'identity') +
+  ggplot2::theme_bw() +
+  ggplot2::xlab("Year") + ggplot2::ylab("Count") +
+  ggplot2::xlim(c(-1, 20)) +
+  nmfspalette::scale_fill_nmfs(palette = "oceans", reverse = TRUE) +
+  ggplot2::theme(
+    strip.text.x = ggplot2::element_text(size = 14),
+    #strip.background = ggplot2::element_rect(colour="white", fill="white"),
+    legend.key.height = ggplot2::unit(0.01, "cm"),
+    legend.position = c(0.80, 0.83),
+    legend.title = ggplot2::element_text(size = 14), 
+    legend.text = ggplot2::element_text(size = 14),
+    axis.text = ggplot2::element_text(size = 20),
+    axis.title = ggplot2::element_text(size = 20)
+  ) + 
+  ggplot2::facet_wrap(~Year)
+ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "triennial_raw_ages_barplot.png"), width = 5, height = 4)

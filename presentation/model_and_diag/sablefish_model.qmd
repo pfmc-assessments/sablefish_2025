@@ -36,23 +36,14 @@ format:
 ## Bridging: Data
 
 - Remove the sea surface height recruitment index;
-- Reprocess and add recent data (mortality, discard, ages, indices);
+- Reprocess and add recent data (mortality, discard rates, ages, indices);
 - Add additional historical ages;
 - Split hook-and-line and pot gears; 
 - Refine selecitivity and retention blocks; and
 - Update natural mortality prior, maturity, and ageing error.
 
-## Bridging: Model Structure
 
-- Refined the approach to estimate annual recruitment deviations based upon current data;
-- Remove the AFSC Slope Survey and split the Triennial Survey into two separate fleets;
-- Change to discard fleets from model-estimated retention;
-- Update parameters for WCGBTS selectivity, natural mortality, steepness;
-- Switch to time-varying empirical weight-at-age; and
-- Add new environmental recruitment index.
-
-
-## Data Bridging
+## Bridging: Data
 
 ![](plots/1_data_bridging_compare18_smrybio.png){.absolute top=70 left=50 width="440" height="295"}
 
@@ -70,28 +61,36 @@ format:
 
 ::: {.notes}
 Adding historical ages reduced the estimate summary biomass and stock status
-Updating the discard rates reduced the estimated summary biomass but had only a negligable impact on stock status
-Updating the data reduces the estimate of summary biomass and stock status relative (44% vs 63%) to the 2023 update
-
+Updating the discard rates reduced the estimated summary biomass but had only a negligible impact on stock status
+Updating the data reduces the estimate of summary biomass and stock status relative (44%) to the 2023 update (63%)
+Updating everything through the ageing error results in an estimated stock status of 56%
 :::
 
-## Model Structure Bridging
+## Bridging: Model Structure
+
+- Refined the approach to estimate annual recruitment deviations based upon current data;
+- Remove the AFSC Slope Survey and split the Triennial Survey into two separate fleets;
+- Change to discard fleets from model-estimated retention;
+- Update parameters for WCGBTS selectivity, natural mortality, steepness;
+- Switch to time-varying empirical weight-at-age; and
+- Add new environmental recruitment index.
+
+## Bridging: Model Structure 
 
 - Change the start of the estimation of main period recruitment deviations to 1975 based on current data
 
-- 
-::: {.fragment}
-Stop estimating early recruitment deviations (1890--1974), estimate recruitment from the stock-recruit curve
-:::
-
-
-![](plots/3_structure_compare11_recdevs.png){.absolute bottom=20 left=0 width="490" height="380"}
-
+![](plots/3_structure_compare11_recdevs.png){.absolute bottom=20 left=50 width="450" height="350"}
 
 ::: {.fragment}
+- Stop estimating early recruitment deviations (1890--1974), estimate recruitment from the stock-recruit curve
 
-![](plots/3_structure_compare18_smrybio.png){.absolute bottom=20 right=0 width="490" height="380"}
+![](plots/3_structure_compare18_smrybio.png){.absolute bottom=20 right=50 width="450" height="350"}
 :::
+
+::: {.notes}
+No early devs model (green line) has a stock status of 48%
+:::
+
 
 ## Model Structure Bridging
 
@@ -109,6 +108,12 @@ Stop estimating early recruitment deviations (1890--1974), estimate recruitment 
 
 :::
 
+::: {.notes}
+Split triennial split triennial 49%
+WCGBTS selectivity 39%
+Discard Fleets 32%
+:::
+
 
 ## Model Structure Bridging
 
@@ -116,6 +121,10 @@ Stop estimating early recruitment deviations (1890--1974), estimate recruitment 
 
 
 ![](plots/6_structure_compare4_Bratio_uncertainty.png){.absolute bottom=150 right=0 width="490" height="380"}
+
+::: {.notes}
+Discard Fleets 32%
+:::
 
 
 ## Parameter estimates
@@ -179,6 +188,11 @@ Pot Disc peak = 2.7 and 2.0
 
 
 ![](plots/recdevs2_withbars.png){.absolute top=240 right=50 width="480" height="350"}
+
+::: {.notes}
+Current Model Rec. Dev.: 2016 = 2.38, 2020 = 2.38, 2021 = 2.03, and 2023 = 2.43
+2023 Model Rec. Dev.: 2016 = 2.26, 2020 = 3.08, 2021 = 2.90
+:::
 
 ## Fits to data
 

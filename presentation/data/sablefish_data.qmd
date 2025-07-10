@@ -191,7 +191,7 @@ North: Lmax females 64 cm, males 57 cm
 ## Maturity-at-Age
 
 - Sablefish mature at younger ages more frequently in the north compared to the south
-- Blue vertical dashed line at age 7
+- Blue vertical dashed line at age 6
 
 ![](plots/maturity_samples.png){.absolute top=250 right=200 width="780" height="380"}
 
