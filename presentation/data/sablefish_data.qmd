@@ -144,6 +144,7 @@ Make sure to note the number of untrawlable areas south of 34.5 N. latitude due 
 - A slightly higher frequency of old males compared to old females in the data which could be due to differences in *M* or higher fishing pressure on females due to growth differences
 
 ::: {.notes}
+There are 13 observations in all available data of age >= 75 years of age (8 from the fishery and 5 from the survey) ranging from 75 to 102 years of age. Of those 13 fish 10 are males and 3 are female.
 The 2019 assessment estimated 0.076 for females and 0.067 for males (translates to a maximum age range 71-80)
 The 2019 STAR panel reported variability in estimates with the directionality sometimes changing between sexes
 The 2011 assessment estimated 0.08 for females and 0.081 for males

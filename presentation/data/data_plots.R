@@ -170,6 +170,35 @@ ggplot2::ggplot(ages |> dplyr::filter(Source == "WCGBTS"), ggplot2::aes(x = age_
 ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "wcgbts_ages_hist.png"), width = 8, height = 4)
 
 
+proportion_ages <- ages |>
+  dplyr::filter(Sex != "U") |>
+  dplyr::group_by(Source, age_mod) |>
+  dplyr::mutate(
+    total = sum(Count)
+  ) |>
+  dplyr::group_by(age_mod, Sex) |>
+  dplyr::mutate(
+    prop = round(Count / total, 2)
+  )
+
+ggplot2::ggplot(proportion_ages, ggplot2::aes(x = age_mod, y = prop, fill = Sex)) +
+  ggplot2::geom_bar(stat = 'identity') +
+  ggplot2::theme_bw() +
+  ggplot2::xlab("Year") + ggplot2::ylab("Count") +
+  ggplot2::xlim(c(0, 80)) + 
+  ggplot2::geom_hline(yintercept = 0.50, color = "grey", linetype = "dashed", size = 1) +
+  nmfspalette::scale_fill_nmfs(palette = "waves", reverse = TRUE) +
+  ggplot2::theme(
+    strip.text.x = ggplot2::element_text(size = 14),
+    legend.title = ggplot2::element_text(size = 14), 
+    legend.text = ggplot2::element_text(size = 14),
+    axis.text = ggplot2::element_text(size = 16),
+    axis.title = ggplot2::element_text(size = 16)
+  ) +
+  ggplot2::facet_wrap(facets = "Source", ncol = 1)
+ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "age_proportion_by_sex.png"), width = 8, height = 10)
+
+
 #===============================================================================
 # Growth
 #===============================================================================
