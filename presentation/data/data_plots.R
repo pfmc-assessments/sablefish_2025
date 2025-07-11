@@ -115,6 +115,40 @@ p +
     axis.title = ggplot2::element_text(size = 20))
 ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "distribution_depth.png"), width = 10, height = 8)
 
+wcgbts_ages <- data_survey_bio$nwfsc_combo |> 
+  dplyr::filter(!is.na(Age), Sex != "U") |>
+  dplyr::mutate(
+    State = dplyr::case_when(
+      Latitude_dd >= 46.25 ~ "WA",
+      Latitude_dd < 42 ~ "CA",
+      .default = "OR"
+    )
+  )
+ggplot2::ggplot(wcgbts_ages, ggplot2::aes(x = Depth_m, y = Age, color = Sex, shape = Sex)) +
+  ggplot2::geom_point(alpha = 0.50, size = 1.5) +
+  nmfspalette::scale_color_nmfs(palette = "waves", reverse = TRUE) +
+  ggplot2::theme_bw() +
+  ggplot2::xlab("Depth (m)") +
+  ggplot2::theme(
+    strip.text.x = ggplot2::element_text(size = 16),
+    axis.text = ggplot2::element_text(size = 16),
+    axis.title = ggplot2::element_text(size = 16)) +
+  ggplot2::facet_wrap(facets = "State", ncol = 1)
+ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "age_depth_sex_wcgbts.png"), width = 10, height = 8)
+
+ggplot2::ggplot(data_survey_bio$nwfsc_combo |> dplyr::filter(Sex != "U"), ggplot2::aes(x = Depth_m, y = Length_cm)) +
+  ggplot2::geom_point(alpha = 0.10) +
+  nmfspalette::scale_color_nmfs(palette = "waves", reverse = TRUE) +
+  ggplot2::theme_bw() +
+  ggplot2::xlab("Depth (m)") + ggplot2::ylab("Length (cm)") +
+  ggplot2::theme(
+    strip.text.x = ggplot2::element_text(size = 16),
+    axis.text = ggplot2::element_text(size = 16),
+    axis.title = ggplot2::element_text(size = 16)) +
+  ggplot2::facet_wrap(facets = "Sex", ncol = 1)
+ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "length_depth_sex_wcgbts.png"), width = 10, height = 8)
+
+
 #===============================================================================
 # M
 #===============================================================================
