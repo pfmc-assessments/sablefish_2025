@@ -184,7 +184,7 @@ proportion_ages <- ages |>
 ggplot2::ggplot(proportion_ages, ggplot2::aes(x = age_mod, y = prop, fill = Sex)) +
   ggplot2::geom_bar(stat = 'identity') +
   ggplot2::theme_bw() +
-  ggplot2::xlab("Year") + ggplot2::ylab("Count") +
+  ggplot2::xlab("Age (years)") + ggplot2::ylab("Count") +
   ggplot2::xlim(c(0, 80)) + 
   ggplot2::geom_hline(yintercept = 0.50, color = "grey", linetype = "dashed", size = 1) +
   nmfspalette::scale_fill_nmfs(palette = "waves", reverse = TRUE) +
@@ -492,7 +492,7 @@ ggplot2::ggplot(age_samples, ggplot2::aes(x = year, y = Count, fill = Fleet)) +
     strip.background = ggplot2::element_rect(colour="white", fill="white"),
     legend.key.height = ggplot2::unit(0.05, "cm"),
     legend.position = c(0.90, 0.80),
-    legend.title=element_text(size = 16), 
+    legend.title = ggplot2::element_text(size = 16), 
     legend.text = ggplot2::element_text(size = 16),
     axis.text = ggplot2::element_text(size = 20),
     axis.title = ggplot2::element_text(size = 20)
@@ -509,18 +509,31 @@ a <- ggplot2::ggplot(wcgop_age_est[!is.na(wcgop_age_est$age), ], ggplot2::aes(x 
   ggplot2::theme_bw() + 
   ggplot2::theme(
     strip.text.x = ggplot2::element_text(size = 20),
-    #strip.background = ggplot2::element_rect(colour="white", fill="white"),
-    #legend.key.height = ggplot2::unit(0.05, "cm"),
     legend.position = "none",
-    #legend.title=element_text(size = 16), 
-    #legend.text = ggplot2::element_text(size = 16),
     axis.text = ggplot2::element_text(size = 20),
     axis.title = ggplot2::element_text(size = 20)
   ) +
-  facet_wrap("gear_groups", nrow = 1)
+  ggplot2::facet_wrap("gear_groups", nrow = 1)
 ggplot2::ggsave(a,
        file = here::here("presentation", "data", "plots", "compare_data_alk_all_years.png"),
        height = 7, width = 12)
+
+disc_ages <- wcgop_age_est[!is.na(wcgop_age_est$age), ] |>
+  dplyr::group_by(year, gear_groups, age) |>
+  dplyr::summarise(Count = dplyr::n())
+ggplot2::ggplot(disc_ages |> dplyr::filter(year >= 2016), ggplot2::aes(x = age, y = Count, fill = gear_groups)) +
+  ggplot2::geom_bar(stat = 'identity') +
+  ggplot2::theme_bw() +
+  ggplot2::xlim(c(-1, 20)) + 
+  ggplot2::xlab("Age (Years)") + ggplot2::ylab("Count") +
+  nmfspalette::scale_fill_nmfs(palette = "waves", reverse = TRUE) +
+  ggplot2::theme(
+    legend.title = ggplot2::element_text(size = 14), 
+    legend.text = ggplot2::element_text(size = 14),
+    axis.text = ggplot2::element_text(size = 16),
+    axis.title = ggplot2::element_text(size = 16)
+  ) +
+  ggplot2::facet_wrap(~year)
 
 discard_age_samples <- read.csv(here::here("data-processed", "data-discard-sample-sizes-length.csv")) |>
   dplyr::group_by(year, gear_groups) |>
@@ -546,11 +559,11 @@ ggplot2::ggplot(discard_age_samples, ggplot2::aes(x = year, y = Count, fill = Fl
     strip.background = ggplot2::element_rect(colour="white", fill="white"),
     legend.key.height = ggplot2::unit(0.05, "cm"),
     legend.position = c(0.20, 0.80),
-    legend.title=element_text(size = 16), 
+    legend.title = ggplot2::element_text(size = 16), 
     legend.text = ggplot2::element_text(size = 16),
     axis.text = ggplot2::element_text(size = 20),
     axis.title = ggplot2::element_text(size = 20)
-  )
+  ) 
 ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "fishery_discard_age_length_samples.png"), width = 8, height = 4)
 
 
@@ -611,6 +624,24 @@ ggplot2::ggplot(fishery_ages |> dplyr::filter(year %in% c(2000:2008)), ggplot2::
   ) +
   ggplot2::facet_wrap(~year)
 ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "fishery_age_barplot_2000_2008.png"), width = 8, height = 4)
+
+ggplot2::ggplot(fishery_ages |> dplyr::filter(year %in% c(2016:2024)), ggplot2::aes(x = age_years, y = Count, fill = Fleet)) +
+  ggplot2::geom_bar(stat = 'identity') +
+  ggplot2::theme_bw() +
+  ggplot2::xlab("Age") + ggplot2::ylab("Count") +
+  ggplot2::xlim(c(-1, 20)) + 
+  nmfspalette::scale_fill_nmfs(palette = "waves", reverse = TRUE) +
+  #ggplot2::scale_fill_viridis_d() +
+  ggplot2::theme(
+    strip.text.x = ggplot2::element_text(size = 14),
+    legend.title = ggplot2::element_text(size = 16), 
+    legend.text = ggplot2::element_text(size = 16),
+    axis.text = ggplot2::element_text(size = 20),
+    axis.title = ggplot2::element_text(size = 20)
+  ) +
+  ggplot2::facet_wrap(~year)
+ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "fishery_age_barplot_2016_2024.png"), width = 8, height = 4)
+
 
 #===============================================================================
 # Triennial Index

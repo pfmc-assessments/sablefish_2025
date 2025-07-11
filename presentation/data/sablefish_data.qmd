@@ -107,7 +107,7 @@ Growth and M: Alaska M 0.114, Migration M 0.132, 2019 female M 0.076 and male M 
 - Inclusion of additional historical age data (1983-2010) primarily collected in Oregon from trawl gear
 - Improved estimates of removals: landing and discard mortality
 - New maturity-at-age and empirical weight-at-age
-- New environmental recruitment index from 2000--2024
+- New environmental recruitment index from 2020--2024
 - Split the Triennial Survey into early and late and remove data from select years
 - Remove the AFSC Slope Survey due to non-representative sampling of lengths for age data
 
@@ -293,7 +293,7 @@ Pot gear consists of 26% of the total catch since 2011, but has limited ages com
 - Only length data were available for sablefish in WCGOP
 - Ages estimated from the lengths using an age-length key by year and area (north and south 36$^\circ$ N. lat.)
 
-![](plots/compare_data_alk_all_years.png){.absolute top=230 right=155 width="880" height="380"}
+![](plots/compare_data_alk_all_years.png){.absolute top=230 right=155 width="780" height="380"}
 
 
 ## Age Data: Discarded Fish
@@ -366,7 +366,7 @@ The CPUE were filtered removing large tows (0.99 quantile, 18,009) removing 39 t
 Largest tow was 176,097 cpue kg/km2 in 2001 at 147 m ~ 45 N. lat.
 :::
 
-## WCGBT Age Samples
+## WCGBTS Age Samples
 
 ![](plots/wcgbt_age_samples.png){.absolute top=100 right=175 width="880" height="480"}
 
