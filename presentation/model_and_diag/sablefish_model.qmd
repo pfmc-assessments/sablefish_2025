@@ -494,9 +494,9 @@ Growth and M: Alaska M 0.114, Migration M 0.132, 2019 female M 0.076 and male M 
 * Mohn's Rho is calculated based upon Hurtado-Ferro et al. 2015 where the value is the relative error between the model with removed data and the base model for year $y$ divided by the the length of data years removed
 
 
-![](plots/compare2_spawnbio_uncertainty.png){.absolute top=260 left=0 width="480" height="350"}
+![](plots/compare2_spawnbio_uncertainty.png){.absolute top=270 left=30 width="480" height="350"}
 
-![](plots/compare4_Bratio_uncertainty.png){.absolute top=260 right=50 width="480" height="350"}
+![](plots/compare4_Bratio_uncertainty.png){.absolute top=270 right=30 width="480" height="350"}
 
 ::: {.notes}
 rho shown = sum((SSB_y-1 - SSB_y) / SSB_y) / length(peel)
