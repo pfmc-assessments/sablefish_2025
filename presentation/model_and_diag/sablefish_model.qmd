@@ -152,7 +152,7 @@ WCGBTS selectivity 39%
 Discard Fleets 32%
 :::
 
-## Model Structure Bridging
+## Bridging: Model Structure 
 
 ![](plots/6_structure_compare18_smrybio.png){.absolute bottom=150 left=0 width="490" height="380"}
 
