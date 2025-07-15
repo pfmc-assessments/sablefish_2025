@@ -197,9 +197,8 @@ North: Lmax females 64 cm, males 57 cm
 ![](plots/maturity_samples.png){.absolute top=250 right=200 width="780" height="380"}
 
 ::: {.notes}
-Coastwide: Linf females 63 cm, males 56 cm
-North: Linf females 64 cm, males 57 cm
-South: Linf females 60 cm, males 55 cm
+All samples are from the WCGBT survey,
+Samples collected in 2010, 2015, 2018, 2021, and 2022
 :::
 
 ## Maturity-at-Age: Spatial
