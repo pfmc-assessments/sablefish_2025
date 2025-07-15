@@ -76,7 +76,7 @@ data_commercial_bds_filter <- bds_cleaned |>
       .default = area
     )
   ) |>
-  dplyr::select(year, state, geargroup, area, lengthcm, Age, SEX) |>
+  dplyr::select(year, state, geargroup, area, lengthcm, Age, SEX, age_method, SAMPLE_METHOD) |>
   dplyr::rename(
     length_cm = lengthcm,
     age_years = Age,
