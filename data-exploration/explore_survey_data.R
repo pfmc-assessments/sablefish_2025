@@ -796,3 +796,77 @@ ggplot(data_deep |> dplyr::filter(Age_years > 4), aes(x = Age_years, y = prop, f
   ylab("Proportion by Age at Depths > 183 m") +
   xlab("Age (years)") +
   facet_grid(c("Project"))
+
+
+#===============================================================================
+# Plot CPUE
+#===============================================================================
+
+nwfscSurvey::plot_cpue(
+  catch = data_survey_catch$nwfsc_combo,
+  dir = NULL,
+  plot = 1,
+  width = 7,
+  height = 7)
+catch <- data_survey_catch$nwfsc_combo
+catch$log_cpue <- log(catch$cpue_kg_km2)
+pos <- catch$cpue_kg_km2 != 0
+size_adj <- 100 / floor(sum(pos))
+
+ggplot(catch[pos, ], aes(x = Depth_m, y = log_cpue)) +
+  geom_point(aes(size = log_cpue / size_adj), shape = 21) +
+  labs(x = "Depth (m)", y = "ln(CPUE)", size = "ln(CPUE)") +
+  geom_smooth(method = "loess", color = "darkgrey", lwd = 2) +
+  scale_x_continuous(n.breaks = 7) +
+  scale_y_continuous(n.breaks = 7) +
+  theme(
+    legend.key = element_blank(),
+    axis.text.x = element_text(colour = "black", size = 12),
+    axis.text.y = element_text(colour = "black", size = 11),
+    legend.text = element_text(size = 10, colour = "black"),
+    legend.title = element_text(size = 12),
+    panel.background = element_blank(),
+    panel.border = element_rect(fill = NA),
+    legend.position = "right"
+  ) +
+  guides(size = "legend", color = "none", fill = "none")
+
+cpue <- data_survey_catch$nwfsc_combo |> 
+  dplyr::filter(total_catch_numbers > 0) |>
+  dplyr::mutate(
+    depth = plyr::round_any(Depth_m, 50, floor),
+  ) 
+ggplot(cpue, 
+       aes(x = depth, y = cpue_kg_km2)) +
+  geom_boxplot(color = "blue", aes(group = depth)) +
+  ylim(c(0, 1500)) +
+  theme_bw() +
+  xlab("Depth (m)") + ylab("CPUE kg/km2")
+ggsave(here::here("data-raw", "survey", "trawl", "plots", "cpue_boxplot.png"))
+
+
+age_depth <- data_survey_bio$nwfsc_combo |> 
+  dplyr::filter(!is.na(Age), Sex != "U") |>
+  dplyr::mutate(
+    depth = plyr::round_any(Depth_m, 50, floor)
+  ) 
+ggplot(age_depth, aes(x = depth, y = Age)) +
+  geom_boxplot(aes(group = depth)) +
+  theme_bw() +
+  facet_wrap(facets = "Sex", ncol = 1)
+ggsave(here::here("data-raw", "survey", "trawl", "plots", "depth_age_sex.png"))
+
+
+ggplot(data_survey_catch$nwfsc_combo |> dplyr::filter(total_catch_numbers > 0, cpue_kg_km2 < quantile(cpue_kg_km2, 0.99)), 
+       aes(x = Depth_m, y = cpue_kg_km2)) +
+  geom_point(size = 0.5, alpha = 0.10) +
+  geom_smooth(method = "loess", color = "blue", lwd = 1) +
+  ylim(c(0, 2000)) + 
+  theme_bw()
+
+ggplot(data_survey_catch$nwfsc_combo |> dplyr::filter(total_catch_numbers > 0, cpue_kg_km2 < quantile(cpue_kg_km2, 0.99)), 
+       aes(x = Depth_m, y = cpue_kg_km2)) +
+  geom_point() +
+  geom_smooth(method = "loess") +
+  geom_quantile(quantiles = 0.5, color = "red") +
+  ylim(c(0, 3000))
