@@ -87,6 +87,13 @@ plot_fleet_selectivity <- function(model_out, fleet_num){
       dplyr::left_join(timeblock_key, by="Yr")
       
 
+ggplot2::ggplot(
+    data %>% filter(sex == "Female"), 
+    aes(x=age, y=sel, color=factor(timeblock), linetype=sex, shape=sex, group=interaction(sex, timeblock))
+)+
+ggplot2::geom_line()+
+ggplot2::geom_point(size=2)
+
   plot <- ggplot2::ggplot(data, aes(x=age, y=sel, color=factor(timeblock), linetype=sex, shape=sex, group=interaction(sex, timeblock)))+
       ggplot2::geom_line()+
       ggplot2::geom_point(size=2)+
