@@ -34,7 +34,7 @@ bds_cleaned <- pacfintools::cleanPacFIN(
   Pdata = raw_pacfin_bds |> dplyr::filter(SAMPLE_YEAR != 2025),
   keep_gears = gears,
   CLEAN = TRUE,
-  keep_age_method = c("B", "BB"),
+  keep_age_method = c("B", "BB", "S", "M", "U"),
   keep_sample_type = c("", "M", "C"),
   keep_sample_method = good_methods,
   keep_length_type = good_lengths,
