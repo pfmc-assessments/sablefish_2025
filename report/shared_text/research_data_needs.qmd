@@ -44,6 +44,8 @@ specific to sablefish could help to achieve ongoing ageing goals given competing
 resources. In addition, there is an under-representation of ages from sablefish caught in fisheries off of California
 compared to other areas. Biological sampling designs should strive to be consistent across the stock domain.
 
+\item Fish Weight: This assessment uses an empirical weight-at-age approach to account for spatially and time varying growth informed by data from the WCGBTS. Currently, fish weight information is not available coastwide commercial fisheries (e.g., information available in PacFIN).  Collected and reporting fish weight information to port sampling coastwide would support the consideration of commercial fishery data to understand weight-at-age of sablefish for future assessments. 
+
 \item Temporal and spatial biology: Research on understanding the interactions between spatial patterns in
 sablefish growth, maturity, and natural mortality across space and time will provide important information for future assessments.
 Both growth and maturity show latitudinal trends across the stock domain. While the current assessment
