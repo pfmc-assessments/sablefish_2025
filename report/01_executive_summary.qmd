@@ -1,5 +1,5 @@
 
-# Executive Summary {-}
+# Executive Summary {.unnumbered}
 
 ## Stock Description {-}
 
@@ -23,10 +23,13 @@ The earliest landings of sablefish off the U.S. West Coast used within in this a
 
 catches_es_table |>
   dplyr::rename(
-    `TWL Discards (mt)` = `TWL_Discards (mt)`,
-    `HKL Discards (mt)` = `HKL_Discards (mt)`,
-    `Pot Discards (mt)` = `Pot_Discard (mt)`,
-    `Total (mt)` = `Total Catch (mt)`
+    `Trawl` = `Trawl (mt)`,
+    `Hook-and-Line` = `Hook_and_Line (mt)`,
+    `Pot` = `Pot (mt)`,
+    `Trawl Discard` = `Trawl_Discard (mt)`,
+    `Hook-and-Line Discard` = `Hook_and_Line_Discard (mt)`,
+    `Pot Discard` = `Pot_Discard (mt)`,
+    `Total Catch` = `Total Catch (mt)`
   ) |>
   gt::gt() |>
   gt::fmt_number(
@@ -42,7 +45,7 @@ catches_es_table |>
     align = "center"
   ) |>
   gt::cols_width(
-    tidyselect::everything() ~ px(75)
+    tidyselect::everything() ~ px(70)
   ) |>
   gt::as_latex()
 
@@ -61,9 +64,9 @@ landings <- model_output$catch |>
     year = Yr,
     catch_mt = dead_bio,
     Fleet = dplyr::case_when(
-      Fleet_Name == "TWL_Discards" ~ "TWL Discards",
-      Fleet_Name == "HKL_Discards" ~ "HKL Discards",
-      Fleet_Name == "Pot_Discards" ~ "Pot Discard",
+      Fleet_Name == "Trawl_Discard" ~ "Trawl Discard",
+      Fleet_Name == "Hook_and_Line_Discard" ~ "Hook-and-Line Discard",
+      Fleet_Name == "Pot_Discard" ~ "Pot Discard",
       .default = Fleet_Name)
   )
   
@@ -184,7 +187,7 @@ knitr::include_graphics(
 #| fig-pos: H
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "ts9_Relative_spawning_output_intervals.png")
+  file.path(model_dir, "plots", "ts9_Fraction_of_unfished_spawning_output.png")
 )
 
 ```
@@ -382,7 +385,7 @@ reference_points_table |>
 
 ![Phase plot of fishing intensity versus relative spawning output for the base model.](figures/SPR4_phase.png){#fig-es-spr-phase height=4in fig-alt=""}
 
-![Estimated yield curve with reference points for the base model.](figures/yield2_yield_curve_with_refpoints.png){#fig-es-yield height=3in fig-alt=""}
+![Estimated yield curve with reference points for the base model. The biomass target (Btgt) and the spawning potential ratio (SPR) target both are maximized at 0.40 fration unfished.](figures/yield2_yield_curve_with_refpoints.png){#fig-es-yield height=3in fig-alt=""}
 
 ## Management Performance {-}
 

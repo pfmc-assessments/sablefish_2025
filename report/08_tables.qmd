@@ -24,14 +24,14 @@ landings <- model_output[["catch"]] |>
    ) |>
   dplyr::rename(
     Year = Yr,
-    `TWL` = TWL,
-    `HKL` = HKL,
+    `Trawl` = Trawl,
+    `Hook-and-Line` = Hook_and_Line,
     `Pot` = Pot,
-    `TWL Discard` = TWL_Discards,
-    `HKL Discard` = HKL_Discards,
+    `Trawl Discard` = Trawl_Discard,
+    `Hook-and-Line Discard` = Hook_and_Line_Discard,
     `Pot Discard` = Pot_Discard
   ) |>
-  dplyr::relocate(`Total (mt)`, .after = `Pot Discard`) |>
+  dplyr::relocate(`Total Catch (mt)`, .after = `Pot Discard`) |>
   dplyr::ungroup()
 kableExtra::kable(
   landings, 
@@ -39,12 +39,12 @@ kableExtra::kable(
   longtable = TRUE,
   booktabs = TRUE,
   format.args = list(big.mark = ","),
+  column_spec = "1.85cm",
   caption = "Removals in metric tons (mt) by year for each fleet.",
   linesep = "") |>
   kableExtra::kable_styling(
     latex_options = "repeat_header",
     font_size = 8)
-#knitr::kable(landings)
     
 ```
 
@@ -942,9 +942,10 @@ ctl_file[["Variance_adjustment_list"]] |>
 #| tbl-cap: !expr if(eval_tables) par_cap 
 #| tbl-pos: H
 
-rownames(par_table) <- NULL
+sub_par_table <- par_table[c(1, 23:27, 112:nrow(par_table)), ]
+rownames(sub_par_table) <- NULL
 kableExtra::kable(
-  par_table, 
+  sub_par_table, 
   format = "latex", 
   longtable = TRUE,
   booktabs = TRUE,
@@ -1131,6 +1132,7 @@ read.csv(here::here("report", "rda", "sens_1_model_para_comp.csv")) |>
 #| tbl-pos: H
 
 read.csv(here::here("report", "rda", "sens_2_model_para_comp.csv")) |>
+  dplyr::rename(Metric = X) |>
   gt::gt() |>
   gt::cols_label(
     Base.Model = "Base Model",
@@ -1270,10 +1272,10 @@ gmt_catch |>
   dplyr::mutate(
     Fleet = dplyr::case_when(
       Fleet == 1 ~ "Trawl",
-      Fleet == 2 ~ "HKL",
+      Fleet == 2 ~ "Hook-and-Line",
       Fleet == 3 ~ "Pot",
       Fleet == 4 ~ "Trawl Discard",
-      Fleet == 5 ~ "HKL Discard",
+      Fleet == 5 ~ "Hook-and-Line Discard",
       Fleet == 6 ~ "Pot Discard"
     )
   ) |>

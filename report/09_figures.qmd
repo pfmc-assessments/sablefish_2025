@@ -92,9 +92,9 @@ landings <- model_output$catch |>
     year = Yr,
     catch_mt = dead_bio,
     Fleet = dplyr::case_when(
-      Fleet_Name == "TWL_Discards" ~ "TWL Discards",
-      Fleet_Name == "HKL_Discards" ~ "HKL Discards",
-      Fleet_Name == "Pot_Discards" ~ "Pot Discard",
+      Fleet_Name == "Trawl_Discard" ~ "Trawl Discard",
+      Fleet_Name == "Hook_and_Line_Discard" ~ "Hook-and-Line Discard",
+      Fleet_Name == "Pot_Discard" ~ "Pot Discard",
       .default = Fleet_Name)
   )
   
@@ -416,7 +416,7 @@ knitr::include_graphics(
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "index1_cpuedata_WCGBT.png")
+  file.path(model_dir, "plots", "index1_cpuedata_WCGBTS.png")
 )
 
 ```
@@ -446,7 +446,7 @@ knitr::include_graphics(
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agedat_data_weighting_TA1-8_WCGBT.png")
+  file.path(model_dir, "plots", "comp_agedat_data_weighting_TA1-8_WCGBTS.png")
 )
 
 ```
@@ -699,7 +699,7 @@ knitr::include_graphics(
 #| fig-alt: ""
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "index1_cpuedata_ENV.png")
+  file.path(model_dir, "plots", "index1_cpuedata_Recruitment_Index.png")
 )
 
 ```
@@ -1132,7 +1132,7 @@ knitr::include_graphics(
 #| fig-height: 4
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "index2_cpuefit_WCGBT.png")
+  file.path(model_dir, "plots", "index2_cpuefit_WCGBTS.png")
 )
 
 ```
@@ -1148,7 +1148,7 @@ knitr::include_graphics(
 #| fig-height: 4
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "index2_cpuefit_ENV.png")
+  file.path(model_dir, "plots", "index2_cpuefit_Recruitment_Index.png")
 )
 
 ```
@@ -1200,7 +1200,7 @@ knitr::include_graphics(
 #| fig-height: 4
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_TWL.png")
+  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_Trawl.png")
 )
 
 ```
@@ -1234,7 +1234,7 @@ knitr::include_graphics(
 #| fig-height: 4
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_HKL.png")
+  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_Hook_and_Line.png")
 )
 
 ```
@@ -1301,7 +1301,7 @@ knitr::include_graphics(
 #| fig-height: 4
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_TWL_Discards.png")
+  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_Trawl_Discard.png")
 )
 
 ```
@@ -1334,7 +1334,7 @@ knitr::include_graphics(
 #| fig-height: 4
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_HKL_Discards.png")
+  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_Hook_and_Line_Discard.png")
 )
 
 ```
@@ -1496,7 +1496,7 @@ knitr::include_graphics(
 #| fig-height: 4
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_WCGBT.png")
+  file.path(model_dir, "plots", "comp_agefit_data_weighting_TA1-8_WCGBTS.png")
 )
 
 ```
@@ -1560,7 +1560,7 @@ knitr::include_graphics(
 #| fig-pos: H
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "ts9_Relative_spawning_output_intervals.png")
+  file.path(model_dir, "plots", "ts9_Fraction_of_unfished_spawning_output.png")
 )
 
 ```
@@ -2043,7 +2043,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Estimated yield curve with reference points for the base model."
+#| fig-cap: "Estimated yield curve with reference points for the base model. The biomass target (Btgt) and the spawning potential ratio (SPR) target both are maximized at 0.40 fration unfished."
 #| fig-alt: ""
 #| fig-pos: H
 

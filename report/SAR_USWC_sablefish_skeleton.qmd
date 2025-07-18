@@ -461,10 +461,6 @@ a <- knitr::knit_child('002_load_tables.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
 
-
-\printnoidxglossaries
-
- {{< pagebreak >}} 
  
 \hypersetup{linkcolor=.}
 \setcounter{tocdepth}{3}
