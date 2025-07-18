@@ -16,7 +16,7 @@ landings <- model_output[["catch"]] |>
    dplyr::mutate(
      Yr = as.factor(Yr),
      ret_bio = round(ret_bio, 0),
-     `Total (mt)` = sum(ret_bio)
+     `Total Catch` = sum(ret_bio)
    ) |>
    tidyr::pivot_wider(
      names_from = Fleet_Name,
@@ -31,7 +31,7 @@ landings <- model_output[["catch"]] |>
     `Hook-and-Line Discard` = Hook_and_Line_Discard,
     `Pot Discard` = Pot_Discard
   ) |>
-  dplyr::relocate(`Total Catch (mt)`, .after = `Pot Discard`) |>
+  dplyr::relocate(`Total Catch`, .after = `Pot Discard`) |>
   dplyr::ungroup()
 kableExtra::kable(
   landings, 
