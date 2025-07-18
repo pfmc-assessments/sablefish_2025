@@ -551,15 +551,19 @@ Data inputs for `r spp` were scored as favorable (Level 1) given confidence in h
 #| label: tbl-risk-table-es
 #| warning: false
 #| echo: false
-#| tbl-cap: "‘Risk table for sablefish to document ecosystem and environmental factors potentially affecting stock productivity and uncertainty or other concerns arising from the stock assessment. Level 1 is a favorable ranking, Level 2 neutral, and Level 3 unfavorable."
+#| tbl-cap: "Risk table for sablefish to document ecosystem and environmental factors potentially affecting stock productivity and uncertainty or other concerns arising from the stock assessment. Level 1 is a favorable ranking, Level 2 neutral, and Level 3 unfavorable."
 #| tbl-pos: H
 
 risk <- read.csv(here::here("report", "rda", "RiskTable.csv") )
-risk|>
+risk |>
   gt::gt() |>
   gt::tab_options(
     table.font.size = 8,
     latex.use_longtable = TRUE
+  ) |>
+  gt::tab_style(
+    style = gt::cell_borders(sides = c("top", "bottom"),  color = "grey", weight = "3pt", style = "solid"),
+    locations = gt::cells_body()
   ) |>
   gt::cols_label(
     Ecosystem.and.environmental.conditions = "Ecosystem and environmental conditions",
