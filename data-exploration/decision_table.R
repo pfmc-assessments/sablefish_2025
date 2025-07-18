@@ -1,6 +1,6 @@
 folder <- "m"
-catch_name <- "pstar_45"
-base <- r4ss::SS_output(here::here("model", "base_model", "8.36_base_model"))
+catch_name <- "pstar_40"
+base <- r4ss::SS_output(here::here("model", "base_model", "decision_table", folder, paste0("base_", catch_name)))
 
 proj_year <- 2025:2036
 
@@ -19,11 +19,11 @@ catch_ave <- base$catch |>
   ) |>
   dplyr::mutate(
     fleet = dplyr::case_when(
-      Fleet_Name == "TWL" ~ 1,
-      Fleet_Name == "HKL" ~ 2,
+      Fleet_Name == "Trawl" ~ 1,
+      Fleet_Name == "Hook_and_Line" ~ 2,
       Fleet_Name == "Pot" ~ 3,
-      Fleet_Name == "TWL_Discards" ~ 4,
-      Fleet_Name == "HKL_Discards" ~ 5,
+      Fleet_Name == "Trawl_Discard" ~ 4,
+      Fleet_Name == "Hook_and_Line_Discard" ~ 5,
       Fleet_Name == "Pot_Discard" ~ 6
     )
   ) |>
@@ -56,7 +56,7 @@ starter$init_values_src <- 1
 starter$last_estimation_phase <- 0
 r4ss::SS_writestarter(starter, dir = here::here("model", "base_model", "decision_table", folder, paste0("low_", catch_name)), overwrite = TRUE)
 # run the model
-setwd(here::here("model", "base_model", "decision_table", folder, "low_pstar_45"))
+setwd(here::here("model", "base_model", "decision_table", folder, paste0("low_", catch_name)))
 shell("ss3 -nohess")
 
 low <- r4ss::SS_output(here::here("model", "base_model", "decision_table", folder, paste0("low_", catch_name)))

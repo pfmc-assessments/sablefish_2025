@@ -518,6 +518,78 @@ projections_table |>
 
 :::
 
+```{r, results = "asis"}
+#| label: tbl-es-decision-table-pstar-45
+#| warning: false
+#| echo: false
+#| tbl-cap: ""
+#| tbl-pos: H
+
+ load(file = here::here("report", "rda", "pstar_45.rda"))
+
+ catch_stream |>
+  dplyr::rename(
+    `Low SO` = Low_SO,
+    `Low Stock Status` = Low_depl,
+    `Stock Status` = depl,
+    `High SO` = High_SO,
+    `High Stock Status` = High_depl
+  ) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = c(2:3, 5, 7),
+    decimals = 0
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    everything() ~ px(75)
+  ) |>
+  gt::as_latex()
+
+```
+
+```{r, results = "asis"}
+#| label: tbl-es-decision-table-pstar-40
+#| warning: false
+#| echo: false
+#| tbl-cap: ""
+#| tbl-pos: H
+
+ load(file = here::here("report", "rda", "pstar_40.rda"))
+
+ catch_stream |>
+  dplyr::rename(
+    `Low SO` = Low_SO,
+    `Low Stock Status` = Low_depl,
+    `Stock Status` = depl,
+    `High SO` = High_SO,
+    `High Stock Status` = High_depl
+  ) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = c(2:3, 5, 7),
+    decimals = 0
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    everything() ~ px(75)
+  ) |>
+  gt::as_latex()
+
+```
+
 ## Unresolved Problems and Major Uncertainties {-}
 
 
