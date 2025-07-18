@@ -66,7 +66,7 @@ format:
       - 'support_files/in-header.tex'
       - 'support_files/figures.tex'
       - 'support_files/pfmc.tex'
-    toc: true
+    toc: false
     lof: false
     lot: false
     titlepage-geometry: 
@@ -150,13 +150,13 @@ create_model_tables <- function(
       "Trawl", 
       "Hook-and-Line", 
       "Pot",
-      "Trawl Discards", 
-      "Hook-and-Line Discards",
+      "Trawl Discard", 
+      "Hook-and-Line Discard",
       "Pot Discard",
       "Triennial Early", 
       "Triennial Late", 
       "NWFSC Slope", 
-      "WCGBT",
+      "WCGBTS",
       "Recruitment Index"
     )
 ) {
@@ -198,6 +198,7 @@ if (any(c(
     model_name = model_name,
     dir = general_dir
   )
+  load(file.path(model_dir, "model_output.rda"))
   r4ss::SS_plots(
     replist = model_output, 
     plot = 1, 
@@ -354,7 +355,7 @@ sigma_r <- model_output$parameters |>
   as.numeric() |>
   round(2)
 
-find <- grep("Age_DblN_peak_TWL_Discards", model_output$parameters$Label)
+find <- grep("Age_DblN_peak_Trawl_Discard", model_output$parameters$Label)
 trawl_discard_peak <- model_output$parameters[find, ] |>
   dplyr::select(Label, Value) |>
   tidyr::pivot_wider(
@@ -364,7 +365,7 @@ trawl_discard_peak <- model_output$parameters[find, ] |>
   as.numeric() |>
   round(2)
 
-find <- grep("Age_DblN_peak_HKL_Discards", model_output$parameters$Label)
+find <- grep("Age_DblN_peak_Hook_and_Line_Discard", model_output$parameters$Label)
 hkl_discard_peak <- model_output$parameters[find, ] |>
   dplyr::select(Label, Value) |>
   tidyr::pivot_wider(
@@ -437,6 +438,12 @@ Wetzel, C.R., A.M. Berger, C. Barnes, J.A. Zahner, N. Tolimieri, E.J. Ward., and
 
  {{< pagebreak >}} 
  
+# Disclaimer {.unnumbered .unlisted}
+
+These materials do not constitute a formal publication and are for information only. They are in a pre-review, pre-decisional state and should not be formally cited or reproduced. They are to be considered provisional and do not represent any determination or policy of NOAA or the Department of Commerce.
+
+ {{< pagebreak >}} 
+ 
 \pagenumbering{roman}
 \setcounter{page}{1}
 
@@ -455,18 +462,13 @@ cat(a, sep = '\n')
 ```
 
 
-```{r, results='asis'}
-#| label: 'disclaimer'
-#| eval: true
-#| echo: false
-#| warning: false
-a <- knitr::knit_child('00a_disclaimer.qmd', quiet = TRUE)
-cat(a, sep = '\n')
-```
+\printnoidxglossaries
 
  {{< pagebreak >}} 
-
-\printnoidxglossaries
+ 
+\hypersetup{linkcolor=.}
+\setcounter{tocdepth}{3}
+\tableofcontents
 
  {{< pagebreak >}} 
 
