@@ -80,12 +80,6 @@ if (file.exists(table_dir)) {
 
 # Special modification to the management and projection tables to add quantities
 # from a sourced csv file in the skeleton r chunk.
- projections_table[which(projections_table$Year == 2027), "ABC (mt)"] <- 
-   projections_table[which(projections_table$Year == 2027), "OFL (mt)"] * 0.935
- projections_table[which(projections_table$Year == 2028), "ABC (mt)"] <- 
-   projections_table[which(projections_table$Year == 2028), "OFL (mt)"] * 0.930
- projections_table[which(projections_table$Year == 2027), "Buffer"] <- 0.935
- projections_table[which(projections_table$Year == 2028), "Buffer"] <- 0.930
  
   add_col <- data.frame(acl_north = recent_management_table[, "ACL (mt)"]) 
   recent_management_table <- dplyr::bind_cols(
