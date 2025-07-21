@@ -1290,7 +1290,7 @@ gmt_catch |>
     decimals = 1
   ) |>
   gt::cols_width(
-    tidyselect::everything() ~ px(75)
+    tidyselect::everything() ~ px(70)
   ) |>
   gt::tab_options(
     table.font.size = 12,

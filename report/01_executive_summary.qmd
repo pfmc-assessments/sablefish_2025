@@ -470,6 +470,9 @@ gmt_catch |>
     columns = c(2:8),
     decimals = 1
   ) |>
+  gt::cols_width(
+    tidyselect::everything() ~ px(70)
+  ) |>
   gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE 
