@@ -426,7 +426,47 @@ load(here::here("data", "model_output_2023.rda"))
 ctl_file <- r4ss::SS_readctl(file = file.path(model_dir, "control.ss_new"))
 gmt_catch <- r4ss::SS_ForeCatch(model_output) |>
   dplyr::filter(`#Year` %in% c(2025, 2026)) |>
-  dplyr::rename(Year = `#Year`)
+  dplyr::rename(Year = `#Year`) |>
+  dplyr::group_by(Year) |>
+  dplyr::mutate(`Total Catch` = sum(`dead(B)`)) |>
+  dplyr::ungroup()
+
+# Decision table stuff =========================================================
+source(here::here("R", "table_decision.R"))
+
+folder <- "m"
+catch_name <- "pstar_45"
+base <- r4ss::SS_output(
+  dir = here::here("model", "base_model", "decision_table", folder, paste0("base_", catch_name)),
+  printstats = FALSE,
+  warn = FALSE,
+  hidewarn = TRUE)
+low <- r4ss::SS_output(
+  dir = here::here("model", "base_model", "decision_table", folder, paste0("low_", catch_name)),
+  printstats = FALSE,
+  warn = FALSE,
+  hidewarn = TRUE)
+high <- r4ss::SS_output(
+  dir = here::here("model", "base_model", "decision_table", folder, paste0("high_", catch_name)),
+  printstats = FALSE,
+  warn = FALSE,
+  hidewarn = TRUE)
+catch_name <- "pstar_40"
+base_40 <- r4ss::SS_output(
+  dir = here::here("model", "base_model", "decision_table", folder, paste0("base_", catch_name)),
+  printstats = FALSE,
+  warn = FALSE,
+  hidewarn = TRUE)
+low_40 <- r4ss::SS_output(
+  dir = here::here("model", "base_model", "decision_table", folder, paste0("low_", catch_name)),
+  printstats = FALSE,
+  warn = FALSE,
+  hidewarn = TRUE)
+high_40 <- r4ss::SS_output(
+  dir = here::here("model", "base_model", "decision_table", folder, paste0("high_", catch_name)),
+  printstats = FALSE,
+  warn = FALSE,
+  hidewarn = TRUE)
 
 ``` 
 
@@ -434,7 +474,7 @@ gmt_catch <- r4ss::SS_ForeCatch(model_output) |>
 
 Please cite this publication as: 
 
-Wetzel, C.R., A.M. Berger, C. Barnes, J.A. Zahner, N. Tolimieri, E.J. Ward., and M. Head. 2025. Status of sablefish (*Anoplopoma fimbria*) off the U.S. West Coast in 2025. Pacific Fisheries Management Council, Portland, Oregon.
+Wetzel, C.R., A.M. Berger, C. Barnes, J.A. Zahner, N. Tolimieri, E.J. Ward, and M. Head. 2025. Status of sablefish (*Anoplopoma fimbria*) off the U.S. West Coast in 2025. Pacific Fisheries Management Council, Portland, Oregon.
 
  {{< pagebreak >}} 
  
