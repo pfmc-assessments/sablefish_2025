@@ -35,7 +35,7 @@ The projection of spawning ouput, stock status, and harvest limits were develope
 
 The catches during the projection period, `r end_year + 2`--`r end_year + 12` were set equal to the year-specific \glsplural{abc} (@tbl-projections). The stock size and status increase during the projection due to the estimated large recruitments in 2020 and 2021 maturing and entering the spawning population, resulting in future \glsplural{ofl} and \glsplural{abc}.
 
-The construction of a decision table and the axis of uncertainty will be discussed at the Stock Assessment Review (STAR) Panel and will be added to the report in subsequent drafts.
+Two alternative catch streams based upon two options for P$^*$, 0.45 and 0.40, were created for the decision table (@tbl-decision-table). Each alternative catch stream assumes a category 1 time varying sigma with an initial value of 0.50 in 2027.  The axes of uncertainty in the decision table are based on the uncertainty around natural mortality. The low state of nature assumed a higher natural mortality of 0.095 yr$^{-1}$ and the high state of nature assumed a lower natural mortality of 0.070 yr$^{-1}$.  The low and high state of nature were run in a deterministic manner where they assumed the same parameter values, including annual recruitment deviations, as the base model except for natural mortality.  
 
 ## Regional Management Considerations
 

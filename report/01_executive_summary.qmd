@@ -393,6 +393,7 @@ Sablefish management includes a rich history of seasons, size-limits, trip-limit
 
 For the 2019 assessment, the \gls{pfmc} adopted a methodology to determine the area-based \gls{acl} using a five-year rolling average relative biomass estimate from the WCGBTS ([November 2019 \gls{pfmc} Meeting Decision Document](https://www.pcouncil.org/documents/2019/11/november-2019-decision-document.pdf/)). The relative biomass estimates represent the distribution of the `r spp` population observed by the WCGBTS, not the entire population.  
 
+ {{< pagebreak >}}
 
 ```{r, results = "asis"}
 #| label: tbl-es-management
@@ -438,7 +439,7 @@ The projection of spawning output, stock status, and harvest limits were develop
 
 The catches during the projection period, `r end_year + 2`--`r end_year + 12` were set equal to the year-specific \glsplural{abc} (@tbl-es-projections). The spawning output and stock status increase during the projection due to the estimated large recruitments in 2020, 2021, and 2023 maturing and entering the spawning population, resulting in future \glsplural{ofl} and \glsplural{abc}.
 
-The construction of a decision table and the axis of uncertainty will be discussed at the Stock Assessment Review (STAR) Panel and will be added to the report in subsequent drafts.
+Two alternative catch streams based upon two options for P$^*$, 0.45 and 0.40, were created for the decision table (@tbl-es-decision-table). Each alternative catch stream assumes a category 1 time varying sigma with an initial value of 0.50 in 2027.  The axes of uncertainty in the decision table are based on the uncertainty around natural mortality. The low state of nature assumed a higher natural mortality of 0.095 yr$^{-1}$ and the high state of nature assumed a lower natural mortality of 0.070 yr$^{-1}$.  The low and high state of nature were run in a deterministic manner where they assumed the same parameter values, including annual recruitment deviations, as the base model except for natural mortality.  
 
 ```{r, results = "asis"}
 #| label: tbl-es-gmt-catch
@@ -463,9 +464,10 @@ gmt_catch |>
     names_from = Fleet,
     values_from = `dead(B)`
   ) |>
+  dplyr::relocate(`Total Catch`, .after = `Pot Discard`) |>
   gt::gt() |>
   gt::fmt_number(
-    columns = c(2:7),
+    columns = c(2:8),
     decimals = 1
   ) |>
   gt::tab_options(
@@ -518,76 +520,23 @@ projections_table |>
 
 :::
 
-```{r, results = "asis"}
-#| label: tbl-es-decision-table-pstar-45
-#| warning: false
-#| echo: false
-#| tbl-cap: ""
-#| tbl-pos: H
-
- load(file = here::here("report", "rda", "pstar_45.rda"))
-
- catch_stream |>
-  dplyr::rename(
-    `Low SO` = Low_SO,
-    `Low Stock Status` = Low_depl,
-    `Stock Status` = depl,
-    `High SO` = High_SO,
-    `High Stock Status` = High_depl
-  ) |>
-  gt::gt() |>
-  gt::fmt_number(
-    columns = c(2:3, 5, 7),
-    decimals = 0
-  ) |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE 
-  ) |>
-  gt::cols_align(
-    align = "center"
-  ) |>
-  gt::cols_width(
-    everything() ~ px(75)
-  ) |>
-  gt::as_latex()
-
-```
 
 ```{r, results = "asis"}
-#| label: tbl-es-decision-table-pstar-40
+#| label: tbl-es-decision-table
 #| warning: false
 #| echo: false
-#| tbl-cap: ""
+#| tbl-cap: "Decision table summary of 10 year projections beginning in 2023 for alternative states of nature based on an axis of uncertainty about  natural mortality for the base model. Columns range over low, base, and high states of nature and rows range over different catch level assumptions. Catch in 2025 and 2026 were based upon removal assumptions provided by the GMT."
 #| tbl-pos: H
 
- load(file = here::here("report", "rda", "pstar_40.rda"))
-
- catch_stream |>
-  dplyr::rename(
-    `Low SO` = Low_SO,
-    `Low Stock Status` = Low_depl,
-    `Stock Status` = depl,
-    `High SO` = High_SO,
-    `High Stock Status` = High_depl
-  ) |>
-  gt::gt() |>
-  gt::fmt_number(
-    columns = c(2:3, 5, 7),
-    decimals = 0
-  ) |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE 
-  ) |>
-  gt::cols_align(
-    align = "center"
-  ) |>
-  gt::cols_width(
-    everything() ~ px(75)
-  ) |>
-  gt::as_latex()
-
+ table_decision(
+    list(low, base, high),
+    list(low_40, base_40, high_40),
+    years = 2025:2036,
+    format = c("latex"),
+    caption = formals(kableExtra::kbl)$caption,
+    label = formals(kableExtra::kbl)$label,
+    digits = c(0, 0, 3),
+    tex = TRUE)
 ```
 
 ## Unresolved Problems and Major Uncertainties {-}
@@ -619,6 +568,8 @@ cat(a, sep = '\n')
 Oceanographers and stock assessment scientists jointly constructed a risk table to identify the main ecosystem and environmental processes for `r spp` that should be considered in conjunction with available data used in the stock assessment and the structural uncertainty embedded in the assessment (@tbl-risk-table-es). The group considered ecosystem and environmental indicators for `r spp` recruitment, habitat, prey, predators, competitors, and the recent climate vulnerability assessment [@McClure:2023:VCC]. Overall, the group considered these conditions to generally be neutral (Level 2) when considering, among other things, unresolved uncertainty with linkages between trends in primary predators and competitors and a overall climate vulnerability score of moderate.
 Data inputs for `r spp` were scored as favorable (Level 1) given confidence in historical catch reconstructions, a comprehensive and representative survey index of abundance (WCGBTS), well sampled age data beginning at age zero, an informative recruitment index, and information on time- (growth) and -spatially-varying (maturity) life history characteristics across the stock range. The ability for the stock assessment model to fit the data and capture key sources of structural uncertainty was also scored as favorable (Level 1). Despite the need to fix certain productivity parameters (e.g., steepness and recruitment variability) or simplify some assumptions (e.g., sex invariant *M* and no net loss from emigration or immigration), model complexity seemed to balance well potential bias and variance in a way that stabilized `r spp` population dynamics across a wide breadth of alternative data and model structures (see Section \ref{sensitivities} for sensitivity evaluations).
 
+ {{< pagebreak >}}
+
 ```{r, results = "asis"}
 #| label: tbl-risk-table-es
 #| warning: false
@@ -631,16 +582,13 @@ risk |>
   gt::gt() |>
   gt::tab_options(
     table.font.size = 8,
-    latex.use_longtable = TRUE
-  ) |>
-  gt::tab_style(
-    style = gt::cell_borders(sides = c("top", "bottom"),  color = "grey", weight = "3pt", style = "solid"),
-    locations = gt::cells_body()
+    latex.use_longtable = TRUE,
+    quarto.disable_processing = TRUE
   ) |>
   gt::cols_label(
-    Ecosystem.and.environmental.conditions = "Ecosystem and environmental conditions",
-    Assessment.data.inputs = "Assessment data inputs",
-    Assessment.model.fits.and.structural.uncertainty = "Assessment model fits and structural uncertainty"
+    Ecosystem.and.environmental.conditions = "Ecosystem and Environmental Conditions",
+    Assessment.data.inputs = "Assessment Data Inputs",
+    Assessment.model.fits.and.structural.uncertainty = "Assessment Model Fits and Structural Uncertainty"
   ) |>
   gt::cols_width(
     everything() ~ px(200)

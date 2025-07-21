@@ -1283,10 +1283,14 @@ gmt_catch |>
     names_from = Fleet,
     values_from = `dead(B)`
   ) |>
+  dplyr::relocate(`Total Catch`, .after = `Pot Discard`) |>
   gt::gt() |>
   gt::fmt_number(
-    columns = c(2:7),
+    columns = c(2:8),
     decimals = 1
+  ) |>
+  gt::cols_width(
+    tidyselect::everything() ~ px(75)
   ) |>
   gt::tab_options(
     table.font.size = 12,
@@ -1335,12 +1339,31 @@ projections_table |>
 
 :::
 
+```{r, results = "asis"}
+#| label: tbl-decision-table
+#| warning: false
+#| echo: false
+#| tbl-cap: "Decision table summary of 10 year projections beginning in 2023 for alternative states of nature based on an axis of uncertainty about  natural mortality for the base model. Columns range over low, base, and high states of nature and rows range over different catch level assumptions. Catch in 2025 and 2026 were based upon removal assumptions provided by the GMT."
+#| tbl-pos: H
+
+ table_decision(
+    list(low, base, high),
+    list(low_40, base_40, high_40),
+    years = 2025:2036,
+    format = c("latex"),
+    caption = formals(kableExtra::kbl)$caption,
+    label = formals(kableExtra::kbl)$label,
+    digits = c(0, 0, 3),
+    tex = TRUE)
+```
+
+ {{< pagebreak >}}
 
 ```{r, results = "asis"}
 #| label: tbl-risk-table
 #| warning: false
 #| echo: false
-#| tbl-cap: "‘Risk table for sablefish to document ecosystem and environmental factors potentially affecting stock productivity and uncertainty or other concerns arising from the stock assessment. Level 1 is a favorable ranking, Level 2 neutral, and Level 3 unfavorable."
+#| tbl-cap: "Risk table for sablefish to document ecosystem and environmental factors potentially affecting stock productivity and uncertainty or other concerns arising from the stock assessment. Level 1 is a favorable ranking, Level 2 neutral, and Level 3 unfavorable."
 #| tbl-pos: H
 
 risk <- read.csv(here::here("report", "rda", "RiskTable.csv") )
@@ -1351,9 +1374,9 @@ risk|>
     latex.use_longtable = TRUE
   ) |>
   gt::cols_label(
-    Ecosystem.and.environmental.conditions = "Ecosystem and environmental conditions",
-    Assessment.data.inputs = "Assessment data inputs",
-    Assessment.model.fits.and.structural.uncertainty = "Assessment model fits and structural uncertainty"
+    Ecosystem.and.environmental.conditions = "Ecosystem and Environmental Conditions",
+    Assessment.data.inputs = "Assessment Data Inputs",
+    Assessment.model.fits.and.structural.uncertainty = "Assessment Model Fits and Structural Uncertainty"
   ) |>
   gt::cols_width(
     everything() ~ px(200)
