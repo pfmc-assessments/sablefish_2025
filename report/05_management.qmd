@@ -29,7 +29,7 @@ a <- knitr::knit_child(here::here("report", "shared_text", "scientific_uncertain
 cat(a, sep = '\n')
 ```
 
-## Harvest Projections and Decision Tables
+## Harvest Projections and Decision Tables {#forecast}
 
 The projection of spawning ouput, stock status, and harvest limits were developed using the base model. The total catches in `r end_year` and `r end_year + 1` were fixed at `r fixed_catch[1]` and `r fixed_catch[2]` mt, respectively, based on recommendations from the \gls{gmt} (@tbl-gmt-catch). The \gls{abc} values were projected assuming a category 1 time-varying sigma with an initial value of 0.50 in 2027 and a management risk tolerance (P$^*$) of 0.45.  
 

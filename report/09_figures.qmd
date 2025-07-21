@@ -1748,6 +1748,7 @@ knitr::include_graphics(
 
 ```
 
+
 ```{r} 
 #| label: fig-sens-2-bratio
 #| echo: false 
@@ -1789,6 +1790,66 @@ knitr::include_graphics(
 
 knitr::include_graphics(
    here::here("report", "figures", "sens_2_compare12_recdevs_uncertainty.png")
+)
+
+```
+
+```{r} 
+#| label: fig-sens-5-bratio
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of fraction of unfished (i.e., stock status) for the base model and alternative sensitivity runs where discard mortality was increased to 100% for all fleets, discard mortality was increased to 75% for the trawl fishery and 60% for both hook-and-line and pot fisheries, and the pre-1969 catch was doubled. Shaded regions represent asymptotic 95 percent confidence intervals."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+   here::here("report", "figures", "sens_5_compare4_Bratio_uncertainty.png")
+)
+
+```
+
+```{r} 
+#| label: fig-sens-5-sumB
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of summary biomass (age 3 and older) for the base model and alternative sensitivity runs where discard mortality was increased to 100% for all fleets, discard mortality was increased to 75% for the trawl fishery and 60% for both hook-and-line and pot fisheries, and the pre-1969 catch was doubled."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+   here::here("report", "figures", "sens_5_compare18_smrybio.png")
+)
+
+```
+
+```{r} 
+#| label: fig-sens-6-bratio
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of fraction of unfished (i.e., stock status) for the base model and alternative sensitivity runs that either increase or decrease the strength of recent (2016-2023) recruitment deviations by 10%. Sensitivity models were run with all model parameters fixed at the base model maximum likelihood estimates, with the only changes being from the specified adjustments to recent recruitment deviations. Forecast catches in 2025 and 2026 were based on GMT recommendations. The catches from 2027 to 2036 were set equal to the year-specific ABCs. The shaded regions represents the asymptotic 95 percent confidence interval for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+   here::here("report", "figures", "sens_6_compare4_Bratio_uncertainty.png")
+)
+
+```
+
+```{r} 
+#| label: fig-sens-6-ssb
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Maximum likelihood estimates of spawning biomass for the base model and alternative sensitivity runs that either increase or decrease the strength of recent (2016-2023) recruitment deviations by 10%. Sensitivity models were run with all model parameters fixed at the base model maximum likelihood estimates, with the only changes being from the specified adjustments to recent recruitment deviations. Forecast catches in 2025 and 2026 were based on GMT recommendations. The catches from 2027 to 2036 were set equal to the year-specific ABCs. The shaded regions represents the asymptotic 95 percent confidence interval for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+   here::here("report", "figures", "sens_6_compare2_spawnbio_uncertainty.png")
 )
 
 ```

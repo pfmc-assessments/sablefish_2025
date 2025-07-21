@@ -1260,6 +1260,96 @@ read.csv(here::here("report", "rda", "sens_4_model_para_comp.csv")) |>
 
 :::
 
+\pagebreak
+
+::: {.landscape}
+
+```{r, results = "asis"}
+#| label: tbl-sens-5
+#| warning: false
+#| echo: false
+#| tbl-cap: "Maximum likelihood estimates for select parameters, derived quantities, reference points, and negative log likelihoods for the base model and alternative sensitivity runs where discard mortality was increased to 100% for all fleets, discard mortality was increased to 75% for the trawl fishery and 60% for both hook-and-line and pot fisheries, and the pre-1969 catch was doubled."
+#| tbl-pos: H
+
+read.csv(here::here("report", "rda", "sens_5_model_para_comp.csv")) |>
+  gt::gt() |>
+  gt::cols_label(
+    Base.Model = "Base Model",
+    100..Discard.Mortality = "100% Discard Mortality",
+    75..TWL...60..HKL.Pot.Discard.Mortality = "75% TWL & 60% HKL/Pot Discard Mortality",
+    Double.pre.1969.Catch = "Double pre-1969 Catch"
+  ) |>
+  gt::fmt_number(
+    columns = 2:5,
+    decimals = 3,
+    drop_trailing_zeros = TRUE,
+  ) |>
+  gt::tab_options(
+    table.font.size = 10,
+    page.orientation = "landscape",
+    latex.use_longtable = TRUE
+  ) |>
+  gt::sub_missing(
+    columns = tidyselect::everything(),
+    missing_text = "---"
+  ) |>
+  gt::cols_width(
+    `Metric` ~ px(175),
+    tidyselect::starts_with("B") ~ px(120),
+    tidyselect::starts_with("E") ~ px(120),
+    tidyselect::starts_with("R") ~ px(120)
+  ) |>
+  gt::as_latex()
+
+```
+
+:::
+
+\pagebreak
+
+::: {.landscape}
+
+```{r, results = "asis"}
+#| label: tbl-sens-6
+#| warning: false
+#| echo: false
+#| tbl-cap: "Maximum likelihood estimates for the base model and select derived quantities for the base model and alternative sensitivity runs that either increase or decrease the strength of recent (2016-2023) recruitment deviations by 10%. Sensitivity models were run with all model parameters fixed at the base model maximum likelihood estimates, with the only changes being from the specified adjustments to recent recruitment deviations. Forecast catches in 2025 and 2026 were based on GMT recommendations. The catches from 2027 to 2036 were set equal to the year-specific ABCs. The ABC values were projected using a category 1 time-varying sigma
+with an initial value of 0.50 in 2027 and a management risk tolerance (P∗) of 0.45."
+#| tbl-pos: H
+
+read.csv(here::here("report", "rda", "sens_6_model_para_comp.csv")) |>
+  gt::gt() |>
+  gt::cols_label(
+    Base.Model = "Base Model",
+    Increase.Recent.recruitment.strength..10%. = "Increase recent recruitment strength (10%)",
+    Decrease.Recent.Recruitment.Strength..10%. = "Decrease Recent Recruitment Strength (10%)"
+  ) |>
+  gt::fmt_number(
+    columns = 2:5,
+    decimals = 3,
+    drop_trailing_zeros = TRUE,
+  ) |>
+  gt::tab_options(
+    table.font.size = 10,
+    page.orientation = "landscape",
+    latex.use_longtable = TRUE
+  ) |>
+  gt::sub_missing(
+    columns = tidyselect::everything(),
+    missing_text = "---"
+  ) |>
+  gt::cols_width(
+    `Metric` ~ px(175),
+    tidyselect::starts_with("B") ~ px(120),
+    tidyselect::starts_with("E") ~ px(120),
+    tidyselect::starts_with("R") ~ px(120)
+  ) |>
+  gt::as_latex()
+
+```
+
+:::
+
 ```{r, results = "asis"}
 #| label: tbl-gmt-catch
 #| warning: false

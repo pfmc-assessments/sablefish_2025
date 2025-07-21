@@ -1,0 +1,26 @@
+"","Base Model","100% Discard Mortality","75% TWL & 60% HKL/Pot Discard Mortality","Double pre-1969 Catch"
+"Total Likelihood",1335.77,1336.52,1336.13,1334.29
+"Survey Likelihood",-43.5121,-43.5764,-43.5478,-43.4357
+"Length Likelihood",0,0,0,0
+"Age Likelihood",1341.49,1342.48,1341.96,1340
+"Recruitment Likelihood",37.5202,37.3733,37.4637,37.4954
+"Forecast Recruitment Likelihood",0.0655676,0.0630027,0.0642424,0.0666575
+"Parameter Priors Likelihood",0.204069,0.186177,0.194647,0.162415
+"log(R0)",10.1651,10.2108,10.1908,10.1401
+"SB Virgin",219377,232950,226783,221431
+"SB 2025",74408.8,75465.5,75191.2,73070.6
+"Fraction Unfished 2025",0.339182,0.323956,0.331556,0.329993
+"Total Yield - SPR 45",11126.2,11718.9,11461.9,10981.8
+"Steepness",0.75,0.75,0.75,0.75
+"Natural Mortality - Female",0.087777,0.0870009,0.0873719,0.0859215
+"Length at Amin - Female",25.1822,25.1822,25.1822,25.1822
+"Length at Amax - Female",60.7182,60.7182,60.7182,60.7182
+"Von Bert. k - Female",0.342744,0.342744,0.342744,0.342744
+"CV young - Female",NA,NA,NA,NA
+"CV old - Female",NA,NA,NA,NA
+"Natural Mortality - Male",0,0,0,0
+"Length at Amin - Male",26.6461,26.6461,26.6461,26.6461
+"Length at Amax - Male",56.0591,56.0591,56.0591,56.0591
+"Von Bert. k - Male",0.351087,0.351087,0.351087,0.351087
+"CV young - Male",NA,NA,NA,NA
+"CV old - Male",NA,NA,NA,NA
