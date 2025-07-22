@@ -1278,7 +1278,7 @@ read.csv(here::here("report", "rda", "sens_5_model_para_comp.csv")) |>
     Base.Model = "Base Model",
     X100..Discard.Mortality = "100% Discard Mortality",
     X75..TWL...60..HKL.Pot.Discard.Mortality = "75% TWL & 60% HKL/Pot Discard Mortality",
-    Double.pre.1969.Catch = "Double pre-1969 Catch"
+    Double.pre.1969.Catch = "Double Pre-1969 Catch"
   ) |>
   gt::fmt_number(
     columns = 2:5,
@@ -1323,7 +1323,7 @@ read.csv(here::here("report", "rda", "sens_6_model_para_comp.csv")) |>
   gt::cols_label(
     X = "Metric",
     Base.Model = "Base Model",
-    Increase.Recent.recruitment.strength..10.. = "Increase recent recruitment strength (10%)",
+    Increase.Recent.recruitment.strength..10.. = "Increase Recent Recruitment Strength (10%)",
     Decrease.Recent.Recruitment.Strength..10.. = "Decrease Recent Recruitment Strength (10%)"
   ) |>
   gt::fmt_number(
