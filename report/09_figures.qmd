@@ -1829,7 +1829,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Maximum likelihood estimates of fraction of unfished (i.e., stock status) for the base model and alternative sensitivity runs that either increase or decrease the strength of recent (2016-2023) recruitment deviations by 10%. Sensitivity models were run with all model parameters fixed at the base model maximum likelihood estimates, with the only changes being from the specified adjustments to recent recruitment deviations. Forecast catches in 2025 and 2026 were based on GMT recommendations. The catches from 2027 to 2036 were set equal to the year-specific ABCs. The shaded regions represents the asymptotic 95 percent confidence interval for the base model."
+#| fig-cap: "Maximum likelihood estimates of fraction of unfished (i.e., stock status) for the base model and alternative sensitivity runs that either increase or decrease the strength of recent (2016-2023) recruitment deviations by 10% in log-space. Sensitivity models were run with all model parameters fixed at the base model maximum likelihood estimates, with the only changes being from the specified adjustments to recent recruitment deviations. Forecast catches in 2025 and 2026 were based on GMT recommendations. The catches from 2027 to 2036 were set equal to the year-specific ABCs. The shaded regions represents the asymptotic 95 percent confidence interval for the base model."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -1844,7 +1844,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Maximum likelihood estimates of spawning biomass for the base model and alternative sensitivity runs that either increase or decrease the strength of recent (2016-2023) recruitment deviations by 10%. Sensitivity models were run with all model parameters fixed at the base model maximum likelihood estimates, with the only changes being from the specified adjustments to recent recruitment deviations. Forecast catches in 2025 and 2026 were based on GMT recommendations. The catches from 2027 to 2036 were set equal to the year-specific ABCs. The shaded regions represents the asymptotic 95 percent confidence interval for the base model."
+#| fig-cap: "Maximum likelihood estimates of spawning biomass for the base model and alternative sensitivity runs that either increase or decrease the strength of recent (2016-2023) recruitment deviations by 10% in log-space. Sensitivity models were run with all model parameters fixed at the base model maximum likelihood estimates, with the only changes being from the specified adjustments to recent recruitment deviations. Forecast catches in 2025 and 2026 were based on GMT recommendations. The catches from 2027 to 2036 were set equal to the year-specific ABCs. The shaded regions represents the asymptotic 95 percent confidence interval for the base model."
 #| fig-alt: ""
 #| fig-pos: H
 

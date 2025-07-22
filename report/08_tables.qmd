@@ -1315,7 +1315,7 @@ read.csv(here::here("report", "rda", "sens_5_model_para_comp.csv")) |>
 #| label: tbl-sens-6
 #| warning: false
 #| echo: false
-#| tbl-cap: "Maximum likelihood estimates for the base model and select derived quantities for the base model and alternative sensitivity runs that either increase or decrease the strength of recent (2016-2023) recruitment deviations by 10%. Sensitivity models were run with all model parameters fixed at the base model maximum likelihood estimates, with the only changes being from the specified adjustments to recent recruitment deviations. Forecast catches in 2025 and 2026 were based on GMT recommendations. The catches from 2027 to 2036 were set equal to the year-specific ABCs. The ABC values were projected using a category 1 time-varying sigma with an initial value of 0.50 in 2027 and a management risk tolerance (P∗) of 0.45."
+#| tbl-cap: "Maximum likelihood estimates for the base model and select derived quantities for the base model and alternative sensitivity runs that either increase or decrease the strength of recent (2016-2023) recruitment deviations by 10% in log-space. Sensitivity models were run with all model parameters fixed at the base model maximum likelihood estimates, with the only changes being from the specified adjustments to recent recruitment deviations. Forecast catches in 2025 and 2026 were based on GMT recommendations. The catches from 2027 to 2036 were set equal to the year-specific ABCs. The ABC values were projected using a category 1 time-varying sigma with an initial value of 0.50 in 2027 and a management risk tolerance (P∗) of 0.45."
 #| tbl-pos: H
 
 read.csv(here::here("report", "rda", "sens_6_model_para_comp.csv")) |>
