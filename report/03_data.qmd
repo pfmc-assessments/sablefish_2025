@@ -153,7 +153,7 @@ $M=\frac{5.4}{A_{\text{max}}}$
 
 where $A_{\text{max}}$ is the maximum age. The prior is defined as a log-normal distribution with mean $ln(5.4/A_{\text{max}})$ and standard error = 0.31. 
 
-The maximum age for `r spp` was selected based on available age data from all West Coast data sources. The oldest `r spp` was captured by the commercial fishery in 2006 and estimated to be 102 years (not accounting for potential ageing error). Examining all aged fish from commercial and survey data, a maximum age of 75 was selected for both sexes. Across all data sources, there were limited estimates older than 75 years. There is a higher frequency of older males compared to females observed in the data, though females grow to larger sizes and generally have higher fishery selectivity that may bias the sex-ratio of older individuals. Using a maximum age of 75, the median of the prior was 0.72 yr$^{-1}$ with a standard error of 0.31.
+The maximum age for `r spp` was selected based on available age data from all West Coast data sources. The oldest `r spp` was captured by the commercial fishery in 2006 and estimated to be 102 years (not accounting for potential ageing error). Examining all aged fish from commercial and survey data, a maximum age of 75 was selected for both sexes. Across all data sources, there were limited estimates older than 75 years. There is a higher frequency of older males compared to females observed in the data, though females grow to larger sizes and generally have higher fishery selectivity that may bias the sex-ratio of older individuals. Using a maximum age of 75, the median of the prior was 0.072 yr$^{-1}$ with a standard error of 0.31.
 
 ### Sex Ratio {#sex-ratio}
 
