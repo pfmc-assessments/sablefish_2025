@@ -1,5 +1,5 @@
 folder <- "m"
-catch_name <- "pstar_40"
+catch_name <- "pstar_45"
 base <- r4ss::SS_output(here::here("model", "base_model", "decision_table", folder, paste0("base_", catch_name)))
 
 proj_year <- 2025:2036
@@ -9,6 +9,7 @@ base_catch_stream <- data.frame(
   catch = base$derived_quants[base$derived_quants$Label %in% paste0("ForeCatch_", proj_year), "Value"])
 sb_base <- round(base$derived_quants[base$derived_quants$Label %in% paste0("SSB_", proj_year), "Value"], 0)
 bratio_base <- round(base$derived_quants[base$derived_quants$Label %in% paste0("Bratio_", proj_year), "Value"], 2)
+ofl <- base$derived_quants[base$derived_quants$Label %in% paste0("OFLCatch_", proj_year), "Value"]
 
 catch_ave <- base$catch |>
   dplyr::filter(Yr %in% 2020:2024) |>
@@ -60,6 +61,7 @@ setwd(here::here("model", "base_model", "decision_table", folder, paste0("low_",
 shell("ss3 -nohess")
 
 low <- r4ss::SS_output(here::here("model", "base_model", "decision_table", folder, paste0("low_", catch_name)))
+ofl_low <- low$derived_quants[low$derived_quants$Label %in% paste0("OFLCatch_", proj_year), "Value"]
 abc <- low$derived_quants[low$derived_quants$Label %in% paste0("ForeCatch_", proj_year), "Value"]
 sb_low <- round(low$derived_quants[low$derived_quants$Label %in% paste0("SSB_", proj_year), "Value"], 0)
 bratio_low <- round(low$derived_quants[low$derived_quants$Label %in% paste0("Bratio_", proj_year), "Value"], 2)
@@ -93,6 +95,7 @@ setwd(here::here("model", "base_model", "decision_table", folder, paste0("high_"
 shell("ss3 -nohess")
 
 high <- r4ss::SS_output(here::here("model", "base_model", "decision_table", folder, paste0("high_", catch_name)))
+ofl_high <- high$derived_quants[high$derived_quants$Label %in% paste0("OFLCatch_", proj_year), "Value"]
 abc <- high$derived_quants[high$derived_quants$Label %in% paste0("ForeCatch_", proj_year), "Value"]
 abc == base_catch_stream[, "catch"]
 
@@ -114,3 +117,19 @@ catch_stream <- data.frame(
 )
 save(catch_stream, file = here::here("model", "base_model", "decision_table", folder, paste0(catch_name, ".rda")))
 write.csv(catch_stream, file = here::here("model", "base_model", "decision_table", folder, paste0(catch_name, ".csv")), row.names = FALSE)
+
+ofl_out <- dplyr::bind_rows(
+  data.frame(model = "base", year = proj_year, ofl = ofl),
+  data.frame(model = "low", year = proj_year, ofl = ofl_low),
+  data.frame(model = "high", year = proj_year, ofl = ofl_high)
+) |>
+  dplyr::filter(year >= 2027)
+write.csv(ofl_out, file = here::here("model", "base_model", "decision_table", folder, paste0(catch_name, "_ofl.csv")), row.names = FALSE)
+
+ggplot2::ggplot(ofl_out, ggplot2::aes(x = year, y = ofl, color = model, shape = model)) +
+  ggplot2::geom_line() +
+  ggplot2::geom_point() +
+  ggplot2::theme_bw() +
+  ggplot2::xlab("Projection Year") +
+  ggplot2::ylab("OFL (mt)")
+ggplot2::ggsave(here::here("model", "base_model", "decision_table", folder, paste0(catch_name, "_", "ofl.png")), height = 7, width = 7)
