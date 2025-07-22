@@ -1274,9 +1274,10 @@ read.csv(here::here("report", "rda", "sens_4_model_para_comp.csv")) |>
 read.csv(here::here("report", "rda", "sens_5_model_para_comp.csv")) |>
   gt::gt() |>
   gt::cols_label(
+    X = "Metric",
     Base.Model = "Base Model",
-    100..Discard.Mortality = "100% Discard Mortality",
-    75..TWL...60..HKL.Pot.Discard.Mortality = "75% TWL & 60% HKL/Pot Discard Mortality",
+    X100..Discard.Mortality = "100% Discard Mortality",
+    X75..TWL...60..HKL.Pot.Discard.Mortality = "75% TWL & 60% HKL/Pot Discard Mortality",
     Double.pre.1969.Catch = "Double pre-1969 Catch"
   ) |>
   gt::fmt_number(
@@ -1294,10 +1295,11 @@ read.csv(here::here("report", "rda", "sens_5_model_para_comp.csv")) |>
     missing_text = "---"
   ) |>
   gt::cols_width(
-    `Metric` ~ px(175),
+    tidyselect::starts_with("M") ~ px(175),
     tidyselect::starts_with("B") ~ px(120),
-    tidyselect::starts_with("E") ~ px(120),
-    tidyselect::starts_with("R") ~ px(120)
+    tidyselect::starts_with("100") ~ px(120),
+    tidyselect::starts_with("75") ~ px(120),
+    tidyselect::starts_with("D") ~ px(120)
   ) |>
   gt::as_latex()
 
@@ -1313,19 +1315,19 @@ read.csv(here::here("report", "rda", "sens_5_model_para_comp.csv")) |>
 #| label: tbl-sens-6
 #| warning: false
 #| echo: false
-#| tbl-cap: "Maximum likelihood estimates for the base model and select derived quantities for the base model and alternative sensitivity runs that either increase or decrease the strength of recent (2016-2023) recruitment deviations by 10%. Sensitivity models were run with all model parameters fixed at the base model maximum likelihood estimates, with the only changes being from the specified adjustments to recent recruitment deviations. Forecast catches in 2025 and 2026 were based on GMT recommendations. The catches from 2027 to 2036 were set equal to the year-specific ABCs. The ABC values were projected using a category 1 time-varying sigma
-with an initial value of 0.50 in 2027 and a management risk tolerance (P∗) of 0.45."
+#| tbl-cap: "Maximum likelihood estimates for the base model and select derived quantities for the base model and alternative sensitivity runs that either increase or decrease the strength of recent (2016-2023) recruitment deviations by 10%. Sensitivity models were run with all model parameters fixed at the base model maximum likelihood estimates, with the only changes being from the specified adjustments to recent recruitment deviations. Forecast catches in 2025 and 2026 were based on GMT recommendations. The catches from 2027 to 2036 were set equal to the year-specific ABCs. The ABC values were projected using a category 1 time-varying sigma with an initial value of 0.50 in 2027 and a management risk tolerance (P∗) of 0.45."
 #| tbl-pos: H
 
 read.csv(here::here("report", "rda", "sens_6_model_para_comp.csv")) |>
   gt::gt() |>
   gt::cols_label(
+    X = "Metric",
     Base.Model = "Base Model",
-    Increase.Recent.recruitment.strength..10%. = "Increase recent recruitment strength (10%)",
-    Decrease.Recent.Recruitment.Strength..10%. = "Decrease Recent Recruitment Strength (10%)"
+    Increase.Recent.recruitment.strength..10.. = "Increase recent recruitment strength (10%)",
+    Decrease.Recent.Recruitment.Strength..10.. = "Decrease Recent Recruitment Strength (10%)"
   ) |>
   gt::fmt_number(
-    columns = 2:5,
+    columns = 2:4,
     decimals = 3,
     drop_trailing_zeros = TRUE,
   ) |>
@@ -1339,10 +1341,10 @@ read.csv(here::here("report", "rda", "sens_6_model_para_comp.csv")) |>
     missing_text = "---"
   ) |>
   gt::cols_width(
-    `Metric` ~ px(175),
-    tidyselect::starts_with("B") ~ px(120),
-    tidyselect::starts_with("E") ~ px(120),
-    tidyselect::starts_with("R") ~ px(120)
+    tidyselect::starts_with("M") ~ px(175),
+    tidyselect::starts_with("B") ~ px(150),
+    tidyselect::starts_with("I") ~ px(150),
+    tidyselect::starts_with("D") ~ px(150)
   ) |>
   gt::as_latex()
 
