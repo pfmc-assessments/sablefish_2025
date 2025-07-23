@@ -385,7 +385,7 @@ reference_points_table |>
 
 ![Phase plot of fishing intensity versus relative spawning output for the base model.](figures/SPR4_phase.png){#fig-es-spr-phase height=4in fig-alt=""}
 
-![Estimated yield curve with reference points for the base model. The biomass target (Btgt) and the spawning potential ratio (SPR) target both are maximized at 0.40 fration unfished.](figures/yield2_yield_curve_with_refpoints.png){#fig-es-yield height=3in fig-alt=""}
+![Estimated yield curve with reference points for the base model. The biomass target (Btgt) and the spawning potential ratio (SPR) target both are maximized at 0.40 fraction of unfished spawning output.](figures/yield2_yield_curve_with_refpoints.png){#fig-es-yield height=3in fig-alt=""}
 
 ## Management Performance {-}
 

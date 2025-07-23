@@ -2138,7 +2138,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Estimated yield curve with reference points for the base model. The biomass target (Btgt) and the spawning potential ratio (SPR) target both are maximized at 0.40 fration unfished."
+#| fig-cap: "Estimated yield curve with reference points for the base model. The biomass target (Btgt) and the spawning potential ratio (SPR) target both are maximized at 0.40 fraction of  unfished spawning output."
 #| fig-alt: ""
 #| fig-pos: H
 
