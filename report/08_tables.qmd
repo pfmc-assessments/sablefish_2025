@@ -1435,7 +1435,7 @@ projections_table |>
 #| label: tbl-decision-table
 #| warning: false
 #| echo: false
-#| tbl-cap: "Decision table summary of 10 year projections beginning in 2023 for alternative states of nature based on an axis of uncertainty about  natural mortality for the base model. Columns range over low, base, and high states of nature and rows range over different catch level assumptions. Catch in 2025 and 2026 were based upon removal assumptions provided by the GMT."
+#| tbl-cap: "Decision table summary of 10 year projections beginning in 2027 for alternative states of nature based on an axis of uncertainty about natural mortality for the base model. Columns range over low, base, and high states of nature and rows range over different catch level assumptions. The base model estimated natural mortality of 0.088 yr$^{-1}$ for females and males. The low state of nature assumee a natural mortality of 0.095 yr$^{-1}$ and the high state of nature assumed a natural mortality of 0.070 yr$^{-1}$ for both sexes. Catch in 2025 and 2026 were based upon removal assumptions provided by the GMT."
 #| tbl-pos: H
 
  table_decision(

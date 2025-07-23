@@ -161,6 +161,23 @@ knitr::include_graphics(
 
 ```
 
+
+```{r} 
+#| label: fig-age-comp
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Distribution of ages before (dark color) and after (light color) removing samples without an ageing method assigned and those collected as part of special projects by decade."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  here::here("report", "figures", "age_dist_decade.png")
+)
+
+```
+
+
 ```{r} 
 #| label: fig-data-agg-ages
 #| echo: false 
