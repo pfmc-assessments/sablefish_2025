@@ -21,7 +21,7 @@ plot_historical_ssb <- function(historical_ssb){
     #ggplot2::guides(
     #    color = ggplot2::guide_legend(nrow = 1, byrow = TRUE)
     #) +
-    ggplot2::theme_bw(base_size = 16) + 
+    ggplot2::theme_bw(base_size = 12) + 
     ggplot2::theme(
         legend.position = "bottom",
         legend.box = "horizontal",
@@ -62,7 +62,7 @@ plot_historical_depl <- function(historical_ssb){
     #ggplot2::guides(
     #  color = ggplot2::guide_legend(nrow = 1, byrow = TRUE)
     #) +
-    ggplot2::theme_bw(base_size = 16) + 
+    ggplot2::theme_bw(base_size = 12) + 
     ggplot2::theme(
       legend.position = "bottom",
       legend.box = "horizontal",

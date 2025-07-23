@@ -2059,7 +2059,7 @@ knitr::include_graphics(
 #| fig-pos: H
 
 knitr::include_graphics(
-  file.path(retro_dir, paste0(model_name, "_retro_10_yr_peel"), "recruitment_retrospective_squid.png")
+  here::here("report", "figures", "recruitment_retrospective_squid_alternative.png")
 )
 
 ```
@@ -2071,7 +2071,7 @@ knitr::include_graphics(
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Spawning ouptut (i.e., spawning biomass) trajectories from the base model and historical assessments for sablefish."
+#| fig-cap: "Spawning ouptut (mt) trajectories from the base model and historical assessments for sablefish."
 #| fig-alt: ""
 #| fig-pos: H
 
@@ -2080,6 +2080,23 @@ knitr::include_graphics(
 )
 
 ```
+
+
+```{r} 
+#| label: fig-historical-depl
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Stock status trajectories from the base model and historical assessments for sablefish."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics(
+  file.path(here::here(), "report", "figures", "historical_depl.png")
+)
+
+```
+
 
 
 ## Management
