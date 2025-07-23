@@ -12,7 +12,7 @@
 #' The order of the vectors will be the column order from left to right.
 #' The order of the models within a vector will be the row order.
 #' @param years A vector of years you want catches for.
-#' @template format
+#' @param format Output type.
 #' @param caption A character string that
 #' will be passed to the `caption` parameter of [kableExtra::kbl].
 #' The default value is `NULL`.
