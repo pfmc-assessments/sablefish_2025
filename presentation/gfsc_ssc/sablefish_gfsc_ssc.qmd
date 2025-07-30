@@ -82,11 +82,12 @@ format:
 
 ## State of Nature
 
-* Run information
+* States of nature run in a deterministic manner 
+* The base state of nature estimated a natural mortality of 0.088 yr$^{-1}$, the low state of nature assumed a natural mortality of 0.095 yr$^{-1}$, and the high state of nature assumed a natural mortality of 0.070 yr$^{-1}$
 
-![](plots/states_of_nature_compare2_spawnbio_uncertainty.png){.absolute top=240 left=30 width="480" height="350"}
+![](plots/states_of_nature_compare2_spawnbio_uncertainty.png){.absolute top=260 left=30 width="480" height="350"}
 
-![](plots/states_of_nature_compare4_Bratio_uncertainty.png){.absolute top=240 right=30 width="480" height="350"}
+![](plots/states_of_nature_compare4_Bratio_uncertainty.png){.absolute top=260 right=30 width="480" height="350"}
 
 ## Risk Table
 
