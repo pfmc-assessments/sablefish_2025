@@ -1,9 +1,6 @@
 ---
 title: "Decision table including overfishing limits for the assessment of sablefish in 2025"
-author: "Chantel R. Wetzel and Aaron Berger" 
-affiliation: 'NOAA Fisheries Northwest Fisheries Science Center, 2725 Montlake Blvd E, Seattle, WA 98112'
-date: today
-format: html
+format: docx
 ---
 
 ```{r}
@@ -239,14 +236,27 @@ make_ofl_figure <- function(table, stream = "A") {
 #| warning: false
 #| message: false
 #| eval: true
-#| tbl-cap: Decision table showing estimated OFL values for the three states of nature.
+#| tbl-cap: "ADD CAPTION BELOW IN THE TABLE_HEADER()"
 
 # call the function defined above
 table <- table_decision_with_OFL(
     list(mod_low_A, mod_base_A, mod_high_A),
     list(mod_low_B, mod_base_B, mod_high_B)
-)
-table |> format_decision_table_for_html()
+  ) 
+table |> 
+  gt::gt() |>
+  gt::fmt_number(
+    columns = c(3:4, 6, 8),
+    decimals = 0
+  ) |>
+  gt::tab_options(
+      table.font.size = gt::px(11),
+      table.width = gt::pct(90),
+      table.font.names = "Arial"
+  ) |>
+  gt::tab_header(
+    "Decision table summary of 10 year projections beginning in 2027 for alternative states of nature based on an axis of uncertainty about natural mortality for the base model. Columns range over low, base, and high states of nature and rows range over different catch level assumptions. The base model estimated natural mortality of 0.088 yr$^{-1}$ for females and males. The low state of nature assumed a natural mortality of 0.095 yr$^{-1}$ and the high state of nature assumed a natural mortality of 0.070 yr$^{-1}$ for both sexes. Catch in 2025 and 2026 were based upon removal assumptions provided by the GMT."
+  )
 
 ```
 
@@ -262,4 +272,30 @@ for (stream in unique(table$Mgmt)) {
     make_ofl_figure(table, stream)
     ggsave(paste0("OFL_timeseries_for_states_of_nature_stream_", stream, ".png"), width = 7, height = 5)
 }
+```
+
+```{r}
+#| label: a-fig
+#| echo: false
+#| warning: false
+#| message: false
+#| eval: true
+#| fig-cap: "OFLs and assumed catch for management scenario A: the default harvest control rule $P$* = 0.45 and sigma = 0.5."
+knitr::include_graphics(
+  file.path("OFL_timeseries_for_states_of_nature_stream_A.png")
+)
+
+```
+
+```{r}
+#| label: b-fig
+#| echo: false
+#| warning: false
+#| message: false
+#| eval: true
+#| fig-cap: "OFLs and assumed catch for management scenario B: the default harvest control rule $P$* = 0.40 and sigma = 0.5."
+knitr::include_graphics(
+  file.path("OFL_timeseries_for_states_of_nature_stream_B.png")
+)
+
 ```
