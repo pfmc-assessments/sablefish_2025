@@ -280,7 +280,7 @@ for (stream in unique(table$Mgmt)) {
 #| warning: false
 #| message: false
 #| eval: true
-#| fig-cap: "OFLs and assumed catch for management scenario A: the default harvest control rule $P$* = 0.45 and sigma = 0.5."
+#| fig-cap: "The GMT provided removals for 2025-206 and ACLs for 2027-2036 with a P* = 0.45 and sigma = 0.5 (black line) and the model estimated OFLs for 2025-2036 from the base model (blue line), low state of nature (red line), and high state of nature (green line)."
 knitr::include_graphics(
   file.path("OFL_timeseries_for_states_of_nature_stream_A.png")
 )
@@ -293,7 +293,7 @@ knitr::include_graphics(
 #| warning: false
 #| message: false
 #| eval: true
-#| fig-cap: "OFLs and assumed catch for management scenario B: the default harvest control rule $P$* = 0.40 and sigma = 0.5."
+#| fig-cap: "The GMT provided removals for 2025-206 and ACLs for 2027-2036 with a P* = 0.40 and sigma = 0.5 (black line) and the model estimated OFLs for 2025-2036 from the base model (blue line), low state of nature (red line), and high state of nature (green line)."
 knitr::include_graphics(
   file.path("OFL_timeseries_for_states_of_nature_stream_B.png")
 )
