@@ -18,6 +18,13 @@ format:
     scrollable: true
 ---
 
+```{r}
+# Printing to pdf using decktape
+# open the command line
+# navigate to a location where you want to print the pdf (e.g., C://Assessments)
+# decktape http://localhost:5582 sablefish_gfsc_ssc.pdf
+```
+
 
 ## Stock Size and Status
 
@@ -36,24 +43,26 @@ format:
 * Years with lowest negative recruitment deviation: 2005, 2007, and 2009
 * Strong recruitment at the end of the time series driving the stock up
 
-![](plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png){.absolute top=270 left=20 width="480" height="350"}
+![](plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png){.absolute top=240 left=30 width="480" height="350"}
 
 
-![](plots/recdevs2_withbars.png){.absolute top=270 right=20 width="480" height="350"}
+![](plots/recdevs2_withbars.png){.absolute top=240 right=30 width="480" height="350"}
 
 
 ## Data and Model Structure
 
 :::: {.columns}
 
-::: {.column width="50%"}
+::: {.column width="40%"}
 - Six fishery fleets
-  - Removals
+  - Removals, retention and discard fleets
   - Age compositions
 - Four survey fleets
   - Abundance indices
   - Age compositions
 - One recruitment index
+
+- Empirical weight-at-age
 :::
 
 ::: {.column width="50%"}
@@ -74,24 +83,39 @@ format:
 - Split the Triennial Survey into early and late and remove data from select years
 - Remove the AFSC Slope Survey due to non-representative sampling of lengths for age data
 
-## Data Bridging
+## Select Data Bridging
 
-![](plots/1_data_bridging_compare18_smrybio.png){.absolute top=70 left=50 width="440" height="295"}
-
-
-![](plots/1_data_bridging_compare4_Bratio_uncertainty.png){.absolute top=70 right=50 width="440" height="295"}
+* Select data bridging steps - all bridging steps are shown on pages 166-173 in the report.
+* Including additional historical ages resulted in a reduction in overall stock size and a more depleted population.
 
 
-![](plots/2_data_bridging_compare18_smrybio.png){.absolute bottom=10 left=50 width="440" height="295"}
+![](plots/1_data_bridging_compare18_smrybio.png){.absolute top=270 left=30 width="480" height="350"}
 
 
-![](plots/2_data_bridging_compare4_Bratio_uncertainty.png){.absolute bottom=10 right=50 width="440" height="295"}
+![](plots/1_data_bridging_compare4_Bratio_uncertainty.png){.absolute top=270 right=30 width="480" height="350"}
 
-## Model Structure Bridging
+
+
+## Select Model Structure Bridging
+
+![](plots/3_structure_compare18_smrybio.png){.absolute top=70 left=50 width="440" height="295"}
+
+
+![](plots/3_structure_compare18_smrybio.png){.absolute top=70 right=50 width="440" height="295"}
+
+
+![](plots/5_structure_compare18_smrybio.png){.absolute bottom=10 left=50 width="440" height="295"}
+
+
+![](plots/5_structure_compare3_Bratio.png){.absolute bottom=10 right=50 width="440" height="295"}
 
 ## Major Issues
 
-## State of Nature
+* Sablefish have latitudinal trends in biology across the U.S. West Coast.  The assessment employees a biomass-weighted approach for maturity and weight-at-age to account for varition north and south. However, variable biology is still a source of uncertainty for the assessment.
+* The assessment treats the portion of sablefish off the U.S. West Coast as a closed population. However, based upon tagging data sablefish are known to move across management regions, with recent research estimating that emigration rates exceed migration rates off the U.S. West Coast.
+* Moving to an age-based model resolves data conflict (lengths, ages), but results in a model that is heavily dependent upon age data that could be sensitive to ageing error and bias.
+
+## States of Nature
 
 * States of nature run in a deterministic manner 
 * The base state of nature estimated a natural mortality of 0.088 yr$^{-1}$, the low state of nature assumed a natural mortality of 0.095 yr$^{-1}$, and the high state of nature assumed a natural mortality of 0.070 yr$^{-1}$
