@@ -76,6 +76,17 @@ format:
 
 ## Data Bridging
 
+![](plots/1_data_bridging_compare18_smrybio.png){.absolute top=70 left=50 width="440" height="295"}
+
+
+![](plots/1_data_bridging_compare4_Bratio_uncertainty.png){.absolute top=70 right=50 width="440" height="295"}
+
+
+![](plots/2_data_bridging_compare18_smrybio.png){.absolute bottom=10 left=50 width="440" height="295"}
+
+
+![](plots/2_data_bridging_compare4_Bratio_uncertainty.png){.absolute bottom=10 right=50 width="440" height="295"}
+
 ## Model Structure Bridging
 
 ## Major Issues
