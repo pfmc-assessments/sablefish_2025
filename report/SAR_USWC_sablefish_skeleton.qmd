@@ -485,12 +485,6 @@ These materials do not constitute a formal publication and are for information o
 
  {{< pagebreak >}} 
  
-\pagenumbering{roman}
-\setcounter{page}{1}
-
-\renewcommand{\thetable}{\roman{table}}
-\renewcommand{\thefigure}{\roman{figure}}
-
 
 ```{r, results='asis'}
 #| label: 'load_tables'
@@ -507,8 +501,6 @@ cat(a, sep = '\n')
 \setcounter{tocdepth}{3}
 \tableofcontents
 
- {{< pagebreak >}} 
-
 ```{r, results='asis'}
 #| label: 'one_page'
 #| eval: true
@@ -519,6 +511,13 @@ cat(a, sep = '\n')
 ```
 
  {{< pagebreak >}} 
+ 
+ 
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\renewcommand{\thetable}{\roman{table}}
+\renewcommand{\thefigure}{\roman{figure}}
 
 ```{r, results='asis'}
 #| label: 'executive_summary'
