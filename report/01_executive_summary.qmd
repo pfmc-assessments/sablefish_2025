@@ -393,6 +393,8 @@ Sablefish management includes a rich history of seasons, size-limits, trip-limit
 
 For the 2019 assessment, the \gls{pfmc} adopted a methodology to determine the area-based \gls{acl} using a five-year rolling average relative biomass estimate from the WCGBTS ([November 2019 \gls{pfmc} Meeting Decision Document](https://www.pcouncil.org/documents/2019/11/november-2019-decision-document.pdf/)). The relative biomass estimates represent the distribution of the `r spp` population observed by the WCGBTS, not the entire population.  
 
+The proportion of biomass observed by the WCGBTS north and south of 36$^\circ$ N. latitude for the most recent five years is shown in @tbl-es-prop-area.  
+
  {{< pagebreak >}}
 
 ```{r, results = "asis"}
@@ -418,6 +420,64 @@ recent_management_table |>
   ) |>
   gt::as_latex()
 
+```
+
+```{r, results = "asis"}
+#| label: tbl-es-prop-area
+#| warning: false
+#| echo: false
+#| tbl-cap: "Estimated percentage of sablefish biomass estimated north and south of 36° N. latitude based on the NWFSC West Coast Groundfish Bottom Trawl Survey data over the last five years."
+#| tbl-pos: H
+
+wcgbt_area <- read.csv(here::here("report", "figures", "wcgbt_est_by_area.csv")) |>
+  dplyr::filter(area %in%  c("North of Monterey Bay", "South of Monterey Bay")) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    total_est = sum(est)
+  ) |>
+  dplyr::mutate(
+    Area = dplyr::case_when(area == "North of Monterey Bay" ~ "north", .default = "south"),
+    prop = est / total_est
+  ) |>
+  dplyr::filter(year >= 2019)  |>
+  dplyr::rename(
+    Year = year,
+    Proportion = prop) |>
+  dplyr::select(Year, Area, Proportion) |>
+  tidyr::pivot_wider(
+    names_from = Area,
+    values_from = Proportion
+  ) |>
+  dplyr::mutate(
+    Year = as.character(Year)
+  ) |>
+  as.data.frame()
+
+average <- data.frame(
+  Year = "Average",
+  north = mean(as.numeric(wcgbt_area[, 2])),
+  south = mean(as.numeric(wcgbt_area[, 3]))
+)
+
+all <- dplyr::bind_rows(wcgbt_area, average)
+colnames(all) <- c(
+  "Year", 
+  "N. 36 Latitude",
+  "S. 36 Latitude"
+)
+
+all |>
+  dplyr::ungroup() |>
+  gt::gt() |>
+  gt::fmt_percent(
+    columns = 2:3,
+    decimals = 1
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  gt::as_latex()
 ```
 
 

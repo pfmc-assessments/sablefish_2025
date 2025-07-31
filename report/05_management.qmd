@@ -17,6 +17,15 @@ The derived stock status in `r end_year` is `r depl_final*100` percent, below th
 
 Reference points were calculated using the estimated selectivities and catch distributions among fleets in the final year of the model, `r end_year` (@tbl-ref-points). The estimated sustainable total yield inclusive of both landings and discards was `r catch_spr` mt according to $\text{SPR}_{45\%}$. The spawning output equivalent to 40 percent of unfished spawning output ($\text{SB}_{40\%}$) calculated using the SPR target, ($\text{SPR}_{45\%}$), was `r sb_spr` mt.
 
+## Management Performance 
+
+Sablefish management includes a rich history of seasons, size-limits, trip-limits, and a complex permit system. `r Spp` is currently modeled as a coastwide stock with corresponding coastwide \gls{ofl} and \gls{abc}. The coastwide \gls{abc} is then apportioned into two area-specific \glsplural{acl} north and south of 36$^\circ$ N. latitude. This historical management line corresponds with a recent data-driven analysis of `r spp` growth that suggests a difference in growth rates north and south of $36^\circ$ N. latitude [@kapur_oceanographic_2020]. The coastwide \gls{ofl} and \gls{abc} values and the area-based \gls{acl} are shown in @tbl-management.
+
+For the 2019 assessment, the \gls{pfmc} adopted a methodology to determine the area-based \gls{acl} using a five-year rolling average relative biomass estimate from the WCGBTS ([November 2019 \gls{pfmc} Meeting Decision Document](https://www.pcouncil.org/documents/2019/11/november-2019-decision-document.pdf/)). The relative biomass estimates represent the distribution of the `r spp` population observed by the WCGBTS, not the entire population.  
+
+The proportion of biomass observed by the WCGBTS north and south of 36$^\circ$ N. latitude for the most recent five years is shown in @tbl-prop-area.  
+
+
 ## Evaluation of Scientific Uncertainty
 
 
