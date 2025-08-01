@@ -113,7 +113,7 @@ format:
 
 * Sablefish have latitudinal trends in biology across the U.S. West Coast.  The assessment employees a biomass-weighted approach for maturity and weight-at-age to account for varition north and south. However, variable biology is still a source of uncertainty for the assessment.
 * The assessment treats the portion of sablefish off the U.S. West Coast as a closed population. However, based upon tagging data sablefish are known to move across management regions, with recent research estimating that emigration rates exceed migration rates off the U.S. West Coast.
-* Moving to an age-based model resolves data conflict (lengths, ages), but results in a model that is heavily dependent upon age data that could be sensitive to ageing error and bias.
+* Moving to an age-based model resolves data conflict (lengths, ages), but results in a model that is heavily dependent upon future age data collections and  ageing error and bias in age reading.
 
 ## States of Nature
 
