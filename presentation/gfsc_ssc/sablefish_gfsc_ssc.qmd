@@ -62,7 +62,7 @@ format:
   - Age compositions
 - One recruitment index
 
-- Empirical weight-at-age
+- Empirical weight-at-age (2003--2024)
 :::
 
 ::: {.column width="50%"}
@@ -73,15 +73,14 @@ format:
 
 ![](plots/data_plot.png){.absolute bottom=20 right=0 width="620" height="580"}
 
-## Major Changes 
+## Major Changes Since 2019
 
 - Include retained and discard fleets to account for total mortality and improve model stability (i.e., do not estimate retention within the model)
 - Inclusion of additional historical age data (1983-2010) primarily collected in Oregon from trawl gear
 - Improved estimates of removals: landing and discard mortality
-- New maturity-at-age and empirical weight-at-age
-- New environmental recruitment index from 2020--2024
-- Split the Triennial Survey into early and late and remove data from select years
-- Remove the AFSC Slope Survey due to non-representative sampling of lengths for age data
+- Estimate annual recruitment deviations starting in 1975 with deterministic recruitment from 1890--1974.
+- New data for maturity-at-age, empirical weight-at-age (2003--2024), and environmental recruitment index from 2020--2024
+- Modified data treatment by splitting the Triennial Survey into early and late and remove data from select years and removing the AFSC Slope Survey due to non-representative sampling of lengths for age data
 
 ## Select Data Bridging
 
@@ -112,8 +111,8 @@ format:
 ## Major Issues
 
 * Sablefish have latitudinal trends in biology across the U.S. West Coast.  The assessment employees a biomass-weighted approach for maturity and weight-at-age to account for varition north and south. However, variable biology is still a source of uncertainty for the assessment.
-* The assessment treats the portion of sablefish off the U.S. West Coast as a closed population. However, based upon tagging data sablefish are known to move across management regions, with recent research estimating that emigration rates exceed migration rates off the U.S. West Coast.
-* Moving to an age-based model resolves data conflict (lengths, ages), but results in a model that is heavily dependent upon future age data collections and  ageing error and bias in age reading.
+* The assessment treats the portion of sablefish off the U.S. West Coast as a closed population. However, based upon tagging data sablefish are known to move across management regions, with recent research estimating that emigration rates to Canada likely exceed immigration rates for the U.S. West Coast.
+* Moving to an age-based model resolves data conflict (lengths, ages), but results in a model that is heavily dependent upon future age data collections and  understanding of ageing error and bias in age reading.
 
 ## States of Nature
 
@@ -124,6 +123,18 @@ format:
 
 ![](plots/states_of_nature_compare4_Bratio_uncertainty.png){.absolute top=260 right=30 width="480" height="350"}
 
+::: {.notes}
+0.070 was just below the prior and 0.095 was similar to higher M’s used in the most recent AK assessment of sablefish. The main point is that these values offered a spread that felt comfortable with given the level of uncertainty in the base model and general sensitivity run performance. 
+:::
+
+
 ## Risk Table
 
 ![](plots/risk_table.png){.absolute top=70 right=175 width="880" height="550"}
+
+
+## At-a-Glance
+
+![](plots/Sablefish Stock Overview Fact Sheet 2025.png){.absolute top=75 left=10 width="450" height="550"}
+
+![](plots/Sablefish Stock Overview Fact Sheet 2025 (1).png){.absolute top=75 right=10 width="450" height="550"}
