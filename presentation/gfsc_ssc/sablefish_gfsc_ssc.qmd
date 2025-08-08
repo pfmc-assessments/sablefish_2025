@@ -76,9 +76,9 @@ format:
 ## Major Changes Since 2019
 
 - Include retained and discard fleets to account for total mortality and improve model stability (i.e., do not estimate retention within the model)
-- Inclusion of additional historical age data (1983-2010) primarily collected in Oregon from trawl gear
 - Improved estimates of removals: landing and discard mortality
-- Estimate annual recruitment deviations starting in 1975 with deterministic recruitment from 1890--1974.
+- Inclusion of additional historical age data (1983-2010) primarily collected in Oregon from trawl gear
+- Estimate annual recruitment deviations starting in 1975 with deterministic recruitment from 1890--1974
 - New data for maturity-at-age, empirical weight-at-age (2003--2024), and environmental recruitment index from 2020--2024
 - Modified data treatment by splitting the Triennial Survey into early and late and remove data from select years and removing the AFSC Slope Survey due to non-representative sampling of lengths for age data
 
@@ -107,6 +107,27 @@ format:
 
 
 ![](plots/5_structure_compare3_Bratio.png){.absolute bottom=10 right=50 width="440" height="295"}
+
+## WCGBTS Selectivity
+
+- Selectivity remains age-based and equal for both sexes
+- Estimated selectivity from the 2025 asseessment (left) compared to the selectivity from the 2023 assessment (right)
+
+
+![](plots/wcgbts_selex_2025.png){.absolute top=240 left=30 width="480" height="350"}
+
+
+![](plots/wcgbts_selex_2023.png){.absolute top=240 right=30 width="480" height="350"}
+
+## Select Sensitivities
+
+![](plots/sens_4_compare18_smrybio.png){.absolute top=70 left=50 width="440" height="295"}
+
+![](plots/sens_4_compare4_Bratio_uncertainty.png){.absolute top=70 right=50 width="440" height="295"}
+
+![](plots/sens_3_compare18_smrybio.png){.absolute bottom=10 left=50 width="440" height="295"}
+
+![](plots/sens_3_compare4_Bratio_uncertainty.png){.absolute bottom=10 right=50 width="440" height="295"}
 
 ## Major Issues
 
