@@ -168,7 +168,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Distribution of ages before (dark color) and after (light color) removing samples without an ageing method assigned and those collected as part of special projects by decade."
-#| fig-alt: ""
+#| fig-alt: "The density of samples by age grouped by decade 1980s, 1990s, 2000s, 2010s, and 2020s are nearly identical for the ages used in the 2019 assessment and the additional ages included in this assessment."
 #| fig-pos: H
 
 knitr::include_graphics(
@@ -381,7 +381,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Length (top; cm) and age (bottom; yr) compositions for sablefish collected by the NWFSC West Coast Groundfish Bottom Trawl Survey between 2003 and 2024 by sex and depth (m). Lighter colors represent smaller or younger individuals and darker colors represent larger or older individuals."
-#| fig-alt: ""
+#| fig-alt: "Older and larger sablefish for all sexes are found in greater frequency at deeper depths with waters greater than 500 meters have the greatest proportion of the oldest sablefish."
 
 knitr::include_graphics(
   here::here("report", "figures", "wcgbts_length_age_compositions.png")
@@ -397,7 +397,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Observed fraction female by age in the NWFSC West Coast Groundfish Bottom Trawl Survey by year."
-#| fig-alt: ""
+#| fig-alt: "The fraction of female sablefish is roughly 0.50 at age 0 with the fraction of female fish decreasing to less than 0.40 for ages 10 and older for each year in the WCGBTS survey data from 2003 through 2024."
 
 knitr::include_graphics(
   here::here("report", "figures", "sexratio_age_flt10mkt0.png")
@@ -413,7 +413,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "QQ plot for the NWFSC West Coast Groundfish Bottom Trawl Survey."
-#| fig-alt: ""
+#| fig-alt: "The sample and theoretical quantiles for the presence/absence and catch rate models are roughly one to one with some departure at the larger quantiles for the catch rate model. "
 
 knitr::include_graphics(
   here::here("report", "figures", "wcgbt_qq.png")
@@ -430,7 +430,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Relative index of abundance for the NWFSC West Coast Groundfish Bottom Trawl Survey."
-#| fig-alt: ""
+#| fig-alt: "The index decreases from 2003 to 2010 and then slowly increases until 2018 declines for 2019 and then sharply increases in 2021 and 2022 and is roughly stable in the final years."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "index1_cpuedata_WCGBTS.png")
@@ -446,7 +446,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Age composition data by year from the NWFSC West Coast Groundfish Bottom Trawl Survey. Females are shown in red, males in blue, and unsexed fish in grey."
-#| fig-alt: ""
+#| fig-alt: "The proportion of observations by year, age, and sex has larger proportions at younger ages with evidence of potential year classes moving through the population."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "comp_agedat_bubflt10mkt0.png")
@@ -460,7 +460,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Mean age for NWFSC West Coast Groundfish Bottom Trawl Survey with 95 percent confidence intervals based on current sample sizes. The top panel is sexed ages only and the bottom panel includes both sexed and unsexed ages."
-#| fig-alt: ""
+#| fig-alt: "The mean age for sexed fish increased from 2003 through 2008 dropped and was roughly stable from 2009 through 2013 and dropped in 2019 and has been lower in recent years likely due to strong year classes with an increased frequency of young sablefish in the population."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "comp_agedat_data_weighting_TA1-8_WCGBTS.png")
@@ -475,7 +475,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "QQ plot for the NWFSC Slope Survey."
-#| fig-alt: ""
+#| fig-alt: "The sample and theoretical quantiles for the presence/absence and catch rate models are roughly one to one with some departure at the larger quantiles for the catch rate model."
 
 knitr::include_graphics(
   here::here("report", "figures", "nwfsc_slope_qq.png")
@@ -492,7 +492,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Relative index of abundance for the NWFSC Slope Survey."
-#| fig-alt: ""
+#| fig-alt: "The trend in the index slightly increases from 1998, 1999, and 2000, decreases slightly in 2001, and then increases in 2002."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "index1_cpuedata_NWFSC_Slope.png")
@@ -509,7 +509,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Age compositions by year from the NWFSC Slope Survey. Females are shown in red, males in blue, and unsexed fish in grey."
-#| fig-alt: ""
+#| fig-alt: "The proportion of ages by year, age, and sex with the survey observing all ages except for little to no observations of age 0 and 1 fish."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "comp_agedat_bubflt9mkt0.png")
@@ -526,7 +526,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Mean age for NWFSC Slope Survey with 95 percent confidence intervals based on current sample sizes."
-#| fig-alt: ""
+#| fig-alt: "The mean age for 1998 and 1999 was approximately 17 years of age and at or just below 14 years of age in 2000, 2001, and 2002."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "comp_agedat_data_weighting_TA1-8_NWFSC_Slope.png")
@@ -543,7 +543,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "QQ plot for the Triennial Survey for the early period, 1980-1992."
-#| fig-alt: ""
+#| fig-alt: "The sample and theoretical quantiles for the presence/absence and catch rate models are roughly one to one with some departure at the larger quantiles for the catch rate model."
 
 knitr::include_graphics(
   here::here("report", "figures", "tri_early_qq.png")
@@ -561,7 +561,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "QQ plot for the Triennial Survey for the late period, 1995-2004."
-#| fig-alt: ""
+#| fig-alt: "The sample and theoretical quantiles for the presence/absence and catch rate models are roughly one to one with some departure at the larger quantiles for the catch rate model."
 
 knitr::include_graphics(
   here::here("report", "figures", "tri_late_qq.png")
@@ -578,7 +578,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Relative index of abundance for the Triennial Survey for the early period, 1980-1992."
-#| fig-alt: ""
+#| fig-alt: "The index slowly decreases from 1980 though 1989 and increases to highest point in 1992."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "index1_cpuedata_Triennial_Early.png")
@@ -595,7 +595,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Relative index of abundance for the Triennial Survey for the late period, 1995-2004."
-#| fig-alt: ""
+#| fig-alt: "The index is stable between 1995 and 1998 and increases for 2001 and 2004."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "index1_cpuedata_Triennial_Late.png")
@@ -612,7 +612,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Comparison by year of the distribution from all length data to the lengths from fish with ages collected by the Triennial Survey."
-#| fig-alt: ""
+#| fig-alt: "The distribution of lengths for fish with ages has more weight in the upper tail for 1986, 1998, and 2001 compared to the distribution for all sablefish lengthed by the survey."
 
 knitr::include_graphics(
   here::here("report", "figures", "triennial_length_age_comparison.png")
@@ -627,7 +627,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Tow location by latitude and year where lengths were sampled (black open circles) compared to location of available age data (red filled triangles) from the Triennial Survey."
-#| fig-alt: ""
+#| fig-alt: "The distribution of tows by latitude and depth where ages were collected did not appear to be randomly distributed for all tows with sablefish for 1983, 1986, and 1998."
 
 knitr::include_graphics(
   here::here("report", "figures", "triennial_positive_tow_bds.png")
@@ -642,7 +642,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Age compositon by year from the early Triennial Survey. Females are shown in red and males in blue."
-#| fig-alt: ""
+#| fig-alt: "The majority of observations for males and females were you fish less than five years of age."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "comp_agedat_bubflt7mkt0.png")
@@ -659,7 +659,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Age compositon by year from the late Triennial Survey. Females are shown in red and males in blue"
-#| fig-alt: ""
+#| fig-alt: "The majority of observations for males and females were you fish less than five years of age."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "comp_agedat_bubflt8mkt0.png")
@@ -676,7 +676,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Mean age for early period of Triennial Survey with 95 percent confidence intervals based on current sample sizes."
-#| fig-alt: ""
+#| fig-alt: "The mean age for 1983, 1989, and 1994 was approximately four years of age."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "comp_agedat_data_weighting_TA1-8_Triennial_Early.png")
@@ -692,7 +692,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Mean age for late period of Triennial Survey with 95 percent confidence intervals based on current sample sizes."
-#| fig-alt: ""
+#| fig-alt: "The mean age in 1995 was between 6.5 and seven years of age and decreased in 2004 for approxamately 5.5 years of age."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "comp_agedat_data_weighting_TA1-8_Triennial_Late.png")
@@ -704,7 +704,7 @@ knitr::include_graphics(
 \pagebreak
 
 
-![Partial residual plots of GLORYS predictors. CST = cross-shelf transport, T = temperature, spawn = spaning stage, pjuv = pelagic juvenile, and bjuv = benthic juvenile stage.](figures/gloyrs_figure_4.png){#fig-glorys-terms}
+![Partial residual plots of GLORYS predictors. CST = cross-shelf transport, T = temperature, spawn = spaning stage, pjuv = pelagic juvenile, and bjuv = benthic juvenile stage.](figures/gloyrs_figure_4.png){#fig-glorys-terms alt="Recruitment appears to be positively correlated with cross shelf transport during the benthic juvenile stage and negatively correlated with cross shelf transport during the pelagive juvenile stage."}
 
 
 ```{r} 
@@ -713,7 +713,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Recruitment deviation index."
-#| fig-alt: ""
+#| fig-alt: "Recruitment is estimated to be above average in 2020, 2021, 2023, and 2024 and below average in 2022."
 
 knitr::include_graphics(
   file.path(model_dir, "plots", "index1_cpuedata_Recruitment_Index.png")
@@ -729,7 +729,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Relative index of abundance for the AFSC Slope Survey."
-#| fig-alt: ""
+#| fig-alt: "The index declines from 1997 to 1999 and then slowly increase in 2000 and 2001."
 
 knitr::include_graphics(
   here::here("report", "figures", "index1_cpuedata_AKFSC_SLOPE.png")
@@ -743,7 +743,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Comparison of the distribution from all length data to the lengths from fish with ages collected by the AFSC Slope Survey."
-#| fig-alt: ""
+#| fig-alt: "The density for lengthed fish with ages was greater than all fished lengthed for larger fish sampled by the survey."
 
 knitr::include_graphics(
   here::here("report", "figures", "afsc_slope_length_age_comparison.png")
@@ -761,7 +761,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Estimated length-at-age coastwide and by area for females (solid lines) and males (dashed lines) north and south of 36° N. latitude."
-#| fig-alt: ""
+#| fig-alt: "Females are estimated to reach larger maximum sizes compared to males and fish in the north are estimated to grow to larger sizes for both sexes compared to fish in the south.  The coastwide asymptotic size for females is estimated to be approximate 63 cm with males reaching a maximum size of approximately 55 cm. Sablefish of both sexes reach asymptotic size around 12 years of age."
 #| fig-pos: H
 #| fig-height: 4
 
@@ -777,7 +777,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Latitudinal variation in sex-specific von Bertalanffy growth parameters ($t_0$: length at age 0, *k*: growth coefficient, L∞: asymptotic length). Dashed horizontal line denotes 36° N. latitude. Predicted using the NWFSC West Coast Groundfish Bottom Trawl Survey data between 2003 and 2024. The darker color represents females and the lighter color represents males."
-#| fig-alt: ""
+#| fig-alt: "The growth parameters generally increase with latitude."
 #| fig-pos: H
 #| fig-height: 4
 
