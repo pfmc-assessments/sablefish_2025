@@ -794,7 +794,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Estimated weight-at-age by year and sex."
-#| fig-alt: ""
+#| fig-alt: "Weight at age by sex varies by year with females reaching larger maximum weights compared to males."
 
 knitr::include_graphics(
   here::here("report", "figures", "year_wt_at_age_estimate_survey.png")
@@ -811,7 +811,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Female weight-at-age by year."
-#| fig-alt: ""
+#| fig-alt: "Weight at age by sex varies by year with females reaching larger maximum weights compared to males."
 #| fig-pos: H
 #| fig-height: 4
 
@@ -827,7 +827,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Male weight-at-age by year."
-#| fig-alt: ""
+#| fig-alt: "Weight at age by sex varies by year with females reaching larger maximum weights compared to males."
 #| fig-pos: H
 #| fig-height: 4
 
@@ -893,7 +893,7 @@ ggplot2::ggplot(spatial_maturity, ggplot2::aes(x = age, y = p, color = Model)) +
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Spawning output at age based upon maturity and fecundity."
-#| fig-alt: ""
+#| fig-alt: "Spawning output varies by year from 2003 through 2024."
 #| fig-pos: H
 #| fig-height: 4
 
@@ -915,7 +915,7 @@ knitr::include_graphics(
 #| fig-height: 4
 
 knitr::include_graphics(
-  file.path(model_dir, "plots", "numbers5_ageerrorSD.png")
+  here::here("report", "figures", "numbers5_ageerrorSD.png")
 )
 
 ```
