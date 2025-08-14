@@ -151,6 +151,12 @@ if (file.exists(table_dir)) {
     dplyr::arrange(YEAR) |>
     dplyr::select(VAL)
   
+  # Load risk table projection
+  load(here::here(general_dir, "risk_table", model_name, "tables", "projections.rda"))
+  rt_projections_table <- projections$table 
+  rt_projections_table <- rt_projections_table[, c(-2, -3)]
+
+  
   all_files <- list.files(here::here("data"))
   all_rda_files <- all_files[grep(".rda", all_files)]
   for (a in 1:length(all_rda_files)) {

@@ -89,6 +89,10 @@ Euphausiids are a substantial component of the sablefish diet. Potential competi
 
 @McClure:2023:VCC found that sablefish had a climate vulnerability of moderate, based on consideration of both exposure and sensitivity. Climate exposure was high, due largely to potential impacts on these species (and many others) from ocean acidification and mean sea surface temperature. These exposure metrics in the CVA represent expected change between a historical period (1955--2005) and a future period (2006--2055). Biological sensitivity was ranked moderate, due to slow population growth rate and early life history survival and settlement requirements. Relevant to these Risk Tables and recent trends, the overall context from the rapid, expert-opinion CVA for this species suggests particular attention should be paid to any recent changes in ocean acidification (related to potential effects on prey such as zooplankton) or in environmental conditions relevant to early life history and recruitment. We consider the effects of prey availability and recruitment to be well informed in other sections of this risk table and the assessment, and as a result the CVA ranking was not included in our final scoring of the ecosystem and environmental considerations.
 
+### Theoretical Projections
+
+Accounting for each factor considered in the risk table (@tbl-risk-table), the overall conditions for sablefish is currently considered favorable which could support the application of scientific uncertainty ($\sigma$) lower than the default ($\sigma$ of 0.50) for a category one assessment for projection future harvest specifications. @tbl-risk-table-projections shows an theoretical projection using a $\sigma$ of 0.25 and a P* of 0.45 that could be considered if the use of risk tables is adopted by management for future stock assessments and a $\sigma$ of 0.25 is deemed appropriate by the Scientific and Statistical Committee.
+
 
 ## Unresolved Problems and Major Uncertainties
 

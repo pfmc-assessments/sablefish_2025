@@ -136,7 +136,10 @@ The estimate of 2025 female spawning output is `r sb_final` mt with 95 percent a
 #| tbl-pos: H
 
 ssb_es_table |>
-  dplyr::rename(`Stock Status` = `Fraction Unfished`) |>
+  dplyr::rename(
+    `Stock Status` = `Fraction Unfished`,
+    `Spawning Output (mt)` = `Spawning output`
+  ) |>
   gt::gt() |>
   gt::fmt_number(
     columns = 2:4,
@@ -547,12 +550,13 @@ gmt_catch |>
 #| label: tbl-es-projections
 #| warning: false
 #| echo: false
-#| tbl-cap: "Potential OFLs (mt), ABCs (mt), ACLs (mt), the buffer between the OFL and ABC, estimated spawning output,and stock status with adopted OFLs and ACLs and assumed catch for the first two years of the projection period (2025-2026). Projections were conducted assuming a category 1 time-varying sigma and a P$^*$ of 0.45."
+#| tbl-cap: "Potential OFLs (mt), ABCs (mt), ACLs (mt), the buffer between the OFL and ABC, estimated spawning output (mt),and stock status with adopted OFLs and ACLs and assumed catch for the first two years of the projection period (2025-2026). Projections were conducted assuming a category 1 time-varying sigma and a P$^*$ of 0.45."
 #| tbl-pos: H
 
 projections_table |>
   dplyr::rename(
-    `Stock Status` = `Fraction Unfished`
+    `Stock Status` = `Fraction Unfished`,
+    `Spawning Output (mt)` = `Spawning output`
   ) |>
   gt::gt() |>
   gt::fmt_number(
@@ -654,8 +658,51 @@ risk |>
     Assessment.model.fits.and.structural.uncertainty = "Assessment Model Fits and Structural Uncertainty"
   ) |>
   gt::cols_width(
-    everything() ~ px(200)
+    everything() ~ px(190)
   ) |>
   gt::as_latex()
 ```
 
+ {{< pagebreak >}}
+
+Accounting for each factor considered in the risk table, the overall conditions for sablefish is currently considered favorable which could support the application of scientific uncertainty ($\sigma$) lower than the default ($\sigma$ of 0.50) for a category one assessment for projection future harvest specifications. @tbl-es-risk-table-projections shows an theoretical projection using a $\sigma$ of 0.25 and a P* of 0.45 that could be considered if the use of risk tables is adopted by management for future stock assessments and a $\sigma$ of 0.25 is deemed appropriate by the Scientific and Statistical Committee.
+
+
+```{r, results = "asis"}
+#| label: tbl-es-risk-table-projections
+#| warning: false
+#| echo: false
+#| tbl-cap: "Theoretical OFLs (mt), ABCs (mt), ACLs (mt), the buffer between the OFL and ABC, estimated spawning output, stock status, and assumed catch for the first two years of the projection period (2025-2026). Projections were conducted assuming a time-varying sigma of 0.25 and a P$^*$ of 0.45."
+#| tbl-pos: H
+
+rt_projections_table |>
+  dplyr::rename(
+    `Stock Status` = `Fraction Unfished`,
+    `Spawning Output (mt)` = `Spawning output`
+  ) |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = c(2:3, 5:7),
+    decimals = 0
+  ) |>
+  gt::fmt_number(
+    columns = c(4, 8),
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>
+  gt::sub_missing(
+    columns = tidyselect::everything(),
+    missing_text = "---"
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    everything() ~ px(70)
+  ) |>
+  gt::as_latex()
+
+```

@@ -1,11 +1,13 @@
+
 \pagebreak
 
+<!--
 # At-a-Glance {.unnumbered}
 
  \includepdf[pagecommand={}]{figures/sablefish_aag_page_1.pdf}
  
  \includepdf[pagecommand={}]{figures/sablefish_aag_page_2.pdf}
-
+-->
 
 # Stock Assessment Summary {-}
 
