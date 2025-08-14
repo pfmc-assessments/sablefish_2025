@@ -25,27 +25,34 @@ landings <- model_output$catch |>
   )
 
 ggplot2::ggplot(landings, ggplot2::aes(x = year, y = catch_mt, fill = Fleet)) +
-  ggplot2::geom_bar(stat = 'identity') +
+  ggplot2::geom_bar(stat = 'identity', ) +
   ggplot2::theme_bw() +
   ggplot2::xlab("Year") + ggplot2::ylab("Removals (mt)") +
-  ggplot2::xlim(c(1890, 2025)) + 
   ggplot2::scale_y_continuous(
-    labels = function(x) format(x,scientific = FALSE)) +
-  #nmfspalette::scale_fill_nmfs(palette = "waves", reverse = TRUE) +
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE),
+    breaks = seq(0, 30000, 10000),
+    expand = c(0, 500)
+  ) +
+  ggplot2::scale_x_continuous(
+    breaks = seq(1900, 2025, 25),
+    expand = c(0, 5)
+  ) + 
+  #nmfspalette::scale_fill_nmfs(palette = "oceans", reverse = TRUE) +
   ggplot2::scale_fill_viridis_d() +
   ggplot2::theme(
     strip.text.x = ggplot2::element_blank(),
     strip.background = ggplot2::element_rect(colour="white", fill="white"),
     legend.key.height = ggplot2::unit(0.05, "cm"),
-    legend.position = c(0.20, 0.65),
-    legend.title=element_text(size = 16), 
+    legend.position = c(0.20, 0.70),
+    legend.title = element_text(size = 16), 
     legend.text = ggplot2::element_text(size = 16),
-    axis.text.y = ggplot2::element_text(angle = 90,vjust=0.5,hjust=0.5),
+    axis.text.y = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 0.5),
     axis.text = ggplot2::element_text(size = 19),
     axis.title = ggplot2::element_text(size = 21)
   )
 
-ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "removals.png"), width = 8, height = 4)
+ggplot2::ggsave(filename = here::here("report", "at-a-glance", "removals.png"), 
+                width = 8, height = 4.5)
 
 
 ############################################
@@ -68,19 +75,19 @@ mysummary <- SSsummarize(mymodels)
 #                  new=F
 #                  )
 #make above in ggplot2
-bratio_pt <- mysummary[["Bratio"]] %>%
+bratio_pt <- mysummary[["Bratio"]] |>
   pivot_longer(
     cols = starts_with("model"),
     names_to = "Model",
     values_to = "Bratio"
   )
-bratio_lo <- mysummary[["BratioLower"]] %>%
+bratio_lo <- mysummary[["BratioLower"]] |>
   pivot_longer(
     cols = starts_with("model"),
     names_to = "Model",
     values_to = "Bratio"
   )
-bratio_hi <- mysummary[["BratioUpper"]] %>%
+bratio_hi <- mysummary[["BratioUpper"]] |>
   pivot_longer(
     cols = starts_with("model"),
     names_to = "Model",
@@ -166,8 +173,8 @@ ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "removals
 ############################################
 #Plot select time series of recruitment strength in a simple bar graph (second page lone figure)
 #change directory/file location as needed
-setwd("C:\\Users\\Aaron.Berger\\Documents\\AMB\\Groundfish\\Assessments\\Sablefish2025\\TwoPageSummary")
-radar <- read.csv("C:\\Users\\Aaron.Berger\\Documents\\AMB\\Groundfish\\Assessments\\Sablefish2025\\TwoPageSummary\\RecruitRadar.csv")
+
+radar <- read.csv(here::here("data-exploration", "RecruitRadar.csv"))
 Equil_rec <- 25981  #note: taken from stock assessment mean estimate
 radar$Year <- as.factor(radar$Year)
 
@@ -197,8 +204,11 @@ plt <- ggplot(radar) +
   ) 
 
 plt <- plt +
+  ggplot2::scale_y_continuous(
+    labels = function(x) format(x, big.mark = ",", scientific = FALSE)
+  ) +
   annotate(
-    x = 3, 
+    x = 4, 
     y = Equil_rec*1.1,
     label = "Equilibrium Recruitment",
     geom = "text",
@@ -212,8 +222,8 @@ plt <- plt +
     axis.text.x = element_text(color = "gray12", angle = 45, vjust = 0.5, size = 19),
     axis.text.y = element_text(color = "gray12", size = 19),
     # Move the legend to the bottom
-    legend.position = c(0.25,0.85),
-    axis.title = ggplot2::element_text(size = 21),
+    legend.position = c(0.25, 0.90),
+    axis.title = ggplot2::element_text(size = 20),
     legend.text=element_text(size=16),
     legend.title=element_text(size=16)
   ) +
@@ -223,19 +233,24 @@ plt <- plt +
 plt <- plt + 
   # Customize general theme
   theme(
-    
     # Set default color and font family for the text
     text = element_text(color = "gray12", family = "sans"),
     axis.line.y = element_line(colour = 'black', linewidth=0.5, linetype='solid'),
-    
+    axis.text.y = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 0.5),
     # Make the background white and remove extra grid lines
     panel.background = element_rect(fill = "white", color = "white"),
     panel.grid = element_blank(),
     panel.grid.major.x = element_blank()
   )
 
-ggsave("Rec_bar.png", plt,width=8, height=8)
-ggsave("Rec_bar.pdf", plt,width=8, height=8)
+ggplot2::ggsave(
+  filename = here::here("report", "at-a-glance", "Rec_bar.png"), 
+  plot = plt, width = 9, height = 5)
+
+ggplot2::ggsave(
+  filename = here::here("report", "at-a-glance", "Rec_bar_narrow.png"), 
+  plot = plt, width = 8, height = 8)
+ggplot2::ggsave("Rec_bar.pdf", plt, width=8, height=8)
 
 
 ############################################
@@ -243,7 +258,12 @@ ggsave("Rec_bar.pdf", plt,width=8, height=8)
 #Plot fit to abundance index (front page top panel)
 #Need to run the SSplotIndices_play function below, which is a version of SSplotIndices but with cex for labels.
 model_output <- r4ss::SS_output(here::here("model", "base_model", "8.36_base_model"))
-SSplotIndices_play(model_output,subplots=2,fleets=10)
+SSplotIndices_play(model_output, subplots = 2, fleets = 10,
+                   pwidth = 8,
+                   pheight = 4.5,
+                   punits = "in",
+                   print = TRUE,
+                   plotdir = here::here("report", "at-a-glance"))
 
 
 #note that this is a copy of the r4ss SSplotIndices with some adjustments to change size of axis labels, etc.
@@ -456,22 +476,28 @@ SSplotIndices_play <-
           # ylim for log scale plot
           ylim <- range(c(lower_total, upper_total), na.rm = TRUE)
         }
-        
         plot(
           x = x[include],
           y = y[include],
           type = "n",
           xlab = labels[1],
-          ylab = "Relative Index of Abundance",
+          ylab = "Relative Index of Abundance (mt)",
           main = main,
           cex.main = cex.main,
           cex.lab = 1.5,
           cex.axis = 1.3,
+          xaxt = 'n',
+          yaxt = 'n',
           xlim = xlim,
           ylim = ylim,
           yaxs = ifelse(log, "r", "i"),
           ...
         )
+        axis(side = 1, at = seq(2000, 2024, 4), cex.axis = 1.5)
+        ylim <- c(0, 50000, 150000, 250000) 
+        y_ticks <- pretty(ylim)
+        y_labels <- prettyNum(ylim, big.mark = ",", scientific = FALSE)
+        axis(side = 2, at = y_ticks[c(1, 2, 4, 6)], labels = y_labels, cex.axis = 1.4)
         legend("bottomright",legend=c("Model Fit","Index Data","Index Uncertainty"),
                pch=c(NA,1,NA),
                lwd = c(1.5,NA,3),
