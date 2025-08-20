@@ -665,7 +665,7 @@ risk |>
 
  {{< pagebreak >}}
 
-Accounting for each factor considered in the risk table, the overall conditions for sablefish is currently considered favorable which could support the application of scientific uncertainty ($\sigma$) lower than the default ($\sigma$ of 0.50) for a category one assessment for projection future harvest specifications. @tbl-es-risk-table-projections shows an theoretical projection using a $\sigma$ of 0.25 and a P* of 0.45 that could be considered if the use of risk tables is adopted by management for future stock assessments and a $\sigma$ of 0.25 is deemed appropriate by the Scientific and Statistical Committee.
+Accounting for each factor considered in the risk table, the overall conditions for sablefish is currently considered favorable which could support the application of scientific uncertainty ($\sigma$) lower than the default ($\sigma$ of 0.50) for a category one assessment for projecting future harvest specifications. @tbl-es-risk-table-projections shows an theoretical projection using a $\sigma$ of 0.25 and a P* of 0.45 that could be considered if the use of risk tables is adopted by management for future stock assessments and a $\sigma$ of 0.25 is deemed appropriate by the Scientific and Statistical Committee.
 
 
 ```{r, results = "asis"}
