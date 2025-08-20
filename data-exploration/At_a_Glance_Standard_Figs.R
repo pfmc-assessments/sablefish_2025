@@ -208,7 +208,7 @@ plt <- plt +
     labels = function(x) format(x, big.mark = ",", scientific = FALSE)
   ) +
   annotate(
-    x = 4, 
+    x = 3, 
     y = Equil_rec*1.1,
     label = "Equilibrium Recruitment",
     geom = "text",
@@ -217,17 +217,17 @@ plt <- plt +
     size = 5,
     family = "sans"
   ) +
-  theme_classic() +
+  theme_bw() +
   theme(
     axis.text.x = element_text(color = "gray12", angle = 45, vjust = 0.5, size = 19),
     axis.text.y = element_text(color = "gray12", size = 19),
     # Move the legend to the bottom
-    legend.position = c(0.25, 0.90),
+    legend.position = c(0.20, 0.885),
     axis.title = ggplot2::element_text(size = 20),
-    legend.text=element_text(size=16),
-    legend.title=element_text(size=16)
+    legend.text=element_text(size=14),
+    legend.title=element_text(size=14)
   ) +
-  guides(fill=guide_legend(title="Mature (> 50%) by 2025"))
+  guides(fill=guide_legend(title = "Mature (> 50%) by 2025"))
 
 
 plt <- plt + 
@@ -250,7 +250,6 @@ ggplot2::ggsave(
 ggplot2::ggsave(
   filename = here::here("report", "at-a-glance", "Rec_bar_narrow.png"), 
   plot = plt, width = 8, height = 8)
-ggplot2::ggsave("Rec_bar.pdf", plt, width=8, height=8)
 
 
 ############################################
@@ -259,8 +258,8 @@ ggplot2::ggsave("Rec_bar.pdf", plt, width=8, height=8)
 #Need to run the SSplotIndices_play function below, which is a version of SSplotIndices but with cex for labels.
 model_output <- r4ss::SS_output(here::here("model", "base_model", "8.36_base_model"))
 SSplotIndices_play(model_output, subplots = 2, fleets = 10,
-                   pwidth = 8,
-                   pheight = 4.5,
+                   pwidth = 7.5,
+                   pheight = 5,
                    punits = "in",
                    print = TRUE,
                    plotdir = here::here("report", "at-a-glance"))
@@ -476,6 +475,7 @@ SSplotIndices_play <-
           # ylim for log scale plot
           ylim <- range(c(lower_total, upper_total), na.rm = TRUE)
         }
+        par(mar = c(4, 5, 2, 2), oma = c(0, 0, 0, 0))
         plot(
           x = x[include],
           y = y[include],
@@ -484,8 +484,8 @@ SSplotIndices_play <-
           ylab = "Relative Index of Abundance (mt)",
           main = main,
           cex.main = cex.main,
-          cex.lab = 1.5,
-          cex.axis = 1.3,
+          cex.lab = 2,
+          cex.axis = 1.7,
           xaxt = 'n',
           yaxt = 'n',
           xlim = xlim,
@@ -493,11 +493,11 @@ SSplotIndices_play <-
           yaxs = ifelse(log, "r", "i"),
           ...
         )
-        axis(side = 1, at = seq(2000, 2024, 4), cex.axis = 1.5)
+        axis(side = 1, at = seq(2000, 2024, 4), cex.axis = 1.6)
         ylim <- c(0, 50000, 150000, 250000) 
         y_ticks <- pretty(ylim)
         y_labels <- prettyNum(ylim, big.mark = ",", scientific = FALSE)
-        axis(side = 2, at = y_ticks[c(1, 2, 4, 6)], labels = y_labels, cex.axis = 1.4)
+        axis(side = 2, at = y_ticks[c(1, 2, 4, 6)], labels = y_labels, cex.axis = 1.6)
         legend("bottomright",legend=c("Model Fit","Index Data","Index Uncertainty"),
                pch=c(NA,1,NA),
                lwd = c(1.5,NA,3),
