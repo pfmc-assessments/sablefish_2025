@@ -115,7 +115,7 @@ p1 <- ggplot() +
   geom_hline(yintercept=0.40, linetype="dashed", color = "red", size=0.7) +
   annotate(geom="text", x=2000, y=0.43, label="Management Target", color="red", hjust = 0, size=5) +
   annotate(geom="text", x=2000, y=0.28, label="Minimum Stock Size Threshold", color="red", hjust = 0, size=5) +
-  annotate(geom="text", x=2025.2, y=0.05, label="Forecast Period", color="gray35", hjust = 0, size =5) +
+  annotate(geom="text", x=2025.2, y=0.10, label="Projection Period", color="gray35", hjust = 0, size =5) +
   annotate(geom="text", x=2000, y=0.02, label="Blue shading represents 95% uncertainty range for the base model", color="gray40", hjust = 0, size = 4) +
   geom_polygon(data = data.frame(x = c(filter(bratio_hi,Yr>1999 & Model=="model3")$Yr, rev(filter(bratio_hi,Yr>1999 & Model=="model3")$Yr)),y = c(filter(bratio_hi,Yr>1999 & Model=="model3")$Bratio, rev(filter(bratio_lo,Yr>1999 & Model=="model3")$Bratio))),
                aes(x = x, y = y), fill = "brown4",alpha=0.2) +
@@ -144,6 +144,9 @@ p2 <- ggplot() +
   ggplot2::xlim(c(1890, 2037)) +
   ggplot2::scale_color_manual(labels = c("High State of Nature", "Base Model","Low State of Nature"), values = c("darkolivegreen4","blue", "brown4")) +
   ggplot2::annotate('rect', xmin=2025, xmax=2037, ymin=0, ymax=1.0, alpha=0.3, fill='gray35') +
+  ggplot2::scale_y_continuous(
+    breaks = seq(0, 1.0, 0.5),
+  ) +
   ggplot2::theme(
     strip.text.x = ggplot2::element_blank(),
     strip.background = ggplot2::element_rect(colour="white", fill="white"),
@@ -164,9 +167,9 @@ p2 <- ggplot() +
   geom_polygon(data = data.frame(x = c(filter(bratio_hi,Model=="model1")$Yr, rev(filter(bratio_hi,Model=="model1")$Yr)),y = c(filter(bratio_hi,Model=="model1")$Bratio, rev(filter(bratio_lo,Model=="model1")$Bratio))),
                aes(x = x, y = y), fill = "darkolivegreen4",alpha=0.2)
   
-p1 + annotation_custom(ggplotGrob(p2), xmin = 2000, xmax = 2020, ymin = 0.45, ymax = 1.0)
+p1 + annotation_custom(ggplotGrob(p2), xmin = 1998, xmax = 2020, ymin = 0.5, ymax = 1.05)
 
-ggplot2::ggsave(filename = here::here("presentation", "data", "plots", "removals.png"), width = 8, height = 4)
+ggplot2::ggsave(filename = here::here("report", "at-a-glance", "stock_status.png"), width = 8, height = 5)
 
 
 ############################################
@@ -195,7 +198,7 @@ plt <- ggplot(radar) +
     show.legend = TRUE,
     alpha = .9
   ) +
-  ylab("Recruitment (millions of fish)") +
+  ylab("Recruitment (1,000s of fish)") +
   geom_hline(
     yintercept = Equil_rec,
     linetype = "dashed",
