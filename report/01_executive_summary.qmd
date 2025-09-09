@@ -170,7 +170,7 @@ ssb_es_table |>
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Estimated time series of spawning output for the base model."
-#| fig-alt: ""
+#| fig-alt: "Line plot with year on the x-axis ranging from 1890 through 2025 and spawning output on the y-axis. In 1890 spawning output is 219,377 metric tons and slowly decreases through 1975 to 178,570 metric tons, sharply decreased between 1976 to 2013 to 22,914 metric tons and slowly increases through 2025 to 74,409 metric tons.  The yearly values are available in Table 31."
 #| fig-pos: H
 
 knitr::include_graphics(
@@ -186,7 +186,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Estimated time series of relative spawning output (e.g., stock status) for the base model."
-#| fig-alt: ""
+#| fig-alt: "Line plot with year on the x-axis ranging from 1890 through 2025 and stock status on the y-axis ranging from 0 to 1. Stock status slowly decreases from 1890 to 1975 to 0.814 of unfished, sharply decreased between 1976 to 2013 to 0.104, and slowly increases through 2025 to 0.339 of unfished.  The yearly values are available in Table 31."
 #| fig-pos: H
 
 knitr::include_graphics(
@@ -249,7 +249,7 @@ recr_es_table |>
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Estimated time series of age-0 recruits for the base model."
-#| fig-alt: ""
+#| fig-alt: "Point plot with year on the x-axis and age 0 recruits in 1,000s on the y-axis. The highest estimated recruitment in the time series occurs in 2008, 2013, 2016, 2020, 2021, and 2023."
 #| fig-pos: H
 
 knitr::include_graphics(
@@ -264,7 +264,7 @@ knitr::include_graphics(
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Estimated time series of recruitment deviations for the base model."
-#| fig-alt: ""
+#| fig-alt: "Point plot with year on the x-axis and recruitment deviations in log-space along y-axis. The largest positive estimated recruitment deviations in the time series occurs in 2008, 2013, 2016, 2020, 2021, and 2023. The largest negative estimated recruitment deviations in the time series occurs in 1996, 1997, 1998, 2005, 2006, and 2007. See the Report.sso file for estimates."
 #| fig-pos: H
 
 knitr::include_graphics(
@@ -315,7 +315,7 @@ spr_es_table |>
 #| warning: false 
 #| eval: true 
 #| fig-cap: "Estimated time series of fishing intensity for the base model."
-#| fig-alt: ""
+#| fig-alt: "Line plot with year on the x-axis and relative fishing intensity on the y-axis.  The relative fishing intensity was less than 0.30 before 1968, sharply increases from 1969 to 1977, greater than 1.0 from 1977 to 2018, and the falls to just below the target from 2019 to 2025."
 #| fig-pos: H
 
 knitr::include_graphics(
@@ -386,9 +386,9 @@ reference_points_table |>
 
 ```
 
-![Phase plot of fishing intensity versus relative spawning output for the base model.](figures/SPR4_phase.png){#fig-es-spr-phase height=4in fig-alt=""}
+![Phase plot of fishing intensity versus relative spawning output for the base model.](figures/SPR4_phase.png){#fig-es-spr-phase height=4in fig-alt="Phase plot with fraction of unfished on the x-axis and relative fishing intensity on the y-axis.  The relative fishing intensity was above the target and the fraction of unfished below the target starting in 1990 to 2018. The relative fishing intensity is below the target and the fraction of unfished below the target from 2019 to 2024."}
 
-![Estimated yield curve with reference points for the base model. The biomass target (Btgt) and the spawning potential ratio (SPR) target both are maximized at 0.40 fraction of unfished spawning output.](figures/yield2_yield_curve_with_refpoints.png){#fig-es-yield height=3in fig-alt=""}
+![Estimated yield curve with reference points for the base model. The biomass target (Btgt) and the spawning potential ratio (SPR) target both are maximized at 0.40 fraction of unfished spawning output.](figures/yield2_yield_curve_with_refpoints.png){#fig-es-yield height=3in fig-alt="Line plot with fraction of unfished on the x-axis and equilibrium yield on the y-axis. The MSY of approximately 12,705 metric tons occurs at approximately 0.22 of fraction of unfished spawning output. The equilibrium yield at the management target of 40 percent and using an SPR of 0.45 both occur at 0.44 of fraction of unfished spawning output with yield of approximately 11,126 metric tons."}
 
 ## Management Performance {-}
 
