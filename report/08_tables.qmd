@@ -1120,52 +1120,6 @@ read.csv(here::here("report", "rda", "sens_1_model_para_comp.csv")) |>
 
 :::
 
-\pagebreak
-
-::: {.landscape}
-
-```{r, results = "asis"}
-#| label: tbl-sens-2
-#| warning: false
-#| echo: false
-#| tbl-cap: "Maximum likelihood estimates for select parameters, derived quantities, reference points, and negative log likelihoods for the base model and alternative sensitivity runs representing the use of the McAllister-Ianelli harmonic mean method for weighting composition data, the specifiation of asymptotic selectivity for all NWFSC Surveys, and using the ageing error vector applied in the 2019 stock assessment."
-#| tbl-pos: H
-
-read.csv(here::here("report", "rda", "sens_2_model_para_comp.csv")) |>
-  dplyr::rename(Metric = X) |>
-  gt::gt() |>
-  gt::cols_label(
-    Base.Model = "Base Model",
-    McAllister.Ianelli.Data.Weighting = "McAllister-Ianelli Data Weighting",
-    NWFSC.Survey.Asymtotic.Selectivity = "NWFSC Survey Asymptotic Selectivity",
-    Ageing.Error.2019.Assessment = "Ageing Error 2019 Assessment"
-  ) |>
-  gt::fmt_number(
-    columns = 2:5,
-    decimals = 3,
-    drop_trailing_zeros = TRUE,
-  ) |>
-  gt::tab_options(
-    table.font.size = 10,
-    page.orientation = "landscape",
-    latex.use_longtable = TRUE
-  ) |>
-  gt::sub_missing(
-    columns = tidyselect::everything(),
-    missing_text = "---"
-  ) |>
-  gt::cols_width(
-    `Metric` ~ px(175),
-    tidyselect::starts_with("B") ~ px(120),
-    tidyselect::starts_with("M") ~ px(120),
-    tidyselect::starts_with("A") ~ px(120),
-    tidyselect::starts_with("N") ~ px(120)
-  ) |>
-  gt::as_latex()
-
-```
-
-:::
 
 \pagebreak
 
@@ -1253,6 +1207,53 @@ read.csv(here::here("report", "rda", "sens_4_model_para_comp.csv")) |>
     tidyselect::starts_with("B") ~ px(120),
     tidyselect::starts_with("E") ~ px(120),
     tidyselect::starts_with("R") ~ px(120)
+  ) |>
+  gt::as_latex()
+
+```
+
+:::
+
+\pagebreak
+
+::: {.landscape}
+
+```{r, results = "asis"}
+#| label: tbl-sens-2
+#| warning: false
+#| echo: false
+#| tbl-cap: "Maximum likelihood estimates for select parameters, derived quantities, reference points, and negative log likelihoods for the base model and alternative sensitivity runs representing the use of the McAllister-Ianelli harmonic mean method for weighting composition data, the specifiation of asymptotic selectivity for all NWFSC Surveys, and using the ageing error vector applied in the 2019 stock assessment."
+#| tbl-pos: H
+
+read.csv(here::here("report", "rda", "sens_2_model_para_comp.csv")) |>
+  dplyr::rename(Metric = X) |>
+  gt::gt() |>
+  gt::cols_label(
+    Base.Model = "Base Model",
+    McAllister.Ianelli.Data.Weighting = "McAllister-Ianelli Data Weighting",
+    NWFSC.Survey.Asymtotic.Selectivity = "NWFSC Survey Asymptotic Selectivity",
+    Ageing.Error.2019.Assessment = "Ageing Error 2019 Assessment"
+  ) |>
+  gt::fmt_number(
+    columns = 2:5,
+    decimals = 3,
+    drop_trailing_zeros = TRUE,
+  ) |>
+  gt::tab_options(
+    table.font.size = 10,
+    page.orientation = "landscape",
+    latex.use_longtable = TRUE
+  ) |>
+  gt::sub_missing(
+    columns = tidyselect::everything(),
+    missing_text = "---"
+  ) |>
+  gt::cols_width(
+    `Metric` ~ px(175),
+    tidyselect::starts_with("B") ~ px(120),
+    tidyselect::starts_with("M") ~ px(120),
+    tidyselect::starts_with("A") ~ px(120),
+    tidyselect::starts_with("N") ~ px(120)
   ) |>
   gt::as_latex()
 
