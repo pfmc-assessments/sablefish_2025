@@ -86,7 +86,7 @@ Overall, the combined GLORYS time series did not show obvious break points from 
 #| fig-width: 5
 #| fig-height: 5
 #| fig-cap: "Transport and temperatures times series from the GLORYS models. DD = degree days, T = temperature, MLD = mixed-layer depth, LST = longshore transport, CST = cross-shelf transport, pre = female precondition period prior to spawning, egg = egg stage, larv = larval stage, pjuv = pelagic juveniles, bjuv = benthic juveniles."
-#| fig-alt: ""
+#| fig-alt: "Trend lines for each of the GLORYS time series. DD = degree days, T = temperature, MLD = mixed-layer depth, LST = longshore transport, CST = cross-shelf transport."
 #| fig-pos: H
 
 knitr::include_graphics(
@@ -107,7 +107,7 @@ GLORYS predictors were pre-screened for correlations among variables and non-lin
 #| fig-width: 5
 #| fig-height: 5
 #| fig-cap: "Correlations between GLORYS time series. DD = degree days, T = temperature, MLD = mixed-layer depth, LST = longshore transport, CST = cross-shelf transport, pre = female precondition period prior to spawning, egg = egg stage, larv = larval stage, pjuv = pelagic juveniles, bjuv = benthic juveniles."
-#| fig-alt: ""
+#| fig-alt: "Correlation matrix for the GLORYS time series. DD = degree days, T = temperature, MLD = mixed-layer depth, LST = longshore transport, CST = cross-shelf transport."
 #| fig-pos: H
 
 knitr::include_graphics(
@@ -170,7 +170,7 @@ The remaining four models included either Tspawn, DDpre, CSTegg, or CSTyolk as p
 #| out-width: 90%
 #| out-heigth: 90%
 #| fig-cap: "Model fit to the training data (ln recruitment deviations from the stock assessment model for 1993-2019) and model testing results. Black line is the model prediction pm 1.0 s.e (dotted lines). Open (white) points are the ln recruitment deviations. Yellow points are from jackknife analysis leaving out one year and refitting the model, and red points fit the best-fit model to 1993-2014 then predict 2015-2019."
-#| fig-alt: ""
+#| fig-alt: "Model fit to the training data (ln recruitment deviations from the stock assessment model for 1993-2019) and model testing results."
 #| fig-pos: H
 
 knitr::include_graphics(
@@ -191,7 +191,7 @@ For all models recruitment was negatively correlated with CSTpjuv suggesting tha
 #| out-width: 90%
 #| out-heigth: 90%
 #| fig-cap: "Partial residual plots of GLORYS predictors. CST = cross-shelf transport, T = temperature, spawn = spaning stage, pjuv = pelagic juvenile, and bjuv = benthic juvenile stage."
-#| fig-alt: ""
+#| fig-alt: "Partial residual plots of GLORYS predictors. CST = cross-shelf transport, T = temperature, spawn = spaning stage, pjuv = pelagic juvenile, and bjuv = benthic juvenile stage."
 #| fig-pos: H
 
 knitr::include_graphics(
@@ -224,7 +224,7 @@ Residual plots showed some deviation from the 1:1 line for the best-fit model (@
 #| out-width: 90%
 #| out-heigth: 90%
 #| fig-cap: "Diagnostics plots from the best-fit model."
-#| fig-alt: ""
+#| fig-alt: "Diagnostic plots from the best-fit model."
 #| fig-pos: H
 
 knitr::include_graphics(
