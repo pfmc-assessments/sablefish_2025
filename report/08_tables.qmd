@@ -1521,3 +1521,4 @@ rt_projections_table |>
   gt::as_latex()
 
 ```
+
