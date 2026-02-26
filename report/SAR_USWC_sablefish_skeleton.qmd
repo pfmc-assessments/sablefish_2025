@@ -7,7 +7,7 @@ author:
         address: '2725 Montlake Boulevard East'
         city: 'Seattle, WA'
         state: 'WA'
-        postal-code: '98112'
+        postal-code: '98112-2097'
   - name: 'Aaron M. Berger'
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
@@ -57,7 +57,7 @@ cover:
 pdf-engine: lualatex
 format: 
   pdf: 
-    documentclass: scrartcl
+    documentclass: article
     number-sections: true
     template-partials:
       - 'support_files/before-body.tex'
@@ -477,13 +477,27 @@ Please cite this publication as:
 
 Wetzel, C.R., A.M. Berger, C. Barnes, J.A. Zahner, N. Tolimieri, E.J. Ward, and M. Head. 2025. Status of sablefish (*Anoplopoma fimbria*) off the U.S. West Coast in 2025. Pacific Fisheries Management Council, Portland, Oregon.
 
+
  {{< pagebreak >}} 
  
-# Disclaimer {.unnumbered .unlisted}
-
-These materials do not constitute a formal publication and are for information only. They are in a pre-review, pre-decisional state and should not be formally cited or reproduced. They are to be considered provisional and do not represent any determination or policy of NOAA or the Department of Commerce.
-
- {{< pagebreak >}} 
+\clearpage
+\thispagestyle{empty}
+\noindent
+\begin{tikzpicture}[remember picture, overlay]
+    \node[inner sep=0pt, anchor=north west] 
+    at (current page.north west) {
+        \includegraphics[width=8.5in, height=11in, alt={first page of summary graphic}]{figures/Sablefish_Stock_Overview_Fact_Sheet_2025_page_1.png}
+    };
+\end{tikzpicture}
+\clearpage
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture, overlay]
+    \node[inner sep=0pt, anchor=north west] 
+    at (current page.north west) {
+        \includegraphics[width=8.5in, height=11in, alt={second page of summary graphic}]{figures/Sablefish_Stock_Overview_Fact_Sheet_2025_page_2.png}
+    };
+\end{tikzpicture}
+\clearpage
  
 
 ```{r, results='asis'}
@@ -500,6 +514,8 @@ cat(a, sep = '\n')
 \hypersetup{linkcolor=.}
 \setcounter{tocdepth}{3}
 \tableofcontents
+
+{{< pagebreak >}} 
 
 ```{r, results='asis'}
 #| label: 'one_page'
@@ -644,7 +660,6 @@ a <- knitr::knit_child('08_tables.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
 
- {{< pagebreak >}} 
 
 ```{r, results='asis'}
 #| label: 'figures'
@@ -655,7 +670,9 @@ a <- knitr::knit_child('09_figures.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
 
- {{< pagebreak >}} 
+{{< pagebreak >}} 
+
+
 
 ```{r, results='asis'}
 #| label: 'appendix'
