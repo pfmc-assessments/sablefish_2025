@@ -1,32 +1,4 @@
-# At-a-Glance {.unnumbered}
 
-\clearpage
-\thispagestyle{empty}
-\noindent
-\begin{tikzpicture}[remember picture, overlay]
-    \node[inner sep=0pt, anchor=north west] 
-    at (current page.north west) {
-        \includegraphics[width=8.5in, height=11in, alt={first page of summary graphic}]{figures/Sablefish_Stock_Overview_Fact_Sheet_2025_page_1.png}
-    };
-\end{tikzpicture}
-\clearpage
-\thispagestyle{empty}
-\begin{tikzpicture}[remember picture, overlay]
-    \node[inner sep=0pt, anchor=north west] 
-    at (current page.north west) {
-        \includegraphics[width=8.5in, height=11in, alt={second page of summary graphic}]{figures/Sablefish_Stock_Overview_Fact_Sheet_2025_page_2.png}
-    };
-\end{tikzpicture}
-\clearpage
-
-<!--
-
-# At-a-Glance {.unnumbered}
-
- \includepdf[pagecommand={}]{figures/sablefish_aag_page_1.pdf}
- 
- \includepdf[pagecommand={}]{figures/sablefish_aag_page_2.pdf}
- -->
 
 # Stock Assessment Summary {-}
 
